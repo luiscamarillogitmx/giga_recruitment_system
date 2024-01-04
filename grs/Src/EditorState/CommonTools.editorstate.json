@@ -514,7 +514,7 @@
       "MetaDataIDKey": "",
       "Name": "ctnNotification_CommonTools",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 3,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -800,7 +800,7 @@
       "MetaDataIDKey": "",
       "Name": "ctnUser_CommonTools",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 0,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -1574,7 +1574,7 @@
       "MetaDataIDKey": "",
       "Name": "droChangeStyle_CommonTools",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 0,
+      "ParentIndex": 3,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -3649,7 +3649,7 @@
       "MetaDataIDKey": "",
       "Name": "shpUserInfoSeparator_CommonTools",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
