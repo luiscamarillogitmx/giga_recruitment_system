@@ -171,6 +171,7 @@
     "mapFieldEditor_FormScreen": 52,
     "Mapper": 50,
     "MessagePanel": 34,
+    "MiComponente": 56,
     "NotificationCard": 25,
     "notificationCard_CandidateScreen": 25,
     "notificationCard_CandidatesScreen": 25,
@@ -1575,6 +1576,7 @@
     "Mapper": 847,
     "MessagePanel": 483,
     "MessageScreen": 1508,
+    "MiComponente": 1602,
     "NotificationCard": 376,
     "notificationCard_CandidateScreen": 1364,
     "notificationCard_CandidatesScreen": 1418,
@@ -2635,7 +2637,7 @@
       "{\r\n    status: \"\",\r\n    version: \"\",\r\n    createdOn: \"\",\r\n    template: {\r\n        id: \"\",\r\n        name: \"\",\r\n        description: \"\"\r\n    }\r\n}"
     ]
   },
-  "HeaderLastSavedDateTimeUTC": "01/04/2024 15:54:03",
+  "HeaderLastSavedDateTimeUTC": "01/04/2024 16:29:22",
   "IsLegacyComponentAllowGlobalScopeCase": false,
   "LocalConnectionIDReferences": {
     "9d602b6e-e3fb-4505-bb2e-c3fdfb88e98c": "\"/providers/microsoft.powerapps/apis/shared_integrationsignatureapi-20-2d-20dev-5fce2b8c576-e6696fcb7bdda07e/connections/cc4b4d11950a40818286fbabc486c176\""
@@ -2687,6 +2689,7 @@
   "OrderComponentMetadata": {
     "038e315d740f46d3b3a89b5e906832c6": 15,
     "07b02eecd281405fad45d7c602219a6e": 5,
+    "08a0452da31f4bd5bf9e9d0999829a23": 43,
     "0a4c9162e34c4a2591e7315e46e96565": 41,
     "122f6f5347a0419ebd6e19b025ae2c8d": 11,
     "1b03dcf6ae8e484c9ed95d29e93c7bb1": 0,
@@ -2732,6 +2735,7 @@
   "OrderComponentTemplate": {
     "038e315d740f46d3b3a89b5e906832c6": 15,
     "07b02eecd281405fad45d7c602219a6e": 5,
+    "08a0452da31f4bd5bf9e9d0999829a23": 43,
     "0a4c9162e34c4a2591e7315e46e96565": 41,
     "122f6f5347a0419ebd6e19b025ae2c8d": 11,
     "1b03dcf6ae8e484c9ed95d29e93c7bb1": 0,
@@ -4143,6 +4147,7 @@
     "Mapper": {},
     "MessagePanel": {},
     "MessageScreen": {},
+    "MiComponente": {},
     "NotificationCard": {},
     "notificationCard_CandidateScreen": {},
     "notificationCard_CandidatesScreen": {},
@@ -5748,6 +5753,7 @@
     "Mapper": 0,
     "MessagePanel": 0,
     "MessageScreen": 0,
+    "MiComponente": 0,
     "NotificationCard": 0,
     "notificationCard_CandidateScreen": 432,
     "notificationCard_CandidatesScreen": 233,
