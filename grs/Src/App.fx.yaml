@@ -1,0 +1,787 @@
+App As appinfo:
+    BackEnabled: =false
+    MinScreenWidth: =500
+    OnError: |-
+        =/*AppFunctions.NotifyError(
+            "Application error!";
+            FirstError.Message;
+            "An unhandled error has occurred"
+        )*/
+    OnStart: |-
+        =Set(
+            AppId,
+            "b9fee9c9-ee6a-4068-9943-1336f1127d5a"
+        );
+        Set(
+            LoadingItem,
+            " application"
+        );
+        Set(
+            UserType,
+            {
+                Admin: "Admin",
+                HiringManager: "Hiring Manager",
+                TalentDiscovery: "Talent Discovery",
+                ADFI: "ADFI",
+                TotalRewards: "Total Rewards"
+            }
+        );
+        Set(
+            NewLook,
+            false
+        );
+        Set(
+            Styles,
+            {
+                Dark: {
+                    Name: "Dark style",
+                    Type: "Dark",
+                    Text: {
+                        Title: {
+                            Font: Font.'Segoe UI',
+                            Size: 16,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#FDFDFD")
+                        },
+                        Subtitle: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#FDFDFD")
+                        },
+                        Normal: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#FAFAFA")
+                        },
+                        Little: {
+                            Font: Font.'Segoe UI',
+                            Size: 8,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#FAFAFA")
+                        }
+                    },
+                    ImageSVG: {Color: "#FFFFFF"},
+                    Palette: {
+                        Background: ColorValue("#0a0a0a"),
+                        ModalBackground: ColorValue("#303030"),
+                        TransparentBackground: RGBA(
+                            20,
+                            20,
+                            20,
+                            0.5
+                        ),
+                        Shadow: RGBA(
+                            0,
+                            0,
+                            0,
+                            0.05
+                        ),
+                        Fillable: ColorValue("#353535"),
+                        LightFillable: ColorValue("#3d3d3d"),
+                        Accent: ColorValue("#7f85f5"),
+                        Line: ColorValue("#414141"),
+                        Border: ColorValue("#7D7D7D"),
+                        Disabled: ColorValue("#A6A6A6"),
+                        Selectable: {
+                            Fill: Color.Transparent,
+                            HoverFill: ColorValue("#3A3A3A"),
+                            PressedFill: ColorValue("#383838"),
+                            TransparentHoverFill: RGBA(
+                                255,
+                                255,
+                                255,
+                                0.125
+                            ),
+                            TransparentPressedFill: RGBA(
+                                255,
+                                255,
+                                255,
+                                0.1
+                            ),
+                            SelectedShadow: RGBA(
+                                127,
+                                133,
+                                245,
+                                0.2
+                            )
+                        },
+                        Icon: ColorValue("#FDFDFD"),
+                        Success: ColorValue("#92c353"),
+                        Error: ColorValue("#d74654"),
+                        Warning: ColorValue("#F49B46")
+                    },
+                    RadiusFactor: 4,
+                    GigaLogo: LogoGigaDark,
+                    GRSLogo: DarkGRSLogo,
+                    SidebarFill: ColorValue("#353535"),
+                    Loader: DarkEclipse
+                },
+                Light: {
+                    Name: "Light style",
+                    Type: "Ligth",
+                    Text: {
+                        Title: {
+                            Font: Font.'Segoe UI',
+                            Size: 16,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#1E1E1E")
+                        },
+                        Subtitle: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#1E1E1E")
+                        },
+                        Normal: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#2D2D2D")
+                        },
+                        Little: {
+                            Font: Font.'Segoe UI',
+                            Size: 8,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#2D2D2D")
+                        }
+                    },
+                    ImageSVG: {Color: "#000000"},
+                    Palette: {
+                        Background: Color.White,
+                        ModalBackground: Color.White,
+                        TransparentBackground: RGBA(
+                            255,
+                            255,
+                            255,
+                            0.5
+                        ),
+                        Shadow: RGBA(
+                            0,
+                            0,
+                            0,
+                            0.1
+                        ),
+                        Fillable: ColorValue("#EBEBEB"),
+                        LightFillable: ColorValue("#F5F5F5"),
+                        Accent: ColorValue("#106EBE"),
+                        Line: ColorValue("#D8D8D8"),
+                        Border: ColorValue("#505050"),
+                        Disabled: ColorValue("#A6A6A6"),
+                        Selectable: {
+                            Fill: Color.Transparent,
+                            HoverFill: ColorValue("#F5F5F5"),
+                            PressedFill: ColorValue("#F0F0F0"),
+                            TransparentHoverFill: RGBA(
+                                0,
+                                0,
+                                0,
+                                0.04
+                            ),
+                            TransparentPressedFill: RGBA(
+                                0,
+                                0,
+                                0,
+                                0.09
+                            ),
+                            SelectedShadow: RGBA(
+                                16,
+                                110,
+                                190,
+                                0.1
+                            )
+                        },
+                        Icon: ColorValue("#1E1E1E"),
+                        Success: ColorValue("#92c353"),
+                        Error: ColorValue("#d74654"),
+                        Warning: ColorValue("#F49B46")
+                    },
+                    RadiusFactor: 4,
+                    GigaLogo: LogoGigaLigth,
+                    GRSLogo: LightGRSLogo,
+                    SidebarFill: ColorValue("#F5F5F5"),
+                    Loader: CyanEclipse
+                },
+                Giga: {
+                    Name: "GIGA style",
+                    Type: "Dark",
+                    Text: {
+                        Title: {
+                            Font: Font.'Segoe UI',
+                            Size: 16,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#FFFFFF")
+                        },
+                        Subtitle: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Semibold,
+                            Color: ColorValue("#FDFDFD")
+                        },
+                        Normal: {
+                            Font: Font.'Segoe UI',
+                            Size: 10,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#FDFDFD")
+                        },
+                        Little: {
+                            Font: Font.'Segoe UI',
+                            Size: 8,
+                            Weight: FontWeight.Normal,
+                            Color: ColorValue("#FDFDFD")
+                        }
+                    },
+                    ImageSVG: {Color: "#FFFFFF"},
+                    Palette: {
+                        Background: ColorValue("#333741"),
+                        ModalBackground: ColorValue("#333741"),
+                        TransparentBackground: RGBA(
+                            51,
+                            55,
+                            65,
+                            0.5
+                        ),
+                        Shadow: RGBA(
+                            0,
+                            0,
+                            0,
+                            0.1
+                        ),
+                        Fillable: ColorValue("#55575E"),
+                        LightFillable: ColorValue("#5A5B61"),
+                        Accent: ColorValue("#2CAD6E"),
+                        Line: ColorValue("#525255"),
+                        Border: ColorValue("#828285"),
+                        Disabled: ColorValue("#AAAAAD"),
+                        Selectable: {
+                            Fill: Color.Transparent,
+                            HoverFill: ColorValue("#2D2D2D"),
+                            PressedFill: ColorValue("#282828"),
+                            TransparentHoverFill: RGBA(
+                                255,
+                                255,
+                                255,
+                                0.04
+                            ),
+                            TransparentPressedFill: RGBA(
+                                255,
+                                255,
+                                255,
+                                0.09
+                            ),
+                            SelectedShadow: RGBA(
+                                44,
+                                173,
+                                110,
+                                0.1
+                            )
+                        },
+                        Icon: ColorValue("#FEFEFE"),
+                        Success: ColorValue("#92c353"),
+                        Error: ColorValue("#d74654"),
+                        Warning: ColorValue("#F49B46")
+                    },
+                    RadiusFactor: 4,
+                    GigaLogo: LogoGigaDark,
+                    GRSLogo: DarkGRSLogo,
+                    SidebarFill: ColorValue("#5A5B61"),
+                    Loader: GigaEclipse
+                }
+            }
+        );
+        Set(
+            StyleList,
+            Table(
+                Styles.Dark,
+                Styles.Light,
+                Styles.Giga
+            )
+        );
+        Collect(
+            Cache,
+            {
+                Key: "",
+                Value: ""
+            }
+        );
+        Clear(Cache);
+        LoadData(
+            Cache,
+            "GRS"
+        );
+        Set(
+            Style,
+            With(
+                LookUp(
+                    Cache,
+                    Key = "style"
+                ) As userStyle,
+                If(
+                    IsBlank(userStyle),
+                    Collect(
+                        Cache,
+                        {
+                            Key: "style",
+                            Value: Styles.Light.Name
+                        }
+                    );
+                    IfError(
+                        SaveData(
+                            Cache,
+                            "GRS"
+                        ),
+                        true
+                    );
+                    Styles.Light,
+                    LookUp(
+                        StyleList,
+                        Name = userStyle.Value
+                    )
+                )
+            )
+        );
+        Set(
+            LoadingItem,
+            " user information"
+        );
+        //Reconocimiento de nivel de acceso
+        Set(
+            CurrentUser,
+            IfError(
+                ISignatureAPI.GetUser(User().Email),
+                Blank()
+            )
+        );
+        Set(
+            GrantAccess,
+            AppFunctions.BuildGrantAccess(CurrentUser)
+        );
+        //Enumeraciones y constantes
+        Set(
+            Undefined,
+            {
+                Code: -1,
+                Name: "Undefined"
+            }
+        );
+        Set(
+            GlobalNotificationType,
+            {
+                Info: {
+                    Code: 0,
+                    Distinctive: Style.Palette.Accent
+                },
+                Success: {
+                    Code: 1,
+                    Distinctive: Style.Palette.Success
+                },
+                Warning: {
+                    Code: 2,
+                    Distinctive: Style.Palette.Warning
+                },
+                Error: {
+                    Code: 3,
+                    Distinctive: Style.Palette.Error
+                }
+            }
+        );
+        Set(
+            JobFilter,
+            {
+                None: {
+                    Value: "None",
+                    Code: 1
+                },
+                ByHiringManager: If(
+                    CurrentUser.role <> UserType.HiringManager,
+                    {
+                        Value: "Hiring manager",
+                        Code: 2
+                    }
+                ),
+                ByOpeningDate: {
+                    Value: "Opening date",
+                    Code: 3
+                },
+                ByTitle: {
+                    Value: "Title",
+                    Code: 4
+                },
+                ByJobStatus: {
+                    Value: "Job status",
+                    Code: 5
+                },
+                ByClient: {
+                    Value: "Client",
+                    Code: 6
+                }
+            }
+        );
+        Set(
+            JobState,
+            {
+                Open: {
+                    Code: 1,
+                    Name: "Open"
+                },
+                Closed: {
+                    Code: 2,
+                    Name: "Closed"
+                },
+                Filled: {
+                    Code: 3,
+                    Name: "Filled"
+                },
+                OnHold: {
+                    Code: 4,
+                    Name: "On hold"
+                },
+                AwaitingApproval: {
+                    Code: 5,
+                    Name: "Awaiting approval"
+                },
+                Approved: {
+                    Code: 6,
+                    Name: "Approved"
+                },
+                Rejected: {
+                    Code: 7,
+                    Name: "Rejected"
+                },
+                Retracted: {
+                    Code: 8,
+                    Name: "Retracted"
+                },
+                Draft: {
+                    Code: 9,
+                    Name: "Draft"
+                }
+            }
+        );
+        Set(
+            JobType,
+            {
+                FullTime: {
+                    Code: 1,
+                    Name: "Full time"
+                },
+                PartTime: {
+                    Code: 2,
+                    Name: "Part time"
+                },
+                Intern: {
+                    Code: 3,
+                    Name: "Intern"
+                },
+                Contractor: {
+                    Code: 4,
+                    Name: "Contractor"
+                }
+            }
+        );
+        Set(
+            RemoteType,
+            {
+                Remote: {
+                    Code: 1,
+                    Name: "Remote"
+                },
+                HybridRemote: {
+                    Code: 2,
+                    Name: "Hybrid Remote"
+                },
+                TemporarilyRemote: {
+                    Code: 3,
+                    Name: "Temporarily remote"
+                },
+                NoRemote: {
+                    Code: 4,
+                    Name: "On site"
+                }
+            }
+        );
+        Set(
+            TemplateLanguage,
+            {
+                English: {
+                    Code: 1,
+                    Name: "English"
+                },
+                Spanish: {
+                    Code: 2,
+                    Name: "Spanish"
+                },
+                Portuguese: {
+                    Code: 3,
+                    Name: "Portuguese"
+                }
+            }
+        );
+        Set(
+            VersionState,
+            {
+                New: {
+                    Code: 1,
+                    Name: "New"
+                },
+                Canceled: {
+                    Code: 2,
+                    Name: "Canceled"
+                },
+                Filled: {
+                    Code: 3,
+                    Name: "Filled"
+                },
+                Sent: {
+                    Code: 4,
+                    Name: "Sent"
+                },
+                Signed: {
+                    Code: 5,
+                    Name: "Signed"
+                },
+                Rejected: {
+                    Code: 6,
+                    Name: "Rejected"
+                }
+            }
+        );
+        Set(
+            VersionSectionState,
+            {
+                Locked: {
+                    Code: 1,
+                    Name: "Locked"
+                },
+                Opened: {
+                    Code: 2,
+                    Name: "Opened"
+                },
+                Waiting: {
+                    Code: 3,
+                    Name: "Waiting"
+                },
+                Completed: {
+                    Code: 4,
+                    Name: "Completed"
+                }
+            }
+        );
+        Set(
+            WorkflowStatus,
+            {
+                Launched: {
+                    Code: 1,
+                    Name: "Launched"
+                },
+                Sent: {
+                    Code: 2,
+                    Name: "Sent"
+                },
+                Error: {
+                    Code: 3,
+                    Name: "Error"
+                },
+                Locked: {
+                    Code: 4,
+                    Name: "Locked"
+                },
+                Ready: {
+                    Code: 5,
+                    Name: "Ready"
+                }
+            }
+        );
+        Set(
+            EducationalDegree,
+            {
+                Engineer: {
+                    Code: 1,
+                    Name: "Engineer"
+                },
+                Bachelor: {
+                    Code: 2,
+                    Name: "Bachelor"
+                },
+                UniversityTechnician: {
+                    Code: 3,
+                    Name: "University technician"
+                }
+            }
+        );
+        Set(
+            MaritalStatus,
+            {
+                Single: {
+                    Code: 1,
+                    Name: "Single"
+                },
+                Married: {
+                    Code: 2,
+                    Name: "Married"
+                },
+                Cohabiting: {
+                    Code: 3,
+                    Name: "Cohabiting"
+                },
+                Divorced: {
+                    Code: 4,
+                    Name: "Divorced"
+                },
+                Widowed: {
+                    Code: 5,
+                    Name: "Widowed"
+                }
+            }
+        );
+        Set(
+            Gender,
+            {
+                Male: {
+                    Code: 1,
+                    Name: "Male"
+                },
+                Female: {
+                    Code: 2,
+                    Name: "Female"
+                },
+                Unspecified: {
+                    Code: 3,
+                    Name: "Unspecified"
+                }
+            }
+        );
+        Set(
+            Period,
+            {
+                ThreeMonths: {
+                    Code: 1,
+                    Name: "3 months"
+                },
+                SixMonths: {
+                    Code: 2,
+                    Name: "6 months"
+                },
+                TwelveMonths: {
+                    Code: 3,
+                    Name: "12 months"
+                },
+                Indeterminate: {
+                    Code: 4,
+                    Name: "Indeterminate"
+                }
+            }
+        );
+        Set(
+            TopLevelScreen,
+            {
+                Home: {
+                    Code: 0,
+                    Name: "Home",
+                    Visible: true,
+                    InMaintenance: false,
+                    Icon: Icon.Home,
+                    Description: "𝗚𝗜𝗚𝗔 𝗥𝗲𝗰𝗿𝘂𝗶𝘁𝗺𝗲𝗻𝘁 𝗦𝘆𝘀𝘁𝗲𝗺 home view.",
+                    Screen: HomeScreen
+                },
+                JobRequisitions: {
+                    Code: 1,
+                    Name: "Job requisitions",
+                    Visible: GrantAccess.Common.GoToJobRequisitions,
+                    InMaintenance: false,
+                    Icon: Icon.Notebook,
+                    Description: "Initiate hiring requests, access information, and track the lifecycle of these requests.",
+                    Screen: JobsScreen
+                },
+                Candidates: {
+                    Code: 2,
+                    Name: "Candidates",
+                    Visible: GrantAccess.Common.GoToCandidates,
+                    InMaintenance: false,
+                    Icon: Icon.People,
+                    Description: "Visualize current candidates and manage the hiring process.",
+                    Screen: CandidatesScreen
+                },
+                Settings: {
+                    Code: 3,
+                    Name: "Settings",
+                    Visible: GrantAccess.Common.GoToSettings,
+                    InMaintenance: false,
+                    Icon: Icon.Settings,
+                    Description: "Apply advanced settings for the overall application.",
+                    Screen: SettingsScreen
+                }
+            }
+        );
+        Set(
+            DeepScreen,
+            {
+                Job: {
+                    Code: 0,
+                    Name: "Job",
+                    EntityType: "job"
+                },
+                Candidate: {
+                    Code: 1,
+                    Name: "Candidate",
+                    EntityType: "candidate",
+                    JobOffer: {
+                        Code: 1.1,
+                        Index: 0,
+                        Name: "Job offer",
+                        LowerName: "job offer",
+                        EntityType: "jobOffer"
+                    },
+                    JobContract: {
+                        Code: 1.2,
+                        Index: 1,
+                        Name: "Job contract",
+                        LowerName: "job contract",
+                        EntityType: "jobContract",
+                        CandidatePersonalInfo: {
+                            Code: 1.21,
+                            Name: "Candidate information",
+                            LowerName: "candidate information",
+                            EntityType: "candidateInfo"
+                        },
+                        Terms: {
+                            Code: 1.22,
+                            Name: "Terms",
+                            LowerName: "terms",
+                            EntityType: "terms"
+                        }
+                    }
+                },
+                SalaryPackage: {
+                    Code: 2,
+                    Name: "Salary package",
+                    EntityType: "salaryPackage"
+                },
+                FinancialBreakdown: {
+                    Code: 3,
+                    Name: "Financial breakdown",
+                    EntityType: "financialBreakdown"
+                }
+            }
+        );
+        Set(
+            CloseLoading,
+            true
+        )
+    SizeBreakpoints: |-
+        =[
+            600,
+            900,
+            1200
+        ]
+    StartScreen: =LoadingScreen
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

@@ -1,0 +1,344 @@
+BasicInputDialog As CanvasComponent:
+    SelectAccept():
+        ThisProperty:
+            Default: =Self.OnSelectAccept()
+    SelectCancel():
+        ThisProperty:
+            Default: =Self.OnSelectCancel()
+    AcceptButtonWidth: =100
+    AcceptText: ="Accept"
+    CancelButtonWidth: =100
+    CancelText: ="Cancel"
+    Default: =""
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    InputIsRequired: =true
+    LabelText: ="Label"
+    Message: ="Message"
+    ModalHeight: =400
+    ModalWidth: =500
+    OnReset: =Reset(txtInput_BasicInputDialog);
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    ShowInput: =true
+    Style: =Style
+    Title: ="Title"
+    UserInput: =txtInput_BasicInputDialog.Text
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_BasicInputDialog As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: =DropShadow.Bold
+        Fill: =BasicInputDialog.Style.Palette.ModalBackground
+        Height: =BasicInputDialog.ModalHeight
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =25
+        PaddingRight: =25
+        RadiusBottomLeft: =BasicInputDialog.Style.RadiusFactor * 2
+        RadiusBottomRight: =BasicInputDialog.Style.RadiusFactor * 2
+        RadiusTopLeft: =BasicInputDialog.Style.RadiusFactor * 2
+        RadiusTopRight: =BasicInputDialog.Style.RadiusFactor * 2
+        Width: =BasicInputDialog.ModalWidth
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =2
+
+        ctnHeader_BasicInputDialog As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            ContentLanguage: ="en"
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =62
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =35
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =1
+
+            lblTitle_BasicInputDialog As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =BasicInputDialog.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =BasicInputDialog.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =BasicInputDialog.Style.Text.Subtitle.Font
+                FontWeight: =BasicInputDialog.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =10
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =BasicInputDialog.Style.Text.Subtitle.Size
+                Text: =BasicInputDialog.Title
+                ZIndex: =1
+
+            icoCancel_BasicInputDialog As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =BasicInputDialog.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =BasicInputDialog.Style.Palette.Disabled
+                Fill: =BasicInputDialog.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =BasicInputDialog.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =BasicInputDialog.Style.Palette.Selectable.HoverFill
+                Icon: =Icon.Cancel
+                OnSelect: =BasicInputDialog.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =BasicInputDialog.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =BasicInputDialog.Style.Palette.Selectable.PressedFill
+                TabIndex: =0
+                Width: =32
+                ZIndex: =2
+
+        htmMessage_BasicInputDialog As htmlViewer:
+            BorderColor: =Color.Transparent
+            Color: =BasicInputDialog.Style.Text.Normal.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =BasicInputDialog.Style.Text.Normal.Font
+            HtmlText: |-
+                =$"<div
+                    style='
+                        box-sizing: border-box;
+                        align-text: center;
+                        display: flex;
+                        height: {Self.Height - 1}px;
+                    '
+                  >
+                    <div style='margin: auto;'>
+                        {BasicInputDialog.Message}
+                    </div>
+                </div>"
+            LayoutMinHeight: =50
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =BasicInputDialog.Style.Text.Normal.Size
+            ZIndex: =2
+
+        ctnInput_BasicInputDialog As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =175
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            Visible: =BasicInputDialog.ShowInput
+            ZIndex: =3
+
+            ctnInputHeader_BasicInputDialog As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                ZIndex: =1
+
+                lblInputRequired_BasicInputDialog As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =BasicInputDialog.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =BasicInputDialog.Style.Text.Subtitle.Font
+                    FontWeight: =BasicInputDialog.Style.Text.Subtitle.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =BasicInputDialog.Style.Text.Subtitle.Size
+                    Text: ="*"
+                    Visible: =BasicInputDialog.InputIsRequired
+                    Width: =15
+                    ZIndex: =1
+
+                lblInputTitle_BasicInputDialog As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =BasicInputDialog.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =BasicInputDialog.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =BasicInputDialog.Style.Text.Subtitle.Font
+                    FontWeight: =BasicInputDialog.Style.Text.Subtitle.Weight
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =100
+                    PaddingRight: =0
+                    Size: =BasicInputDialog.Style.Text.Subtitle.Size
+                    Text: =BasicInputDialog.LabelText
+                    ZIndex: =2
+
+            txtInput_BasicInputDialog As text:
+                BorderColor: |-
+                    =If(
+                        BasicInputDialog.ShowInput && BasicInputDialog.InputIsRequired && IsBlank(Self.Text),
+                        BasicInputDialog.Style.Palette.Warning,
+                        BasicInputDialog.Style.Palette.Line
+                    )
+                Color: =BasicInputDialog.Style.Text.Normal.Color
+                Default: =BasicInputDialog.Default
+                DelayOutput: =true
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =BasicInputDialog.Style.Palette.Disabled
+                DisabledFill: =BasicInputDialog.Style.Palette.Fillable
+                Fill: =Color.Transparent
+                FillPortions: =1
+                FocusedBorderColor: =BasicInputDialog.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =BasicInputDialog.Style.Text.Normal.Font
+                FontWeight: =BasicInputDialog.Style.Text.Normal.Weight
+                HintText: ="---"
+                HoverBorderColor: =BasicInputDialog.Style.Palette.Border
+                LayoutMinHeight: =32
+                LayoutMinWidth: =50
+                Mode: =TextMode.MultiLine
+                PaddingBottom: =12
+                PaddingRight: =12
+                PaddingTop: =12
+                RadiusBottomLeft: =BasicInputDialog.Style.RadiusFactor
+                RadiusBottomRight: =BasicInputDialog.Style.RadiusFactor
+                RadiusTopLeft: =BasicInputDialog.Style.RadiusFactor
+                RadiusTopRight: =BasicInputDialog.Style.RadiusFactor
+                Size: =BasicInputDialog.Style.Text.Normal.Size
+                ZIndex: =2
+
+        ctnFooter_BasicInputDialog As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            ContentLanguage: ="en"
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =62
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =5
+
+            btnAccept_BasicInputDialog As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                DisplayMode: |-
+                    =If(
+                        BasicInputDialog.ShowInput && BasicInputDialog.InputIsRequired && IsBlank(txtInput_BasicInputDialog.Text),
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =BasicInputDialog.Style.Palette.Accent
+                FocusedBorderColor: =BasicInputDialog.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =BasicInputDialog.Style.Text.Subtitle.Font
+                FontWeight: =BasicInputDialog.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =BasicInputDialog.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =BasicInputDialog.Style.RadiusFactor
+                RadiusBottomRight: =BasicInputDialog.Style.RadiusFactor
+                RadiusTopLeft: =BasicInputDialog.Style.RadiusFactor
+                RadiusTopRight: =BasicInputDialog.Style.RadiusFactor
+                Size: =BasicInputDialog.Style.Text.Subtitle.Size
+                Text: =BasicInputDialog.AcceptText
+                Width: =BasicInputDialog.AcceptButtonWidth
+                ZIndex: =1
+
+            btnCancel_BasicInputDialog As button:
+                BorderColor: =BasicInputDialog.Style.Palette.Accent
+                Color: =BasicInputDialog.Style.Text.Normal.Color
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =RGBA(244, 244, 244, 1)
+                Fill: =Color.Transparent
+                FocusedBorderColor: =BasicInputDialog.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =BasicInputDialog.Style.Text.Normal.Font
+                FontWeight: =BasicInputDialog.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =BasicInputDialog.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =BasicInputDialog.Style.Text.Normal.Size
+                Text: =BasicInputDialog.CancelText
+                Width: =BasicInputDialog.CancelButtonWidth
+                ZIndex: =2
+

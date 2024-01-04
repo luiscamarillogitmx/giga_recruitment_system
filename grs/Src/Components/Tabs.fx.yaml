@@ -1,0 +1,97 @@
+Tabs As CanvasComponent:
+    OnSelect():
+        ThisProperty:
+            Default: =true
+    Select():
+        ThisProperty:
+            Default: =Self.OnSelect()
+    Default: =First(Self.Items)
+    EnableChildFocus: =
+    Fill: =Color.Transparent
+    Height: =42
+    Items: |-
+        =Table(
+            {
+                Index:0,
+                Label:"Tab 1"
+            },
+            {
+                Index:1,
+                Label:"Tab 2"
+            },
+            {
+                Index:2,
+                Label:"Tab 3"
+            }
+        )
+    OnReset: =Reset(galTabs_Tabs)
+    Selected: =galTabs_Tabs.Selected
+    Style: =Style
+    TabWidth: =120
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    galTabs_Tabs As gallery.galleryHorizontal:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Default: =Tabs.Default
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =Parent.Height
+        Items: =Tabs.Items
+        OnSelect: =Tabs.OnSelect()
+        ShowScrollbar: =false
+        TemplateFill: =Color.Transparent
+        TemplatePadding: =0
+        TemplateSize: =Tabs.TabWidth
+        Width: =Parent.Width
+        ZIndex: =1
+
+        shpIndicator_Tabs As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Tabs.Style.Palette.Accent
+            Height: =4
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - Self.Height
+            ZIndex: =1
+
+        btnTab_Tabs As button:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            Color: =Tabs.Style.Text.Subtitle.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =Tabs.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            Fill: =Color.Transparent
+            FocusedBorderThickness: =0
+            Font: =Tabs.Style.Text.Subtitle.Font
+            FontWeight: |-
+                =If(
+                    ThisItem.IsSelected,
+                    Tabs.Style.Text.Subtitle.Weight,
+                    FontWeight.Normal
+                )
+            Height: =Parent.TemplateHeight
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Tabs.Style.Palette.Selectable.TransparentHoverFill
+            OnSelect: =Select(Parent)
+            PressedColor: =Self.Color
+            PressedFill: =Tabs.Style.Palette.Selectable.TransparentPressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =Tabs.Style.RadiusFactor
+            RadiusTopRight: =Tabs.Style.RadiusFactor
+            Size: =Tabs.Style.Text.Subtitle.Size
+            TabIndex: =-1
+            Text: =ThisItem.Label
+            Tooltip: =$"Go to '{ThisItem.Label}' tab"
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+

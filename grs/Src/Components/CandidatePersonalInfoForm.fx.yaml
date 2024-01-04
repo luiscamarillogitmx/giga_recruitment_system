@@ -1,0 +1,1591 @@
+CandidatePersonalInfoForm As CanvasComponent:
+    GetValue():
+        ThisProperty:
+            Default: |-
+                ={
+                    name: Self.CandidateName.Value,
+                    idNumber: Self.Identification.Value,
+                    address: Self.FullAddress.Value,
+                    educationalLevel: Self.EducationalDegree.Value,
+                    fieldStudy: Self.Career.Value,
+                    maritalStatus: Self.MaritalStatus.Value,
+                    birthCity: Self.BirthCity.Value,
+                    birthDate: Self.BirthDate.Value,
+                    nationality: Self.Nationality.Value,
+                    phoneNumber: Self.Phone.Value,
+                    gender: Self.Gender.Value
+                }
+    BirthCity: |-
+        ={
+            IsValid: !IsBlank(txtBirthCity_CandidatePersonalInfoForm.Text),
+            Value: txtBirthCity_CandidatePersonalInfoForm.Text,
+            Length: Len(txtBirthCity_CandidatePersonalInfoForm.Text)
+        }
+    BirthDate: |-
+        ={
+            IsValid: !IsBlank(datBirthDate_CandidatePersonalInfoForm.SelectedDate),
+            Value: Text(
+                datBirthDate_CandidatePersonalInfoForm.SelectedDate,
+                "yyyy-mm-dd"
+            )
+        }
+    CandidateName: |-
+        ={
+            IsValid: !IsBlank(txtCandidateName_CandidatePersonalInfoForm.Text),
+            Value: txtCandidateName_CandidatePersonalInfoForm.Text
+        }
+    Career: |-
+        ={
+            IsValid: !IsBlank(txtFieldOfStudy_CandidatePersonalInfoForm.Text),
+            Value: txtFieldOfStudy_CandidatePersonalInfoForm.Text,
+            Length: Len(txtFieldOfStudy_CandidatePersonalInfoForm.Text)
+        }
+    Default: |-
+        ={
+            name: "Luis Gerardo Camarillo Gamboa",
+            idNumber: "dsd6sdd9sa6d98as",
+            address: "C. Fresnos #647 Real de los Pinos Veracruz",
+            educationalLevel: 3,
+            fieldStudy: "Ingenieria en Sistemas Computacionales",
+            maritalStatus: 1,
+            birthCity: "Soledad de Doblado, Veracruz, México",
+            birthDate: "03-08-2023",
+            nationality: "Mexicana",
+            phoneNumber: "2295131634",
+            gender: 1
+        }
+    DisplayMode: =AppFunctions.FormModeToDisplayMode(Self.FormMode)
+    EducationalDegree: |-
+        ={
+            IsValid: true,
+            Value: droEducationalLevel_CandidatePersonalInfoForm.Selected.Code
+        }
+    Fill: =Color.Transparent
+    FormMode: =FormMode.Edit
+    FullAddress: |-
+        ={
+            IsValid: !IsBlank(txtAddress_CandidatePersonalInfoForm.Text),
+            Value: txtAddress_CandidatePersonalInfoForm.Text,
+            Length: Len(txtAddress_CandidatePersonalInfoForm.Text)
+        }
+    Gender: |-
+        ={
+            IsValid: true,
+            Value: droGender_CandidatePersonalInfoForm.Selected.Code
+        }
+    Height: =Self.SuggestedHeight
+    Identification: |-
+        ={
+            IsValid: !IsBlank(txtIdNumber_CandidatePersonalInfoForm.Text),
+            Value: txtIdNumber_CandidatePersonalInfoForm.Text
+        }
+    IsValid: |-
+        =Self.CandidateName.IsValid
+        && Self.Identification.IsValid
+        && Self.FullAddress.IsValid
+        && Self.EducationalDegree.IsValid
+        && Self.Career.IsValid
+        && Self.MaritalStatus.IsValid
+        && Self.BirthCity.IsValid
+        && Self.BirthDate.IsValid
+        && Self.Nationality.IsValid
+        && Self.Phone.IsValid
+        && Self.Gender.IsValid
+    MaritalStatus: |-
+        ={
+            IsValid: true,
+            Value: droMaritalStatus_CandidatePersonalInfoForm.Selected.Code
+        }
+    Nationality: |-
+        ={
+            IsValid: !IsBlank(txtNationality_CandidatePersonalInfoForm.Text) && IsMatch(
+                txtNationality_CandidatePersonalInfoForm.Text,
+                Match.MultipleLetters
+            ),
+            Value: txtNationality_CandidatePersonalInfoForm.Text
+        }
+    OnReset: |-
+        =Reset(txtCandidateName_CandidatePersonalInfoForm);
+        Reset(txtIdNumber_CandidatePersonalInfoForm);
+        Reset(droGender_CandidatePersonalInfoForm);
+        Reset(datBirthDate_CandidatePersonalInfoForm);
+        Reset(droMaritalStatus_CandidatePersonalInfoForm);
+        Reset(txtNationality_CandidatePersonalInfoForm);
+        Reset(txtPhoneNumber_CandidatePersonalInfoForm);
+        Reset(droEducationalLevel_CandidatePersonalInfoForm);
+        Reset(txtFieldOfStudy_CandidatePersonalInfoForm);
+        Reset(txtAddress_CandidatePersonalInfoForm);
+        Reset(txtBirthCity_CandidatePersonalInfoForm)
+    PaddingBottom: =32
+    PaddingLeft: =32
+    PaddingRight: =32
+    PaddingTop: =32
+    Phone: |-
+        ={
+            IsValid: !IsBlank(txtPhoneNumber_CandidatePersonalInfoForm.Text) && IsMatch(
+                txtPhoneNumber_CandidatePersonalInfoForm.Text,
+                Match.MultipleDigits
+            ),
+            Value: txtPhoneNumber_CandidatePersonalInfoForm.Text
+        }
+    PresentationData: |-
+        ={
+            Name: {
+                Label: "Name",
+                Tooltip: "Enter candidate name",
+                MaxLength: 250,
+                Placeholder: "---"
+            },
+            IdNumber: {
+                Label: "Identification",
+                Tooltip: "Enter identification number",
+                MaxLength: 100,
+                Placeholder: "---"
+            },
+            Address: {
+                Label: "Address",
+                Tooltip: "Enter full address",
+                MaxLength: 500,
+                Placeholder: "---"
+            },
+            EducationalLevel: {
+                Label: "Educational level",
+                Tooltip: "Select educational degree"
+            },
+            FieldOfStudy: {
+                Label: "Field of study",
+                Tooltip: "Enter field of study",
+                MaxLength: 400,
+                Placeholder: "---"
+            },
+            MaritalStatus: {
+                Label: "Marital Status",
+                Tooltip: "Select a marital status"
+            },
+            BirthCity: {
+                Label: "Birth city",
+                Tooltip: "Enter birth city",
+                MaxLength: 400,
+                Placeholder: "---"
+            },
+            BirthDate: {
+                Label: "Birth date",
+                Tooltip: "Enter birth date"
+            },
+            Nationality: {
+                Label: "Nationality",
+                Tooltip: "Enter nationality",
+                MaxLength: 100,
+                Placeholder: "---"
+            },
+            PhoneNumber: {
+                Label: "Phone",
+                Tooltip: "Enter phone number",
+                MaxLength: 13,
+                Placeholder: "---"
+            },
+            Gender: {
+                Label: "Gender",
+                Tooltip: "Select gender"
+            }
+        }
+    Style: =Style
+    SuggestedDefault: |-
+        ={
+            name: Blank(),
+            idNumber: Blank(),
+            address: Blank(),
+            educationalLevel: 1,
+            fieldStudy: Blank(),
+            maritalStatus: 1,
+            birthCity: Blank(),
+            birthDate: Blank(),
+            nationality: Blank(),
+            phoneNumber: Blank(),
+            gender: 3
+        }
+    SuggestedHeight: =Self.PaddingTop + 298 + Self.PaddingBottom
+    Width: =900
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CandidatePersonalInfoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =382
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutGap: =32
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        PaddingBottom: =CandidatePersonalInfoForm.PaddingBottom
+        PaddingLeft: =CandidatePersonalInfoForm.PaddingLeft
+        PaddingRight: =CandidatePersonalInfoForm.PaddingRight
+        PaddingTop: =CandidatePersonalInfoForm.PaddingTop
+        Width: =Parent.Width
+        ZIndex: =4
+
+        ctnLeftColumn_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            Height: =700
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =10
+            LayoutMinHeight: =70
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            Width: =350
+            ZIndex: =1
+
+            ctnName_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =1
+
+                lblCandidateName_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    OnSelect: =
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.Name.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblCandidateNameRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                txtCandidateName_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.CandidateName.IsValid,
+                            Color.Transparent,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.name
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.Name.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.Name.Tooltip
+                    Width: =170
+                    ZIndex: =3
+
+            ctnIdNumber_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =2
+
+                lblIdNumber_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.IdNumber.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblIdNumberRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                txtIdNumber_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.Identification.IsValid,
+                            Color.Transparent,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.idNumber
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.IdNumber.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.IdNumber.Tooltip
+                    Width: =170
+                    ZIndex: =3
+
+            ctnGender_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =3
+
+                lblGender_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    OnSelect: =
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.Gender.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblGenderRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                droGender_CandidatePersonalInfoForm As dropdown:
+                    BorderColor: =Color.Transparent
+                    BorderThickness: =1
+                    ChevronBackground: =Self.Fill
+                    ChevronDisabledBackground: =Color.Transparent
+                    ChevronDisabledFill: =Color.Transparent
+                    ChevronFill: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    ChevronHoverBackground: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: |-
+                        =Switch(
+                            CandidatePersonalInfoForm.Default.gender,
+                            1,
+                            "Male",
+                            2,
+                            "Female",
+                            3,
+                            "Unspecified"
+                        )
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    HoverFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Items: |-
+                        =Table(
+                            {
+                                Code: 1,
+                                Name: "Male"
+                            },
+                            {
+                                Code: 2,
+                                Name: "Female"
+                            },
+                            {
+                                Code: 3,
+                                Name: "Unspecified"
+                            }
+                        )
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =50
+                    PressedFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.PressedFill
+                    SelectionColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    SelectionFill: |-
+                        =ColorFade(
+                            CandidatePersonalInfoForm.Style.Palette.Fillable,
+                            -5%
+                        )
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.Gender.Tooltip
+                    Width: =200
+                    ZIndex: =3
+
+            ctnBirthDate_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                ZIndex: =4
+
+                lblBirthDate_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.BirthDate.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblBirthDateRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                datBirthDate_CandidatePersonalInfoForm As datepicker:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.BirthDate.IsValid,
+                            Color.Transparent,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    BorderThickness: =1
+                    CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    DefaultDate: =CandidatePersonalInfoForm.Default.birthDate
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    Format: ="dd/mm/yyyy"
+                    HoverDateFill: =RGBA(186, 202, 226, 1)
+                    IconBackground: =Self.Fill
+                    IconFill: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    InputTextPlaceholder: |-
+                        =If(
+                            IsBlank(Self.SelectedDate),
+                            Text(
+                                Date(
+                                    2001,
+                                    12,
+                                    31
+                                ),
+                                Self.Format,
+                                Self.Language
+                            )
+                        )
+                    IsEditable: =true
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =50
+                    PaddingTop: =5
+                    SelectedDateFill: =RGBA(56, 96, 178, 1)
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.BirthDate.Tooltip
+                    ZIndex: =3
+
+            ctnMaritalStatus_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =5
+
+                lblMaritalStatus_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.MaritalStatus.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblMaritalStatusRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                droMaritalStatus_CandidatePersonalInfoForm As dropdown:
+                    BorderColor: =Color.Transparent
+                    BorderThickness: =1
+                    ChevronBackground: =Self.Fill
+                    ChevronDisabledBackground: =Color.Transparent
+                    ChevronDisabledFill: =Color.Transparent
+                    ChevronFill: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    ChevronHoverBackground: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: |-
+                        =Switch(
+                            CandidatePersonalInfoForm.Default.maritalStatus,
+                            1,
+                            "Single",
+                            2,
+                            "Married",
+                            3,
+                            "Cohabiting",
+                            4,
+                            "Divorced",
+                            5,
+                            "Widowed"
+                        )
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    HoverFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Items: |-
+                        =Table(
+                            {
+                                Code: 1,
+                                Name: "Single"
+                            },
+                            {
+                                Code: 2,
+                                Name: "Married"
+                            },
+                            {
+                                Code: 3,
+                                Name: "Cohabiting"
+                            },
+                            {
+                                Code: 4,
+                                Name: "Divorced"
+                            },
+                            {
+                                Code: 5,
+                                Name: "Widowed"
+                            }
+                        )
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =50
+                    PressedFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.PressedFill
+                    SelectionColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    SelectionFill: |-
+                        =ColorFade(
+                            CandidatePersonalInfoForm.Style.Palette.Fillable,
+                            -5%
+                        )
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.MaritalStatus.Tooltip
+                    Width: =200
+                    ZIndex: =4
+
+            ctnNationality_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =6
+
+                lblNationality_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.Nationality.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblNationalityRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                txtNationality_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.Nationality.IsValid,
+                            Color.Transparent,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.nationality
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.Nationality.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.Nationality.Tooltip
+                    Width: =170
+                    ZIndex: =3
+
+            ctnPhoneNumber_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =7
+
+                lblPhoneNumber_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.PhoneNumber.Label
+                    Width: =100
+                    ZIndex: =1
+
+                lblPhoneNumberRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                txtPhoneNumber_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.Phone.IsValid,
+                            Color.Transparent,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.phoneNumber
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.PhoneNumber.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.PhoneNumber.Tooltip
+                    Width: =170
+                    ZIndex: =3
+
+        shpFieldsRowSeparator_CandidatePersonalInfoForm As rectangle:
+            BorderColor: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =CandidatePersonalInfoForm.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Width: =1
+            ZIndex: =2
+
+        ctnRightColumn_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            Height: =100
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =10
+            LayoutMinHeight: =50
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =5
+
+            ctnEducationalLevel_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =2
+
+                lblEducationalLevel_CandidatePersonalInfoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: =CandidatePersonalInfoForm.PresentationData.EducationalLevel.Label
+                    Width: =140
+                    ZIndex: =1
+
+                lblEducationalLevelRequired_CandidatePersonalInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =2
+
+                droEducationalLevel_CandidatePersonalInfoForm As dropdown:
+                    BorderColor: =Color.Transparent
+                    BorderThickness: =1
+                    ChevronBackground: =Self.Fill
+                    ChevronDisabledBackground: =Color.Transparent
+                    ChevronDisabledFill: =Color.Transparent
+                    ChevronFill: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    ChevronHoverBackground: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: |-
+                        =Switch(
+                            CandidatePersonalInfoForm.Default.educationalLevel,
+                            1,
+                            "Engineer",
+                            2,
+                            "Licensed",
+                            3,
+                            "University Technician"
+                        )
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    HoverFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.HoverFill
+                    Items: |-
+                        =Table(
+                            {
+                                Code: 1,
+                                Name: "Engineer"
+                            },
+                            {
+                                Code: 2,
+                                Name: "Licensed"
+                            },
+                            {
+                                Code: 3,
+                                Name: "University Technician"
+                            }
+                        )
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =50
+                    PressedFill: =CandidatePersonalInfoForm.Style.Palette.Selectable.PressedFill
+                    SelectionColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    SelectionFill: |-
+                        =ColorFade(
+                            CandidatePersonalInfoForm.Style.Palette.Fillable,
+                            -5%
+                        )
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.EducationalLevel.Tooltip
+                    Width: =200
+                    ZIndex: =3
+
+            ctnFieldOfStudy_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =68
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =3
+
+                ctnFieldOfStudyHeader_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =32
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblFieldOfStudyRequired_CandidatePersonalInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =1
+
+                    lblFieldOfStudy_CandidatePersonalInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: =CandidatePersonalInfoForm.PresentationData.FieldOfStudy.Label
+                        Width: =115
+                        ZIndex: =2
+
+                    lblFieldOfStudyLength_CandidatePersonalInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Little.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Little.Weight
+                        Height: =Parent.Height
+                        LayoutMinHeight: =17
+                        PaddingLeft: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Little.Size
+                        Text: =$"{CandidatePersonalInfoForm.Career.Length}/{CandidatePersonalInfoForm.PresentationData.FieldOfStudy.MaxLength}"
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =65
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =3
+
+                    icoValidateFieldOfStudy_CandidatePersonalInfoForm As icon.HorizontalLine:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Success
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisplayMode: |-
+                            =If(
+                                CandidatePersonalInfoForm.Career.IsValid,
+                                DisplayMode.View,
+                                DisplayMode.Disabled
+                            )
+                        Fill: =CandidatePersonalInfoForm.Style.Palette.Selectable.Fill
+                        FocusedBorderThickness: =0
+                        Height: =Parent.Height
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        HoverFill: =Color.Transparent
+                        Icon: =Icon.Check
+                        LayoutMinHeight: =17
+                        PaddingBottom: =7.5
+                        PaddingLeft: =7.5
+                        PaddingRight: =7.5
+                        PaddingTop: =7.5
+                        PressedBorderColor: =Self.BorderColor
+                        PressedColor: =Self.Color
+                        PressedFill: =Color.Transparent
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =32
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =4
+
+                txtFieldOfStudy_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.Career.IsValid,
+                            CandidatePersonalInfoForm.Style.Palette.Line,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.fieldStudy
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.FieldOfStudy.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.FieldOfStudy.Tooltip
+                    Width: =170
+                    ZIndex: =4
+
+            ctnAddress_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =68
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =4
+
+                ctnAddressHeader_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =32
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =25
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblAddressRequired_CandidatePersonalInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =25
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =1
+
+                    lblAddress_CandidatePersonalInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                        LayoutMinHeight: =25
+                        LayoutMinWidth: =25
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: =CandidatePersonalInfoForm.PresentationData.Address.Label
+                        Width: =130
+                        ZIndex: =2
+
+                    lblAddressLength_CandidatePersonalInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Little.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Little.Weight
+                        Height: =Parent.Height
+                        LayoutMinHeight: =17
+                        PaddingLeft: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Little.Size
+                        Text: =$"{CandidatePersonalInfoForm.FullAddress.Length}/{CandidatePersonalInfoForm.PresentationData.Address.MaxLength}"
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =65
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =3
+
+                    icoValidateAddress_CandidatePersonalInfoForm As icon.HorizontalLine:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Success
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisplayMode: |-
+                            =If(
+                                CandidatePersonalInfoForm.FullAddress.IsValid,
+                                DisplayMode.View,
+                                DisplayMode.Disabled
+                            )
+                        Fill: =CandidatePersonalInfoForm.Style.Palette.Selectable.Fill
+                        FocusedBorderThickness: =0
+                        Height: =Parent.Height
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        HoverFill: =Color.Transparent
+                        Icon: =Icon.Check
+                        LayoutMinHeight: =17
+                        PaddingBottom: =7.5
+                        PaddingLeft: =7.5
+                        PaddingRight: =7.5
+                        PaddingTop: =7.5
+                        PressedBorderColor: =Self.BorderColor
+                        PressedColor: =Self.Color
+                        PressedFill: =Color.Transparent
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =32
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =4
+
+                txtAddress_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.FullAddress.IsValid,
+                            CandidatePersonalInfoForm.Style.Palette.Line,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.address
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    Height: =32
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =25
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.Address.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.Address.Tooltip
+                    Width: =170
+                    ZIndex: =4
+
+            ctnBirthCity_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =68
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                Width: =Parent.Width
+                ZIndex: =5
+
+                ctnBirthCityHeader_CandidatePersonalInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =25
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblBirthCityRequired_CandidatePersonalInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =1
+
+                    lblBirthCity_CandidatePersonalInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =CandidatePersonalInfoForm.Style.Text.Normal.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Subtitle.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Normal.Size
+                        Text: =CandidatePersonalInfoForm.PresentationData.BirthCity.Label
+                        Width: =130
+                        ZIndex: =2
+
+                    lblBirthCityLength_CandidatePersonalInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =CandidatePersonalInfoForm.Style.Text.Little.Font
+                        FontWeight: =CandidatePersonalInfoForm.Style.Text.Little.Weight
+                        Height: =Parent.Height
+                        LayoutMinHeight: =17
+                        PaddingLeft: =0
+                        Size: =CandidatePersonalInfoForm.Style.Text.Little.Size
+                        Text: =$"{CandidatePersonalInfoForm.BirthCity.Length}/{CandidatePersonalInfoForm.PresentationData.BirthCity.MaxLength}"
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =65
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =3
+
+                    icoValidateBirthCity_CandidatePersonalInfoForm As icon.HorizontalLine:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =CandidatePersonalInfoForm.Style.Palette.Success
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                        DisplayMode: |-
+                            =If(
+                                CandidatePersonalInfoForm.BirthCity.IsValid,
+                                DisplayMode.View,
+                                DisplayMode.Disabled
+                            )
+                        Fill: =CandidatePersonalInfoForm.Style.Palette.Selectable.Fill
+                        FocusedBorderThickness: =0
+                        Height: =Parent.Height
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        HoverFill: =Color.Transparent
+                        Icon: =Icon.Check
+                        LayoutMinHeight: =17
+                        PaddingBottom: =7.5
+                        PaddingLeft: =7.5
+                        PaddingRight: =7.5
+                        PaddingTop: =7.5
+                        PressedBorderColor: =Self.BorderColor
+                        PressedColor: =Self.Color
+                        PressedFill: =Color.Transparent
+                        Visible: =CandidatePersonalInfoForm.DisplayMode = DisplayMode.Edit
+                        Width: =32
+                        X: =Parent.Width - Self.Width
+                        ZIndex: =4
+
+                txtBirthCity_CandidatePersonalInfoForm As text:
+                    BorderColor: |-
+                        =If(
+                            CandidatePersonalInfoForm.BirthCity.IsValid,
+                            CandidatePersonalInfoForm.Style.Palette.Line,
+                            CandidatePersonalInfoForm.Style.Palette.Warning
+                        )
+                    Color: =CandidatePersonalInfoForm.Style.Text.Subtitle.Color
+                    Default: =CandidatePersonalInfoForm.Default.birthCity
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatePersonalInfoForm.Style.Palette.Disabled
+                    DisabledFill: =CandidatePersonalInfoForm.Style.Palette.Fillable
+                    DisplayMode: =CandidatePersonalInfoForm.DisplayMode
+                    Fill: =CandidatePersonalInfoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =CandidatePersonalInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =CandidatePersonalInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatePersonalInfoForm.Style.Text.Normal.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =CandidatePersonalInfoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =CandidatePersonalInfoForm.PresentationData.BirthCity.MaxLength
+                    OnChange: =
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatePersonalInfoForm.Style.Text.Subtitle.Size
+                    Tooltip: =CandidatePersonalInfoForm.PresentationData.BirthCity.Tooltip
+                    Width: =170
+                    ZIndex: =4
+

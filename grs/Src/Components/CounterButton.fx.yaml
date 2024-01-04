@@ -1,0 +1,91 @@
+CounterButton As CanvasComponent:
+    Count: =0
+    Fill: =Color.Transparent
+    Height: =42
+    Icon: =Icon.Bell
+    OnSelect: =true
+    Style: =Style
+    Tooltip: ="Texto"
+    Width: =Self.Height
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    icon_CounterButton As icon.Check:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Color: =CounterButton.Style.Palette.Icon
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =CounterButton.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        FocusedBorderColor: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =17
+        HoverBorderColor: =Self.BorderColor
+        HoverColor: =Self.Color
+        Icon: =CounterButton.Icon
+        PressedBorderColor: =Self.Color
+        PressedColor: =Self.Color
+        Width: =17
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =1
+
+    lblCount_CounterButton As label:
+        Align: =Align.Center
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Color: =CounterButton.Style.Palette.Accent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =CounterButton.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        Font: =CounterButton.Style.Text.Little.Font
+        FontWeight: =CounterButton.Style.Text.Little.Weight
+        Height: =16
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        Size: =CounterButton.Style.Text.Little.Size
+        Text: =CounterButton.Count
+        Width: =16
+        X: =3
+        Y: =3
+        ZIndex: =2
+
+    btnTouching_CounterButton As button:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        Height: =Parent.Height
+        HoverBorderColor: =Self.BorderColor
+        HoverColor: =Color.Transparent
+        HoverFill: =CounterButton.Style.Palette.Selectable.TransparentHoverFill
+        OnSelect: =CounterButton.OnSelect()
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedFill: =CounterButton.Style.Palette.Selectable.TransparentPressedFill
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =0
+        TabIndex: =-1
+        Text: =""
+        Tooltip: =CounterButton.Tooltip
+        Width: =Parent.Width
+        ZIndex: =3
+

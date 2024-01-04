@@ -1,0 +1,59 @@
+MessagePanel As CanvasComponent:
+    Fill: =Color.Transparent
+    Height: =175
+    Img: =SampleImage
+    Message: ="Message"
+    Style: =Style
+    Width: =500
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_MessagePanel As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Visible: =true//!reloadCandidatesVisible && IsEmpty(candidates)
+        Width: =Parent.Width
+        ZIndex: =2
+
+        img_MessagePanel As image:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            FocusedBorderThickness: =0
+            Height: =75
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            Image: =MessagePanel.Img
+            LayoutMinHeight: =25
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            Transparency: =0.50
+            Width: =75
+            ZIndex: =1
+
+        lblMessage_MessagePanel As label:
+            Align: =Align.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =MessagePanel.Style.Text.Title.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =MessagePanel.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            Font: =MessagePanel.Style.Text.Title.Font
+            FontWeight: =MessagePanel.Style.Text.Title.Weight
+            Size: =MessagePanel.Style.Text.Title.Size
+            Text: =MessagePanel.Message
+            ZIndex: =2
+

@@ -1,0 +1,591 @@
+Mapper As CanvasComponent:
+    GetItems():
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Items,
+                    {
+                        Key: Key,
+                        Value: Value
+                    }
+                )
+    ProcessUserInput(Pair As Record):
+        Pair:
+            Default: |-
+                ={
+                    Key: "",
+                    Value: ""
+                }
+        ThisProperty:
+            Default: =Pair
+    DisplayMode: =DisplayMode.Edit
+    Fill: =Color.Transparent
+    GalleryFill: =Style.Palette.Background
+    Height: =640
+    IsValid: =!Mapper.RequiredValues || !IsEmpty(Items)
+    Items: |-
+        =Table(
+            {
+                Key: "Key 1",
+                Value: "Value 1"
+            }
+        )
+    KeyWidth: =225
+    NoItemsText: ="There are no items"
+    OnReset: |-
+        =Clear(Items);
+        ForAll(
+            Mapper.Items,
+            Collect(
+                Items,
+                {
+                    Id: GUID(),
+                    Key: Key,
+                    Value: Value
+                }
+            )
+        )
+    PaddingBottom: =15
+    PaddingLeft: =15
+    PaddingRight: =15
+    PaddingTop: =15
+    PresentationData: |-
+        ={
+            Key: {
+                Label: "Key",
+                Tooltip: "Enter a key",
+                Placeholder: "---",
+                MaxLength: 200,
+                Format: TextFormat.Text
+            },
+            Value: {
+                Label: "Value",
+                Tooltip: "Enter a value",
+                Placeholder: "---",
+                MaxLength: 200,
+                Format: TextFormat.Text
+            }
+        }
+    RequiredValues: =true
+    ShowScrollbar: =true
+    Style: =Style
+    SuggestedHeight: |-
+        =Self.PaddingTop + Self.PaddingBottom + 42 + ctnControls_Mapper.Height + 10 + If(
+            CountRows(Items) < 3,
+            96,
+            CountRows(Items) * 32
+        )
+    Title: ="Mapper"
+    Width: =350
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Mapper As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =Mapper.PaddingBottom
+        PaddingLeft: =Mapper.PaddingLeft
+        PaddingRight: =Mapper.PaddingRight
+        PaddingTop: =Mapper.PaddingTop
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnHeader_Mapper As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =1
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =32
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            ZIndex: =1
+
+            lblRequiredValues_Mapper As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Mapper.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Mapper.Style.Text.Normal.Font
+                FontWeight: =Mapper.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =Mapper.Style.Text.Normal.Size
+                Text: ="*"
+                Visible: =Mapper.RequiredValues
+                Width: =15
+                ZIndex: =1
+
+            lblTitle_Mapper As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Mapper.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Mapper.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =Mapper.Style.Text.Subtitle.Font
+                FontWeight: =Mapper.Style.Text.Subtitle.Weight
+                Height: =32
+                LayoutMinHeight: =32
+                LayoutMinWidth: =50
+                PaddingLeft: =0
+                Size: =Mapper.Style.Text.Subtitle.Size
+                Text: =Mapper.Title
+                ZIndex: =2
+
+        ctnControls_Mapper As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: |-
+                =If(
+                    Mapper.DisplayMode = DisplayMode.Edit,
+                    127,
+                    48
+                )
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =3
+
+            ctnMapHeaders_Mapper As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =48
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =1
+
+                shpLeftSeparator_Mapper As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Mapper.Style.Palette.Line
+                    FocusedBorderThickness: =1
+                    Height: =22
+                    OnSelect: =Mapper.Style.Palette.Line
+                    Width: =1
+                    ZIndex: =1
+
+                lblKeyHead_Mapper As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Mapper.Style.Text.Subtitle.Color
+                    ContentLanguage: ="en"
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Mapper.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =Mapper.Style.Text.Subtitle.Font
+                    FontWeight: =Mapper.Style.Text.Subtitle.Weight
+                    Size: =Mapper.Style.Text.Subtitle.Size
+                    Text: =Mapper.PresentationData.Key.Label
+                    Width: =Mapper.KeyWidth - 1
+                    ZIndex: =2
+
+                shpKeyHeadSeparator_Mapper As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Mapper.Style.Palette.Line
+                    FocusedBorderThickness: =1
+                    Height: =22
+                    OnSelect: =Mapper.Style.Palette.Line
+                    Width: =1
+                    ZIndex: =3
+
+                lblValueHead_Mapper As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Mapper.Style.Text.Subtitle.Color
+                    ContentLanguage: ="en"
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Mapper.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =Mapper.Style.Text.Subtitle.Font
+                    FontWeight: =Mapper.Style.Text.Subtitle.Weight
+                    LayoutMinWidth: =25
+                    Size: =Mapper.Style.Text.Subtitle.Size
+                    Text: =Mapper.PresentationData.Value.Label
+                    Width: =105
+                    ZIndex: =6
+
+                shpRightSeparator_Mapper As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Mapper.Style.Palette.Line
+                    FocusedBorderThickness: =1
+                    Height: =22
+                    OnSelect: =Mapper.Style.Palette.Line
+                    Width: =1
+                    ZIndex: =7
+
+            ctnActions_Mapper As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Mapper.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =Mapper.Style.Palette.LightFillable
+                FillPortions: =0
+                Height: =79
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =5
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =5
+                PaddingLeft: =5
+                PaddingRight: =5
+                PaddingTop: =5
+                RadiusBottomLeft: =Mapper.Style.RadiusFactor
+                RadiusBottomRight: =Mapper.Style.RadiusFactor
+                RadiusTopLeft: =Mapper.Style.RadiusFactor
+                RadiusTopRight: =Mapper.Style.RadiusFactor
+                Visible: =Mapper.DisplayMode = DisplayMode.Edit
+                ZIndex: =2
+
+                ctnInputs_Mapper As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    Height: =32
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutGap: =5
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =25
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =1
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =1
+                    Width: =350
+                    X: =1
+                    Y: =1
+                    ZIndex: =1
+
+                    txtKeyInput_Mapper As text:
+                        BorderColor: =Mapper.Style.Palette.Line
+                        Color: =Mapper.Style.Text.Normal.Color
+                        Default: =""
+                        DelayOutput: =true
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Color.Transparent
+                        DisabledFill: =Mapper.Style.Palette.Fillable
+                        Fill: =Mapper.Style.Palette.Background
+                        FocusedBorderColor: =Mapper.Style.Palette.Accent
+                        FocusedBorderThickness: =1
+                        Font: =Mapper.Style.Text.Normal.Font
+                        FontWeight: =Mapper.Style.Text.Normal.Weight
+                        Format: =Mapper.PresentationData.Key.Format
+                        HintText: =Mapper.PresentationData.Key.Placeholder
+                        HoverBorderColor: =Mapper.Style.Palette.Border
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        MaxLength: =Mapper.PresentationData.Key.MaxLength
+                        RadiusBottomLeft: =Mapper.Style.RadiusFactor
+                        RadiusBottomRight: =Mapper.Style.RadiusFactor
+                        RadiusTopLeft: =Mapper.Style.RadiusFactor
+                        RadiusTopRight: =Mapper.Style.RadiusFactor
+                        Size: =Mapper.Style.Text.Normal.Size
+                        Tooltip: =Mapper.PresentationData.Key.Tooltip
+                        Width: =Mapper.KeyWidth - 7.5
+                        ZIndex: =1
+
+                    txtValueInput_Mapper As text:
+                        Align: =Align.Center
+                        BorderColor: =Mapper.Style.Palette.Line
+                        Color: =Mapper.Style.Text.Normal.Color
+                        Default: =""
+                        DelayOutput: =true
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Color.Transparent
+                        DisabledFill: =Mapper.Style.Palette.Fillable
+                        Fill: =Mapper.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =Mapper.Style.Palette.Accent
+                        FocusedBorderThickness: =1
+                        Font: =Mapper.Style.Text.Normal.Font
+                        FontWeight: =Mapper.Style.Text.Normal.Weight
+                        Format: =Mapper.PresentationData.Value.Format
+                        HintText: =Mapper.PresentationData.Value.Placeholder
+                        HoverBorderColor: =Mapper.Style.Palette.Border
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =25
+                        MaxLength: =Mapper.PresentationData.Value.MaxLength
+                        OnChange: =Select(icoAdd_Mapper)
+                        PaddingLeft: =5
+                        RadiusBottomLeft: =Mapper.Style.RadiusFactor
+                        RadiusBottomRight: =Mapper.Style.RadiusFactor
+                        RadiusTopLeft: =Mapper.Style.RadiusFactor
+                        RadiusTopRight: =Mapper.Style.RadiusFactor
+                        Size: =Mapper.Style.Text.Normal.Size
+                        Tooltip: =Mapper.PresentationData.Value.Tooltip
+                        ZIndex: =2
+
+                ctnButtons_Mapper As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =6
+
+                    icoAdd_Mapper As icon.ArrowRight:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Mapper.Style.Palette.Icon
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Mapper.Style.Palette.Disabled
+                        DisplayMode: |-
+                            =If(
+                                !IsBlank(txtKeyInput_Mapper.Text) && ! IsBlank(txtValueInput_Mapper.Text),
+                                DisplayMode.Edit,
+                                DisplayMode.Disabled
+                            )
+                        Fill: =Mapper.Style.Palette.Selectable.Fill
+                        FocusedBorderThickness: =0
+                        Height: =32
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        HoverFill: =Mapper.Style.Palette.Selectable.HoverFill
+                        LayoutMinHeight: =15
+                        OnSelect: |-
+                            =With(
+                                {
+                                    Key: Trim(txtKeyInput_Mapper.Text),
+                                    Value: Trim(txtValueInput_Mapper.Text)
+                                },
+                                If(
+                                    !IsBlank(Key) && !IsBlank(Value),
+                                    Collect(
+                                        Items,
+                                        Patch(
+                                            Mapper.ProcessUserInput(ThisRecord),
+                                            {Id: GUID()}
+                                        )
+                                    )
+                                )
+                            );
+                            Reset(txtKeyInput_Mapper);
+                            Reset(txtValueInput_Mapper);
+                            SetFocus(txtKeyInput_Mapper)
+                        PaddingBottom: =8.5
+                        PaddingLeft: =8.5
+                        PaddingRight: =8.5
+                        PaddingTop: =8.5
+                        PressedBorderColor: =Self.BorderColor
+                        PressedColor: =Self.Color
+                        PressedFill: =Mapper.Style.Palette.Selectable.PressedFill
+                        Tooltip: ="Insert data"
+                        Visible: =true//!IsBlank(txtKeyInput_Mapper.Text)
+                        Width: =32
+                        ZIndex: =1
+
+                    icoDelete_Mapper As icon.CancelBadge:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Mapper.Style.Palette.Icon
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Mapper.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: |-
+                            =If(
+                                IsBlank(galItems_Mapper.Selected.Value),
+                                DisplayMode.Disabled,
+                                DisplayMode.Edit
+                            )
+                        Fill: =Mapper.Style.Palette.Selectable.Fill
+                        FocusedBorderThickness: =0
+                        Height: =32
+                        HoverBorderColor: =Color.Transparent
+                        HoverColor: =Self.Color
+                        HoverFill: =Mapper.Style.Palette.Selectable.TransparentHoverFill
+                        Icon: =Icon.Trash
+                        LayoutMinHeight: =15
+                        OnSelect: |-
+                            =RemoveIf(
+                                Items,
+                                Id = galItems_Mapper.Selected.Id
+                            )
+                        PaddingBottom: =8.5
+                        PaddingLeft: =8.5
+                        PaddingRight: =8.5
+                        PaddingTop: =8.5
+                        PressedBorderColor: =Color.Transparent
+                        PressedColor: =Self.Color
+                        PressedFill: =Mapper.Style.Palette.Selectable.TransparentPressedFill
+                        Tooltip: ="Remove selected row"
+                        Width: =32
+                        ZIndex: =2
+
+        ctnItems_Mapper As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: |-
+                =If(
+                    Mapper.RequiredValues && Mapper.DisplayMode = DisplayMode.Edit && IsEmpty(Items),
+                    Mapper.Style.Palette.Warning,
+                    Color.Transparent
+                )
+            BorderThickness: =1
+            Fill: =Mapper.GalleryFill
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =Mapper.Style.RadiusFactor
+            RadiusBottomRight: =Mapper.Style.RadiusFactor
+            RadiusTopLeft: =Mapper.Style.RadiusFactor
+            RadiusTopRight: =Mapper.Style.RadiusFactor
+            ZIndex: =4
+
+            lblNoItems_Mapper As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Mapper.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Mapper.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Mapper.Style.Text.Subtitle.Font
+                FontWeight: =Mapper.Style.Text.Subtitle.Weight
+                Height: =32
+                Italic: =true
+                Size: =Mapper.Style.Text.Subtitle.Size
+                Text: =Mapper.NoItemsText
+                Visible: =IsEmpty(Items)
+                Width: =Parent.Width
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =1
+
+            galItems_Mapper As gallery.galleryVertical:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Default: =First(Items)
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                Items: =Items
+                Layout: =Layout.Vertical
+                Selectable: =Mapper.DisplayMode = DisplayMode.Edit
+                ShowScrollbar: =Mapper.ShowScrollbar
+                TemplateFill: |-
+                    =If(
+                        ThisItem.IsSelected && Mapper.DisplayMode <> DisplayMode.View,
+                        Mapper.Style.Palette.Selectable.TransparentHoverFill,
+                        Color.Transparent
+                    )
+                TemplatePadding: =0
+                TemplateSize: =32
+                Visible: =!IsEmpty(Items)
+                Width: =Parent.Width
+                ZIndex: =2
+
+                shpPoint_Mapper As circle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: |-
+                        =If(
+                            Mapper.DisplayMode <> DisplayMode.View,
+                            Mapper.Style.Palette.Accent,
+                            Mapper.Style.Palette.Disabled
+                        )
+                    FocusedBorderThickness: =0
+                    Height: =8
+                    Width: =8
+                    X: =10
+                    Y: =Parent.TemplateHeight / 2 - Self.Height / 2
+                    ZIndex: =2
+
+                ctnLayoutPair_Mapper As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    Height: =Parent.TemplateHeight
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMode: =LayoutMode.Auto
+                    Width: =Parent.TemplateWidth
+                    ZIndex: =3
+
+                    lblKey_Mapper As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Mapper.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Mapper.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: =Color.Transparent
+                        Font: =Mapper.Style.Text.Normal.Font
+                        FontWeight: =Mapper.Style.Text.Normal.Weight
+                        Height: =100
+                        LayoutMinHeight: =25
+                        PaddingLeft: =30
+                        Size: =Mapper.Style.Text.Normal.Size
+                        Text: =ThisItem.Key
+                        Tooltip: =Self.Text
+                        Width: =Mapper.KeyWidth
+                        Wrap: =false
+                        ZIndex: =1
+
+                    lblValue_Mapper As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Mapper.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Mapper.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Mapper.Style.Text.Normal.Font
+                        FontWeight: =Mapper.Style.Text.Normal.Weight
+                        Height: =100
+                        LayoutMinHeight: =25
+                        LayoutMinWidth: =50
+                        Size: =Mapper.Style.Text.Normal.Size
+                        Text: =ThisItem.Value
+                        Width: =100
+                        ZIndex: =2
+

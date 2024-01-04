@@ -1,0 +1,1890 @@
+GeneralInfoForm As CanvasComponent:
+    GetValue():
+        ThisProperty:
+            Default: |-
+                ={
+                    name: Self.Default.name,
+                    workingHours: Self.WorkingHours.Value,
+                    status: Self.VersionSectionState.Completed.Code,
+                    startDate: Self.StartDate.Value,
+                    deadlineDate: Self.DeadlineDate.Value,
+                    idJobOffer: Self.Default.idJobOffer,
+                    userADFI: With(
+                        comADFIUser_GeneralInfoForm.Selected,
+                        {
+                            id: id,
+                            name: name,
+                            email: email,
+                            idSystemUser: idSystemUser,
+                            role: role
+                        }
+                    ),
+                    userHC: comTotalRewardsUser_GeneralInfoForm.Selected
+                }
+    SuggestedDefault(IdJobOffer As String):
+        IdJobOffer:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                ={
+                    name: "",
+                    workingHours: "Monday to Friday: 08:00 to 17:30, Saturday: 08:00 to 13:30",
+                    status: -1,
+                    startDate: Text(
+                        DateAdd(
+                            Today(),
+                            5,
+                            TimeUnit.Days
+                        ),
+                        DateTimeFormat.UTC
+                    ),
+                    deadlineDate: Text(
+                        Today(),
+                        DateTimeFormat.UTC
+                    ),
+                    idJobOffer: IdJobOffer,
+                    userADFI: Blank(),
+                    userHC: Blank()
+                }
+    ADFIUser: |-
+        ={
+            Value: comADFIUser_GeneralInfoForm.Selected,
+            IsValid: !IsBlank(comADFIUser_GeneralInfoForm.Selected)
+        }
+    ADFIUsers: |-
+        =Table(
+            {
+                id: "",
+                name: "",
+                email: "",
+                role: "",
+                idSystemUser: ""
+            }
+        )
+    DeadlineDate: |-
+        =With(
+            {deadlineDate: datDeadlineDate_GeneralInfoForm.SelectedDate},
+            {
+                Value: Text(
+                    deadlineDate,
+                    "yyyy-mm-dd"
+                ),
+                IsValid: !IsBlank(deadlineDate) && (GeneralInfoForm.FormMode = FormMode.Edit || DateDiff(
+                    Today(),
+                    deadlineDate
+                ) >= 0)
+            }
+        )
+    Default: |-
+        ={
+            name: "",
+            workingHours: "Monday to Friday: 08:00 to 17:30, Saturday: 08:00 to 13:30",
+            status: 1,
+            startDate: Text(
+                DateAdd(
+                    Today(),
+                    5,
+                    TimeUnit.Days
+                ),
+                DateTimeFormat.UTC
+            ),
+            deadlineDate: Text(
+                Today(),
+                DateTimeFormat.UTC
+            ),
+            idJobOffer: "",
+            userADFI: {
+                id: "c01a65b0-78bc-ed11-83ff-00224808d0c9",
+                name: "Samuel Alejandro Martínez Pita",
+                role: "Admin",
+                email: "samuel.martinez@grupo-giga.com",
+                idSystemUser: "a59804ca-d11a-eb11-a815-000d3a5986cc"
+            },
+            userHC: {
+                id: "9aee62e5-78bc-ed11-83ff-00224808df0d",
+                name: "Luis Gerardo Camarillo Gamboa",
+                role: "Admin",
+                email: "luis.camarillo@grupo-giga.com",
+                idSystemUser: "7572a32a-ab3e-ed11-9db0-00224806fbe8"
+            }
+        }
+    Fill: =Color.Transparent
+    FormMode: =FormMode.New
+    Height: =700
+    HumanCapitalUser: |-
+        ={
+            Value: comTotalRewardsUser_GeneralInfoForm.Selected,
+            IsValid: !IsBlank(comTotalRewardsUser_GeneralInfoForm.Selected)
+        }
+    HumanCapitalUsers: =Self.ADFIUsers
+    IsSaving: =false
+    OnReset: |-
+        =Clear(Warnings);
+        Reset(comADFIUser_GeneralInfoForm);
+        Reset(comTotalRewardsUser_GeneralInfoForm);
+        Reset(datDeadlineDate_GeneralInfoForm);
+        Reset(datStartDate_GeneralInfoForm);
+        Reset(droWorkingHours_GeneralInfoForm);
+        Reset(droWeekFromHour_GeneralInfoForm);
+        Reset(droWeekToHour_GeneralInfoForm);
+        Reset(togEnableSaturday_GeneralInfoForm);
+        Reset(droSaturdayFromHour_GeneralInfoForm);
+        Reset(droSaturdayToHour_GeneralInfoForm);
+    PresentationData: |-
+        ={
+            ADFIUser: {
+                Label: "ADFI User",
+                Tooltip: "",
+                Placeholder: "ADFI lookup"
+            },
+            TotalRewardsUser: {
+                Label: "Total Rewards User",
+                Tooltip: "",
+                Placeholder: "Total rewards lookup"
+            },
+            DeadlineDate: {
+                Label: "Deadline date",
+                Tooltip: "Select the date until which the proposal will be valid"
+            },
+            StartDate: {
+                Label: "Start of work",
+                Tooltip: "Select the start date of work"
+            },
+            WorkingHours: {
+                Label: "Working hours",
+                Options: {
+                    Selector: {
+                        Code: 1,
+                        Name: "Selector"
+                    },
+                    RotativeSchedules: {
+                        Code: 2,
+                        Name: "Rotative schedules"
+                    },
+                    Custom: {
+                        Code: 3,
+                        Name: "Custom"
+                    }
+                },
+                Selector: {
+                    Label: "Select hours",
+                    MondayToFriday: {
+                        Label: "Monday to Friday",
+                        From: {
+                            Label: "From",
+                            Tooltip: "Select the start time"
+                        },
+                        To: {
+                            Label: "To",
+                            Tooltip: "Select end time"
+                        }
+                    },
+                    Saturday: {
+                        TrueLabel: "Saturday",
+                        FalseLabel: "Saturday",
+                        Tooltip: "",
+                        From: {
+                            Label: "From",
+                            Tooltip: "Select the start time"
+                        },
+                        To: {
+                            Label: "To",
+                            Tooltip: "Select end time"
+                        }
+                    }
+                },
+                Custom: {
+                    Tooltip: "Write a custom schedule",
+                    Placeholder: "---"
+                }
+            }
+        }
+    StartDate: |-
+        =With(
+            {startDate: datStartDate_GeneralInfoForm.SelectedDate},
+            {
+                Value: Text(
+                    datStartDate_GeneralInfoForm.SelectedDate,
+                    "yyyy-mm-dd"
+                ),
+                IsValid: !IsBlank(startDate) && DateDiff(
+                    datDeadlineDate_GeneralInfoForm.SelectedDate,
+                    startDate
+                ) >= 0
+            }
+        )
+    Style: =Style
+    TimeItems: |-
+        =[
+            "00:00",
+            "00:30",
+            "01:00",
+            "01:30",
+            "02:00",
+            "02:30",
+            "03:00",
+            "03:30",
+            "04:00",
+            "04:30",
+            "05:00",
+            "05:30",
+            "06:00",
+            "06:30",
+            "07:00",
+            "07:30",
+            "08:00",
+            "08:30",
+            "09:00",
+            "09:30",
+            "10:00",
+            "10:30",
+            "11:00",
+            "11:30",
+            "12:00",
+            "12:30",
+            "13:00",
+            "13:30",
+            "14:00",
+            "14:30",
+            "15:00",
+            "15:30",
+            "16:00",
+            "16:30",
+            "17:00",
+            "17:30",
+            "18:00",
+            "18:30",
+            "19:00",
+            "19:30",
+            "20:00",
+            "20:30",
+            "21:00",
+            "21:30",
+            "22:00",
+            "22:30",
+            "23:00",
+            "23:30"
+        ]
+    Validation: =Self.ADFIUser.IsValid && Self.HumanCapitalUser.IsValid && Self.DeadlineDate.IsValid && Self.StartDate.IsValid && Self.WorkingHours.IsValid
+    VersionSectionState: =VersionSectionState
+    Width: =400
+    WorkingHours: |-
+        =Switch(
+            droWorkingHours_GeneralInfoForm.Selected.Code,
+            GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+            With(
+                {
+                    weekHours: {
+                        From: droWeekFromHour_GeneralInfoForm.Selected.Value,
+                        To: droWeekToHour_GeneralInfoForm.Selected.Value
+                    },
+                    saturdayHours: If(
+                        togEnableSaturday_GeneralInfoForm.Value,
+                        {
+                            From: droSaturdayFromHour_GeneralInfoForm.Selected.Value,
+                            To: droSaturdayToHour_GeneralInfoForm.Selected.Value
+                        },
+                        Blank()
+                    )
+                },
+                With(
+                    {
+                        weekHoursNumbers: {
+                            From: Split(
+                                weekHours.From,
+                                ":"
+                            ),
+                            To: Split(
+                                weekHours.To,
+                                ":"
+                            )
+                        },
+                        saturdayHoursNumbers: If(
+                            IsBlank(saturdayHours),
+                            Blank(),
+                            {
+                                From: Split(
+                                    saturdayHours.From,
+                                    ":"
+                                ),
+                                To: Split(
+                                    saturdayHours.To,
+                                    ":"
+                                )
+                            }
+                        )
+                    },
+                    With(
+                        {
+                            weekHoursIsValid: If(
+                                Value(First(weekHoursNumbers.From).Value) = Value(First(weekHoursNumbers.To).Value),
+                                Value(Last(weekHoursNumbers.From).Value) <= Value(Last(weekHoursNumbers.To).Value),
+                                Value(First(weekHoursNumbers.From).Value) < Value(First(weekHoursNumbers.To).Value)
+                            ),
+                            saturdayHoursIsValid: IsBlank(saturdayHoursNumbers) || If(
+                                Value(First(saturdayHoursNumbers.From).Value) = Value(First(saturdayHoursNumbers.To).Value),
+                                Value(Last(saturdayHoursNumbers.From).Value) <= Value(Last(saturdayHoursNumbers.To).Value),
+                                Value(First(saturdayHoursNumbers.From).Value) < Value(First(saturdayHoursNumbers.To).Value)
+                            )
+                        },
+                        {
+                            Value: $"Monday to Friday: {weekHours.From} to {weekHours.To}{If(
+                                IsBlank(saturdayHours),
+                                "",
+                                $", Saturday: {saturdayHours.From} to {saturdayHours.To}"
+                            )}",
+                            WeekHoursIsValid: weekHoursIsValid,
+                            SaturdayHoursIsValid: saturdayHoursIsValid,
+                            IsValid: weekHoursIsValid && saturdayHoursIsValid
+                        }
+                    )
+                )
+            ),
+            GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Code,
+            {
+                Value: GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                IsValid: true,
+                WeekHoursIsValid: true,
+                SaturdayHoursIsValid: true
+            },
+            {
+                Value: txtWorkingHours_GeneralInfoForm.Text,
+                IsValid: !IsBlank(txtWorkingHours_GeneralInfoForm.Text),
+                WeekHoursIsValid: true,
+                SaturdayHoursIsValid: true
+            }
+        )
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_GeneralInfoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =32
+        PaddingRight: =32
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnWarning_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =22
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            Visible: =!IsEmpty(Warnings)
+            ZIndex: =1
+
+            lblWarning_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Little.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =GeneralInfoForm.Style.Palette.Warning
+                FillPortions: =1
+                Font: =GeneralInfoForm.Style.Text.Little.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Little.Weight
+                Height: =17
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =GeneralInfoForm.Style.Text.Little.Size
+                Text: =Last(Warnings).Text
+                Tooltip: =Self.Text
+                Wrap: =false
+                ZIndex: =1
+
+        ctnADFIUser_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =34
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            PaddingTop: =1
+            ZIndex: =2
+
+            lblADFIUser_GeneralInfoForm As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: =GeneralInfoForm.PresentationData.ADFIUser.Label
+                Width: =119
+                ZIndex: =1
+
+            lblADFIUserRequired_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: ="*"
+                Width: =15
+                ZIndex: =2
+
+            comADFIUser_GeneralInfoForm As combobox:
+                BorderColor: |-
+                    =If(
+                        GeneralInfoForm.ADFIUser.IsValid,
+                        GeneralInfoForm.Style.Palette.Line,
+                        GeneralInfoForm.Style.Palette.Warning
+                    )
+                BorderThickness: =1
+                ChevronBackground: =Self.Fill
+                ChevronDisabledBackground: =Color.Transparent
+                ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DefaultSelectedItems: |-
+                    =If(
+                        IsBlank(GeneralInfoForm.Default.userADFI),
+                        [],
+                        GeneralInfoForm.Default.userADFI
+                    )
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                DisplayFields: =["name"]
+                Fill: =GeneralInfoForm.Style.Palette.Background
+                FillPortions: =1
+                FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                InputTextPlaceholder: =GeneralInfoForm.PresentationData.ADFIUser.Placeholder
+                Items: =GeneralInfoForm.ADFIUsers
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                PressedColor: =Self.ChevronFill
+                PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                SearchFields: =["name"]
+                SearchItems: =Search(GeneralInfoForm.ADFIUsers,comADFIUser_GeneralInfoForm.SearchText,"name")
+                SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                SelectionFill: |-
+                    =ColorFade(
+                        GeneralInfoForm.Style.Palette.Fillable,
+                        -5%
+                    )
+                SelectionTagColor: =GeneralInfoForm.Style.Palette.Accent
+                SelectMultiple: =false
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Tooltip: =GeneralInfoForm.PresentationData.ADFIUser.Tooltip
+                ZIndex: =3
+
+        ctnTotalRewardsUser_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =34
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            PaddingTop: =1
+            ZIndex: =3
+
+            lblTotalRewardsUser_GeneralInfoForm As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: =GeneralInfoForm.PresentationData.TotalRewardsUser.Label
+                Width: =119
+                ZIndex: =1
+
+            lblTotalRewardsUserRequired_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: ="*"
+                Width: =15
+                ZIndex: =2
+
+            comTotalRewardsUser_GeneralInfoForm As combobox:
+                BorderColor: |-
+                    =If(
+                        GeneralInfoForm.HumanCapitalUser.IsValid,
+                        GeneralInfoForm.Style.Palette.Line,
+                        GeneralInfoForm.Style.Palette.Warning
+                    )
+                BorderThickness: =1
+                ChevronBackground: =Self.Fill
+                ChevronDisabledBackground: =Color.Transparent
+                ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DefaultSelectedItems: |-
+                    =If(
+                        IsBlank(GeneralInfoForm.Default.userHC),
+                        [],
+                        GeneralInfoForm.Default.userHC
+                    )
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                DisplayFields: =["name"]
+                Fill: =GeneralInfoForm.Style.Palette.Background
+                FillPortions: =1
+                FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                InputTextPlaceholder: =GeneralInfoForm.PresentationData.TotalRewardsUser.Placeholder
+                Items: =GeneralInfoForm.HumanCapitalUsers
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                PressedColor: =Self.ChevronFill
+                PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                SearchFields: =["name"]
+                SearchItems: =Search(GeneralInfoForm.HumanCapitalUsers,comTotalRewardsUser_GeneralInfoForm.SearchText,"name")
+                SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                SelectionFill: |-
+                    =ColorFade(
+                        GeneralInfoForm.Style.Palette.Fillable,
+                        -5%
+                    )
+                SelectionTagColor: =GeneralInfoForm.Style.Palette.Accent
+                SelectMultiple: =false
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Tooltip: =GeneralInfoForm.PresentationData.ADFIUser.Tooltip
+                ZIndex: =3
+
+        shpUsersSeparator_GeneralInfoForm As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =GeneralInfoForm.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            X: =40
+            Y: =40
+            ZIndex: =4
+
+        ctnDeadlineDate_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =34
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            PaddingTop: =1
+            ZIndex: =5
+
+            lblDeadlineDate_GeneralInfoForm As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: =GeneralInfoForm.PresentationData.DeadlineDate.Label
+                Width: =119
+                ZIndex: =1
+
+            lblDeadlineDateRequired_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: ="*"
+                Width: =15
+                ZIndex: =2
+
+            datDeadlineDate_GeneralInfoForm As datepicker:
+                BorderColor: |-
+                    =If(
+                        GeneralInfoForm.DeadlineDate.IsValid,
+                        Color.Transparent,
+                        GeneralInfoForm.Style.Palette.Warning
+                    )
+                BorderThickness: =1
+                CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                DefaultDate: =DateValue(GeneralInfoForm.Default.deadlineDate)
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                Fill: =GeneralInfoForm.Style.Palette.Background
+                FillPortions: =1
+                FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                Format: ="dd/mm/yyyy"
+                Height: =17
+                HoverDateFill: =RGBA(186, 202, 226, 1)
+                IconBackground: =Self.Fill
+                IconFill: =GeneralInfoForm.Style.Palette.Accent
+                InputTextPlaceholder: |-
+                    =If(
+                        IsBlank(Self.SelectedDate),
+                        Text(
+                            Date(
+                                2001,
+                                12,
+                                31
+                            ),
+                            Self.Format,
+                            Self.Language
+                        )
+                    )
+                IsEditable: =true
+                LayoutMinHeight: =17
+                LayoutMinWidth: =25
+                OnChange: |-
+                    =With(
+                        {
+                            invalidDate: {
+                                Code: 1,
+                                Text: $"Invalid date in '{GeneralInfoForm.PresentationData.DeadlineDate.Label}': the date provided must be later than or equal to the current date"
+                            },
+                            invalidDates: {
+                                Code: 2,
+                                Text: $"Invalid dates: '{GeneralInfoForm.PresentationData.StartDate.Label}' must be a date equal to or later than '{GeneralInfoForm.PresentationData.DeadlineDate.Label}'"
+                            },
+                            deadlineDate: datDeadlineDate_GeneralInfoForm.SelectedDate,
+                            startDate: datStartDate_GeneralInfoForm.SelectedDate
+                        },
+                        If(
+                            IsBlank(deadlineDate) || GeneralInfoForm.FormMode = FormMode.Edit,
+                            RemoveIf(
+                                Warnings,
+                                Code = invalidDate.Code || Code = invalidDates.Code
+                            ),
+                            If(
+                                !IsBlank(startDate) && DateDiff(
+                                    deadlineDate,
+                                    startDate
+                                ) < 0,
+                                Collect(
+                                    Warnings,
+                                    invalidDates
+                                ),
+                                RemoveIf(
+                                    Warnings,
+                                    Code = invalidDates.Code
+                                )
+                            );
+                            If(
+                                DateDiff(
+                                    Today(),
+                                    deadlineDate
+                                ) < 0,
+                                Collect(
+                                    Warnings,
+                                    invalidDate
+                                ),
+                                RemoveIf(
+                                    Warnings,
+                                    Code = invalidDate.Code
+                                )
+                            )
+                        )
+                    )
+                PaddingTop: =5
+                SelectedDateFill: =RGBA(56, 96, 178, 1)
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Tooltip: =GeneralInfoForm.PresentationData.DeadlineDate.Tooltip
+                Width: =25
+                ZIndex: =3
+
+        ctnStartDate_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =34
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            PaddingTop: =1
+            ZIndex: =6
+
+            lbl_StartDate_GeneralInfoForm As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: =GeneralInfoForm.PresentationData.StartDate.Label
+                Width: =119
+                ZIndex: =1
+
+            lblStartDateRequired_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: ="*"
+                Width: =15
+                ZIndex: =2
+
+            datStartDate_GeneralInfoForm As datepicker:
+                BorderColor: |-
+                    =If(
+                        GeneralInfoForm.StartDate.IsValid,
+                        Color.Transparent,
+                        GeneralInfoForm.Style.Palette.Warning
+                    )
+                BorderThickness: =1
+                CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                DefaultDate: =DateValue(GeneralInfoForm.Default.startDate)
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                Fill: =GeneralInfoForm.Style.Palette.Background
+                FillPortions: =1
+                FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                Format: ="dd/mm/yyyy"
+                HoverDateFill: =RGBA(186, 202, 226, 1)
+                IconBackground: =Self.Fill
+                IconFill: =GeneralInfoForm.Style.Palette.Accent
+                InputTextPlaceholder: |-
+                    =If(
+                        IsBlank(Self.SelectedDate),
+                        Text(
+                            Date(
+                                2001,
+                                12,
+                                31
+                            ),
+                            Self.Format,
+                            Self.Language
+                        )
+                    )
+                IsEditable: =true
+                LayoutMinHeight: =15
+                LayoutMinWidth: =50
+                OnChange: |-
+                    =With(
+                        {
+                            invalidDates: {
+                                Code: 2,
+                                Text: $"Invalid dates: '{GeneralInfoForm.PresentationData.StartDate.Label}' must be a date equal to or later than '{GeneralInfoForm.PresentationData.DeadlineDate.Label}'"
+                            },
+                            deadlineDate: datDeadlineDate_GeneralInfoForm.SelectedDate,
+                            startDate: datStartDate_GeneralInfoForm.SelectedDate
+                        },
+                        If(
+                            !IsBlank(deadlineDate) && !IsBlank(startDate) && DateDiff(
+                                deadlineDate,
+                                startDate
+                            ) < 0,
+                            Collect(
+                                Warnings,
+                                invalidDates
+                            ),
+                            RemoveIf(
+                                Warnings,
+                                Code = invalidDates.Code
+                            )
+                        )
+                    )
+                PaddingTop: =5
+                SelectedDateFill: =RGBA(56, 96, 178, 1)
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Tooltip: =GeneralInfoForm.PresentationData.StartDate.Tooltip
+                ZIndex: =3
+
+        shpStartDateSeparator_GeneralInfoForm As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =GeneralInfoForm.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            X: =40
+            Y: =40
+            ZIndex: =7
+
+        ctnWorkingHours_GeneralInfoForm As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =188
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =2
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =9
+
+            ctnWorkingHoursHeader_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =34
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =2
+                PaddingLeft: =1
+                PaddingRight: =1
+                PaddingTop: =2
+                ZIndex: =2
+
+                lblWorkingHoursRequired_GeneralInfoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Color.Red
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =GeneralInfoForm.Style.Text.Normal.Font
+                    FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =GeneralInfoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =15
+                    ZIndex: =1
+
+                lblWorkingHours_GeneralInfoForm As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                    FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                    Height: =32
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                    Text: =GeneralInfoForm.PresentationData.WorkingHours.Label
+                    ZIndex: =2
+
+                droWorkingHours_GeneralInfoForm As dropdown:
+                    BorderColor: =Color.Transparent
+                    BorderThickness: =1
+                    ChevronBackground: =Self.Fill
+                    ChevronDisabledBackground: =Color.Transparent
+                    ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                    ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                    ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                    Color: =GeneralInfoForm.Style.Text.Normal.Color
+                    Default: |-
+                        =If(
+                            StartsWith(
+                                GeneralInfoForm.Default.workingHours,
+                                "Monday to Friday:"
+                            ),
+                            GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Name,
+                            If(
+                                GeneralInfoForm.Default.workingHours = GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                                GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                                GeneralInfoForm.PresentationData.WorkingHours.Options.Custom.Name
+                            )
+                        )
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                    DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                    Fill: =GeneralInfoForm.Style.Palette.Background
+                    FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =GeneralInfoForm.Style.Text.Normal.Font
+                    FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                    HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                    HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                    Items: |-
+                        =Table(
+                            GeneralInfoForm.PresentationData.WorkingHours.Options.Selector,
+                            GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules,
+                            GeneralInfoForm.PresentationData.WorkingHours.Options.Custom
+                        )
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =50
+                    OnChange: |-
+                        =Set(
+                            CalculatedPeriod,
+                            true
+                        )
+                    PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                    SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                    SelectionFill: |-
+                        =ColorFade(
+                            GeneralInfoForm.Style.Palette.Fillable,
+                            -5%
+                        )
+                    Size: =GeneralInfoForm.Style.Text.Normal.Size
+                    Width: =175
+                    ZIndex: =3
+
+            ctnWeekHours_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =1
+                PaddingLeft: =1
+                PaddingRight: =1
+                Visible: =droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code
+                ZIndex: =3
+
+                ctnWeekHoursHeader_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =32
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblHoursSelector_GeneralInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        Height: =32
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Label
+                        ZIndex: =2
+
+                    lblWeekHours_GeneralInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        PaddingRight: =15
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.Label
+                        Width: =130
+                        ZIndex: =3
+
+                ctnWeekRangeOfHours_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =GeneralInfoForm.Style.Palette.Line
+                    BorderThickness: =1
+                    Fill: =GeneralInfoForm.Style.Palette.LightFillable
+                    Height: =42
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =5
+                    PaddingLeft: =5
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    RadiusBottomLeft: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusBottomRight: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusTopLeft: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusTopRight: =GeneralInfoForm.Style.RadiusFactor
+                    ZIndex: =2
+
+                    lblWeekFromHour_GeneralInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.From.Label
+                        Width: =50
+                        ZIndex: =1
+
+                    droWeekFromHour_GeneralInfoForm As dropdown:
+                        BorderColor: |-
+                            =If(
+                                GeneralInfoForm.WorkingHours.WeekHoursIsValid,
+                                GeneralInfoForm.Style.Palette.Line,
+                                GeneralInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                        ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                        Default: |-
+                            =If(
+                                droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+                                First(
+                                    Split(
+                                        Last(
+                                            Split(
+                                                First(
+                                                    Split(
+                                                        GeneralInfoForm.Default.workingHours,
+                                                        ", "
+                                                    )
+                                                ).Value,
+                                                ": "
+                                            )
+                                        ).Value,
+                                        " to "
+                                    )
+                                ).Value
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: =GeneralInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                        HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Items: =GeneralInfoForm.TimeItems
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidHours: {
+                                        Code: 4,
+                                        Text: $"Final time must be greater than the initial time"
+                                    },
+                                    fromHour: droWeekFromHour_GeneralInfoForm.Selected.Value,
+                                    toHour: droWeekToHour_GeneralInfoForm.Selected.Value
+                                },
+                                With(
+                                    {
+                                        fromHourNumbers: ForAll(
+                                            Split(
+                                                fromHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        ),
+                                        toHourNumbers: ForAll(
+                                            Split(
+                                                toHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        )
+                                    },
+                                    If(
+                                        First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                        If(
+                                            Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        ),
+                                        If(
+                                            First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                        SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                GeneralInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.From.Tooltip
+                        Width: =200
+                        ZIndex: =2
+
+                    lblWeekToHour_GeneralInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.To.Label
+                        Width: =50
+                        ZIndex: =3
+
+                    droWeekToHour_GeneralInfoForm As dropdown:
+                        BorderColor: |-
+                            =If(
+                                GeneralInfoForm.WorkingHours.WeekHoursIsValid,
+                                GeneralInfoForm.Style.Palette.Line,
+                                GeneralInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                        ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                        Default: |-
+                            =If(
+                                droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+                                Last(
+                                    Split(
+                                        Last(
+                                            Split(
+                                                First(
+                                                    Split(
+                                                        GeneralInfoForm.Default.workingHours,
+                                                        ", "
+                                                    )
+                                                ).Value,
+                                                ": "
+                                            )
+                                        ).Value,
+                                        " to "
+                                    )
+                                ).Value
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: =GeneralInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                        HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Items: =GeneralInfoForm.TimeItems
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidHours: {
+                                        Code: 4,
+                                        Text: $"Final time must be greater than the initial time"
+                                    },
+                                    fromHour: droWeekFromHour_GeneralInfoForm.Selected.Value,
+                                    toHour: droWeekToHour_GeneralInfoForm.Selected.Value
+                                },
+                                With(
+                                    {
+                                        fromHourNumbers: ForAll(
+                                            Split(
+                                                fromHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        ),
+                                        toHourNumbers: ForAll(
+                                            Split(
+                                                toHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        )
+                                    },
+                                    If(
+                                        First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                        If(
+                                            Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        ),
+                                        If(
+                                            First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                        SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                GeneralInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.To.Tooltip
+                        Width: =200
+                        ZIndex: =4
+
+            ctnSaturdayHours_GeneralInfoForm As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =1
+                PaddingLeft: =1
+                PaddingRight: =1
+                Visible: =droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code
+                ZIndex: =4
+
+                ctnSaturdayHoursHeader_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =32
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =5
+                    PaddingRight: =15
+                    ZIndex: =1
+
+                    togEnableSaturday_GeneralInfoForm As toggleSwitch:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.Dotted
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        Default: |-
+                            =CountRows(
+                                Split(
+                                    GeneralInfoForm.Default.workingHours,
+                                    ", "
+                                )
+                            ) = 2
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        FalseFill: =GeneralInfoForm.Style.Palette.Line
+                        FalseHoverFill: |-
+                            =ColorFade(
+                                Self.FalseFill,
+                                -5%
+                            )
+                        FalseText: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.FalseLabel
+                        FocusedBorderColor: =GeneralInfoForm.Style.Palette.Border
+                        FocusedBorderThickness: =1
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        HandleFill: =GeneralInfoForm.Style.Palette.Background
+                        Height: =17
+                        HoverBorderColor: =Self.BorderColor
+                        LabelPaddingLeft: =0
+                        LabelPaddingRight: =0
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =25
+                        OnChange: |-
+                            =If(
+                                Self.Value,
+                                Reset(droSaturdayFromHour_GeneralInfoForm);
+                                Reset(droSaturdayToHour_GeneralInfoForm)
+                            )
+                        PressedBorderColor: =Self.BorderColor
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.Tooltip
+                        TrueFill: =GeneralInfoForm.Style.Palette.Accent
+                        TrueHoverFill: |-
+                            =ColorFade(
+                                Self.TrueFill,
+                                -5%
+                            )
+                        TrueText: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.TrueLabel
+                        Width: =Parent.Width - Parent.PaddingRight
+                        ZIndex: =1
+
+                ctnSaturdayRangeOfHours_GeneralInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =GeneralInfoForm.Style.Palette.Line
+                    BorderThickness: =1
+                    Fill: =GeneralInfoForm.Style.Palette.LightFillable
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =5
+                    PaddingLeft: =5
+                    PaddingRight: =5
+                    PaddingTop: =5
+                    RadiusBottomLeft: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusBottomRight: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusTopLeft: =GeneralInfoForm.Style.RadiusFactor
+                    RadiusTopRight: =GeneralInfoForm.Style.RadiusFactor
+                    ZIndex: =2
+
+                    lblSaturdayFromHour_GeneralInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.From.Label
+                        Visible: =togEnableSaturday_GeneralInfoForm.Value
+                        Width: =50
+                        ZIndex: =1
+
+                    droSaturdayFromHour_GeneralInfoForm As dropdown:
+                        BorderColor: |-
+                            =If(
+                                GeneralInfoForm.WorkingHours.SaturdayHoursIsValid,
+                                GeneralInfoForm.Style.Palette.Line,
+                                GeneralInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                        ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                        Default: |-
+                            =If(
+                                droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code && Self.Visible,
+                                First(
+                                    Split(
+                                        Last(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        GeneralInfoForm.Default.workingHours,
+                                                        ", "
+                                                    )
+                                                ).Value,
+                                                ": "
+                                            )
+                                        ).Value,
+                                        " to "
+                                    )
+                                ).Value
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: =GeneralInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                        HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Items: =GeneralInfoForm.TimeItems
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidHours: {
+                                        Code: 5,
+                                        Text: $"Final time must be greater than the initial time"
+                                    },
+                                    fromHour: droSaturdayFromHour_GeneralInfoForm.Selected.Value,
+                                    toHour: droSaturdayToHour_GeneralInfoForm.Selected.Value
+                                },
+                                With(
+                                    {
+                                        fromHourNumbers: ForAll(
+                                            Split(
+                                                fromHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        ),
+                                        toHourNumbers: ForAll(
+                                            Split(
+                                                toHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        )
+                                    },
+                                    If(
+                                        First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                        If(
+                                            Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        ),
+                                        If(
+                                            First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                        SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                GeneralInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.From.Tooltip
+                        Visible: =togEnableSaturday_GeneralInfoForm.Value
+                        Width: =200
+                        ZIndex: =2
+
+                    lblSaturdayToHour_GeneralInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =GeneralInfoForm.Style.Text.Normal.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        Size: =GeneralInfoForm.Style.Text.Normal.Size
+                        Text: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.To.Label
+                        Visible: =togEnableSaturday_GeneralInfoForm.Value
+                        Width: =50
+                        ZIndex: =3
+
+                    droSaturdayToHour_GeneralInfoForm As dropdown:
+                        BorderColor: |-
+                            =If(
+                                GeneralInfoForm.WorkingHours.SaturdayHoursIsValid,
+                                GeneralInfoForm.Style.Palette.Line,
+                                GeneralInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =GeneralInfoForm.Style.Palette.Disabled
+                        ChevronFill: =GeneralInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =GeneralInfoForm.Style.Text.Subtitle.Color
+                        Default: |-
+                            =If(
+                                droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Selector.Code && Self.Visible,
+                                Last(
+                                    Split(
+                                        Last(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        GeneralInfoForm.Default.workingHours,
+                                                        ", "
+                                                    )
+                                                ).Value,
+                                                ": "
+                                            )
+                                        ).Value,
+                                        " to "
+                                    )
+                                ).Value
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        Fill: |
+                            =GeneralInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                        HoverFill: =GeneralInfoForm.Style.Palette.Selectable.HoverFill
+                        Items: =GeneralInfoForm.TimeItems
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidHours: {
+                                        Code: 5,
+                                        Text: $"Final time must be greater than the initial time"
+                                    },
+                                    fromHour: droSaturdayFromHour_GeneralInfoForm.Selected.Value,
+                                    toHour: droSaturdayToHour_GeneralInfoForm.Selected.Value
+                                },
+                                With(
+                                    {
+                                        fromHourNumbers: ForAll(
+                                            Split(
+                                                fromHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        ),
+                                        toHourNumbers: ForAll(
+                                            Split(
+                                                toHour,
+                                                ":"
+                                            ),
+                                            Value(Value)
+                                        )
+                                    },
+                                    If(
+                                        First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                        If(
+                                            Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        ),
+                                        If(
+                                            First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                            Collect(
+                                                Warnings,
+                                                invalidHours
+                                            ),
+                                            RemoveIf(
+                                                Warnings,
+                                                Code = invalidHours.Code
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        PressedFill: =GeneralInfoForm.Style.Palette.Selectable.PressedFill
+                        SelectionColor: =GeneralInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                GeneralInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Selector.Saturday.To.Tooltip
+                        Visible: =togEnableSaturday_GeneralInfoForm.Value
+                        Width: =200
+                        ZIndex: =4
+
+                    lblSaturdayScheduleOff_GeneralInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =GeneralInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =GeneralInfoForm.Style.Text.Subtitle.Weight
+                        Height: =32
+                        Italic: =true
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        Size: =GeneralInfoForm.Style.Text.Subtitle.Size
+                        Text: ="Saturday schedule off"
+                        Visible: =!togEnableSaturday_GeneralInfoForm.Value
+                        ZIndex: =5
+
+            txtWorkingHours_GeneralInfoForm As text:
+                BorderColor: |-
+                    =If(
+                        GeneralInfoForm.WorkingHours.IsValid,
+                        GeneralInfoForm.Style.Palette.Line,
+                        GeneralInfoForm.Style.Palette.Warning
+                    )
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                Default: =GeneralInfoForm.Default.workingHours
+                DelayOutput: =true
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =GeneralInfoForm.Style.Palette.Fillable
+                Fill: =GeneralInfoForm.Style.Palette.Background
+                FocusedBorderColor: =GeneralInfoForm.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                Height: =32
+                HintText: =GeneralInfoForm.PresentationData.WorkingHours.Custom.Placeholder
+                HoverBorderColor: =GeneralInfoForm.Style.Palette.Border
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                MaxLength: =400
+                OnChange: =
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Tooltip: =GeneralInfoForm.PresentationData.WorkingHours.Custom.Tooltip
+                Visible: =droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.Custom.Code
+                Width: =170
+                ZIndex: =5
+
+            lblRotativeSchedules_GeneralInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =GeneralInfoForm.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =GeneralInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =GeneralInfoForm.Style.Text.Normal.Font
+                FontWeight: =GeneralInfoForm.Style.Text.Normal.Weight
+                Height: =32
+                Italic: =true
+                Size: =GeneralInfoForm.Style.Text.Normal.Size
+                Text: =GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name
+                Visible: =droWorkingHours_GeneralInfoForm.Selected.Code = GeneralInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Code
+                ZIndex: =6
+
+    ctnLoader_GeneralInfoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =GeneralInfoForm.Style.Palette.TransparentBackground
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        Visible: =GeneralInfoForm.IsSaving
+        Width: =Parent.Width
+        ZIndex: =2
+
+        imgLoader_GeneralInfoForm As image:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FocusedBorderThickness: =0
+            Height: =75
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            Image: =CyanEclipse
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            Width: =75
+            X: =Parent.Width / 2 - Self.Width / 2
+            Y: =Parent.Height / 2 - Self.Height/ 2
+            ZIndex: =2
+

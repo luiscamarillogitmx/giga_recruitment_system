@@ -1,0 +1,61 @@
+{
+  "QualifiedValues": [
+    {
+      "Kind": "default.cds_environmentvariabledefinition_forms",
+      "Namespace": "Environment Variable Definitions (Formularios)",
+      "Values": {
+        "Information": "3853733b-a351-455d-b686-d2d05027ba4d"
+      }
+    },
+    {
+      "Kind": "default.cds_environmentvariablevalue_forms",
+      "Namespace": "Environment Variable Values (Formularios)",
+      "Values": {
+        "Information": "f574a3ab-1060-43ee-a95f-9aa922b497db"
+      }
+    },
+    {
+      "Kind": "default.cds_systemuser_forms",
+      "Namespace": "Usuarios (Formularios)",
+      "Values": {
+        "Formulario de información del usuario": "20bc9121-0a7c-46b6-9c11-5db245e8214d",
+        "Formulario de usuario – Business": "c2413504-7eb2-4c59-a087-95d819866114",
+        "Formulario de ventana de jerarquía de usuarios": "c68d6c09-d7a7-4959-8d0f-44b8cff9b452",
+        "Información": "094fb08a-77bb-49e0-b7ea-8dbddfd01294",
+        "Usuario": "c2cd9e55-d4b4-4b55-9951-16ead79643e5",
+        "Usuario de la aplicación": "d26924ef-4d80-46f7-ab1d-e6ae80a54ce8"
+      }
+    },
+    {
+      "Kind": "default.cds_incident_forms",
+      "Namespace": "Casos (Formularios)",
+      "Values": {
+        "Case": "4a63c8d1-6c1e-48ec-9db4-3e6c7155334c",
+        "Caso para el panel lateral de la reunión": "a16eb9f1-d82f-4749-b48c-c9b188798c0e",
+        "Caso para experiencia de sesiones múltiples": "b05c1e9c-94d0-46c1-8968-df49b8f33ec7",
+        "Caso para experiencia interactiva": "915f6055-2e07-4276-ae08-2b96c8d02c57",
+        "Creación rápida de caso": "8e10b902-0b3e-441c-8b12-88e6c1793848",
+        "Creación rápida de caso en App for Outlook": "ac33e173-6502-4816-ab48-c3eefd7be580",
+        "Creación rápida de caso para sesiones múltiples": "f43b46e9-17a4-4443-afc4-141d40a46f22",
+        "Formulario de caso para enjambre": "1898d587-4b84-ec11-8d21-0022481c0d29",
+        "Información": "f658c846-f74c-459b-b591-b97558958106",
+        "Instantánea del problema": "185177f7-780e-4897-a60a-32a245841ee9",
+        "Panel de casos": "eb3748b8-5f90-4050-a039-8b7d279ad8fe",
+        "Panel de referencia de caso": "8ed8553f-b520-4fe3-b2e7-59eef8301486",
+        "Tarjeta de caso": "e8f97346-4f58-47de-964f-cbd64a52011b",
+        "TimelineWallControl - Caso - Principal": "5f304da5-d0c5-4776-b8d6-7d5bcd94d869",
+        "Web - Case": "a77e85f5-22cb-4e4a-9e79-4afe48c31363",
+        "Web - Create Case": "0006be86-f1ff-40e8-91b1-f217e7e992a5",
+        "Web - Edit Case": "5d8a0114-f769-43e5-ac5d-e540bf0d646d",
+        "Web Form": "5878e0b9-5cdf-4515-92b8-b3a13ebfe502"
+      }
+    },
+    {
+      "Kind": "default.cds_aaduser_forms",
+      "Namespace": "AAD Users (Formularios)",
+      "Values": {
+        "Information": "dd5ded01-9aad-4e25-8d0e-e9acdaecbe4e"
+      }
+    }
+  ]
+}

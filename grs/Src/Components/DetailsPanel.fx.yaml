@@ -1,0 +1,148 @@
+DetailsPanel As CanvasComponent:
+    Fill: =Color.Transparent
+    Height: =Self.SuggestedHeight
+    InternalLateralPadding: =15
+    Items: |-
+        =Table(
+            {
+                Key: "Key",
+                Value: "Value",
+                Tooltip: "",
+                Mark: true,
+                ShowSeparator: true
+            }
+        )
+    KeyAlign: =Align.Left
+    KeyWidth: =100
+    LateralPadding: =20
+    PanelFill: =Color.Transparent
+    RowHeigth: =42
+    Space: =5
+    Style: =Style
+    SuggestedHeight: =ctnLayout_DetailsPanel.Height + 2
+    ValueAlign: =Align.Left
+    Width: =350
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_DetailsPanel As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =DetailsPanel.Style.Palette.Line
+        BorderThickness: =1
+        Fill: =DetailsPanel.PanelFill
+        Height: =galDetailsFields_DetailPanel.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        RadiusBottomLeft: =DetailsPanel.Style.RadiusFactor * 1.5
+        RadiusBottomRight: =DetailsPanel.Style.RadiusFactor * 1.5
+        RadiusTopLeft: =DetailsPanel.Style.RadiusFactor * 1.5
+        RadiusTopRight: =DetailsPanel.Style.RadiusFactor * 1.5
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =4
+
+        galDetailsFields_DetailPanel As gallery.galleryVertical:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =0
+            FocusedBorderThickness: =0
+            Height: =CountRows(Self.AllItems) * Self.TemplateHeight
+            Items: =DetailsPanel.Items
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =287
+            LayoutMinWidth: =50
+            Selectable: =false
+            ShowScrollbar: =false
+            TemplateFill: =Color.Transparent
+            TemplatePadding: =0
+            TemplateSize: =DetailsPanel.RowHeigth
+            Width: =50
+            X: =1
+            Y: =1
+            ZIndex: =1
+
+            ctnFieldLayout_DetailsPanel As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: =Parent.TemplateHeight
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =DetailsPanel.LateralPadding + DetailsPanel.InternalLateralPadding
+                PaddingRight: =DetailsPanel.LateralPadding + DetailsPanel.InternalLateralPadding
+                Width: =Parent.TemplateWidth
+                ZIndex: =1
+
+                lblKey_DetailsPanel As label:
+                    Align: =DetailsPanel.KeyAlign
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =DetailsPanel.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =DetailsPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =DetailsPanel.Style.Text.Normal.Font
+                    FontWeight: =DetailsPanel.Style.Text.Normal.Weight
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =20
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =DetailsPanel.Style.Text.Normal.Size
+                    Text: =ThisItem.Key
+                    Width: =DetailsPanel.KeyWidth
+                    ZIndex: =1
+
+                lblValue_DetailsPanel As label:
+                    Align: =DetailsPanel.ValueAlign
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: |-
+                        =If(
+                            ThisItem.Mark,
+                            DetailsPanel.Style.Palette.Accent,
+                            DetailsPanel.Style.Text.Subtitle.Color
+                        )
+                    ContentLanguage: ="es-Es"
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =DetailsPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =DetailsPanel.Style.Text.Subtitle.Font
+                    FontWeight: =DetailsPanel.Style.Text.Subtitle.Weight
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =20
+                    PaddingBottom: =0
+                    PaddingLeft: =DetailsPanel.Space
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =DetailsPanel.Style.Text.Subtitle.Size
+                    Text: =ThisItem.Value
+                    Tooltip: =ThisItem.Tooltip
+                    Wrap: =false
+                    ZIndex: =3
+
+            shpSeparator_DetailsPane As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =DetailsPanel.Style.Palette.Line
+                FocusedBorderThickness: =0
+                Height: =1
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.ShowSeparator
+                Width: =Parent.Width - DetailsPanel.LateralPadding * 2
+                X: =DetailsPanel.LateralPadding
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =2
+

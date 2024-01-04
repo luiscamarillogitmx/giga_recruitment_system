@@ -1,0 +1,2292 @@
+Functions As CanvasComponent:
+    BasicInputDialogFace(Code As String, Title As String, Message As String, InputIsRequired As Boolean, InputLabel As String, Default As String, AcceptText As String, CancelText As String, ModalWidth As Number, ModalHeight As Number, AcceptButtonWidth As Number, CancelButtonWidth As Number):
+        Code:
+            Default: ="Code"
+        Title:
+            Default: ="Title"
+        Message:
+            Default: ="Message"
+        InputIsRequired:
+            Default: =true
+        InputLabel:
+            Default: =Blank()
+        Default:
+            Default: =""
+        AcceptText:
+            Default: ="Accept"
+        CancelText:
+            Default: ="Cancel"
+        ModalWidth:
+            Default: =500
+        ModalHeight:
+            Default: =400
+        AcceptButtonWidth:
+            Default: =100
+        CancelButtonWidth:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                ={
+                    Code: Code,
+                    Title: Title,
+                    Message: Message,
+                    ShowInput: !IsBlank(InputLabel),
+                    InputIsRequired: InputIsRequired,
+                    InputLabel: InputLabel,
+                    Default: Default,
+                    AcceptText: AcceptText,
+                    CancelText: CancelText,
+                    ModalWidth: ModalWidth,
+                    ModalHeight: ModalHeight,
+                    AcceptButtonWidth: AcceptButtonWidth,
+                    CancelButtonWidth: CancelButtonWidth
+                }
+    BooleanToFormMode(Value As Boolean):
+        Value:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                =If(
+                    Value,
+                    FormMode.Edit,
+                    FormMode.New
+                )
+    BooleanToViewDisplayMode(Value As Boolean):
+        Value:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                =If(
+                    Value,
+                    DisplayMode.View,
+                    DisplayMode.Disabled
+                )
+    BuildGrantAccess(User As Record):
+        User:
+            Default: |-
+                ={
+                    id: "",
+                    name: "",
+                    role: UserType.Admin,
+                    email: "",
+                    idSystemUser: ""
+                }
+        ThisProperty:
+            Default: |-
+                =With(
+                    UserType,
+                    With(
+                        User,
+                        {
+                            Common: {
+                                GoToJobRequisitions: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                GoToCandidates: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                GoToSettings: role = Admin,
+                                ChangeStyle: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                SeeNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                ClearNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards
+                            },
+                            JobRequisitions: {
+                                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                LoadList: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                GoToDetails: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                Share: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                FilterList: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                Paginate: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                Create: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery
+                            },
+                            JobRequisition: {
+                                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                LoadRecruiters: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                LoadCandidates: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                GoToCandidateDetails: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                ReadComments: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                WriteComments: role = Admin || role = HiringManager || role = TalentDiscovery
+                            },
+                            Candidates: {
+                                ViewAccess: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                LoadList: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Share: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                GoToCandidateDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                GoToJobDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards
+                            },
+                            Candidate: {
+                                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                JobOffer: {
+                                    See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                    Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                    Create: role = Admin || role = TalentDiscovery,
+                                    Edit: role = Admin || role = TalentDiscovery,
+                                    Launch: role = Admin || role = TalentDiscovery,
+                                    SalaryPackage: {
+                                        ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI,
+                                        EditBenefits: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                        ChangesCurrency: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                        AssignSalary: role = Admin || role = HiringManager || role = TalentDiscovery
+                                    },
+                                    FinancialBreakdown: {
+                                        ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                        EditFields: role = Admin || role = TalentDiscovery || role = ADFI
+                                    }
+                                },
+                                JobContract: {
+                                    See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                    Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                    Create: role = Admin || role = TotalRewards,
+                                    Edit: role = Admin || role = TotalRewards,
+                                    Launch: role = Admin || role = TotalRewards
+                                }
+                            }
+                        }
+                    )
+                )
+    BuildListInfo(Items As Table):
+        Items:
+            Default: =[""]
+        ThisProperty:
+            Default: |-
+                =Concat(
+                    Items,
+                    $"• {Value}",
+                    Char(10)
+                )
+    BuildLocationInfo(Location As Record):
+        Location:
+            Default: |-
+                ={
+                    id: "",
+                    name: "",
+                    fullAddress: "",
+                    country: ""
+                }
+        ThisProperty:
+            Default: |-
+                =If(
+                    IsBlank(Location),
+                    "",
+                    $"• 𝗡𝗮𝗺𝗲: {Location.name}
+                • 𝗖𝗼𝘂𝗻𝘁𝗿𝘆: {Location.country}
+                • 𝗙𝘂𝗹𝗹 𝗮𝗱𝗱𝗿𝗲𝘀𝘀: {Location.fullAddress}"
+                )
+    BuildSignableInfo(Signable As Record):
+        Signable:
+            Default: |-
+                ={
+                    status: "",
+                    version: "",
+                    createdOn: "",
+                    template: {
+                        id: "",
+                        name: "",
+                        description: ""
+                    }
+                }
+        ThisProperty:
+            Default: |-
+                =If(
+                    IsBlank(Signable),
+                    "",
+                    $"• 𝗡𝗮𝗺𝗲: {Signable.version}
+                • 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲: {Signable.template.name}
+                • 𝗖𝗿𝗲𝗮𝘁𝗲𝗱 𝗼𝗻: {Self.FormatDateTimeValue(Signable.createdOn)}
+                • 𝗦𝘁𝗮𝘁𝘂𝘀: {Self.CodeToVersionState(Signable.status).Name}"
+                )
+    BuildStyle(StyleExtension As Record):
+        StyleExtension:
+            Default: |-
+                =/*With(
+                    {textBase: {Color: Color.Transparent}};
+                    {
+                        Name: "";
+                        Type: "";
+                        Text: {
+                            Title: textBase;
+                            Subtitle: textBase;
+                            Normal: textBase;
+                            Little: textBase
+                        };
+                        Palette: {
+                            Background: Color.Transparent;
+                            ModalBackground: Color.Transparent;
+                            TransparentBackground: Color.Transparent;
+                            Shadow: Color.Transparent;
+                            Fillable: Color.Transparent;
+                            LightFillable: Color.Transparent;
+                            Accent: Color.Transparent;
+                            Line: Color.Transparent;
+                            Border: Color.Transparent;
+                            Disabled: Color.Transparent;
+                            Selectable: {
+                                Fill: Color.Transparent;
+                                HoverFill: Color.Transparent;
+                                PressedFill: Color.Transparent;
+                                TransparentHoverFill: Color.Transparent;
+                                TransparentPressedFill: Color.Transparent;
+                                SelectedShadow: Color.Transparent
+                            };
+                            Icon: Color.Transparent
+                        };
+                        GigaLogo: SampleImage;
+                        GRSLogo: SampleImage;
+                        SidebarFill: Color.Transparent;
+                        Loader: SampleImage
+                    }
+                )*/
+        ThisProperty:
+            Default: |-
+                =/*With(
+                    Self.BaseStyle As base,
+                    Patch(
+                        base,
+                        {
+                            Name: StyleExtension.Name,
+                            Type: StyleExtension.Type,
+                            Text: Patch(
+                                base.Text,
+                                {
+                                    Title: Patch(
+                                        base.Text.Title,
+                                        StyleExtension.Text.Title
+                                    ),
+                                    Subtitle: Patch(
+                                        base.Text.Subtitle,
+                                        StyleExtension.Text.Subtitle
+                                    ),
+                                    Normal: Patch(
+                                        base.Text.Normal,
+                                        StyleExtension.Text.Normal
+                                    ),
+                                    Little: Patch(
+                                        base.Text.Little,
+                                        StyleExtension.Text.Little
+                                    )
+                                }
+                            ),
+                            Palette: Patch(
+                                base.Palette,
+                                {
+                                    Background: StyleExtension.Palette.Background,
+                                    ModalBackground: StyleExtension.Palette.ModalBackground,
+                                    TransparentBackground: StyleExtension.Palette.TransparentBackground,
+                                    Shadow: StyleExtension.Palette.Shadow,
+                                    Fillable: StyleExtension.Palette.Fillable,
+                                    LightFillable: StyleExtension.Palette.LightFillable,
+                                    Accent: StyleExtension.Palette.Accent,
+                                    Line: StyleExtension.Palette.Line,
+                                    Border: StyleExtension.Palette.Border,
+                                    Disabled: StyleExtension.Palette.Disabled,
+                                    Selectable: StyleExtension.Palette.Selectable,
+                                    Icon: StyleExtension.Palette.Icon
+                                }
+                            ),
+                            GigaLogo: StyleExtension.GigaLogo,
+                            GRSLogo: StyleExtension.GRSLogo,
+                            SidebarFill: StyleExtension.SidebarFill,
+                            Loader: StyleExtension.Loader
+                        }
+                    )
+                )*/
+    BuildUserInfo(User As Record):
+        User:
+            Default: |-
+                ={
+                    id: "",
+                    name: "",
+                    role: "",
+                    email: "",
+                    idSystemUser: ""
+                }
+        ThisProperty:
+            Default: |-
+                =If(
+                    IsBlank(User),
+                    "",
+                    $"• 𝗡𝗮𝗺𝗲: {User.name}
+                • 𝗘𝗺𝗮𝗶𝗹: {User.email}
+                • 𝗥𝗼𝗹𝗲: {User.role}"
+                )
+    CodeToEducationalDegree(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    EducationalDegree,
+                    Switch(
+                        Code,
+                        Engineer.Code,
+                        Engineer,
+                        Bachelor.Code,
+                        Bachelor,
+                        UniversityTechnician.Code,
+                        UniversityTechnician,
+                        Undefined
+                    )
+                )
+    CodeToGender(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    Gender,
+                    Switch(
+                        Code,
+                        Male.Code,
+                        Male,
+                        Female.Code,
+                        Female,
+                        Unspecified
+                    )
+                )
+    CodeToJobState(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    JobState,
+                    Switch(
+                        Code,
+                        Open.Code,
+                        Open,
+                        Closed.Code,
+                        Closed,
+                        Filled.Code,
+                        Filled,
+                        OnHold.Code,
+                        OnHold,
+                        AwaitingApproval.Code,
+                        AwaitingApproval,
+                        Approved.Code,
+                        Approved,
+                        Rejected.Code,
+                        Rejected,
+                        Retracted.Code,
+                        Retracted,
+                        Draft.Code,
+                        Draft,
+                        Undefined
+                    )
+                )
+    CodeToJobType(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    JobType,
+                    Switch(
+                        Code,
+                        FullTime.Code,
+                        FullTime,
+                        PartTime.Code,
+                        PartTime,
+                        Intern.Code,
+                        Intern,
+                        Contractor.Code,
+                        Contractor,
+                        Undefined
+                    )
+                )
+    CodeToMaritalStatus(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    MaritalStatus,
+                    Switch(
+                        Code,
+                        Single.Code,
+                        Single,
+                        Married.Code,
+                        Married,
+                        Cohabiting.Code,
+                        Cohabiting,
+                        Divorced.Code,
+                        Divorced,
+                        Widowed.Code,
+                        Widowed,
+                        Undefined
+                    )
+                )
+    CodeToPeriod(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    Period,
+                    Switch(
+                        Code,
+                        ThreeMonths.Code,
+                        ThreeMonths,
+                        SixMonths.Code,
+                        SixMonths,
+                        TwelveMonths.Code,
+                        TwelveMonths,
+                        Indeterminate.Code,
+                        Indeterminate,
+                        Undefined
+                    )
+                )
+    CodeToRemoteType(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    RemoteType,
+                    Switch(
+                        Code,
+                        Remote.Code,
+                        Remote,
+                        HybridRemote.Code,
+                        HybridRemote,
+                        TemporarilyRemote.Code,
+                        TemporarilyRemote,
+                        NoRemote.Code,
+                        NoRemote,
+                        Undefined
+                    )
+                )
+    CodeToTemplateLanguage(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    TemplateLanguage,
+                    Switch(
+                        Code,
+                        English.Code,
+                        English,
+                        Spanish.Code,
+                        Spanish,
+                        Portuguese.Code,
+                        Portuguese,
+                        Undefined
+                    )
+                )
+    CodeToVersionSectionState(Code As Number, Default As Record):
+        Code:
+            Default: =1
+        Default:
+            Default: =VersionSectionState.Locked
+        ThisProperty:
+            Default: |-
+                =With(
+                    VersionSectionState,
+                    Switch(
+                        Code,
+                        Locked.Code,
+                        Locked,
+                        Opened.Code,
+                        Opened,
+                        Waiting.Code,
+                        Waiting,
+                        Completed.Code,
+                        Completed,
+                        Default
+                    )
+                )
+    CodeToVersionState(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    VersionState,
+                    Switch(
+                        Code,
+                        New.Code,
+                        New,
+                        Canceled.Code,
+                        Canceled,
+                        Filled.Code,
+                        Filled,
+                        Sent.Code,
+                        Sent,
+                        Signed.Code,
+                        Signed,
+                        Rejected.Code,
+                        Rejected,
+                        Undefined
+                    )
+                )
+    CodeToWorkflowStatus(Code As Number, Default As Record):
+        Code:
+            Default: =100
+        Default:
+            Default: =WorkflowStatus.Locked
+        ThisProperty:
+            Default: |-
+                =With(
+                    WorkflowStatus,
+                    Switch(
+                        Code,
+                        Launched.Code,
+                        Launched,
+                        Sent.Code,
+                        Sent,
+                        Error.Code,
+                        Error,
+                        Locked.Code,
+                        Locked,
+                        Ready.Code,
+                        Ready,
+                        Default
+                    )
+                )
+    ConcatIfExist(Values As Table):
+        Values:
+            Default: =[""]
+        ThisProperty:
+            Default: |-
+                =Trim(
+                    Concat(
+                        Values,
+                        If(
+                            IsBlank(Value),
+                            "",
+                            " " & Value
+                        )
+                    )
+                )
+    CreateError(Title As String, ErrorMessage As String, BriefDescription As String):
+        Title:
+            Default: =""
+        ErrorMessage:
+            Default: =""
+        BriefDescription:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.CreateNotification(
+                    GlobalNotificationType.Error,
+                    Title,
+                    IfError(
+                        With(
+                            Self.ParseError(ErrorMessage) As error,
+                            $"<div style='box-sizing: border-box; height: 100%; text-align: left;'>
+                            <div style='padding: 0px 0px 10px 0px;'>
+                                {BriefDescription}
+                            </div>
+                            <div style='padding: 0px 10px;'>
+                                <div style='display: flex; height: 20px;'>
+                                    <div style='width: 60%; display: inline-block; vertical-align: center;'>
+                                        <strong>{error.Operation}</strong>
+                                    </div>
+                                    <div style='width: 40%; display: inline-block; text-align: right; vertical-align: center;'>
+                                        <strong>{Self.HttpCodeToText(error.Code)}</strong>
+                                    </div>
+                                </div>
+                                <div style='width: 100%; height: 1px; background-color: lightcoral;'>
+                                </div>
+                                <div>
+                                    <p>{error.Message}</p>
+                                    <p>{error.Trace}</p>
+                                </div>
+                            </div>
+                        </div>"
+                        ),
+                        $"{BriefDescription}<br>{ErrorMessage}"
+                    )
+                )
+    CreateInfo(Title As String, Description As String):
+        Title:
+            Default: ="Texto"
+        Description:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =Self.CreateNotification(
+                    GlobalNotificationType.Info,
+                    Title,
+                    Description
+                )
+    CreateNotification(Type As Record, Title As String, Description As String):
+        Type:
+            Default: |-
+                ={
+                    Code: -1,
+                    Distinctive: Color.Transparent
+                }
+        Title:
+            Default: ="Texto"
+        Description:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Stamp: Now(),
+                    Type: Type,
+                    Title: Title,
+                    Description: Description
+                }
+    CreateSuccess(Title As String, Description As String):
+        Title:
+            Default: =""
+        Description:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.CreateNotification(
+                    GlobalNotificationType.Success,
+                    Title,
+                    Description
+                )
+    CreateSVG(D As String, Fill As String, Stroke As String, StrokeWidth As Number):
+        D:
+            Default: =""
+        Fill:
+            Default: ="rgb(0,0,0)"
+        Stroke:
+            Default: ="rgb(0,0,0)"
+        StrokeWidth:
+            Default: =2
+        ThisProperty:
+            Default: |-
+                =$"<svg xmlns=""http://www.w3.org/2000/svg"" viewBox=""0 0 512 512"">
+                    <path
+                        d=""{D}""
+                        fill=""{Fill}"" stroke=""{Stroke}"" stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""{StrokeWidth}"" />
+                </svg>"
+    CreateSVGAsImg(D As String, Fill As String, Stroke As String, StrokeWidth As Number):
+        D:
+            Default: =""
+        Fill:
+            Default: ="rgb(0,0,0)"
+        Stroke:
+            Default: ="rgb(0,0,0)"
+        StrokeWidth:
+            Default: =2
+        ThisProperty:
+            Default: |-
+                =Self.SVGToImg(
+                    Self.CreateSVG(
+                        D,
+                        Fill,
+                        Stroke,
+                        StrokeWidth
+                    )
+                )
+    DateTimeAsUTC(DateTime As DateTime):
+        DateTime:
+            Default: =Now()
+        ThisProperty:
+            Default: |-
+                =Text(
+                    DateTime,
+                    DateTimeFormat.UTC
+                )
+    ErrorMessage(Title As String, Message As String, Description As String, AllowGoToApp As Boolean):
+        Title:
+            Default: =""
+        Message:
+            Default: =""
+        Description:
+            Default: =""
+        AllowGoToApp:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                ={
+                    item: {
+                        MessageType: GlobalNotificationType.Error,
+                        Title: Title,
+                        Message: Message,
+                        Description: Description,
+                        Icon: Icon.Error,
+                        AllowGoToApp: AllowGoToApp
+                    }
+                }
+    FindItemByTag(Breakdown As Table, Tag As String):
+        Breakdown:
+            Default: |-
+                =Table(
+                    {
+                        id: GUID(),
+                        sectionName: "",
+                        items: Table(
+                            {
+                                id: GUID(),
+                                rate: "",
+                                value: "",
+                                tag: "",
+                                factor: "",
+                                blocked: true
+                            }
+                        )
+                    }
+                )
+        Tag:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =With(
+                    LookUp(
+                        Breakdown As section,
+                        !IsBlank(
+                            LookUp(
+                                section.items As item,
+                                item.tag = Tag
+                            )
+                        )
+                    ) As section,
+                    LookUp(
+                        section.items As item,
+                        item.tag = Tag
+                    )
+                )
+    FixAccents(Text As String):
+        Text:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Substitute(
+                    Substitute(
+                        Substitute(
+                            Substitute(
+                                Substitute(
+                                    Substitute(
+                                        Substitute(
+                                            Substitute(
+                                                Substitute(
+                                                    Substitute(
+                                                        Substitute(
+                                                            Substitute(
+                                                                Substitute(
+                                                                    Substitute(
+                                                                        Text,
+                                                                        "&#225;",
+                                                                        "á"
+                                                                    ),
+                                                                    "&#233;",
+                                                                    "é"
+                                                                ),
+                                                                "&#237;",
+                                                                "í"
+                                                            ),
+                                                            "&#243;",
+                                                            "ó"
+                                                        ),
+                                                        "&#250;",
+                                                        "ú"
+                                                    ),
+                                                    "&#193;",
+                                                    "Á"
+                                                ),
+                                                "&#201;",
+                                                "É"
+                                            ),
+                                            "&#205;",
+                                            "Í"
+                                        ),
+                                        "&#211;",
+                                        "Ó"
+                                    ),
+                                    "&#218;",
+                                    "Ú"
+                                ),
+                                "&#209;",
+                                "Ñ"
+                            ),
+                            "&#241;",
+                            "ñ"
+                        ),
+                        "&#217;",
+                        "ü"
+                    ),
+                    "&#233;",
+                    "Ü"
+                )
+    ForFixAccents(Table As Table):
+        Table:
+            Default: =[""]
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Table,
+                    Self.FixAccents(Value)
+                )
+    FormatAmout(Amount As Number):
+        Amount:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =Text(
+                    Amount,
+                    "#,###.00",
+                    "en-US"
+                )
+    FormatBreakdownWithZeros(Breakdown As Table):
+        Breakdown:
+            Default: |-
+                =Table(
+                    {
+                        sectionName: "",
+                        items: Table(
+                            {
+                                concept: "",
+                                rate: "",
+                                value: "",
+                                tag: "",
+                                factor: "",
+                                blocked: true
+                            }
+                        )
+                    }
+                )
+        ThisProperty:
+            Default: |-
+                ="<ul>" & Concat(
+                    Breakdown,
+                    "<li><strong>" & Substitute(
+                        sectionName,
+                        "_",
+                        " "
+                    ) & "</strong>:<ul>" & Concat(
+                        items,
+                        "<li> Field <strong>""" & concept & """</strong></li>"
+                    ) & "</ul>"
+                ) & "</ul>"
+    FormatDate(Date As DateTime):
+        Date:
+            Default: =Now()
+        ThisProperty:
+            Default: |-
+                =Text(
+                    Date,
+                    "dd/mm/yyyy"
+                )
+    FormatDateTimeValue(DateTimeValue As String):
+        DateTimeValue:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Text(
+                    DateTimeValue(DateTimeValue),
+                    "dd/mm/yyyy, hh:mm"
+                )
+    FormatDateValue(DateValue As String):
+        DateValue:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Text(
+                    DateValue(DateValue),
+                    "dd/mm/yyyy"
+                )
+    FormatLongDateTimeValue(DateTimeValue As String):
+        DateTimeValue:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Text(
+                    DateTimeValue(DateTimeValue),
+                    DateTimeFormat.LongDateTime
+                )
+    FormatLongDateValue(DateValue As String):
+        DateValue:
+            Default: ="2023-09-19"
+        ThisProperty:
+            Default: |-
+                =Text(
+                    DateValue(DateValue),
+                    DateTimeFormat.LongDate
+                )
+    FormModeToDisplayMode(FormModeInput As Number):
+        FormModeInput:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =Switch(
+                    FormModeInput,
+                    FormMode.New,
+                    DisplayMode.Edit,
+                    FormMode.Edit,
+                    DisplayMode.Edit,
+                    FormMode.View,
+                    DisplayMode.View,
+                    DisplayMode.Disabled
+                )
+    GetSubEntityPath():
+        ThisProperty:
+            Default: |-
+                =With(
+                    {param: Param("subEntityId")},
+                    If(
+                        IsBlank(param),
+                        Blank(),
+                        With(
+                            {
+                                pathItems: Split(
+                                    param,
+                                    "/"
+                                )
+                            },
+                            With(
+                                {
+                                    path: ForAll(
+                                        pathItems,
+                                        With(
+                                            {
+                                                itemValues: Split(
+                                                    Value,
+                                                    ":"
+                                                )
+                                            },
+                                            If(
+                                                CountRows(itemValues) <> 2,
+                                                Blank(),
+                                                {
+                                                    EntityType: Index(
+                                                        itemValues,
+                                                        1
+                                                    ).Value,
+                                                    EntityId: Index(
+                                                        itemValues,
+                                                        2
+                                                    ).Value
+                                                }
+                                            )
+                                        )
+                                    )
+                                },
+                                If(
+                                    IsEmpty(path) || Blank() in path,
+                                    Blank(),
+                                    path
+                                )
+                            )
+                        )
+                    )
+                )
+    GetSubEntityTestPath():
+        ThisProperty:
+            Default: |-
+                =Table(
+                    {
+                        EntityType: "candidate",
+                        EntityId: "bf4894c3-2162-ee11-be6e-6045bd0064b3"
+                    },
+                    {
+                        EntityType: "jobOffer",
+                        EntityId: "ffe4dda2-de8a-ee11-8179-6045bd0064b3"
+                    }
+                )
+    GetUserColor(UserId As String):
+        UserId:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =With(
+                    LookUp(
+                        UserColorBuffer,
+                        Code = UserId
+                    ) As ColorItem,
+                    With(
+                        {
+                            selectedColor: If(
+                                IsBlank(ColorItem),
+                                Self.RandomColor(),
+                                ColorItem.Color
+                            )
+                        },
+                        If(
+                            IsBlank(ColorItem),
+                            Self.PutUserColor(
+                                UserId,
+                                selectedColor
+                            )
+                        );
+                        selectedColor
+                    )
+                )
+    HttpCodeToText(HttpCode As Number):
+        HttpCode:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =Switch(
+                    HttpCode,
+                    100,
+                    "Continue",
+                    101,
+                    "Switching Protocol",
+                    102,
+                    "Processing",
+                    103,
+                    "Early Hints",
+                    200,
+                    "Ok",
+                    201,
+                    "Created",
+                    202,
+                    "Accepted",
+                    203,
+                    "Non-Authoritative Information",
+                    204,
+                    "No Content",
+                    205,
+                    "Reset Content",
+                    206,
+                    "Partial Content",
+                    207,
+                    "Multi-Status",
+                    208,
+                    "Already Reported",
+                    300,
+                    "Multiple Choices",
+                    301,
+                    "Moved Permanently",
+                    302,
+                    "Found",
+                    303,
+                    "See Other",
+                    304,
+                    "Not Modified",
+                    305,
+                    "Use Proxy",
+                    400,
+                    "Bad Request",
+                    401,
+                    "Unauthorized",
+                    402,
+                    "Payment Required",
+                    403,
+                    "Forbidden",
+                    404,
+                    "Not Found",
+                    405,
+                    "Method Not Allowed",
+                    500,
+                    "Internal Server Error",
+                    501,
+                    "Not Implemented",
+                    502,
+                    "Bad Gateway",
+                    503,
+                    "Service Unavailable",
+                    504,
+                    "Gateway Timeout",
+                    Text(HttpCode)
+                )
+    InfoMessage(Title As String, Message As String, Description As String, AllowGoToApp As Boolean):
+        Title:
+            Default: =""
+        Message:
+            Default: =""
+        Description:
+            Default: =""
+        AllowGoToApp:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                ={
+                    item: {
+                        MessageType: GlobalNotificationType.Info,
+                        Title: Title,
+                        Message: Message,
+                        Description: Description,
+                        Icon: Icon.Information,
+                        AllowGoToApp: AllowGoToApp
+                    }
+                }
+    InitialsOnly(Sentence As String):
+        Sentence:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Concat(
+                    ForAll(
+                        Split(
+                            Trim(Sentence),
+                            " "
+                        ),
+                        Upper(
+                            Left(
+                                Value,
+                                1
+                            )
+                        )
+                    ),
+                    Value
+                )
+    IsDeepScreen(EntityType As String):
+        EntityType:
+            Default: ="job"
+        ThisProperty:
+            Default: |-
+                =DeepScreen.Job.EntityType = EntityType
+                || DeepScreen.Candidate.EntityType = EntityType
+                || DeepScreen.SalaryPackage.EntityType = EntityType
+                || DeepScreen.FinancialBreakdown.EntityType = EntityType
+    IsPositiveNumber(NumberString As String):
+        NumberString:
+            Default: ="0.0"
+        ThisProperty:
+            Default: |-
+                =IfError(
+                    Value(
+                        NumberString,
+                        "en-US"
+                    ),
+                    0
+                ) > 0
+    IsPositiveOrZero(NumberString As String):
+        NumberString:
+            Default: ="0"
+        ThisProperty:
+            Default: |-
+                =!IsBlank(NumberString) && IfError(
+                    Value(
+                        NumberString,
+                        "en-US"
+                    ),
+                    -1
+                ) >= 0
+    IsZero(Number As Number):
+        Number:
+            Default: =100
+        ThisProperty:
+            Default: =IsBlank(Number) || IsError(Number) || Number = 0
+    LoadingErrorAssociatedToMessage(LoadObject As String, AssociatedWith As String, ErrorMessage As String):
+        LoadObject:
+            Default: =""
+        AssociatedWith:
+            Default: =""
+        ErrorMessage:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.LoadingErrorMessage(
+                    LoadObject,
+                    $"An error occurred while loading the {LoadObject} associated with the {AssociatedWith}.<br>Message obtained:<br>{ErrorMessage}"
+                )
+    LoadingErrorMessage(LoadObject As String, Message As String):
+        LoadObject:
+            Default: =""
+        Message:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.ErrorMessage(
+                    $"Error loading {LoadObject}!",
+                    Message
+                )
+    LoadingInfoErrorMessage(LoadObject As String, ErrorMessage As String):
+        LoadObject:
+            Default: =""
+        ErrorMessage:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.LoadingErrorMessage(
+                    LoadObject,
+                    $"An error occurred while loading the {LoadObject} information.<br>Message obtained:<br>{ErrorMessage}"
+                )
+    LoadOtherData(Id As String, AdditionalInfo As Record, AdditionalInfoContent As String, CallTo As Number):
+        Id:
+            Default: =""
+        AdditionalInfo:
+            Default: |-
+                ={
+                    IsLoaded: true,
+                    Value: Table(
+                        {
+                            sectionName: "",
+                            items: Table(
+                                {
+                                    tag: "",
+                                    concept: "",
+                                    value: "",
+                                    blocked: true,
+                                    rate: "",
+                                    factor: ""
+                                }
+                            )
+                        }
+                    )
+                }
+        AdditionalInfoContent:
+            Default: ="[]"
+        CallTo:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =If(
+                    AdditionalInfo.IsLoaded,
+                    {additionalInfo: AdditionalInfo.Value},
+                    With(
+                        {
+                            additionalInfo: If(
+                                IsBlank(AdditionalInfoContent),
+                                With(
+                                    {
+                                        loaded: Switch(
+                                            CallTo,
+                                            1,
+                                            ISignatureAPI.GetFormDynamicFields(Id),
+                                            2,
+                                            ISignatureAPI.GetTemplateDynamicFields(Id)
+                                        )
+                                    },
+                                    IfError(
+                                        loaded,
+                                        Error(FirstError.Message)
+                                    )
+                                ),
+                                Self.ParseDynamicFields(AdditionalInfoContent)
+                            )
+                        },
+                        IfError(
+                            additionalInfo,
+                            Error(FirstError.Message),
+                            ThisRecord
+                        )
+                    )
+                )
+    LoadSignedOffers(CandidateStateId As String):
+        CandidateStateId:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =If(
+                    CloseLoading,
+                    With(
+                        {
+                            loadedData: ISignatureAPI.GetJobOffersByStatus(
+                                CandidateStateId,
+                                VersionState.Signed.Code
+                            )
+                        },
+                        IfError(
+                            loadedData,
+                            Error(FirstError.Message),
+                            {
+                                SignedOffers: Sort(
+                                    loadedData,
+                                    DateValue(jobOffer.createdOn),
+                                    SortOrder.Descending
+                                )
+                            }
+                        )
+                    )
+                )
+    ManagerToUser(HiringManager As Record):
+        HiringManager:
+            Default: |-
+                ={
+                    id: "",
+                    name: "",
+                    email: "",
+                    idSystemUser: "",
+                    role: "",
+                    primary: true
+                }
+        ThisProperty:
+            Default: |-
+                ={
+                    id: HiringManager.id,
+                    name: HiringManager.name,
+                    email: HiringManager.email,
+                    idSystemUser: HiringManager.idSystemUser,
+                    role: HiringManager.role
+                }
+    MapToUL(Map As Table, Separator As String):
+        Map:
+            Default: |-
+                =Table(
+                    {
+                        Key: "",
+                        Value: ""
+                    }
+                )
+        Separator:
+            Default: =", "
+        ThisProperty:
+            Default: |-
+                =Self.TableToUL(
+                    ForAll(
+                        Map,
+                        Key & Separator & Value
+                    )
+                )
+    Notify(Notification As Record):
+        Notification:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Stamp: Now(),
+                    Type: GlobalNotificationType.Info,
+                    Title: "",
+                    Description: ""
+                }
+        ThisProperty:
+            Default: |-
+                =Collect(
+                    GlobalNotifications,
+                    Notification
+                );
+                Set(
+                    NotificationCardVisible,
+                    true
+                )
+    NotifyError(Title As String, ErrorMessage As String, BriefDescription As String):
+        Title:
+            Default: =""
+        ErrorMessage:
+            Default: =""
+        BriefDescription:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.Notify(
+                    Self.CreateError(
+                        Title,
+                        ErrorMessage,
+                        BriefDescription
+                    )
+                )
+    NotifyInfo(Title As String, Description As String):
+        Title:
+            Default: ="Texto"
+        Description:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =Self.Notify(
+                    Self.CreateInfo(
+                        Title,
+                        Description
+                    )
+                )
+    NotifySuccess(Title As String, Description As String):
+        Title:
+            Default: =""
+        Description:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Self.Notify(
+                    Self.CreateSuccess(
+                        Title,
+                        Description
+                    )
+                )
+    OptionDialogFace(Code As String, Title As String, Message As String, AcceptText As String, CancelText As String, ModalWidth As Number, ModalHeight As Number, AcceptButtonWidth As Number, CancelButtonWidth As Number):
+        Code:
+            Default: ="Code"
+        Title:
+            Default: ="Title"
+        Message:
+            Default: ="Message"
+        AcceptText:
+            Default: ="Accept"
+        CancelText:
+            Default: ="Cancel"
+        ModalWidth:
+            Default: =400
+        ModalHeight:
+            Default: =250
+        AcceptButtonWidth:
+            Default: =120
+        CancelButtonWidth:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                ={
+                    Code: Code,
+                    Title: Title,
+                    Message: Message,
+                    AcceptText: AcceptText,
+                    CancelText: CancelText,
+                    ModalWidth: ModalWidth,
+                    ModalHeight: ModalHeight,
+                    AcceptButtonWidth: AcceptButtonWidth,
+                    CancelButtonWidth: CancelButtonWidth
+                }
+    ParseAdditionalInfo(StringValue As String):
+        StringValue:
+            Default: ="[]"
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Table(ParseJSON(StringValue)) As field,
+                    {
+                        tag: Text(field.Value.tag),
+                        concept: Text(field.Value.concept),
+                        value: Text(field.Value.value)
+                    }
+                )
+    ParseCandidateInfo(CandidateInfoValue As String):
+        CandidateInfoValue:
+            Default: ="{}"
+        ThisProperty:
+            Default: |-
+                =With(
+                    {o: ParseJSON(CandidateInfoValue)},
+                    {
+                        name: Text(o.name),
+                        idNumber: Text(o.idNumber),
+                        address: Text(o.address),
+                        educationalLevel: Value(o.educationalLevel),
+                        fieldStudy: Text(o.fieldStudy),
+                        maritalStatus: Value(o.maritalStatus),
+                        birthCity: Text(o.birthCity),
+                        birthDate: Text(o.birthDate),
+                        nationality: Text(o.nationality),
+                        phoneNumber: Text(o.phoneNumber),
+                        gender: Value(o.gender),
+                        additionalInfo: Text(o.additionalInfo)
+                    }
+                )
+    ParseDynamicFields(Breakdown As String):
+        Breakdown:
+            Default: ="[]"
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Table(ParseJSON(Breakdown)) As Section,
+                    {
+                        sectionName: Text(Section.Value.sectionName),
+                        items: ForAll(
+                            Table(Section.Value.items) As Item,
+                            {
+                                concept: Text(Item.Value.concept),
+                                rate: Text(Item.Value.rate),
+                                value: Text(Item.Value.value),
+                                factor: Text(Item.Value.factor),
+                                tag: Text(Item.Value.tag),
+                                blocked: Boolean(Item.Value.blocked)
+                            }
+                        )
+                    }
+                )
+    ParseError(ErrorMessage As String):
+        ErrorMessage:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =With(
+                    {
+                        Substrings: Split(
+                            Substitute(
+                                ErrorMessage,
+                                "Error de ",
+                                ""
+                            ),
+                            ": {"
+                        )
+                    },
+                    Patch(
+                        {
+                            Operation: Last(
+                                Split(
+                                    Index(
+                                        Substrings,
+                                        1
+                                    ).Value,
+                                    "."
+                                )
+                            ).Value
+                        },
+                        Self.ParseMessageError(
+                            "{" & Index(
+                                Substrings,
+                                2
+                            ).Value
+                        )
+                    )
+                )
+    ParseMessageError(JsonError As String):
+        JsonError:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =With(
+                    {object: ParseJSON(JsonError)},
+                    {
+                        Code: Value(object.code),
+                        Message: Text(object.message),
+                        Trace: Text(object.trace)
+                    }
+                )
+    ProcessCurrencies(CurrencySource As Table, Values As Table):
+        CurrencySource:
+            Default: |-
+                =Table(
+                    {
+                        code: "",
+                        name: ""
+                    }
+                )
+        Values:
+            Default: =[""]
+        ThisProperty:
+            Default: |-
+                =If(
+                    IsError(CurrencySource),
+                    Error(
+                        IfError(
+                            CurrencySource,
+                            FirstError.Message,
+                            ""
+                        )
+                    ),
+                    If(
+                        IsError(Values),
+                        Error(
+                            IfError(
+                                Values,
+                                FirstError.Message,
+                                ""
+                            )
+                        ),
+                        If(
+                            IsBlank(Values),
+                            Error("The current template does not contain values in the currency list."),
+                            With(
+                                {
+                                    selectedCurrencies: Filter(
+                                        ForAll(
+                                            Values,
+                                            LookUp(
+                                                CurrencySource,
+                                                code = Value
+                                            )
+                                        ),
+                                        !IsBlank(ThisRecord)
+                                    )
+                                },
+                                If(
+                                    IsEmpty(selectedCurrencies),
+                                    Error("The current template has a list of currencies with incorrect codes."),
+                                    {currencies: selectedCurrencies}
+                                )
+                            )
+                        )
+                    )
+                )
+    ProcessDynamicContent(DynamicContent As Table):
+        DynamicContent:
+            Default: |-
+                =Table(
+                    {
+                        tag: "",
+                        concept: "",
+                        value: ""
+                    }
+                )
+        ThisProperty:
+            Default: |-
+                ={
+                    DynamicContent: Filter(
+                        DynamicContent,
+                        tag <> "productList" && tag <> "deliverable" && tag <> "commissionBreakdown"
+                    ),
+                    SpecialFields: {
+                        ProductList: LookUp(
+                            DynamicContent,
+                            tag = "productList"
+                        ),
+                        Deliverable: LookUp(
+                            DynamicContent,
+                            tag = "deliverable"
+                        ),
+                        CommissionBreakdown: LookUp(
+                            DynamicContent,
+                            tag = "commissionBreakdown"
+                        )
+                    }
+                }
+    ProcessDynamicFields(Breakdown As Table):
+        Breakdown:
+            Default: |-
+                =Table(
+                    {
+                        sectionName: "",
+                        items: Table(
+                            {
+                                concept: "",
+                                rate: "",
+                                value: "",
+                                factor: "",
+                                tag: "",
+                                blocked: false
+                            }
+                        )
+                    }
+                )
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Breakdown As Section,
+                    {
+                        id: GUID(),
+                        sectionName: Section.sectionName,
+                        items: ForAll(
+                            Section.items As Item,
+                            Patch(
+                                Item,
+                                {id: GUID()}
+                            )
+                        )
+                    }
+                )
+    PutUserColor(Code As String, Color As Color):
+        Code:
+            Default: ="Texto"
+        Color:
+            Default: =RGBA(0, 0, 0, 1)
+        ThisProperty:
+            Default: |-
+                =Collect(
+                    UserColorBuffer,
+                    {
+                        Code: Code,
+                        Color: Color
+                    }
+                )
+    RandomColor(First As Number, Last As Number, Alpha As Number):
+        First:
+            Default: =100
+        Last:
+            Default: =180
+        Alpha:
+            Default: =1
+        ThisProperty:
+            Default: |-
+                =RGBA(
+                    RandBetween(
+                        First,
+                        Last
+                    ),
+                    RandBetween(
+                        First,
+                        Last
+                    ),
+                    RandBetween(
+                        First,
+                        Last
+                    ),
+                    Alpha
+                )
+    SectionCodeToComparableValue(Code As Number, Default As Number):
+        Code:
+            Default: =1
+        Default:
+            Default: =-1
+        ThisProperty:
+            Default: |-
+                =With(
+                    VersionSectionState,
+                    Switch(
+                        Code,
+                        Locked.Code,
+                        -1,
+                        Opened.Code,
+                        0,
+                        Waiting.Code,
+                        0,
+                        Completed.Code,
+                        1,
+                        Default
+                    )
+                )
+    SelectVersion(Versions As Table, SelectedVersion As Record, IsReadOnly As Boolean):
+        Versions:
+            Default: |-
+                =Table(
+                    {
+                        id: "",
+                        idCandidateState: "",
+                        version: "Version 1",
+                        template: {
+                            id: "",
+                            name: "Propuesta MX v3",
+                            description: "Flujo de trabajo para recabar datos personales"
+                        },
+                        status: 1,
+                        createdOn: "2023-03-29T21:22:50Z"
+                    }
+                )
+        SelectedVersion:
+            Default: |-
+                ={
+                    id: "",
+                    idCandidateState: "",
+                    version: "Version 1",
+                    template: {
+                        id: "",
+                        name: "Propuesta MX v3",
+                        description: "Flujo de trabajo para recabar datos personales"
+                    },
+                    status: 1,
+                    createdOn: "2023-03-29T21:22:50Z"
+                }
+        IsReadOnly:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                =If(
+                    !IsBlank(Versions) && !IsEmpty(Versions),
+                    Self.WrapVersion(
+                        If(
+                            IsBlank(SelectedVersion.id),
+                            First(Versions),
+                            LookUp(
+                                Versions,
+                                id = SelectedVersion.id
+                            )
+                        ),
+                        IsReadOnly
+                    )
+                )
+    SmallErrorFormat(ErrorMessage As String, BriefDescription As String):
+        ErrorMessage:
+            Default: ="Texto"
+        BriefDescription:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =IfError(
+                    With(
+                        Self.ParseError(ErrorMessage) As error,
+                        $"<div style='box-sizing: border-box; height: 100%; text-align: left;'>
+                            <div style='padding: 0px 0px 10px 0px;'>
+                                {BriefDescription}
+                            </div>
+                            <div style='padding: 0px 10px;'>
+                                <div style='display: flex; height: 20px;'>
+                                    <div style='width: 50%; display: inline-block; vertical-align: center;'>
+                                        <strong>{error.Operation}</strong>
+                                    </div>
+                                    <div style='width: 50%; display: inline-block; text-align: right; vertical-align: center;'>
+                                        <strong>{Self.HttpCodeToText(error.Code)}</strong>
+                                    </div>
+                                </div>
+                                <div style='width: 100%; height: 1px; background-color: lightcoral;'>
+                                </div>
+                                <div>
+                                    <p>{error.Message}</p>
+                                </div>
+                            </div>
+                        </div>"
+                    ),
+                    ErrorMessage
+                )
+    StringToFormatedAmount(StringAmount As String):
+        StringAmount:
+            Default: ="1000"
+        ThisProperty:
+            Default: |-
+                =Text(
+                    Value(
+                        StringAmount,
+                        "en-US"
+                    ),
+                    "#,###.00",
+                    "en-US"
+                )
+    SuccessMessage(Title As String, Message As String, Description As String, AllowGoToApp As Boolean):
+        Title:
+            Default: =""
+        Message:
+            Default: =""
+        Description:
+            Default: =""
+        AllowGoToApp:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                ={
+                    item: {
+                        MessageType: GlobalNotificationType.Success,
+                        Title: Title,
+                        Message: Message,
+                        Description: Description,
+                        Icon: Icon.CheckBadge,
+                        AllowGoToApp: AllowGoToApp
+                    }
+                }
+    SVGToImg(SVG As String):
+        SVG:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                ="data:image/svg+xml;utf8, "& EncodeUrl(SVG)
+    TableToUL(Table As Table):
+        Table:
+            Default: =[""]
+        ThisProperty:
+            Default: |-
+                =If(
+                    IsBlank(Table) || IsEmpty(Table),
+                    "",
+                    With(
+                        {
+                            cleanedTable: Filter(
+                                Table,
+                                !IsBlank(Value)
+                            )
+                        },
+                        If(
+                            IsEmpty(cleanedTable),
+                            "",
+                            "<ul>" & Concat(
+                                cleanedTable,
+                                $"<li>{Value}</li>"
+                            ) & "</ul>"
+                        )
+                    )
+                )
+    ToISODate(Date As DateTime):
+        Date:
+            Default: =Now()
+        ThisProperty:
+            Default: |-
+                =Text(
+                    Date,
+                    "yyyy-mm-dd"
+                )
+    ToSpaces(String As String):
+        String:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =Substitute(
+                    String,
+                    "_",
+                    " "
+                )
+    ULToCSV(HTMLText As String, Char As String):
+        HTMLText:
+            Default: ="Texto"
+        Char:
+            Default: =", "
+        ThisProperty:
+            Default: |-
+                =Concat(
+                    Self.ULToTable(HTMLText),
+                    Value,
+                    Char
+                )
+    ULToMap(HTMLText As String, Separator As String):
+        HTMLText:
+            Default: ="Texto"
+        Separator:
+            Default: ="Texto"
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Self.ULToTable(HTMLText),
+                    With(
+                        {
+                            parts: Split(
+                                Value,
+                                Separator
+                            )
+                        },
+                        {
+                            Key: First(parts).Value,
+                            Value: Last(parts).Value
+                        }
+                    )
+                )
+    ULToTable(HTMLText As String):
+        HTMLText:
+            Default: =""
+        ThisProperty:
+            Default: |-
+                =Filter(
+                    ForAll(
+                        Split(
+                            Substitute(
+                                Substitute(
+                                    Substitute(
+                                        HTMLText,
+                                        "<ul>",
+                                        ""
+                                    ),
+                                    "</ul>",
+                                    ""
+                                ),
+                                "<li>",
+                                ""
+                            ),
+                            "</li>"
+                        ),
+                        {Value: Value}
+                    ),
+                    !IsBlank(Value)
+                )
+    WorkflowCodeToComparableValue(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: |-
+                =With(
+                    WorkflowStatus,
+                    Switch(
+                        Code,
+                        Launched.Code,
+                        0,
+                        Sent.Code,
+                        1,
+                        Error.Code,
+                        0,
+                        Locked.Code,
+                        -1,
+                        Ready.Code,
+                        0,
+                        -1
+                    )
+                )
+    WrapVersion(Version As Record, IsReadOnly As Boolean):
+        Version:
+            Default: |-
+                =//Self.VersionStructure
+                {
+                    id: "",
+                    idCandidateState: "",
+                    version: "",
+                    template: {
+                        id: "",
+                        name: "",
+                        description: ""
+                    },
+                    status: 1,
+                    createdOn: ""
+                }
+        IsReadOnly:
+            Default: =true
+        ThisProperty:
+            Default: |-
+                =With(
+                    VersionState,
+                    With(
+                        Version,
+                        {
+                            Source: ThisRecord,
+                            Status: Self.CodeToVersionState(status),
+                            IsActive: (status = New.Code || status = Filled.Code),
+                            IsClosed: status = Canceled.Code || status = Signed.Code,
+                            IsReadOnly: IsReadOnly || status = Canceled.Code || status = Signed.Code || status = Sent.Code,
+                            IsCancelable: !IsReadOnly && status <> Canceled.Code && status <> Sent.Code && status <> Rejected.Code
+                        }
+                    )
+                )
+    BaseStyle: |-
+        ={
+            Text: {
+                Title: {
+                    Font: Font.'Segoe UI',
+                    Size: 16,
+                    Weight: FontWeight.Semibold
+                },
+                Subtitle: {
+                    Font: Font.'Segoe UI',
+                    Size: 10,
+                    Weight: FontWeight.Semibold
+                },
+                Normal: {
+                    Font: Font.'Segoe UI',
+                    Size: 10,
+                    Weight: FontWeight.Normal
+                },
+                Little: {
+                    Font: Font.'Segoe UI',
+                    Size: 8,
+                    Weight: FontWeight.Normal
+                }
+            },
+            Palette: {
+                Success: ColorValue("#92c353"),
+                Error: ColorValue("#d74654"),
+                Warning: ColorValue("#F49B46")
+            },
+            RadiusFactor: 4,
+            AlphaShadow: "0.3"
+        }
+    BasicDynamicFieldsStructure: |-
+        =Table(
+            {
+                sectionName: "",
+                items: Table(
+                    {
+                        tag: "",
+                        concept: "",
+                        value: "",
+                        blocked: true,
+                        factor: "",
+                        rate: ""
+                    }
+                )
+            }
+        )
+    CandidateInfoString: |-
+        =JSON(
+            Self.JobContractStructure.candidatePersonalInfo,
+            JSONFormat.IndentFour
+        )
+    ChildTabPriority: =false
+    CommonWorkingHours: |-
+        ="Monday to Friday: 08:00 to 17:30, Saturday: 08:00 to 13:30"
+    CurrencySamples: |-
+        =Table(
+            {
+                name: "",
+                code: ""
+            }
+        )
+    DynamicFieldsStructure: |-
+        =Table(
+            {
+                id: GUID(),
+                sectionName: "",
+                items: Table(
+                    {
+                        id: GUID(),
+                        concept: "",
+                        rate: "",
+                        value: "",
+                        factor: "",
+                        tag: "",
+                        blocked: true
+                    }
+                )
+            }
+        )
+    EnableChildFocus: =false
+    Fill: =Color.Transparent
+    Height: =0
+    JobContractStructure: |-
+        ={
+            jobContract: {
+                id: "ea10ed5f-8d68-ee11-9ae7-000d3a596548",
+                idCandidateState: "bf4894c3-2162-ee11-be6e-6045bd0064b3",
+                status: 3,
+                version: "Version 7",
+                createdOn: "2023-10-11T23:24:52Z",
+                template: {
+                    id: "E80BD5B0-D500-0000-0000BA29",
+                    name: "Contrato_Colombia",
+                    description: ""
+                }
+            },
+            candidatePersonalInfo: {
+                id: "dasdsfdsfdsfsafdsfdsfdsfsf",
+                status: 4,
+                name: "Luis Gerardo Camarillo Gamboa",
+                idNumber: "CAGL970803INE",
+                address: "91808, Fresnos 647, Real de Pinos, Veracruz, Veracruz, México",
+                educationalLevel: 1,
+                fieldStudy: "Ingeniería en Sistemas Computacionales",
+                maritalStatus: 3,
+                birthCity: "Soledad de Doblado, Veracruz, México",
+                birthDate: "1997-08-03",
+                nationality: "Mexicana",
+                phoneNumber: "2295131634",
+                gender: 1,
+                additionalInfo: "[{""tag"":""idIssuanceDate"",""concept"":""Expedición de cédula"",""value"":""CAGL970803CED""},{""tag"":""insuranceNumber"",""concept"":""NSS"",""value"":""CAGL970803NSS""},{""tag"":""curp"",""concept"":""CURP"",""value"":""CAGL970803CURP""},{""tag"":""rfc"",""concept"":""RFC"",""value"":""CAGL970803RFC""},{""tag"":""infonavit"",""concept"":""Tiene crédito infonavit"",""value"":""Sí""},{""tag"":""fonacot"",""concept"":""Tiene crédito FONACOT"",""value"":""No""}]",
+                form: {
+                    id: "",
+                    name: "",
+                    idForm: "",
+                    country: "",
+                    tag: ""
+                },
+                idJobContract: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            },
+            generalInfo: {
+                id: "dasdsfdsfdsfsafdsfdsfdsfsf",
+                status: 4,
+                userADFI: {
+                    id: "c92f6789-7361-ee11-be6e-000d3a596548",
+                    name: "Florencia Alcain",
+                    role: "ADFI",
+                    email: "florencia.alcain@grupo-giga.com",
+                    idSystemUser: "850dc9da-dafd-ea11-a815-000d3a5988c5"
+                },
+                userHC: {
+                    id: "c6b9b44e-7361-ee11-be6e-000d3a596548",
+                    name: "Claudia Guadalupe Romero García",
+                    role: "Total Rewards",
+                    email: "claudia.romero@grupo-giga.com",
+                    idSystemUser: "c4f97033-c5ab-ed11-aad1-00224808d0c9"
+                },
+                workingHours: "Monday to Friday: 08:00 to 17:30, Saturday: 08:00 to 13:30",
+                extraJobActivities: "<ul><li>Unirse al equipo de profesionales del área.</li><li>Desarrollo de Software, soporte y seguimiento de las aplicaciones.</li><li>Desarrollo de procedimientos almacenados.</li><li>Desarrollo de aplicaciones WEB en plataforma .NET</li><li>Desarrollo de backend con tecnologías .NET, C#</li><li>Trato directo con usuarios y con el cliente.</li></ul>",
+                client: "Giga IT",
+                workLocation: "Veracruz, Veracruz, México",
+                compensationInLetter: "DIEZ MIL PESOS",
+                idJobContract: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            },
+            terms: {
+                id: "dasdsfdsfdsfsafdsfdsfdsfsf",
+                status: 4,
+                startDate: "20-10-2023",
+                endDate: "20-12-2023",
+                expeditionDate: "20-10-2023",
+                period: 1,
+                additionalData: "[{""tag"":""clientAddress"",""concept"":""Dirección del cliente"",""value"":""""},{""tag"":""bonus"",""concept"":""Bonificación"",""value"":""""},{""tag"":""bonusInLetter"",""concept"":""Bonificación en letra"",""value"":""""},{""tag"":""productList"",""concept"":""Lista de productos"",""value"":""<ul><li>Producto 1</li><li>Producto 2</li><li>Producto 3</li></ul>""},{""tag"":""commissionBreakdown"",""concept"":""Desglose de comisiones"",""value"":""<ul><li>Productos y/o servicios Microsoft/CCS a clientes nuevos. 20%</li><li>Nuevos productos y/o servicios Microsoft/CCS a clientes existentes. 20%</li><li>Renovación de suscripciones de licencias y/o servicios Microsoft (clientes existentes). 13%</li><li>Incremental de licencias y/o servicios Microsoft (clientes existentes). 13%</li></ul>""},{""tag"":""deliverable"",""concept"":""Entregables"",""value"":""""},{""tag"":""includesPc"",""concept"":""Incluye PC"",""value"":""""},{""tag"":""nameWitness1"",""concept"":""Nombre testigo 1"",""value"":""""},{""tag"":""nameWitness2"",""concept"":""Nombre testigo 2"",""value"":""""},{""tag"":""contractType"",""concept"":""Tipo de contrato"",""value"":""""},{""tag"":""paymentPeriod"",""concept"":""Periodo de pago Mth/Hrs"",""value"":""""},{""tag"":""paymentMethod"",""concept"":""Forma de pago"",""value"":""""},{""tag"":""bankName"",""concept"":""Banco"",""value"":""""},{""tag"":""bankAccount"",""concept"":""Cuenta bancaria"",""value"":""""}]",
+                idJobContract: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            },
+            workflow: {
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                createdOn: "2023-10-31T20:48:04.295Z",
+                idSubscription: "",
+                status: 2,
+                modifiedOn: "2023-10-31T20:48:04.295Z",
+                message: "",
+                idJobContract: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+            }
+        }
+    JobOfferVersions: |-
+        =Table(
+            {
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                idCandidateState: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                status: VersionState.Signed.Code,
+                version: "string",
+                createdOn: "2023-11-09T20:37:02.188Z",
+                template: {
+                    id: "string",
+                    name: "string",
+                    description: "string"
+                }
+            }
+        )
+    MetadataStructure: |-
+        ={
+            currencies: [""],
+            defaultForm: "",
+            additionalForms: [""],
+            language: ""
+        }
+    NowAsUTC: =Self.DateTimeAsUTC(Now())
+    OnReset: =
+    OtherDataStructure: |-
+        =Table(
+            {
+                tag: "tag",
+                concept: "concept",
+                value: "value"
+            }
+        )
+    TimeItems: |-
+        =[
+            "00:00",
+            "00:30",
+            "01:00",
+            "01:30",
+            "02:00",
+            "02:30",
+            "03:00",
+            "03:30",
+            "04:00",
+            "04:30",
+            "05:00",
+            "05:30",
+            "06:00",
+            "06:30",
+            "07:00",
+            "07:30",
+            "08:00",
+            "08:30",
+            "09:00",
+            "09:30",
+            "10:00",
+            "10:30",
+            "11:00",
+            "11:30",
+            "12:00",
+            "12:30",
+            "13:00",
+            "13:30",
+            "14:00",
+            "14:30",
+            "15:00",
+            "15:30",
+            "16:00",
+            "16:30",
+            "17:00",
+            "17:30",
+            "18:00",
+            "18:30",
+            "19:00",
+            "19:30",
+            "20:00",
+            "20:30",
+            "21:00",
+            "21:30",
+            "22:00",
+            "22:30",
+            "23:00",
+            "23:30"
+        ]
+    VersionStructure: |-
+        ={
+            id: "",
+            idCandidateState: "",
+            version: "",
+            template: {
+                id: "",
+                name: "",
+                description: "",
+                createdOn: "",
+                lastActivity: ""
+            },
+            status: 1,
+            createdOn: ""
+        }
+    Width: =0
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    notificationTimer_Functions As timer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Duration: =5000
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =0
+        HoverBorderColor: =Color.Transparent
+        HoverColor: =Color.Transparent
+        HoverFill: =Color.Transparent
+        OnTimerEnd: |-
+            =Set(
+                NotificationCardVisible,
+                false
+            )
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Start: =NotificationCardVisible
+        TabIndex: =-1
+        Text: =""
+        Visible: =false
+        Width: =0
+        ZIndex: =1
+

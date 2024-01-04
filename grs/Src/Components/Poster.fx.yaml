@@ -1,0 +1,184 @@
+Poster As CanvasComponent:
+    OnSelect():
+        ThisProperty:
+            Default: =true
+    ActionText: ="Accept"
+    Description: =""
+    Fill: =Color.Transparent
+    Height: =1080
+    Img: =JobsSearch
+    Information: ="Information"
+    InfoTitle: ="// GIGA RECRUITMENT SYSTEM"
+    ShowAction: =false
+    Style: =Style
+    Title: ="Section in maintenance"
+    Width: =1920
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Poster As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnInfo_Poster As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Poster.Style.Palette.Fillable
+            FillPortions: =0
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =10
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =75
+            PaddingLeft: =75
+            PaddingRight: =75
+            PaddingTop: =75
+            Width: =600
+            ZIndex: =1
+
+            lblGRS_Poster As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Poster.Style.Palette.Accent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Poster.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Poster.Style.Text.Subtitle.Font
+                FontWeight: =Poster.Style.Text.Subtitle.Weight
+                Size: =Poster.Style.Text.Subtitle.Size * 1.5
+                Text: =Poster.InfoTitle
+                ZIndex: =1
+
+            lblConcept_Poster As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Poster.Style.Text.Title.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Poster.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Poster.Style.Text.Title.Font
+                FontWeight: =Poster.Style.Text.Title.Weight
+                Height: =140
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =Poster.Style.Text.Title.Size * 2
+                Text: =Poster.Title
+                ZIndex: =2
+
+            htmDetails_Poster As htmlViewer:
+                BorderColor: =Color.Transparent
+                Color: =Poster.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =Poster.Style.Text.Normal.Font
+                HtmlText: =Poster.Information
+                LayoutMinHeight: =50
+                Size: =Poster.Style.Text.Normal.Size * 1.2
+                ZIndex: =3
+
+            ctnAction_Poster As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =62
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Visible: =Poster.ShowAction
+                ZIndex: =4
+
+                btnAction_JobForm As button:
+                    BorderColor: =Self.Fill
+                    Color: =Color.White
+                    DisabledBorderColor: =Poster.Style.Palette.Fillable
+                    DisabledColor: =Poster.Style.Palette.Disabled
+                    DisabledFill: =Poster.Style.Palette.LightFillable
+                    Fill: =Poster.Style.Palette.Accent
+                    FocusedBorderColor: =Poster.Style.Palette.Border
+                    FocusedBorderThickness: =2
+                    Font: =Poster.Style.Text.Subtitle.Font
+                    FontWeight: =Poster.Style.Text.Subtitle.Weight
+                    Height: =35
+                    HoverBorderColor: =Self.HoverFill
+                    HoverFill: |-
+                        =ColorFade(
+                            Self.Fill,
+                            -10%
+                        )
+                    OnSelect: =Poster.OnSelect()
+                    PressedBorderColor: =Self.PressedFill
+                    PressedColor: =Self.Color
+                    PressedFill: |-
+                        =ColorFade(
+                            Self.Fill,
+                            -20%
+                        )
+                    RadiusBottomLeft: =Poster.Style.RadiusFactor
+                    RadiusBottomRight: =Poster.Style.RadiusFactor
+                    RadiusTopLeft: =Poster.Style.RadiusFactor
+                    RadiusTopRight: =Poster.Style.RadiusFactor
+                    Size: =Poster.Style.Text.Subtitle.Size
+                    Text: =Poster.ActionText
+                    Width: =150
+                    ZIndex: =1
+
+        ctnDecoration_Poster As groupContainer.manualLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            ZIndex: =3
+
+            imgDecoration_Poster As image:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisabledBorderColor: =Color.Transparent
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Height: =300
+                HoverBorderColor: =Color.Transparent
+                HoverFill: =Color.Transparent
+                Image: =Poster.Img
+                Transparency: =0.5
+                Width: =300
+                X: =Parent.Width / 2 - Self.Width / 2
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =1
+
+            shpTriangle_Poster As triangle.rightAngled:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Poster.Style.Palette.Fillable
+                Height: =Parent.Height
+                Width: =Parent.Width * 0.5
+                ZIndex: =2
+

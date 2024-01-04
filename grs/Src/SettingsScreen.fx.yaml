@@ -1,0 +1,370 @@
+SettingsScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    OnVisible: =
+
+    ctnLayoutSettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        sidebar_SettingsScreen As Sidebar:
+            AllowSelfNavigation: =false
+            LayoutMinHeight: =50
+            LayoutMinWidth: =640
+            OnSelect: |-
+                =If(
+                    Item.InMaintenance,
+                    Navigate(
+                        MaintenanceScreen,
+                        ScreenTransition.None,
+                        {topLevelScreen: Item}
+                    ),
+                    Navigate(Item.Screen)
+                )
+            Select: =Sidebar.OnSelect(Item)
+            SelectedItem: =TopLevelScreen.Settings.Code
+
+        shpSidebarSeparator_SettingsScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            FocusedBorderThickness: =0
+            LayoutMinHeight: =50
+            Width: =1
+            ZIndex: =2
+
+        ctnContent_SettingsScreen As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semibold,
+                    DropShadow.None
+                )
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =Self.PaddingLeft
+            PaddingLeft: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            PaddingRight: =Self.PaddingLeft
+            PaddingTop: =Self.PaddingLeft
+            ZIndex: =3
+
+            ctnToolBar_SettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =1
+
+                shpBackSeparator_SettingsScreen As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Style.Palette.Line
+                    LayoutMinHeight: =20
+                    Visible: =false
+                    Width: =1
+                    ZIndex: =2
+
+                ctnCommonActions_SettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =4
+
+                    commonTools_SettingsScreen As CommonTools:
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        OnChangeStyle: |-
+                            =Concurrent(
+                                Set(
+                                    Style,
+                                    Self.SelectedStyle
+                                ),
+                                Patch(
+                                    Cache,
+                                    LookUp(
+                                        Cache,
+                                        Key = "style"
+                                    ),
+                                    {Value: Self.SelectedStyle.Name}
+                                );
+                                IfError(
+                                    SaveData(
+                                        Cache,
+                                        "GRS"
+                                    ),
+                                    Blank()
+                                )
+                            )
+                        OnSelectBell: |-
+                            =UpdateContext({notificationPanelVisible: true})
+
+            shpToolbarSeparator_SettingsScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                Height: =1
+                Visible: =!NewLook
+                ZIndex: =2
+
+            ctnBody_SettingsScreen As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: |-
+                    =If(
+                        NewLook,
+                        15,
+                        20
+                    )
+                PaddingRight: =Self.PaddingLeft
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =3
+
+                ctnHead_SettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =62
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblScreenTitle_SettingsScreen As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Style.Text.Title.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Style.Text.Title.Font
+                        FontWeight: =Style.Text.Title.Weight
+                        Size: =Style.Text.Title.Size
+                        Text: ="Settings"
+                        ZIndex: =1
+
+                ctnMenu_SettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =2
+
+                    ctnFirstColumn_SettingsScreen As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =300
+                        ZIndex: =1
+
+                        ctnRestartCache_SettingsScreen As groupContainer.horizontalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            Height: =34
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =300
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =1
+
+                            lblRestartCache_SettingsScreen As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =Style.Text.Normal.Font
+                                FontWeight: =Style.Text.Normal.Weight
+                                LayoutMinHeight: =17
+                                Size: =Style.Text.Normal.Size
+                                Text: ="Restart cache"
+                                Width: =100
+                                ZIndex: =1
+
+                            btnRestartCache_SettingsScreen As button:
+                                BorderColor: =Self.Fill
+                                Color: =Color.White
+                                DisabledBorderColor: =Style.Palette.Fillable
+                                DisabledColor: =Style.Palette.Disabled
+                                DisabledFill: =Style.Palette.Fillable
+                                Fill: =Style.Palette.Accent
+                                FocusedBorderColor: =Style.Palette.Border
+                                FocusedBorderThickness: =2
+                                Font: =Style.Text.Subtitle.Font
+                                FontWeight: =Style.Text.Subtitle.Weight
+                                Height: =35
+                                HoverBorderColor: =Self.HoverFill
+                                HoverFill: |-
+                                    =ColorFade(
+                                        Self.Fill,
+                                        -10%
+                                    )
+                                LayoutMinHeight: =17
+                                OnSelect: |-
+                                    =UpdateContext({popLoadVisible: true});
+                                    IfError(
+                                        With(
+                                            ISignatureAPI.RestartCache(),
+                                            AppFunctions.NotifySuccess(
+                                                "Cache restarted!",
+                                                "The cache has been successfully restarted. Consider reloading the app."
+                                            )
+                                        ),
+                                        AppFunctions.NotifyError(
+                                            "Error restarting cache!",
+                                            FirstError.Message
+                                        )
+                                    );
+                                    UpdateContext({popLoadVisible: false})
+                                PressedBorderColor: =Self.PressedFill
+                                PressedColor: =Self.Color
+                                PressedFill: |-
+                                    =ColorFade(
+                                        Self.Fill,
+                                        -20%
+                                    )
+                                RadiusBottomLeft: =Style.RadiusFactor
+                                RadiusBottomRight: =Style.RadiusFactor
+                                RadiusTopLeft: =Style.RadiusFactor
+                                RadiusTopRight: =Style.RadiusFactor
+                                Size: =Style.Text.Subtitle.Size
+                                Text: ="Restart"
+                                Width: =75
+                                ZIndex: =2
+
+    notificationPanel_SettingsScreen As Notifications:
+        ClearAll: =Self.OnClearAll()
+        OnCloseNotification: |-
+            =RemoveIf(
+                GlobalNotifications,
+                ThisRecord.Id = Notification.Id
+            )
+        OnSelectClose: |-
+            =UpdateContext({notificationPanelVisible: false})
+        SelectClose: =Self.OnSelectClose()
+        Visible: =notificationPanelVisible
+        ZIndex: =2
+
+    popLoad_SettingsScreen As PopupImager:
+        Height: =Parent.Height
+        Img: =Style.Loader
+        Visible: =popLoadVisible
+        Width: =Parent.Width
+        ZIndex: =3
+
+    notificationCard_SettingsScreen As NotificationCard:
+        OnSelectClose: |-
+            =Set(
+                NotificationCardVisible,
+                false
+            )
+        SelectClose: =Self.OnSelectClose()
+        Visible: =NotificationCardVisible
+        X: =Parent.Width - Self.Width
+        Y: =50
+        ZIndex: =4
+

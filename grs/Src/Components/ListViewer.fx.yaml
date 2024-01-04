@@ -1,0 +1,340 @@
+ListViewer As CanvasComponent:
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    Fill: =Color.Transparent
+    Height: =Self.SuggestedHeight
+    IsLoading: =false
+    Items: |-
+        =Table(
+            {
+                PrimaryValue: "Primary value",
+                SecondValue: "Second value",
+                Icon: Icon.Add,
+                Color: Color.Blue,
+                Tooltip: ""
+            }
+        )
+    NoItemsLegend: ="No items"
+    OnRefresh: =true
+    Refreshable: =false
+    Style: =Style
+    SuggestedHeight: =ctnLayout_ListViewer.Height + 2
+    Title: ="Title"
+    Width: =400
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_ListViewer As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =ListViewer.Style.Palette.Line
+        BorderThickness: =1
+        Fill: =Color.Transparent
+        Height: =ctnHeader_ListViewer.Height + shpSeparator_ListViewer.Height + ctnContent_ListViewer.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =10
+        PaddingRight: =10
+        PaddingTop: =
+        RadiusBottomLeft: =ListViewer.Style.RadiusFactor * 1.5
+        RadiusBottomRight: =ListViewer.Style.RadiusFactor * 1.5
+        RadiusTopLeft: =ListViewer.Style.RadiusFactor * 1.5
+        RadiusTopRight: =ListViewer.Style.RadiusFactor * 1.5
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =1
+
+        ctnHeader_ListViewer As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =32
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =1
+
+            lblTitle_ListViewer As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =ListViewer.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =ListViewer.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =ListViewer.Style.Text.Subtitle.Font
+                FontWeight: =ListViewer.Style.Text.Subtitle.Weight
+                Height: =32
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =ListViewer.Style.Text.Subtitle.Size
+                Text: =ListViewer.Title
+                ZIndex: =1
+
+            icoRefresh_ListViewer As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =ListViewer.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =ListViewer.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                Fill: =Color.Transparent
+                FocusedBorderColor: =ListViewer.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =22
+                HoverBorderColor: =Color.Transparent
+                HoverColor: =Self.Color
+                HoverFill: =ListViewer.Style.Palette.Selectable.HoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: =ListViewer.OnRefresh()
+                PaddingBottom: =5
+                PaddingLeft: =5
+                PaddingRight: =5
+                PaddingTop: =5
+                PressedBorderColor: =ListViewer.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =ListViewer.Style.Palette.Selectable.PressedFill
+                Tooltip: ="Refresh list"
+                Visible: =ListViewer.Refreshable
+                Width: =22
+                ZIndex: =2
+
+        shpSeparator_ListViewer As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =ListViewer.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =3
+
+        ctnContent_ListViewer As groupContainer.manualLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =ctnElements_ListViewer.Height
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            ZIndex: =5
+
+            ctnElements_ListViewer As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: |-
+                    =If(
+                        IsEmpty(gal_ListViewer.AllItems),
+                        lblNoItems_ListViewer.Height,
+                        gal_ListViewer.Height
+                    )
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMode: =LayoutMode.Auto
+                Width: =Parent.Width
+                ZIndex: =1
+
+                gal_ListViewer As gallery.galleryVertical:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    FocusedBorderThickness: =0
+                    Height: =CountRows(Self.AllItems) * Self.TemplateHeight
+                    Items: =ListViewer.Items
+                    Layout: =Layout.Vertical
+                    LayoutMinHeight: =287
+                    LayoutMinWidth: =50
+                    Selectable: =false
+                    TemplateFill: =Color.Transparent
+                    TemplatePadding: =0
+                    TemplateSize: =55
+                    Visible: =!IsEmpty(Self.AllItems)
+                    Width: =Parent.Width
+                    Y: |
+                        =0
+                    ZIndex: =1
+
+                    ctnItemLayout_ListViewer As groupContainer.horizontalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =Parent.TemplateHeight
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutGap: =5
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: =10
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =1
+
+                        ctnItemIcon_PeoplePanel As groupContainer.manualLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =250
+                            Width: =Self.Height
+                            ZIndex: =1
+
+                            shpOval_ListViewer As circle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =ThisItem.Color
+                                Height: =42
+                                Visible: =IsBlank(ThisItem.Icon)
+                                Width: =Self.Height
+                                X: =Parent.Width / 2 - Self.Width / 2
+                                Y: =Parent.Height / 2 - Self.Height / 2
+                                ZIndex: =1
+
+                            lblCapitalLetter_ListViewer As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =Color.White
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =ListViewer.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =ListViewer.Style.Text.Title.Font
+                                FontWeight: =ListViewer.Style.Text.Title.Weight
+                                Height: =Parent.Height
+                                Size: =ListViewer.Style.Text.Title.Size
+                                Text: |-
+                                    =If(
+                                        IsBlank(ThisItem.Icon),
+                                        Left(
+                                            lblPrimaryValue_ListViewer.Text,
+                                            1
+                                        )
+                                    )
+                                Tooltip: =ThisItem.Tooltip
+                                Visible: =IsBlank(ThisItem.Icon)
+                                Width: =Parent.Width
+                                ZIndex: =2
+
+                            icoItem_ListViewer As icon.Check:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =ThisItem.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =ListViewer.Style.Palette.Disabled
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FocusedBorderThickness: =0
+                                Height: =28
+                                HoverBorderColor: =Self.BorderColor
+                                HoverColor: =Self.Color
+                                Icon: =ThisItem.Icon
+                                PressedBorderColor: =Self.BorderColor
+                                PressedColor: =Self.Color
+                                Tooltip: =ThisItem.Tooltip
+                                Visible: =!IsBlank(ThisItem.Icon)
+                                Width: =28
+                                X: =Parent.Width / 2 - Self.Width / 2
+                                Y: =Parent.Height / 2 - Self.Height / 2
+                                ZIndex: =3
+
+                        ctnItemInfo_ListViewer As groupContainer.verticalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            Fill: =Color.Transparent
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =2
+
+                            lblPrimaryValue_ListViewer As label:
+                                BorderColor: =RGBA(0, 18, 107, 1)
+                                Color: =ListViewer.Style.Text.Subtitle.Color
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =ListViewer.Style.Text.Subtitle.Font
+                                FontWeight: =ListViewer.Style.Text.Subtitle.Weight
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                PaddingLeft: |
+                                    =0
+                                Size: =ListViewer.Style.Text.Subtitle.Size
+                                Text: =ThisItem.PrimaryValue
+                                Tooltip: =ThisItem.Tooltip
+                                VerticalAlign: |-
+                                    =If(
+                                        IsBlank(ThisItem.SecondValue),
+                                        VerticalAlign.Middle,
+                                        VerticalAlign.Bottom
+                                    )
+                                ZIndex: =1
+
+                            lblSecondValue_ListViewer As label:
+                                BorderColor: =RGBA(0, 18, 107, 1)
+                                Color: =ListViewer.Style.Text.Little.Color
+                                DisabledColor: =RGBA(166, 166, 166, 1)
+                                Fill: =Color.Transparent
+                                Font: =ListViewer.Style.Text.Little.Font
+                                FontWeight: =ListViewer.Style.Text.Little.Weight
+                                Height: =25
+                                PaddingLeft: =0
+                                PaddingTop: =0
+                                Size: =8
+                                Text: =ThisItem.SecondValue
+                                Tooltip: =ThisItem.Tooltip
+                                VerticalAlign: =VerticalAlign.Top
+                                Visible: =!IsBlank(ThisItem.SecondValue)
+                                Wrap: =false
+                                ZIndex: =2
+
+                lblNoItems_ListViewer As label:
+                    BorderColor: =RGBA(32, 54, 71, 1)
+                    Color: =ListViewer.Style.Text.Normal.Color
+                    DisabledColor: =RGBA(166, 166, 166, 1)
+                    Font: =ListViewer.Style.Text.Normal.Font
+                    FontWeight: =ListViewer.Style.Text.Normal.Weight
+                    Height: =gal_ListViewer.TemplateHeight
+                    Italic: =true
+                    LayoutMinWidth: =50
+                    Size: =ListViewer.Style.Text.Normal.Size
+                    Text: =ListViewer.NoItemsLegend
+                    Visible: =!ListViewer.IsLoading && IsEmpty(ListViewer.Items)
+                    ZIndex: =3
+
+            imgLoad_ListViewer As image:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisabledBorderColor: =Color.Transparent
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =ListViewer.Style.Palette.TransparentBackground
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                HoverBorderColor: =Self.BorderColor
+                HoverFill: =Self.Fill
+                Image: =GrayEllipsis
+                PaddingBottom: =Self.PaddingTop
+                PaddingLeft: =(Parent.Width - 75) / 2
+                PaddingRight: =Self.PaddingLeft
+                PaddingTop: =(Parent.Height - 55) / 2
+                PressedBorderColor: =Self.BorderColor
+                PressedFill: =Self.Fill
+                Visible: =ListViewer.IsLoading
+                Width: =Parent.Width
+                ZIndex: =2
+

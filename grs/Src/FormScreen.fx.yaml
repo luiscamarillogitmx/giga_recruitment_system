@@ -1,0 +1,1176 @@
+FormScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    OnHidden: |-
+        =UpdateContext(
+            {
+                originalFormData: Blank(),
+                editingFieldFace: Blank(),
+                formResponses: Blank()
+            }
+        )
+    OnVisible: |-
+        =UpdateContext({isCandidateInfoExpand: true});
+        btnReset_FormScreen.Select();
+        UpdateContext(
+            {
+                originalFormData: {
+                    staticContent: staticContent,
+                    dynamicContent: dynamicContent
+                }
+            }
+        )
+
+    ctnLayout_FormScreen As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: |-
+            =If(
+                NewLook,
+                15,
+                0
+            )
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        PaddingBottom: =Self.PaddingLeft
+        PaddingLeft: |-
+            =If(
+                NewLook,
+                15,
+                0
+            )
+        PaddingRight: =Self.PaddingLeft
+        PaddingTop: =Self.PaddingLeft
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnHead_FormScreen As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Style.Palette.Line
+            BorderStyle: |-
+                =If(
+                    NewLook,
+                    BorderStyle.Solid,
+                    BorderStyle.None
+                )
+            BorderThickness: =1
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semilight,
+                    BorderStyle.None
+                )
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =Self.RadiusTopLeft
+            RadiusBottomRight: =Self.RadiusTopLeft
+            RadiusTopLeft: |-
+                =If(
+                    NewLook,
+                    Style.RadiusFactor,
+                    0
+                )
+            RadiusTopRight: =Self.RadiusTopLeft
+            ZIndex: =1
+
+            icoBack_FormScreen As icon.Check:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Style.Palette.Disabled
+                DisplayMode: |-
+                    =//If(
+                    //    FirstScreen;
+                        //DisplayMode.Disabled
+                    DisplayMode.Edit
+                    //)
+                Fill: =Style.Palette.Selectable.Fill
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =0
+                Height: =42
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.ArrowLeft
+                LayoutMinHeight: =17
+                OnSelect: =Back()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.Color
+                PressedColor: =Self.Color
+                PressedFill: =Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Back to previus screen"
+                Visible: =true//isInstantFilling
+                Width: =Self.Height
+                ZIndex: =1
+
+            shpBackSeparator_FormScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                LayoutMinHeight: =20
+                Width: =1
+                ZIndex: =2
+
+            lblTitle_FormScreen As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Style.Text.Title.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Style.Text.Title.Font
+                FontWeight: =Style.Text.Title.Weight
+                LayoutMinWidth: =50
+                PaddingLeft: =12
+                PaddingRight: =0
+                Size: =Style.Text.Title.Size* 0.8
+                Text: =deepScreen.Name
+                Width: =200
+                ZIndex: =3
+
+            ctnGlobalActions_FormScreen As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutGap: =10
+                LayoutJustifyContent: =LayoutJustifyContent.End
+                LayoutMinHeight: =17
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                Width: =775
+                ZIndex: =4
+
+                btnFillWith_FormScreen As LabeledIconButton:
+                    Icon: =Icon.DocumentWithContent
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =640
+                    OnSelect: |-
+                        =Reset(formResponseSelector_FormScreen);
+                        UpdateContext({formResponseSelectorVisible: true});
+                        formResponseSelector_FormScreen.Refresh()
+                    Select: |-
+                        =If(
+                            Self.Enable,
+                            Self.OnSelect()
+                        )
+                    Text: ="Fill with"
+                    Visible: =!isReadOnly && isEditValues && deepScreen.Code = DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code
+                    Width: =84
+                    ZIndex: =2
+
+                btnReset_FormScreen As LabeledIconButton:
+                    Enable: =IsBlank(editingFieldFace)
+                    Icon: =Icon.Reset
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =640
+                    OnSelect: |-
+                        =If(
+                            !IsBlank(originalFormData),
+                            UpdateContext(
+                                {
+                                    staticContent: originalFormData.staticContent,
+                                    dynamicContent: originalFormData.dynamicContent
+                                }
+                            )
+                        );
+                        Switch(
+                            deepScreen.Code,
+                            DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                            Reset(frmCandidatePersonalInfo_FormScreen),
+                            DeepScreen.Candidate.JobContract.Terms.Code,
+                            Reset(frmTerms_FormScreen)
+                        );
+                        Reset(autoForm_FormScreen)
+                    Select: |-
+                        =If(
+                            Self.Enable,
+                            Self.OnSelect()
+                        )
+                    Text: ="Reset"
+                    Tooltip: ="Returns the form to its initial state"
+                    Visible: =isEditValues
+                    Width: =70
+                    ZIndex: =3
+
+                btnModes_FormScreen As LabeledIconButton:
+                    Enable: =IsBlank(editingFieldFace)
+                    Icon: |-
+                        =If(
+                            isEditValues,
+                            Icon.View,
+                            Icon.Edit
+                        )
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =640
+                    OnSelect: |-
+                        =UpdateContext({isEditValues: !isEditValues});
+                        If(
+                            isEditValues,
+                            UpdateContext({enableFooter: true})
+                        )
+                    Select: |-
+                        =If(
+                            Self.Enable,
+                            Self.OnSelect()
+                        )
+                    Text: |-
+                        =If(
+                            isEditValues,
+                            "View mode",
+                            "Edit mode"
+                        )
+                    Tooltip: |-
+                        =If(
+                            isEditValues,
+                            "Press to enable view mode",
+                            "Press to enable edit mode"
+                        )
+                    Visible: =!isReadOnly
+                    Width: =105
+                    ZIndex: =4
+
+                commonTools_FormScreen As CommonTools:
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =640
+                    OnChangeStyle: |-
+                        =Concurrent(
+                            Set(
+                                Style,
+                                Self.SelectedStyle
+                            ),
+                            Patch(
+                                Cache,
+                                LookUp(
+                                    Cache,
+                                    Key = "style"
+                                ),
+                                {Value: Self.SelectedStyle.Name}
+                            );
+                            IfError(
+                                SaveData(
+                                    Cache,
+                                    "GRS"
+                                ),
+                                Blank()
+                            )
+                        )
+                    OnSelectBell: |-
+                        =UpdateContext({notificationPanelVisible: true})
+                    ZIndex: =5
+
+        shpHeadSeparator_FormScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            LayoutMinWidth: =50
+            Visible: =!NewLook
+            ZIndex: =2
+
+        ctnBody_FormScreen As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Style.Palette.Line
+            BorderStyle: |-
+                =If(
+                    NewLook,
+                    BorderStyle.Solid,
+                    BorderStyle.None
+                )
+            BorderThickness: =1
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semilight,
+                    BorderStyle.None
+                )
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =Self.RadiusTopLeft
+            RadiusBottomRight: =Self.RadiusTopLeft
+            RadiusTopLeft: |-
+                =If(
+                    NewLook,
+                    Style.RadiusFactor,
+                    0
+                )
+            RadiusTopRight: =Self.RadiusTopLeft
+            ZIndex: =3
+
+            ctnAdditionalInfo_FormScreen As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Style.Palette.LightFillable
+                FillPortions: =0
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =15
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =30
+                PaddingRight: =30
+                PaddingTop: =15
+                Visible: =isCandidateInfoExpand
+                Width: =390
+                ZIndex: =1
+
+                ctnCandidateInfoHeader_FormScreen As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =42
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblCandidateInfoHeader_FormScreen As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Style.Palette.Accent
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Style.Text.Title.Font
+                        FontWeight: =Style.Text.Title.Weight
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        Size: =Style.Text.Title.Size - 3
+                        Text: ="Data related to the candidate"
+                        ZIndex: =1
+
+                detailsPanel_FormScreen As DetailsPanel:
+                    InternalLateralPadding: =5
+                    Items: |-
+                        =Filter(
+                            Ungroup(
+                                [
+                                    Table(
+                                        {
+                                            Key: "Job contract",
+                                            Value: version.version,
+                                            Tooltip: "",
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Template",
+                                            Value: version.template.name,
+                                            Tooltip: version.template.name,
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Candidate",
+                                            Value: candidate.candidateInfo.fullName,
+                                            Tooltip: candidate.candidateInfo.fullName,
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Job position",
+                                            Value: jobPosition.title,
+                                            Tooltip: jobPosition.title,
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Department",
+                                            Value: jobPosition.department.name,
+                                            Tooltip: jobPosition.department.name,
+                                            Mark: true,
+                                            ShowSeparator: !IsBlank(info)
+                                        }
+                                    ),
+                                    info
+                                ],
+                                "Value"
+                            ),
+                            !IsBlank(Key)
+                        )
+                    KeyAlign: =Align.Right
+                    KeyWidth: =90
+                    LateralPadding: =15
+                    LayoutMinHeight: =640
+                    LayoutMinWidth: =50
+                    PanelFill: =Style.Palette.Background
+                    RowHeigth: =50
+                    Space: =10
+                    ZIndex: =2
+
+            shpAdditionalInfoSeparator_FormScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                Visible: =isCandidateInfoExpand
+                Width: =1
+                ZIndex: =2
+
+            ctnDocumentViewer_FormScreen As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                ContentLanguage: =Parent.Width - 40
+                Fill: =Style.Palette.Fillable
+                LayoutAlignItems: |-
+                    =If(
+                        Self.Width < 940,
+                        LayoutAlignItems.Start,
+                        LayoutAlignItems.Center
+                    )
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =100
+                LayoutMode: =LayoutMode.Auto
+                LayoutOverflowX: =LayoutOverflow.Scroll
+                LayoutOverflowY: =LayoutOverflow.Scroll
+                ZIndex: =3
+
+                ctnContentDesign_FormScreen As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =ctnForm_FormScreen.Height + 40
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    Width: =940
+                    ZIndex: =1
+
+                    ctnForm_FormScreen As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DropShadow: =DropShadow.Semibold
+                        Fill: =Style.Palette.Background
+                        Height: =Self.PaddingTop + ctnLeftColumn_FormScreen.Height + Self.PaddingBottom
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =60
+                        PaddingLeft: =60
+                        PaddingRight: =60
+                        PaddingTop: =60
+                        Width: =900
+                        X: =20
+                        Y: =20
+                        ZIndex: =2
+
+                        ctnLeftColumn_FormScreen As groupContainer.verticalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            Height: |-
+                                =ctnStaticForms_FormScreen.Height
+                                + autoForm_FormScreen.Height
+                                + Self.PaddingTop
+                                + Self.PaddingBottom
+                                + 64
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutGap: =32
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =5
+
+                            ctnStaticForms_FormScreen As groupContainer.horizontalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Color.Transparent
+                                FillPortions: =0
+                                Height: |-
+                                    =Switch(
+                                        deepScreen.Code,
+                                        DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                                        frmCandidatePersonalInfo_FormScreen.Height,
+                                        DeepScreen.Candidate.JobContract.Terms.Code,
+                                        frmTerms_FormScreen.Height
+                                    )
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =350
+                                LayoutMode: =LayoutMode.Auto
+                                ZIndex: =1
+
+                                frmCandidatePersonalInfo_FormScreen As CandidatePersonalInfoForm:
+                                    Default: =staticContent
+                                    FormMode: |-
+                                        =If(
+                                            isEditValues && !isReadOnly,
+                                            formMode,
+                                            FormMode.View
+                                        )
+                                    GetValue: |-
+                                        ={
+                                            name: Self.CandidateName.Value,
+                                            idNumber: Self.Identification.Value,
+                                            address: Self.FullAddress.Value,
+                                            educationalLevel: Self.EducationalDegree.Value,
+                                            fieldStudy: Self.Career.Value,
+                                            maritalStatus: Self.MaritalStatus.Value,
+                                            birthCity: Self.BirthCity.Value,
+                                            birthDate: Self.BirthDate.Value,
+                                            nationality: Self.Nationality.Value,
+                                            phoneNumber: Self.Phone.Value,
+                                            gender: Self.Gender.Value
+                                        }
+                                    Height: =320
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =250
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Visible: =deepScreen.Code = DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code
+
+                                frmTerms_FormScreen As TermsForm:
+                                    ADFIUsers: =ISignatureAPI.GetUsers(UserType.ADFI)
+                                    Default: =staticContent
+                                    FormMode: |-
+                                        =If(
+                                            isEditValues,
+                                            formMode,
+                                            FormMode.View
+                                        )
+                                    GetValue: |-
+                                        ={
+                                            startDate: Self.StartDate.Value,
+                                            endDate: Self.EndDate.Value,
+                                            expeditionDate: Self.ExpeditionDate.Value,
+                                            period: Self.Period.Value
+                                        }
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =640
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    TotalRewardsUsers: =ISignatureAPI.GetUsers(UserType.TotalRewards)
+                                    Visible: =deepScreen.Code = DeepScreen.Candidate.JobContract.Terms.Code
+                                    ZIndex: =3
+
+                            shpStaticFormDivisor_FormScreen As rectangle:
+                                AlignInContainer: =AlignInContainer.Stretch
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Style.Palette.Line
+                                FocusedBorderThickness: =0
+                                Height: =1
+                                Visible: =autoForm_FormScreen.Visible
+                                Width: =780
+                                ZIndex: =2
+
+                            autoForm_FormScreen As AutoForm:
+                                BuildInfoForExternalEditable: =AppFunctions.BuildListInfo(AppFunctions.ULToTable(Item.Default))
+                                DisplayMode: |-
+                                    =If(
+                                        isEditValues && !isReadOnly,
+                                        DisplayMode.Edit,
+                                        DisplayMode.View
+                                    )
+                                EditingItemTag: =//editingFieldFace.Item.Tag
+                                FormatValueForExternallyEditable: =AppFunctions.ULToCSV(Item.Default)
+                                GetValues: |-
+                                    =ForAll(
+                                        galFields_AutoForm.AllItems,
+                                        {
+                                            Id: Id,
+                                            Tag: Tag,
+                                            Label: Label,
+                                            Tooltip: Tooltip,
+                                            Default: lblValueOutput_AutoForm.Text,
+                                            Required: Required,
+                                            Format: Format,
+                                            Enable: Enable
+                                        }
+                                    )
+                                Items: |-
+                                    =ForAll(
+                                        First(dynamicContent).items,
+                                        {
+                                            Id: GUID(),
+                                            Tag: tag,
+                                            Label: concept,
+                                            Tooltip: concept,
+                                            Default: value,
+                                            Required: true,
+                                            Format: TextFormat.Text,
+                                            Enable: true,
+                                            EditExternally: tag = "productList" || tag = "deliverable" || tag = "commissionBreakdown"
+                                        }
+                                    )
+                                LabelWidth: =200
+                                LayoutMinHeight: =640
+                                LayoutMinWidth: =640
+                                OnSelectEditExternally: |-
+                                    =UpdateContext(
+                                        {
+                                            editingFieldFace: {
+                                                Name: "Editando campo",
+                                                Type: If(
+                                                    Item.Tag = "commissionBreakdown",
+                                                    "Mapper",
+                                                    "Lister"
+                                                ),
+                                                Item: Item
+                                            }
+                                        }
+                                    );
+                                    Reset(lstFieldEditor_FormScreen)
+                                    //UpdateContext({sheetVisible: true})
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                RowPaddingRight: |-
+                                    =If(
+                                        !IsBlank(editingFieldFace),
+                                        15,
+                                        2
+                                    )
+                                Visible: =!IsBlank(dynamicContent)
+                                ZIndex: =3
+
+        shpBodySeparator_FormScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            LayoutMinWidth: =50
+            Visible: =!NewLook
+            ZIndex: =4
+
+        ctnFooter_PersonalInfoScreen As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Style.Palette.Line
+            BorderStyle: |-
+                =If(
+                    NewLook,
+                    BorderStyle.Solid,
+                    BorderStyle.None
+                )
+            BorderThickness: =1
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semilight,
+                    BorderStyle.None
+                )
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =15
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =15
+            PaddingRight: =15
+            RadiusBottomLeft: =Self.RadiusTopLeft
+            RadiusBottomRight: =Self.RadiusTopLeft
+            RadiusTopLeft: |-
+                =If(
+                    NewLook,
+                    Style.RadiusFactor,
+                    0
+                )
+            RadiusTopRight: =Self.RadiusTopLeft
+            Visible: =!isReadOnly && enableFooter
+            ZIndex: =5
+
+            btnDone_FormScreen As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =Style.Palette.Fillable
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Style.Palette.LightFillable
+                DisplayMode: |-
+                    =If(
+                        Switch(
+                            deepScreen.Code,
+                            DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                            frmCandidatePersonalInfo_FormScreen.IsValid,
+                            DeepScreen.Candidate.JobContract.Terms.Code,
+                            frmTerms_FormScreen.IsValid
+                        ) && autoForm_FormScreen.IsValid,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Style.Palette.Accent
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Style.Text.Subtitle.Font
+                FontWeight: =Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: |-
+                    =UpdateContext({popLoadVisible: true});
+                    With(
+                        {
+                            sectionName: First(dynamicContent).sectionName,
+                            items: ForAll(
+                                autoForm_FormScreen.GetValues(),
+                                {
+                                    tag: Tag,
+                                    concept: Label,
+                                    value: Default
+                                }
+                            )
+                        } As section,
+                        With(
+                            Patch(
+                                {
+                                    status: VersionSectionState.Completed.Code,
+                                    additionalInfo: If(
+                                        deepScreen.Code = DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                                        JSON(Table(section))
+                                    ),
+                                    additionalData: If(
+                                        deepScreen.Code = DeepScreen.Candidate.JobContract.Terms.Code,
+                                        JSON(Table(section))
+                                    ),
+                                    idJobContract: version.id,
+                                    form: staticContent.form
+                                },
+                                If(
+                                    deepScreen.Code = DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                                    frmCandidatePersonalInfo_FormScreen.GetValue()
+                                ),
+                                If(
+                                    deepScreen.Code = DeepScreen.Candidate.JobContract.Terms.Code,
+                                    frmTerms_FormScreen.GetValue()
+                                )
+                            ) As requestBody,
+                            IfError(
+                                With(
+                                    If(
+                                        formMode = FormMode.Edit,
+                                        With(
+                                            Patch(
+                                                requestBody,
+                                                {id: staticContent.id}
+                                            ) As editedObject,
+                                            Switch(
+                                                deepScreen.Code,
+                                                DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                                                ISignatureAPI.UpdateCandidateInfo(editedObject),
+                                                DeepScreen.Candidate.JobContract.Terms.Code,
+                                                ISignatureAPI.UpdateTerms(editedObject)
+                                            )
+                                        ),
+                                        Switch(
+                                            deepScreen.Code,
+                                            DeepScreen.Candidate.JobContract.CandidatePersonalInfo.Code,
+                                            ISignatureAPI.CreateCandidateInfo(requestBody),
+                                            DeepScreen.Candidate.JobContract.Terms.Code,
+                                            ISignatureAPI.CreateTerms(requestBody)
+                                        )
+                                    ) As contentResponse,
+                                    With(
+                                        If(
+                                            deepScreen.Code = DeepScreen.Candidate.JobContract.Terms.Code && version.status <> VersionState.Filled.Code,
+                                            ISignatureAPI.UpdateJobContractVersion(
+                                                Patch(
+                                                    version,
+                                                    {status: VersionState.Filled.Code}
+                                                )
+                                            )
+                                        ) As versionResponse,
+                                        Set(
+                                            UpdateVersions,
+                                            version.status <> VersionState.Filled.Code
+                                        );
+                                        Set(
+                                            UpdateVersion,
+                                            version.status = VersionState.Filled.Code
+                                        );
+                                        Back();
+                                        AppFunctions.NotifySuccess(
+                                            $"{deepScreen.Name} saved succesfully!",
+                                            "Form data has been saved."
+                                        )
+                                    )
+                                ),
+                                AppFunctions.NotifyError(
+                                    "Error saving form!",
+                                    FirstError.Message,
+                                    "An error occurred while saving form data."
+                                )
+                            )
+                        )
+                    );
+                    UpdateContext({popLoadVisible: false})
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =Style.RadiusFactor
+                RadiusBottomRight: =Style.RadiusFactor
+                RadiusTopLeft: =Style.RadiusFactor
+                RadiusTopRight: =Style.RadiusFactor
+                Size: =Style.Text.Subtitle.Size
+                Text: ="Save"
+                Width: =150
+                ZIndex: =1
+
+            btnCancel_FormScreen As button:
+                BorderColor: =Style.Palette.Accent
+                Color: =Style.Text.Normal.Color
+                DisabledBorderColor: =Style.Palette.Fillable
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Style.Palette.LightFillable
+                Fill: =Style.Palette.Background
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Style.Text.Normal.Font
+                FontWeight: =Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =Back()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =Style.Text.Normal.Size
+                Text: ="Cancel"
+                Width: =100
+                ZIndex: =2
+
+    btnExpandRelatedInfo_FormScreen As IconButton:
+        Color: =Style.Palette.Accent
+        Height: =100
+        Icon: |-
+            =If(
+                isCandidateInfoExpand,
+                Icon.ChevronLeft,
+                Icon.ChevronRight
+            )
+        OnSelect: |-
+            =UpdateContext({isCandidateInfoExpand: !isCandidateInfoExpand})
+        RadiusBottomRigth: =Style.RadiusFactor * 2
+        RadiusTopRigth: =Style.RadiusFactor * 2
+        SelectableStyle: |-
+            ={
+                BorderColor: Color.Transparent,
+                Fill: Style.Palette.Selectable.SelectedShadow,
+                HoverFill: Style.Palette.Selectable.TransparentHoverFill,
+                PressedFill: Style.Palette.Selectable.TransparentPressedFill
+            }
+        Tooltip: |-
+            =If(
+                isCandidateInfoExpand,
+                "Collapse info panel",
+                "Expand info panel"
+            )
+        Width: =22
+        X: |-
+            =If(
+                NewLook,
+                15,
+                0
+            )
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =2
+
+    formResponseSelector_FormScreen As FormResponseSelector:
+        CodeToEducationalDegree: =AppFunctions.CodeToEducationalDegree(Code)
+        CodeToGender: =AppFunctions.CodeToGender(Code)
+        CodeToMaritalStatus: =AppFunctions.CodeToMaritalStatus(Code)
+        DefaultSearch: =candidate.candidateInfo.fullName
+        FormatDateTimeValue: =AppFunctions.FormatDateTimeValue(DateValue)
+        FormatDateValue: =AppFunctions.FormatDateValue(DateValue)
+        IsLoadingItems: =isLoadingFormResponses
+        Items: =formResponses
+        OnRefresh: |-
+            =UpdateContext({isLoadingFormResponses: true});
+            UpdateContext(
+                {
+                    formResponses: IfError(
+                        ISignatureAPI.GetFormResponses(
+                            If(
+                                IsBlank(Self.SearchText),
+                                candidate.candidateInfo.fullName,
+                                Self.SearchText
+                            )
+                        ),
+                        AppFunctions.NotifyError(
+                            "Error loading form responses!",
+                            FirstError.Message,
+                            $"I was not possible to load the form responses."
+                        );
+                        Blank()
+                    )
+                }
+            );
+            UpdateContext({isLoadingFormResponses: false})
+        OnSelectAccept: |-
+            =With(
+                {
+                    prevValue: staticContent,
+                    prevId: staticContent.id,
+                    selected: Self.Selected
+                },
+                With(
+                    {
+                        staticContent: Patch(
+                            prevValue,
+                            selected.Source,
+                            {id: prevId}
+                        ),
+                        dynamicContent: selected.DynamicContent
+                    },
+                    UpdateContext(ThisRecord);
+                    Reset(frmCandidatePersonalInfo_FormScreen);
+                    Reset(autoForm_FormScreen)
+                )
+            );
+            UpdateContext({formResponseSelectorVisible: false});
+            Reset(Self)
+        OnSelectCancel: |-
+            =UpdateContext({formResponseSelectorVisible: false});
+            Reset(Self)
+        ParseAdditionalInfo: =AppFunctions.ParseDynamicFields(AdditionalInfoValue)
+        ParseCandidateInfo: =AppFunctions.ParseCandidateInfo(CandidateInfoValue)
+        Refresh: =Self.OnRefresh()
+        Title: |-
+            ="Form response selection"/*: " & LookUp(
+                jobPosition.locations;
+                primary
+            ).country*/
+        Visible: =formResponseSelectorVisible
+        ZIndex: =3
+
+    sheet_FormScreen As Sheet:
+        AcceptText: ="Done"
+        EnableSaveButton: =lstFieldEditor_FormScreen.IsValid && mapFieldEditor_FormScreen.IsValid
+        OnSelectAccept: |-
+            =With(
+                {
+                    editedItems: ForAll(
+                        autoForm_FormScreen.GetValues(),
+                        {
+                            tag: Tag,
+                            concept: Label,
+                            value: If(
+                                editingFieldFace.Item.Tag = Tag,
+                                Switch(
+                                    editingFieldFace.Type,
+                                    "Lister",
+                                    AppFunctions.TableToUL(lstFieldEditor_FormScreen.GetItems()),
+                                    "Mapper",
+                                    AppFunctions.MapToUL(
+                                        mapFieldEditor_FormScreen.GetItems(),
+                                        ". "
+                                    )
+                                ),
+                                Default
+                            ),
+                            blocked: Blank(),
+                            rate: Blank(),
+                            factor: Blank()
+                        }
+                    )
+                },
+                With(
+                    First(dynamicContent) As section,
+                    UpdateContext(
+                        {
+                            dynamicContent: Table(
+                                Patch(
+                                    section,
+                                    {items: editedItems}
+                                )
+                            ),
+                            editingFieldFace: Blank()
+                        }
+                    )
+                );
+                Reset(autoForm_FormScreen)
+            )
+        OnSelectCancel: |-
+            =UpdateContext({editingFieldFace: Blank()});
+            Reset(lstFieldEditor_FormScreen);
+            Reset(mapFieldEditor_FormScreen)
+        SelectAccept: =Self.OnSelectAccept()
+        SelectCancel: =Self.OnSelectCancel()
+        SheetWidth: =600
+        Title: ="Editing field"
+        Visible: =!IsBlank(editingFieldFace)
+        ZIndex: =4
+
+    ctnFieldEditor_FormScreen As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =sheet_FormScreen.BodyHeight
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Visible: =sheet_FormScreen.Visible
+        Width: =sheet_FormScreen.BodyWidth
+        X: =sheet_FormScreen.BodyX
+        Y: =sheet_FormScreen.BodyY
+        ZIndex: =5
+
+        lstFieldEditor_FormScreen As Lister:
+            FillPortions: =1
+            GetItems: |-
+                =ForAll(
+                    Items,
+                    Value
+                )
+            Items: |-
+                =If(
+                    editingFieldFace.Type = "Lister",
+                    AppFunctions.ULToTable(editingFieldFace.Item.Default),
+                    Blank()
+                )
+            LayoutMinHeight: =50
+            LayoutMinWidth: =50
+            PaddingLeft: =30
+            PaddingRight: =30
+            ProcessUserInput: =Text
+            RequiredValues: =!IsBlank(editingFieldFace) && editingFieldFace.Type = "Lister"
+            Title: =editingFieldFace.Item.Label
+            Visible: =editingFieldFace.Type = "Lister"
+
+        mapFieldEditor_FormScreen As Mapper:
+            FillPortions: =1
+            GetItems: |-
+                =ForAll(
+                    Items,
+                    {
+                        Key: Key,
+                        Value: Value
+                    }
+                )
+            Items: |-
+                =If(
+                    editingFieldFace.Type = "Mapper",
+                    AppFunctions.ULToMap(
+                        editingFieldFace.Item.Default,
+                        ". "
+                    ),
+                    Blank()
+                )
+            KeyWidth: =450
+            LayoutMinHeight: =50
+            LayoutMinWidth: =50
+            PaddingLeft: =30
+            PaddingRight: =30
+            PresentationData: |-
+                ={
+                    Key: {
+                        Label: "Concept",
+                        Tooltip: "Enter a concept",
+                        Placeholder: "---",
+                        MaxLength: 200,
+                        Format: TextFormat.Text
+                    },
+                    Value: {
+                        Label: "Percentage",
+                        Tooltip: "Enter a number",
+                        Placeholder: "---",
+                        MaxLength: 2,
+                        Format: TextFormat.Number
+                    }
+                }
+            ProcessUserInput: |-
+                =Patch(
+                    Pair,
+                    {Value: Pair.Value & "%"}
+                )
+            RequiredValues: =!IsBlank(editingFieldFace) && editingFieldFace.Type = "Mapper"
+            Title: =editingFieldFace.Item.Label
+            Visible: =editingFieldFace.Type = "Mapper"
+            ZIndex: =2
+
+    notificationPanel_FormScreen As Notifications:
+        ClearAll: =Self.OnClearAll()
+        OnCloseNotification: |-
+            =RemoveIf(
+                GlobalNotifications,
+                ThisRecord.Id = Notification.Id
+            )
+        OnSelectClose: |-
+            =UpdateContext({notificationPanelVisible: false})
+        SelectClose: =Self.OnSelectClose()
+        Visible: =notificationPanelVisible
+        ZIndex: =6
+
+    popLoad_FormScreen As PopupImager:
+        Height: =Parent.Height
+        Img: =Style.Loader
+        Visible: =popLoadVisible
+        Width: =Parent.Width
+        ZIndex: =7
+
+    notificationCard_FormScreen As NotificationCard:
+        SelectClose: =Self.OnSelectClose()
+        Visible: =NotificationCardVisible
+        X: =Parent.Width - Self.Width
+        Y: =50
+        ZIndex: =8
+

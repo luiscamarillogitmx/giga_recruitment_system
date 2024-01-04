@@ -1,0 +1,510 @@
+HomeScreen As screen:
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    Width: |-
+        =Max(
+            App.Width,
+            App.MinScreenWidth
+        )
+
+    ctnLayout_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        sidebar_HomeScreen As Sidebar:
+            LayoutMinHeight: =50
+            LayoutMinWidth: =640
+            OnSelect: |-
+                =If(
+                    Item.InMaintenance,
+                    Navigate(
+                        MaintenanceScreen,
+                        ScreenTransition.None,
+                        {topLevelScreen: Item}
+                    ),
+                    Navigate(Item.Screen)
+                )
+            Select: =Sidebar.OnSelect(Item)
+            SelectedItem: =TopLevelScreen.Home.Code
+
+        shpSidebarSeparator_HomeScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            LayoutMinHeight: =50
+            Width: =1
+            ZIndex: =2
+
+        ctnContent_HomeScreen As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semibold,
+                    DropShadow.None
+                )
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =Self.PaddingLeft
+            PaddingLeft: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            PaddingRight: =Self.PaddingLeft
+            PaddingTop: =Self.PaddingLeft
+            ZIndex: =3
+
+            ctnToolBar_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =1
+
+                ctnCommonActions_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    commonTools_HomeScreen As CommonTools:
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =640
+                        OnChangeStyle: |-
+                            =Concurrent(
+                                Set(
+                                    Style,
+                                    Self.SelectedStyle
+                                ),
+                                Patch(
+                                    Cache,
+                                    LookUp(
+                                        Cache,
+                                        Key = "style"
+                                    ),
+                                    {Value: Self.SelectedStyle.Name}
+                                );
+                                IfError(
+                                    SaveData(
+                                        Cache,
+                                        "GRS"
+                                    ),
+                                    Blank()
+                                )
+                            )
+                        OnSelectBell: |-
+                            =UpdateContext({notificationPanelVisible: true})
+
+            shpToolbarSeparator_HomeScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                Height: =1
+                LayoutMinWidth: =50
+                Visible: =!NewLook
+                ZIndex: =2
+
+            ctnBody_HomeScreen As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: |-
+                    =If(
+                        NewLook,
+                        15,
+                        20
+                    )
+                PaddingRight: =Self.PaddingLeft
+                PaddingTop: =Self.PaddingLeft
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =3
+
+                ctnHeader_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DropShadow: =DropShadow.Light
+                    Fill: =Style.Palette.Selectable.SelectedShadow
+                    FillPortions: =0
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutGap: =15
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =15
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    PaddingTop: =15
+                    RadiusBottomLeft: =Style.RadiusFactor * 10
+                    RadiusBottomRight: =Style.RadiusFactor * 2
+                    RadiusTopLeft: =Style.RadiusFactor * 2
+                    RadiusTopRight: =Style.RadiusFactor * 10
+                    ZIndex: =2
+
+                    ctnGRSLogo_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: |-
+                            =RGBA(
+                                52,
+                                55,
+                                64,
+                                1
+                            )
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        RadiusBottomLeft: =Style.RadiusFactor * 8
+                        RadiusBottomRight: =Style.RadiusFactor * 2
+                        RadiusTopLeft: =Style.RadiusFactor * 2
+                        RadiusTopRight: =Style.RadiusFactor * 8
+                        Width: =Self.Height
+                        ZIndex: =1
+
+                        imgGRSLogo_HomeScreen As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            FocusedBorderThickness: =0
+                            HoverBorderColor: =Color.Transparent
+                            HoverFill: =Color.Transparent
+                            Image: =GRSLogo
+                            Width: =Self.Height
+                            ZIndex: =1
+
+                    ctnWelcome_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        ZIndex: =3
+
+                        lblAppName_HomeScreen As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Palette.Accent
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =Style.Text.Title.Font
+                            FontWeight: =Style.Text.Title.Weight
+                            LayoutMinHeight: =17
+                            PaddingLeft: =0
+                            Size: =Style.Text.Title.Size * 2
+                            Text: ="GIGA Recruitment System"
+                            VerticalAlign: =VerticalAlign.Bottom
+                            ZIndex: =1
+
+                        lblWelcome_HomeScreen As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Title.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =Style.Text.Title.Font
+                            FontWeight: =Style.Text.Title.Weight
+                            Height: =68
+                            LayoutMinWidth: =50
+                            PaddingLeft: =0
+                            Size: =Style.Text.Title.Size
+                            Text: =$"Welcome, {CurrentUser.name}"
+                            VerticalAlign: =VerticalAlign.Top
+                            ZIndex: =2
+
+                    shpHeaderDivisor_HomeScreen As rectangle:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Style.Palette.Line
+                        FocusedBorderThickness: =0
+                        Width: |
+                            =1
+                        ZIndex: =4
+
+                    ctnCompany_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =350
+                        ZIndex: =5
+
+                        imgGigaLogo_HomeScreen As image:
+                            AlignInContainer: =AlignInContainer.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =80
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =Style.GigaLogo
+                            OnSelect: |-
+                                =Launch("https://grupo-giga.com/")
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Width: =260
+                            ZIndex: =1
+
+                ctnStartMenu_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutGap: =15
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingTop: =15
+                    ZIndex: =4
+
+                    ctnLeftColumn_HomeScreen As groupContainer.verticalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =7.5
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        ZIndex: =1
+
+                        lblMenu_HomeScreen As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =Style.Text.Normal.Font
+                            FontWeight: =Style.Text.Normal.Weight
+                            Size: =Style.Text.Normal.Size
+                            Text: ="Begin by exploring the following sections of the application"
+                            ZIndex: =1
+
+                        shpMenuHeaderSeparator_HomeScreen As rectangle:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Style.Palette.Line
+                            Height: =1
+                            ZIndex: =2
+
+                        ctnCards_HomeScreen As groupContainer.horizontalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            LayoutAlignItems: =LayoutAlignItems.Center
+                            LayoutJustifyContent: =LayoutJustifyContent.Center
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            LayoutOverflowY: =LayoutOverflow.Scroll
+                            LayoutWrap: =true
+                            ZIndex: =4
+
+                            crdJobRequisitions_HomeScreen As Card:
+                                Description: =TopLevelScreen.JobRequisitions.Description
+                                Height: =270
+                                Icon: =TopLevelScreen.JobRequisitions.Icon
+                                LayoutMinHeight: =640
+                                LayoutMinWidth: =640
+                                OnSelect: |-
+                                    =With(
+                                        TopLevelScreen.JobRequisitions,
+                                        If(
+                                            InMaintenance,
+                                            Navigate(
+                                                MaintenanceScreen,
+                                                ScreenTransition.None,
+                                                {topLevelScreen: ThisRecord}
+                                            ),
+                                            Navigate(Screen)
+                                        )
+                                    )
+                                Select: =Self.OnSelect()
+                                Title: =TopLevelScreen.JobRequisitions.Name
+                                Visible: =TopLevelScreen.JobRequisitions.Visible
+                                Width: =225
+
+                            crdCandidates_HomeScreen As Card:
+                                Description: =TopLevelScreen.Candidates.Description
+                                Height: =270
+                                Icon: =TopLevelScreen.Candidates.Icon
+                                LayoutMinHeight: =640
+                                LayoutMinWidth: =640
+                                OnSelect: |-
+                                    =With(
+                                        TopLevelScreen.Candidates,
+                                        If(
+                                            InMaintenance,
+                                            Navigate(
+                                                MaintenanceScreen,
+                                                ScreenTransition.None,
+                                                {topLevelScreen: ThisRecord}
+                                            ),
+                                            Navigate(Screen)
+                                        )
+                                    )
+                                Select: =Self.OnSelect()
+                                Title: =TopLevelScreen.Candidates.Name
+                                Visible: =TopLevelScreen.Candidates.Visible
+                                Width: =225
+                                ZIndex: =2
+
+                            crdSettings_HomeScreen As Card:
+                                Description: =TopLevelScreen.Settings.Description
+                                Height: =270
+                                Icon: =TopLevelScreen.Settings.Icon
+                                LayoutMinHeight: =640
+                                LayoutMinWidth: =640
+                                OnSelect: |-
+                                    =With(
+                                        TopLevelScreen.Settings,
+                                        If(
+                                            InMaintenance,
+                                            Navigate(
+                                                MaintenanceScreen,
+                                                ScreenTransition.None,
+                                                {topLevelScreen: ThisRecord}
+                                            ),
+                                            Navigate(Screen)
+                                        )
+                                    )
+                                Select: =Self.OnSelect()
+                                Title: =TopLevelScreen.Settings.Name
+                                Visible: =TopLevelScreen.Settings.Visible
+                                Width: =225
+                                ZIndex: =3
+
+    notificationCard_HomeScreen As NotificationCard:
+        OnSelectClose: |-
+            =Set(
+                NotificationCardVisible,
+                false
+            )
+        SelectClose: =Self.OnSelectClose()
+        Visible: =NotificationCardVisible
+        X: =Parent.Width - Self.Width
+        Y: =50
+        ZIndex: =2
+
+    notificationPanel_HomeScreen As Notifications:
+        ClearAll: =Self.OnClearAll()
+        OnCloseNotification: |-
+            =RemoveIf(
+                GlobalNotifications,
+                ThisRecord.Id = Notification.Id
+            )
+        OnSelectClose: |-
+            =UpdateContext({notificationPanelVisible: false})
+        SelectClose: =Self.OnSelectClose()
+        Visible: =notificationPanelVisible
+        ZIndex: =3
+

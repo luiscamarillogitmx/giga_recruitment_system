@@ -1,0 +1,67 @@
+"'2faade4c-7baa-4572-ba8e-c59c1b6a3b04' As TestSuite":
+    Description: =""
+    DisplayName: ="GRS App"
+
+    "'5169e68d-3ade-4c32-8f92-aa1b8efc47a9' As TestCase":
+        Description: =""
+        DisplayName: ="HomeScreen Menu Navigation"
+
+        Step1 As TestStep:
+            Description: ="Navigate from home to JobsScreen"
+            Screen: =HomeScreen
+            Value: =crdJobRequisitions_HomeScreen.Select()
+
+        Step2 As TestStep:
+            Description: ="Navigate from JobsScreen to HomeScreen"
+            Value: =sidebar_JobsScreen.Select(TopLevelScreen.Home)
+
+        Step3 As TestStep:
+            Description: ="Navigate from HomScreen To Candidates"
+            Value: =crdCandidates_HomeScreen.Select()
+
+        Step4 As TestStep:
+            Description: ="Navigate from Candidates to HomeScreen"
+            Value: =sidebar_CandidatesScreen.Select(TopLevelScreen.Home)
+
+        Step5 As TestStep:
+            Description: ="Navigate from HomeScreen to Settings"
+            Value: =crdSettings_HomeScreen.Select()
+
+        Step6 As TestStep:
+            Description: ="Navigate from settings to HomeScreen"
+            Value: =sidebar_SettingsScreen.Select(TopLevelScreen.Home)
+
+    "'e1e59a6f-5684-405e-a65a-439154f4571b' As TestCase":
+        Description: =""
+        DisplayName: ="SideBar Validation"
+
+        Step1 As TestStep:
+            Description: ="Navigate from home to SettingsScreen"
+            Screen: =HomeScreen
+            Value: =sidebar_HomeScreen.Select(TopLevelScreen.Settings)
+
+        Step2 As TestStep:
+            Description: ="Navigate from SettingsScreen to HomeScreen"
+            Screen: =JobsScreen
+            Value: =sidebar_SettingsScreen.Select(TopLevelScreen.Home)
+
+        Step3 As TestStep:
+            Description: ="Navigate from HomScreen To Candidates"
+            Screen: =HomeScreen
+            Value: =sidebar_HomeScreen.Select(TopLevelScreen.Candidates)
+
+        Step4 As TestStep:
+            Description: ="Navigate from Candidates to HomeScreen"
+            Screen: =CandidatesScreen
+            Value: =sidebar_CandidatesScreen.Select(TopLevelScreen.Home)
+
+        Step5 As TestStep:
+            Description: ="Navigate from HomeScreen to Settings"
+            Screen: =HomeScreen
+            Value: =sidebar_HomeScreen.Select(TopLevelScreen.JobRequisitions)
+
+        Step6 As TestStep:
+            Description: ="Navigate from settings to HomeScreen"
+            Screen: =SettingsScreen
+            Value: =sidebar_JobsScreen.Select(TopLevelScreen.Home)
+

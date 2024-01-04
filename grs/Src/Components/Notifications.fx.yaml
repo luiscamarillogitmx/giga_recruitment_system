@@ -1,0 +1,457 @@
+Notifications As CanvasComponent:
+    ClearAll():
+        ThisProperty:
+            Default: =Self.OnClearAll()
+    OnCloseNotification(Notification As Record):
+        Notification:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Stamp: Now(),
+                    Type: {
+                        Code: 0,
+                        Distinctive: Color.Black
+                    },
+                    Title: "",
+                    Description: ""
+                }
+        ThisProperty:
+            Default: |-
+                =RemoveIf(
+                    GlobalNotifications,
+                    ThisRecord.Id = Notification.Id
+                )
+    SelectClose():
+        ThisProperty:
+            Default: =Self.OnSelectClose()
+    AllowClearNotifications: =GrantAccess.Common.ClearNotifications
+    Fill: =Color.Transparent
+    Height: =App.Height
+    Items: =GlobalNotifications
+    OnClearAll: =Clear(GlobalNotifications)
+    OnReset: =
+    OnSelectClose: =true
+    PanelWidth: =400
+    Style: =Style
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Notifications As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =2
+
+        shpBlankArea_Notifications As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =1
+            FocusedBorderThickness: =0
+            LayoutMinWidth: =50
+            OnSelect: =Notifications.OnSelectClose()
+            ZIndex: =1
+
+        ctnSheet_Notifications As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DropShadow: =DropShadow.Bold
+            Fill: =Notifications.Style.Palette.ModalBackground
+            FillPortions: =0
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =50
+            LayoutMinWidth: =200
+            LayoutMode: =LayoutMode.Auto
+            Width: =Notifications.PanelWidth
+            ZIndex: =5
+
+            ctnHeader_Notifications As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =62
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =20
+                PaddingRight: =20
+                ZIndex: =1
+
+                lblTitile_Notifications As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Notifications.Style.Text.Title.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Notifications.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =Notifications.Style.Text.Title.Font
+                    FontWeight: =Notifications.Style.Text.Title.Weight
+                    LayoutMinWidth: =25
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =Notifications.Style.Text.Title.Size
+                    Text: ="Notifications"
+                    ZIndex: =1
+
+                icoClosePanel_Notifications As icon.Cancel:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =Color.Transparent
+                    BorderThickness: =1
+                    Color: =Notifications.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Notifications.Style.Palette.Disabled
+                    Fill: =Notifications.Style.Palette.Selectable.Fill
+                    FocusedBorderColor: =Notifications.Style.Palette.Border
+                    FocusedBorderThickness: =1
+                    Height: =32
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =Notifications.Style.Palette.Selectable.HoverFill
+                    Icon: =Icon.Cancel
+                    OnSelect: =Notifications.OnSelectClose()
+                    PaddingBottom: =7.5
+                    PaddingLeft: =7.5
+                    PaddingRight: =7.5
+                    PaddingTop: =7.5
+                    PressedBorderColor: =Notifications.Style.Palette.Border
+                    PressedColor: =Self.Color
+                    PressedFill: =Notifications.Style.Palette.Selectable.PressedFill
+                    TabIndex: =0
+                    Tooltip: ="Close notifications panel"
+                    Width: =32
+                    ZIndex: =2
+
+            ctnClearItems_Notifications As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =20
+                PaddingRight: =20
+                ZIndex: =2
+
+                btnClearItems_Notifications As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Notifications.Style.Palette.Accent
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Notifications.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: |-
+                        =If(
+                            !IsEmpty(Notifications.Items),
+                            DisplayMode.Edit,
+                            DisplayMode.Disabled
+                        )
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Font: =Notifications.Style.Text.Little.Font
+                    FontWeight: =Notifications.Style.Text.Little.Weight
+                    Height: =25
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Notifications.Style.Palette.Selectable.HoverFill
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =25
+                    OnSelect: =Notifications.OnClearAll()
+                    PaddingBottom: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    PressedColor: =Self.Color
+                    PressedFill: =Notifications.Style.Palette.Selectable.PressedFill
+                    RadiusBottomLeft: =2
+                    RadiusBottomRight: =2
+                    RadiusTopLeft: =2
+                    RadiusTopRight: =2
+                    Size: =Notifications.Style.Text.Little.Size
+                    Text: ="Clear all notifications"
+                    Visible: =Notifications.AllowClearNotifications
+                    Width: =125
+                    ZIndex: =1
+
+            ctnCards_Notifications As groupContainer.manualLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                ZIndex: =4
+
+                galCards_Notifications As gallery.variableTemplateHeightGallery:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    Items: |-
+                        =Sort(
+                            Notifications.Items,
+                            Stamp,
+                            SortOrder.Descending
+                        )
+                    Layout: =Layout.Vertical
+                    Selectable: =false
+                    TemplateFill: =Color.Transparent
+                    TemplatePadding: =0
+                    TemplateSize: =150
+                    Visible: =Notifications.Visible
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+                    ctnCardArea_Notifications As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        Fill: =Color.Transparent
+                        Height: =ctnCardLayout_Notifications.Height + 15
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =4
+
+                        ctnCardLayout_Notifications As groupContainer.verticalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DropShadow: =DropShadow.Semilight
+                            Fill: =Notifications.Style.Palette.Background
+                            FillPortions: =0
+                            Height: =shpColorIndicator_Notifications.Height + ctnCardContent_Notifications.Height
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =360
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =Notifications.Style.RadiusFactor
+                            RadiusBottomRight: =Notifications.Style.RadiusFactor
+                            Width: =360
+                            ZIndex: =3
+
+                            shpColorIndicator_Notifications As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =ThisItem.Type.Distinctive
+                                Height: =4
+                                Width: =Parent.Width - 40
+                                X: =20
+                                ZIndex: =1
+
+                            ctnCardContent_Notifications As groupContainer.verticalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Color.Transparent
+                                FillPortions: =0
+                                Height: =ctnCardHeader_Notifications.Height + htmCardDescription_Notifications.Height + shpCardSeparator_Notifications.Height + ctnCardFooter_Notifications.Height
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =250
+                                LayoutMode: =LayoutMode.Auto
+                                PaddingLeft: =10
+                                PaddingRight: =10
+                                RadiusBottomLeft: =Notifications.Style.RadiusFactor
+                                RadiusBottomRight: =Notifications.Style.RadiusFactor
+                                Width: =Parent.Width - 40
+                                X: =20
+                                ZIndex: =2
+
+                                ctnCardHeader_Notifications As groupContainer.horizontalAutoLayoutContainer:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Fill: =Color.Transparent
+                                    FillPortions: =0
+                                    Height: =30
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutMinHeight: =100
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    ZIndex: =1
+
+                                    lblCardTitle_Notifications As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Notifications.Style.Palette.Accent
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Notifications.Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Notifications.Style.Text.Subtitle.Font
+                                        FontWeight: =Notifications.Style.Text.Subtitle.Weight
+                                        LayoutMinHeight: =15
+                                        LayoutMinWidth: =25
+                                        Size: =Notifications.Style.Text.Subtitle.Size
+                                        Text: =ThisItem.Title
+                                        ZIndex: =1
+
+                                    icoCardRemove_Notifications As icon.Cancel:
+                                        AlignInContainer: =AlignInContainer.Center
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Notifications.Style.Palette.Icon
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Notifications.Style.Palette.Disabled
+                                        Fill: =Color.Transparent
+                                        FocusedBorderThickness: =0
+                                        Height: =17
+                                        HoverBorderColor: =Self.BorderColor
+                                        HoverColor: =Self.Color
+                                        HoverFill: =Notifications.Style.Palette.Selectable.HoverFill
+                                        Icon: =Icon.Cancel
+                                        LayoutMinHeight: =32
+                                        OnSelect: =Notifications.OnCloseNotification(ThisItem)
+                                        PaddingBottom: =2
+                                        PaddingLeft: =2
+                                        PaddingRight: =2
+                                        PaddingTop: =2
+                                        PressedBorderColor: =Self.BorderColor
+                                        PressedColor: =Self.Color
+                                        PressedFill: =Notifications.Style.Palette.Selectable.PressedFill
+                                        Tooltip: ="Delete notification"
+                                        Visible: =Notifications.AllowClearNotifications
+                                        Width: =17
+                                        ZIndex: =2
+
+                                htmCardDescription_Notifications As htmlViewer:
+                                    AutoHeight: =true
+                                    BorderColor: =Color.Transparent
+                                    Color: =Notifications.Style.Text.Little.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =Notifications.Style.Text.Little.Font
+                                    HtmlText: =ThisItem.Description
+                                    Size: =Notifications.Style.Text.Little.Size
+                                    ZIndex: =3
+
+                                shpCardSeparator_Notifications As rectangle:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Notifications.Style.Palette.Line
+                                    Height: =1
+                                    ZIndex: =4
+
+                                ctnCardFooter_Notifications As groupContainer.horizontalAutoLayoutContainer:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Fill: =Color.Transparent
+                                    FillPortions: =0
+                                    Height: =32
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutMinHeight: =15
+                                    LayoutMinWidth: =50
+                                    LayoutMode: =LayoutMode.Auto
+                                    ZIndex: =5
+
+                                    icoCardTime_Notitifactions As icon.Clock:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Notifications.Style.Palette.Icon
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Notifications.Style.Palette.Disabled
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FocusedBorderThickness: =0
+                                        Height: =12
+                                        HoverBorderColor: =Self.BorderColor
+                                        HoverColor: =Self.Color
+                                        Icon: =Icon.Clock
+                                        LayoutMinHeight: =17
+                                        PressedBorderColor: =Self.BorderColor
+                                        PressedColor: =Self.Color
+                                        Width: =12
+                                        ZIndex: =1
+
+                                    lblCardTime_Notifications As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Notifications.Style.Text.Little.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Notifications.Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Notifications.Style.Text.Little.Font
+                                        FontWeight: =Notifications.Style.Text.Little.Weight
+                                        LayoutMinHeight: =17
+                                        LayoutMinWidth: =25
+                                        PaddingBottom: =0
+                                        PaddingTop: =0
+                                        Size: =Notifications.Style.Text.Little.Size
+                                        Text: =ThisItem.Stamp
+                                        ZIndex: =2
+
+                ctnNoItems_Notifications As groupContainer.verticalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    Height: =150
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMode: =LayoutMode.Auto
+                    Visible: =IsEmpty(Notifications.Items)
+                    Width: |
+                        =300
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height / 2
+                    ZIndex: =5
+
+                    imgBell_Notifications As image:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        HoverBorderColor: =Self.BorderColor
+                        HoverFill: =Self.Fill
+                        Image: =bell
+                        PressedBorderColor: =Self.BorderColor
+                        PressedFill: =Self.Fill
+                        Transparency: =0.9
+                        ZIndex: =1
+
+                    lblNoItems_Notifications As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Notifications.Style.Text.Title.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Notifications.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =Notifications.Style.Text.Title.Font
+                        FontWeight: =Notifications.Style.Text.Title.Weight
+                        Size: =Notifications.Style.Text.Title.Size
+                        Text: ="No notifications"
+                        Width: =200
+                        ZIndex: =2
+

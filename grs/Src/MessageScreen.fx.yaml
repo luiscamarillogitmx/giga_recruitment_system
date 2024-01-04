@@ -1,0 +1,179 @@
+MessageScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    OnVisible: =
+
+    ctnLayout_SuccessScreen As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnContentDesign_MessageScreen As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =640
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            Width: =540
+            ZIndex: =2
+
+            ctnContent_MessageScreen As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DropShadow: =DropShadow.Semibold
+                Fill: =Style.Palette.LightFillable
+                Height: =600
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =20
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =32
+                RadiusBottomLeft: =Style.RadiusFactor * 2
+                RadiusBottomRight: =Style.RadiusFactor * 2
+                RadiusTopLeft: =Style.RadiusFactor * 2
+                RadiusTopRight: =Style.RadiusFactor * 2
+                X: =20
+                Y: =20
+                ZIndex: =2
+
+                shpIndicator_MessageScreen As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =item.MessageType.Distinctive
+                    Height: =32
+                    LayoutMinWidth: =50
+                    ZIndex: =1
+
+                lblTitle_MessageScreen As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Style.Text.Title.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =Style.Text.Title.Font
+                    FontWeight: =Style.Text.Title.Weight
+                    Height: =60
+                    Size: =Style.Text.Title.Size
+                    Text: =item.Title
+                    ZIndex: =2
+
+                ico_MessageScreen As icon.Warning:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =item.MessageType.Distinctive
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Style.Palette.Disabled
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    Icon: =item.Icon
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    ZIndex: =3
+
+                htmContent_MessageScreen As htmlViewer:
+                    BorderColor: =Color.Transparent
+                    Color: =Style.Text.Normal.Color
+                    DisplayMode: =DisplayMode.View
+                    FillPortions: =1
+                    Font: =Style.Text.Normal.Font
+                    HtmlText: |-
+                        =$"<div
+                            style='
+                                box-sizing: border-box;
+                                width: {Self.Width};
+                                height: {Self.Height - 1}px;
+                                padding: 0px 50px;
+                                text-align: center;
+                            '
+                          >
+                            <div 
+                                style='
+                                    box-sizing: border-box;
+                                    display: flex;
+                                    width: 100%;
+                                    height: 50%;
+                                '
+                            >
+                                <p style='margin: auto;'>{item.Message}</p>
+                            </div>
+                            <div
+                                style='
+                                    box-sizing: border-box;
+                                    display: flex;
+                                    width: 100%;
+                                    height: 50%;
+                                '
+                            >
+                                <p style='margin: 0px auto'>{item.Description}</p>
+                            </div>
+                        </div>"
+                    LayoutMinHeight: =20
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =Style.Text.Normal.Size
+                    ZIndex: =4
+
+                btnGoToApp_MessageScreen As button:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =Self.Fill
+                    Color: =Color.White
+                    DisabledBorderColor: =Style.Palette.Fillable
+                    DisabledColor: =Style.Palette.Disabled
+                    DisabledFill: =Style.Palette.Fillable
+                    Fill: =Style.Palette.Accent
+                    FocusedBorderColor: =Style.Palette.Border
+                    FocusedBorderThickness: =2
+                    Font: =Style.Text.Subtitle.Font
+                    FontWeight: =Style.Text.Subtitle.Weight
+                    Height: =35
+                    HoverBorderColor: =Self.HoverFill
+                    HoverFill: |-
+                        =ColorFade(
+                            Self.Fill,
+                            -10%
+                        )
+                    LayoutMinHeight: =17
+                    OnSelect: |-
+                        =Navigate(
+                            LoadingScreen,
+                            ScreenTransition.None,
+                            {ignoreParam: true}
+                        )
+                    PressedBorderColor: =Self.PressedFill
+                    PressedColor: =Self.Color
+                    PressedFill: |-
+                        =ColorFade(
+                            Self.Fill,
+                            -20%
+                        )
+                    RadiusBottomLeft: =Style.RadiusFactor
+                    RadiusBottomRight: =Style.RadiusFactor
+                    RadiusTopLeft: =Style.RadiusFactor
+                    RadiusTopRight: =Style.RadiusFactor
+                    Size: =Style.Text.Subtitle.Size
+                    Text: ="Go to app"
+                    Visible: =item.AllowGoToApp
+                    Width: =200
+                    ZIndex: =5
+

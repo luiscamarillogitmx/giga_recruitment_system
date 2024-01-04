@@ -1,0 +1,69 @@
+StyledLabel As CanvasComponent:
+    Fill: =Color.Transparent
+    Height: =60
+    LeftLineWidth: =1
+    Mark: =true
+    Style: =Style
+    StyledFill: =Style.Palette.LightFillable
+    Text: ="Text label"
+    TextStyle: =Style.Text.Subtitle
+    Width: =185
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_StyledLabel As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        shpLeftLine_StyledLabel As rectangle:
+            BorderColor: =RGBA(32, 54, 71, 1)
+            Fill: =StyledLabel.Style.Palette.Line
+            LayoutMinHeight: =17
+            Width: =StyledLabel.LeftLineWidth
+            ZIndex: =1
+
+        lblText_StyledLabel As label:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: |-
+                =If(
+                    StyledLabel.Mark,
+                    StyledLabel.Style.Palette.Accent,
+                    StyledLabel.TextStyle.Color
+                )
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =StyledLabel.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =StyledLabel.StyledFill
+            FillPortions: =1
+            Font: =StyledLabel.TextStyle.Font
+            FontWeight: =StyledLabel.TextStyle.Weight
+            Height: =32
+            LayoutMinHeight: =20
+            LayoutMinWidth: =25
+            PaddingBottom: =10
+            PaddingLeft: =10
+            PaddingTop: =10
+            Size: =StyledLabel.TextStyle.Size
+            Text: =StyledLabel.Text
+            Width: =175
+            ZIndex: =2
+
+        shpTriangle_StyledLabel As triangle.rightAngled:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =StyledLabel.StyledFill
+            FocusedBorderThickness: =0
+            LayoutMinHeight: =17
+            Width: =Self.Height
+            ZIndex: =3
+

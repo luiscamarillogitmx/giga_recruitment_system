@@ -1,0 +1,16 @@
+InspectionScreen As screen:
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =RGBA(100, 118, 132, 1)
+
+    lblDebug_InspectionScreen As label:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Color: =RGBA(0, 0, 0, 1)
+        DisabledColor: =RGBA(166, 166, 166, 1)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height
+        Overflow: =Overflow.Scroll
+        Size: =10
+        Text: =//Debug
+        Width: =Parent.Width
+        ZIndex: =1
+

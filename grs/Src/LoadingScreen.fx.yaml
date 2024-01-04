@@ -1,0 +1,1762 @@
+LoadingScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: |-
+        =If(
+            IsBlank(Style),
+            Color.White,
+            Style.Palette.Background
+        )
+    LoadingSpinnerColor: =Color.Transparent
+
+    AppFunctions As Functions:
+        BasicInputDialogFace: |-
+            ={
+                Code: Code,
+                Title: Title,
+                Message: Message,
+                ShowInput: !IsBlank(InputLabel),
+                InputIsRequired: InputIsRequired,
+                InputLabel: InputLabel,
+                Default: Default,
+                AcceptText: AcceptText,
+                CancelText: CancelText,
+                ModalWidth: ModalWidth,
+                ModalHeight: ModalHeight,
+                AcceptButtonWidth: AcceptButtonWidth,
+                CancelButtonWidth: CancelButtonWidth
+            }
+        BooleanToFormMode: |-
+            =If(
+                Value,
+                FormMode.Edit,
+                FormMode.New
+            )
+        BooleanToViewDisplayMode: |-
+            =If(
+                Value,
+                DisplayMode.View,
+                DisplayMode.Disabled
+            )
+        BuildGrantAccess: |-
+            =With(
+                UserType,
+                With(
+                    User,
+                    {
+                        Common: {
+                            GoToJobRequisitions: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            GoToCandidates: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            GoToSettings: role = Admin,
+                            ChangeStyle: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            SeeNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            ClearNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards
+                        },
+                        JobRequisitions: {
+                            ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            LoadList: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            GoToDetails: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            Share: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            FilterList: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            Paginate: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            Create: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery
+                        },
+                        JobRequisition: {
+                            ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            LoadRecruiters: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            LoadCandidates: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            GoToCandidateDetails: role = Admin || role = HiringManager || role = TalentDiscovery,
+                            ReadComments: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            WriteComments: role = Admin || role = HiringManager || role = TalentDiscovery
+                        },
+                        Candidates: {
+                            ViewAccess: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            LoadList: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            Share: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            GoToCandidateDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            GoToJobDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards
+                        },
+                        Candidate: {
+                            ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                            JobOffer: {
+                                See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Create: role = Admin || role = TalentDiscovery,
+                                Edit: role = Admin || role = TalentDiscovery,
+                                Launch: role = Admin || role = TalentDiscovery,
+                                SalaryPackage: {
+                                    ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI,
+                                    EditBenefits: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                    ChangesCurrency: role = Admin || role = HiringManager || role = TalentDiscovery,
+                                    AssignSalary: role = Admin || role = HiringManager || role = TalentDiscovery
+                                },
+                                FinancialBreakdown: {
+                                    ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                    EditFields: role = Admin || role = TalentDiscovery || role = ADFI
+                                }
+                            },
+                            JobContract: {
+                                See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,
+                                Create: role = Admin || role = TotalRewards,
+                                Edit: role = Admin || role = TotalRewards,
+                                Launch: role = Admin || role = TotalRewards
+                            }
+                        }
+                    }
+                )
+            )
+        BuildListInfo: |-
+            =Concat(
+                Items,
+                $"• {Value}",
+                Char(10)
+            )
+        BuildLocationInfo: |-
+            =If(
+                IsBlank(Location),
+                "",
+                $"• 𝗡𝗮𝗺𝗲: {Location.name}
+            • 𝗖𝗼𝘂𝗻𝘁𝗿𝘆: {Location.country}
+            • 𝗙𝘂𝗹𝗹 𝗮𝗱𝗱𝗿𝗲𝘀𝘀: {Location.fullAddress}"
+            )
+        BuildSignableInfo: |-
+            =If(
+                IsBlank(Signable),
+                "",
+                $"• 𝗡𝗮𝗺𝗲: {Signable.version}
+            • 𝗧𝗲𝗺𝗽𝗹𝗮𝘁𝗲: {Signable.template.name}
+            • 𝗖𝗿𝗲𝗮𝘁𝗲𝗱 𝗼𝗻: {Self.FormatDateTimeValue(Signable.createdOn)}
+            • 𝗦𝘁𝗮𝘁𝘂𝘀: {Self.CodeToVersionState(Signable.status).Name}"
+            )
+        BuildStyle: |-
+            =/*With(
+                Self.BaseStyle As base,
+                Patch(
+                    base,
+                    {
+                        Name: StyleExtension.Name,
+                        Type: StyleExtension.Type,
+                        Text: Patch(
+                            base.Text,
+                            {
+                                Title: Patch(
+                                    base.Text.Title,
+                                    StyleExtension.Text.Title
+                                ),
+                                Subtitle: Patch(
+                                    base.Text.Subtitle,
+                                    StyleExtension.Text.Subtitle
+                                ),
+                                Normal: Patch(
+                                    base.Text.Normal,
+                                    StyleExtension.Text.Normal
+                                ),
+                                Little: Patch(
+                                    base.Text.Little,
+                                    StyleExtension.Text.Little
+                                )
+                            }
+                        ),
+                        Palette: Patch(
+                            base.Palette,
+                            {
+                                Background: StyleExtension.Palette.Background,
+                                ModalBackground: StyleExtension.Palette.ModalBackground,
+                                TransparentBackground: StyleExtension.Palette.TransparentBackground,
+                                Shadow: StyleExtension.Palette.Shadow,
+                                Fillable: StyleExtension.Palette.Fillable,
+                                LightFillable: StyleExtension.Palette.LightFillable,
+                                Accent: StyleExtension.Palette.Accent,
+                                Line: StyleExtension.Palette.Line,
+                                Border: StyleExtension.Palette.Border,
+                                Disabled: StyleExtension.Palette.Disabled,
+                                Selectable: StyleExtension.Palette.Selectable,
+                                Icon: StyleExtension.Palette.Icon
+                            }
+                        ),
+                        GigaLogo: StyleExtension.GigaLogo,
+                        GRSLogo: StyleExtension.GRSLogo,
+                        SidebarFill: StyleExtension.SidebarFill,
+                        Loader: StyleExtension.Loader
+                    }
+                )
+            )*/
+        BuildUserInfo: |-
+            =If(
+                IsBlank(User),
+                "",
+                $"• 𝗡𝗮𝗺𝗲: {User.name}
+            • 𝗘𝗺𝗮𝗶𝗹: {User.email}
+            • 𝗥𝗼𝗹𝗲: {User.role}"
+            )
+        CodeToEducationalDegree: |-
+            =With(
+                EducationalDegree,
+                Switch(
+                    Code,
+                    Engineer.Code,
+                    Engineer,
+                    Bachelor.Code,
+                    Bachelor,
+                    UniversityTechnician.Code,
+                    UniversityTechnician,
+                    Undefined
+                )
+            )
+        CodeToGender: |-
+            =With(
+                Gender,
+                Switch(
+                    Code,
+                    Male.Code,
+                    Male,
+                    Female.Code,
+                    Female,
+                    Unspecified
+                )
+            )
+        CodeToJobState: |-
+            =With(
+                JobState,
+                Switch(
+                    Code,
+                    Open.Code,
+                    Open,
+                    Closed.Code,
+                    Closed,
+                    Filled.Code,
+                    Filled,
+                    OnHold.Code,
+                    OnHold,
+                    AwaitingApproval.Code,
+                    AwaitingApproval,
+                    Approved.Code,
+                    Approved,
+                    Rejected.Code,
+                    Rejected,
+                    Retracted.Code,
+                    Retracted,
+                    Draft.Code,
+                    Draft,
+                    Undefined
+                )
+            )
+        CodeToJobType: |-
+            =With(
+                JobType,
+                Switch(
+                    Code,
+                    FullTime.Code,
+                    FullTime,
+                    PartTime.Code,
+                    PartTime,
+                    Intern.Code,
+                    Intern,
+                    Contractor.Code,
+                    Contractor,
+                    Undefined
+                )
+            )
+        CodeToMaritalStatus: |-
+            =With(
+                MaritalStatus,
+                Switch(
+                    Code,
+                    Single.Code,
+                    Single,
+                    Married.Code,
+                    Married,
+                    Cohabiting.Code,
+                    Cohabiting,
+                    Divorced.Code,
+                    Divorced,
+                    Widowed.Code,
+                    Widowed,
+                    Undefined
+                )
+            )
+        CodeToPeriod: |-
+            =With(
+                Period,
+                Switch(
+                    Code,
+                    ThreeMonths.Code,
+                    ThreeMonths,
+                    SixMonths.Code,
+                    SixMonths,
+                    TwelveMonths.Code,
+                    TwelveMonths,
+                    Indeterminate.Code,
+                    Indeterminate,
+                    Undefined
+                )
+            )
+        CodeToRemoteType: |-
+            =With(
+                RemoteType,
+                Switch(
+                    Code,
+                    Remote.Code,
+                    Remote,
+                    HybridRemote.Code,
+                    HybridRemote,
+                    TemporarilyRemote.Code,
+                    TemporarilyRemote,
+                    NoRemote.Code,
+                    NoRemote,
+                    Undefined
+                )
+            )
+        CodeToTemplateLanguage: |-
+            =With(
+                TemplateLanguage,
+                Switch(
+                    Code,
+                    English.Code,
+                    English,
+                    Spanish.Code,
+                    Spanish,
+                    Portuguese.Code,
+                    Portuguese,
+                    Undefined
+                )
+            )
+        CodeToVersionSectionState: |-
+            =With(
+                VersionSectionState,
+                Switch(
+                    Code,
+                    Locked.Code,
+                    Locked,
+                    Opened.Code,
+                    Opened,
+                    Waiting.Code,
+                    Waiting,
+                    Completed.Code,
+                    Completed,
+                    Default
+                )
+            )
+        CodeToVersionState: |-
+            =With(
+                VersionState,
+                Switch(
+                    Code,
+                    New.Code,
+                    New,
+                    Canceled.Code,
+                    Canceled,
+                    Filled.Code,
+                    Filled,
+                    Sent.Code,
+                    Sent,
+                    Signed.Code,
+                    Signed,
+                    Rejected.Code,
+                    Rejected,
+                    Undefined
+                )
+            )
+        CodeToWorkflowStatus: |-
+            =With(
+                WorkflowStatus,
+                Switch(
+                    Code,
+                    Launched.Code,
+                    Launched,
+                    Sent.Code,
+                    Sent,
+                    Error.Code,
+                    Error,
+                    Locked.Code,
+                    Locked,
+                    Ready.Code,
+                    Ready,
+                    Default
+                )
+            )
+        ConcatIfExist: |-
+            =Trim(
+                Concat(
+                    Values,
+                    If(
+                        IsBlank(Value),
+                        "",
+                        " " & Value
+                    )
+                )
+            )
+        CreateError: |-
+            =Self.CreateNotification(
+                GlobalNotificationType.Error,
+                Title,
+                IfError(
+                    With(
+                        Self.ParseError(ErrorMessage) As error,
+                        $"<div style='box-sizing: border-box; height: 100%; text-align: left;'>
+                        <div style='padding: 0px 0px 10px 0px;'>
+                            {BriefDescription}
+                        </div>
+                        <div style='padding: 0px 10px;'>
+                            <div style='display: flex; height: 20px;'>
+                                <div style='width: 60%; display: inline-block; vertical-align: center;'>
+                                    <strong>{error.Operation}</strong>
+                                </div>
+                                <div style='width: 40%; display: inline-block; text-align: right; vertical-align: center;'>
+                                    <strong>{Self.HttpCodeToText(error.Code)}</strong>
+                                </div>
+                            </div>
+                            <div style='width: 100%; height: 1px; background-color: lightcoral;'>
+                            </div>
+                            <div>
+                                <p>{error.Message}</p>
+                                <p>{error.Trace}</p>
+                            </div>
+                        </div>
+                    </div>"
+                    ),
+                    $"{BriefDescription}<br>{ErrorMessage}"
+                )
+            )
+        CreateInfo: |-
+            =Self.CreateNotification(
+                GlobalNotificationType.Info,
+                Title,
+                Description
+            )
+        CreateNotification: |-
+            ={
+                Id: GUID(),
+                Stamp: Now(),
+                Type: Type,
+                Title: Title,
+                Description: Description
+            }
+        CreateSuccess: |-
+            =Self.CreateNotification(
+                GlobalNotificationType.Success,
+                Title,
+                Description
+            )
+        CreateSVG: |-
+            =$"<svg xmlns=""http://www.w3.org/2000/svg"" viewBox=""0 0 512 512"">
+                <path
+                    d=""{D}""
+                    fill=""{Fill}"" stroke=""{Stroke}"" stroke-linecap=""round"" stroke-linejoin=""round"" stroke-width=""{StrokeWidth}"" />
+            </svg>"
+        CreateSVGAsImg: |-
+            =Self.SVGToImg(
+                Self.CreateSVG(
+                    D,
+                    Fill,
+                    Stroke,
+                    StrokeWidth
+                )
+            )
+        DateTimeAsUTC: |-
+            =Text(
+                DateTime,
+                DateTimeFormat.UTC
+            )
+        ErrorMessage: |-
+            ={
+                item: {
+                    MessageType: GlobalNotificationType.Error,
+                    Title: Title,
+                    Message: Message,
+                    Description: Description,
+                    Icon: Icon.Error,
+                    AllowGoToApp: AllowGoToApp
+                }
+            }
+        FindItemByTag: |-
+            =With(
+                LookUp(
+                    Breakdown As section,
+                    !IsBlank(
+                        LookUp(
+                            section.items As item,
+                            item.tag = Tag
+                        )
+                    )
+                ) As section,
+                LookUp(
+                    section.items As item,
+                    item.tag = Tag
+                )
+            )
+        FixAccents: |-
+            =Substitute(
+                Substitute(
+                    Substitute(
+                        Substitute(
+                            Substitute(
+                                Substitute(
+                                    Substitute(
+                                        Substitute(
+                                            Substitute(
+                                                Substitute(
+                                                    Substitute(
+                                                        Substitute(
+                                                            Substitute(
+                                                                Substitute(
+                                                                    Text,
+                                                                    "&#225;",
+                                                                    "á"
+                                                                ),
+                                                                "&#233;",
+                                                                "é"
+                                                            ),
+                                                            "&#237;",
+                                                            "í"
+                                                        ),
+                                                        "&#243;",
+                                                        "ó"
+                                                    ),
+                                                    "&#250;",
+                                                    "ú"
+                                                ),
+                                                "&#193;",
+                                                "Á"
+                                            ),
+                                            "&#201;",
+                                            "É"
+                                        ),
+                                        "&#205;",
+                                        "Í"
+                                    ),
+                                    "&#211;",
+                                    "Ó"
+                                ),
+                                "&#218;",
+                                "Ú"
+                            ),
+                            "&#209;",
+                            "Ñ"
+                        ),
+                        "&#241;",
+                        "ñ"
+                    ),
+                    "&#217;",
+                    "ü"
+                ),
+                "&#233;",
+                "Ü"
+            )
+        ForFixAccents: |-
+            =ForAll(
+                Table,
+                Self.FixAccents(Value)
+            )
+        FormatAmout: |-
+            =Text(
+                Amount,
+                "#,###.00",
+                "en-US"
+            )
+        FormatBreakdownWithZeros: |-
+            ="<ul>" & Concat(
+                Breakdown,
+                "<li><strong>" & Substitute(
+                    sectionName,
+                    "_",
+                    " "
+                ) & "</strong>:<ul>" & Concat(
+                    items,
+                    "<li> Field <strong>""" & concept & """</strong></li>"
+                ) & "</ul>"
+            ) & "</ul>"
+        FormatDate: |-
+            =Text(
+                Date,
+                "dd/mm/yyyy"
+            )
+        FormatDateTimeValue: |-
+            =Text(
+                DateTimeValue(DateTimeValue),
+                "dd/mm/yyyy, hh:mm"
+            )
+        FormatDateValue: |-
+            =Text(
+                DateValue(DateValue),
+                "dd/mm/yyyy"
+            )
+        FormatLongDateTimeValue: |-
+            =Text(
+                DateTimeValue(DateTimeValue),
+                DateTimeFormat.LongDateTime
+            )
+        FormatLongDateValue: |-
+            =Text(
+                DateValue(DateValue),
+                DateTimeFormat.LongDate
+            )
+        FormModeToDisplayMode: |-
+            =Switch(
+                FormModeInput,
+                FormMode.New,
+                DisplayMode.Edit,
+                FormMode.Edit,
+                DisplayMode.Edit,
+                FormMode.View,
+                DisplayMode.View,
+                DisplayMode.Disabled
+            )
+        GetSubEntityPath: |-
+            =With(
+                {param: Param("subEntityId")},
+                If(
+                    IsBlank(param),
+                    Blank(),
+                    With(
+                        {
+                            pathItems: Split(
+                                param,
+                                "/"
+                            )
+                        },
+                        With(
+                            {
+                                path: ForAll(
+                                    pathItems,
+                                    With(
+                                        {
+                                            itemValues: Split(
+                                                Value,
+                                                ":"
+                                            )
+                                        },
+                                        If(
+                                            CountRows(itemValues) <> 2,
+                                            Blank(),
+                                            {
+                                                EntityType: Index(
+                                                    itemValues,
+                                                    1
+                                                ).Value,
+                                                EntityId: Index(
+                                                    itemValues,
+                                                    2
+                                                ).Value
+                                            }
+                                        )
+                                    )
+                                )
+                            },
+                            If(
+                                IsEmpty(path) || Blank() in path,
+                                Blank(),
+                                path
+                            )
+                        )
+                    )
+                )
+            )
+        GetSubEntityTestPath: |-
+            =Table(
+                {
+                    EntityType: "candidate",
+                    EntityId: "bf4894c3-2162-ee11-be6e-6045bd0064b3"
+                },
+                {
+                    EntityType: "jobOffer",
+                    EntityId: "ffe4dda2-de8a-ee11-8179-6045bd0064b3"
+                }
+            )
+        GetUserColor: |-
+            =With(
+                LookUp(
+                    UserColorBuffer,
+                    Code = UserId
+                ) As ColorItem,
+                With(
+                    {
+                        selectedColor: If(
+                            IsBlank(ColorItem),
+                            Self.RandomColor(),
+                            ColorItem.Color
+                        )
+                    },
+                    If(
+                        IsBlank(ColorItem),
+                        Self.PutUserColor(
+                            UserId,
+                            selectedColor
+                        )
+                    );
+                    selectedColor
+                )
+            )
+        HttpCodeToText: |-
+            =Switch(
+                HttpCode,
+                100,
+                "Continue",
+                101,
+                "Switching Protocol",
+                102,
+                "Processing",
+                103,
+                "Early Hints",
+                200,
+                "Ok",
+                201,
+                "Created",
+                202,
+                "Accepted",
+                203,
+                "Non-Authoritative Information",
+                204,
+                "No Content",
+                205,
+                "Reset Content",
+                206,
+                "Partial Content",
+                207,
+                "Multi-Status",
+                208,
+                "Already Reported",
+                300,
+                "Multiple Choices",
+                301,
+                "Moved Permanently",
+                302,
+                "Found",
+                303,
+                "See Other",
+                304,
+                "Not Modified",
+                305,
+                "Use Proxy",
+                400,
+                "Bad Request",
+                401,
+                "Unauthorized",
+                402,
+                "Payment Required",
+                403,
+                "Forbidden",
+                404,
+                "Not Found",
+                405,
+                "Method Not Allowed",
+                500,
+                "Internal Server Error",
+                501,
+                "Not Implemented",
+                502,
+                "Bad Gateway",
+                503,
+                "Service Unavailable",
+                504,
+                "Gateway Timeout",
+                Text(HttpCode)
+            )
+        InfoMessage: |-
+            ={
+                item: {
+                    MessageType: GlobalNotificationType.Info,
+                    Title: Title,
+                    Message: Message,
+                    Description: Description,
+                    Icon: Icon.Information,
+                    AllowGoToApp: AllowGoToApp
+                }
+            }
+        InitialsOnly: |-
+            =Concat(
+                ForAll(
+                    Split(
+                        Trim(Sentence),
+                        " "
+                    ),
+                    Upper(
+                        Left(
+                            Value,
+                            1
+                        )
+                    )
+                ),
+                Value
+            )
+        IsDeepScreen: |-
+            =DeepScreen.Job.EntityType = EntityType
+            || DeepScreen.Candidate.EntityType = EntityType
+            || DeepScreen.SalaryPackage.EntityType = EntityType
+            || DeepScreen.FinancialBreakdown.EntityType = EntityType
+        IsPositiveNumber: |-
+            =IfError(
+                Value(
+                    NumberString,
+                    "en-US"
+                ),
+                0
+            ) > 0
+        IsPositiveOrZero: |-
+            =!IsBlank(NumberString) && IfError(
+                Value(
+                    NumberString,
+                    "en-US"
+                ),
+                -1
+            ) >= 0
+        IsZero: =IsBlank(Number) || IsError(Number) || Number = 0
+        LoadingErrorAssociatedToMessage: |-
+            =Self.LoadingErrorMessage(
+                LoadObject,
+                $"An error occurred while loading the {LoadObject} associated with the {AssociatedWith}.<br>Message obtained:<br>{ErrorMessage}"
+            )
+        LoadingErrorMessage: |-
+            =Self.ErrorMessage(
+                $"Error loading {LoadObject}!",
+                Message
+            )
+        LoadingInfoErrorMessage: |-
+            =Self.LoadingErrorMessage(
+                LoadObject,
+                $"An error occurred while loading the {LoadObject} information.<br>Message obtained:<br>{ErrorMessage}"
+            )
+        LoadOtherData: |-
+            =If(
+                AdditionalInfo.IsLoaded,
+                {additionalInfo: AdditionalInfo.Value},
+                With(
+                    {
+                        additionalInfo: If(
+                            IsBlank(AdditionalInfoContent),
+                            With(
+                                {
+                                    loaded: Switch(
+                                        CallTo,
+                                        1,
+                                        ISignatureAPI.GetFormDynamicFields(Id),
+                                        2,
+                                        ISignatureAPI.GetTemplateDynamicFields(Id)
+                                    )
+                                },
+                                IfError(
+                                    loaded,
+                                    Error(FirstError.Message)
+                                )
+                            ),
+                            Self.ParseDynamicFields(AdditionalInfoContent)
+                        )
+                    },
+                    IfError(
+                        additionalInfo,
+                        Error(FirstError.Message),
+                        ThisRecord
+                    )
+                )
+            )
+        LoadSignedOffers: |-
+            =If(
+                CloseLoading,
+                With(
+                    {
+                        loadedData: ISignatureAPI.GetJobOffersByStatus(
+                            CandidateStateId,
+                            VersionState.Signed.Code
+                        )
+                    },
+                    IfError(
+                        loadedData,
+                        Error(FirstError.Message),
+                        {
+                            SignedOffers: Sort(
+                                loadedData,
+                                DateValue(jobOffer.createdOn),
+                                SortOrder.Descending
+                            )
+                        }
+                    )
+                )
+            )
+        ManagerToUser: |-
+            ={
+                id: HiringManager.id,
+                name: HiringManager.name,
+                email: HiringManager.email,
+                idSystemUser: HiringManager.idSystemUser,
+                role: HiringManager.role
+            }
+        MapToUL: |-
+            =Self.TableToUL(
+                ForAll(
+                    Map,
+                    Key & Separator & Value
+                )
+            )
+        Notify: |-
+            =Collect(
+                GlobalNotifications,
+                Notification
+            );
+            Set(
+                NotificationCardVisible,
+                true
+            )
+        NotifyError: |-
+            =Self.Notify(
+                Self.CreateError(
+                    Title,
+                    ErrorMessage,
+                    BriefDescription
+                )
+            )
+        NotifyInfo: |-
+            =Self.Notify(
+                Self.CreateInfo(
+                    Title,
+                    Description
+                )
+            )
+        NotifySuccess: |-
+            =Self.Notify(
+                Self.CreateSuccess(
+                    Title,
+                    Description
+                )
+            )
+        OptionDialogFace: |-
+            ={
+                Code: Code,
+                Title: Title,
+                Message: Message,
+                AcceptText: AcceptText,
+                CancelText: CancelText,
+                ModalWidth: ModalWidth,
+                ModalHeight: ModalHeight,
+                AcceptButtonWidth: AcceptButtonWidth,
+                CancelButtonWidth: CancelButtonWidth
+            }
+        ParseAdditionalInfo: |-
+            =ForAll(
+                Table(ParseJSON(StringValue)) As field,
+                {
+                    tag: Text(field.Value.tag),
+                    concept: Text(field.Value.concept),
+                    value: Text(field.Value.value)
+                }
+            )
+        ParseCandidateInfo: |-
+            =With(
+                {o: ParseJSON(CandidateInfoValue)},
+                {
+                    name: Text(o.name),
+                    idNumber: Text(o.idNumber),
+                    address: Text(o.address),
+                    educationalLevel: Value(o.educationalLevel),
+                    fieldStudy: Text(o.fieldStudy),
+                    maritalStatus: Value(o.maritalStatus),
+                    birthCity: Text(o.birthCity),
+                    birthDate: Text(o.birthDate),
+                    nationality: Text(o.nationality),
+                    phoneNumber: Text(o.phoneNumber),
+                    gender: Value(o.gender),
+                    additionalInfo: Text(o.additionalInfo)
+                }
+            )
+        ParseDynamicFields: |-
+            =ForAll(
+                Table(ParseJSON(Breakdown)) As Section,
+                {
+                    sectionName: Text(Section.Value.sectionName),
+                    items: ForAll(
+                        Table(Section.Value.items) As Item,
+                        {
+                            concept: Text(Item.Value.concept),
+                            rate: Text(Item.Value.rate),
+                            value: Text(Item.Value.value),
+                            factor: Text(Item.Value.factor),
+                            tag: Text(Item.Value.tag),
+                            blocked: Boolean(Item.Value.blocked)
+                        }
+                    )
+                }
+            )
+        ParseError: |-
+            =With(
+                {
+                    Substrings: Split(
+                        Substitute(
+                            ErrorMessage,
+                            "Error de ",
+                            ""
+                        ),
+                        ": {"
+                    )
+                },
+                Patch(
+                    {
+                        Operation: Last(
+                            Split(
+                                Index(
+                                    Substrings,
+                                    1
+                                ).Value,
+                                "."
+                            )
+                        ).Value
+                    },
+                    Self.ParseMessageError(
+                        "{" & Index(
+                            Substrings,
+                            2
+                        ).Value
+                    )
+                )
+            )
+        ParseMessageError: |-
+            =With(
+                {object: ParseJSON(JsonError)},
+                {
+                    Code: Value(object.code),
+                    Message: Text(object.message),
+                    Trace: Text(object.trace)
+                }
+            )
+        ProcessCurrencies: |-
+            =If(
+                IsError(CurrencySource),
+                Error(
+                    IfError(
+                        CurrencySource,
+                        FirstError.Message,
+                        ""
+                    )
+                ),
+                If(
+                    IsError(Values),
+                    Error(
+                        IfError(
+                            Values,
+                            FirstError.Message,
+                            ""
+                        )
+                    ),
+                    If(
+                        IsBlank(Values),
+                        Error("The current template does not contain values in the currency list."),
+                        With(
+                            {
+                                selectedCurrencies: Filter(
+                                    ForAll(
+                                        Values,
+                                        LookUp(
+                                            CurrencySource,
+                                            code = Value
+                                        )
+                                    ),
+                                    !IsBlank(ThisRecord)
+                                )
+                            },
+                            If(
+                                IsEmpty(selectedCurrencies),
+                                Error("The current template has a list of currencies with incorrect codes."),
+                                {currencies: selectedCurrencies}
+                            )
+                        )
+                    )
+                )
+            )
+        ProcessDynamicContent: |-
+            ={
+                DynamicContent: Filter(
+                    DynamicContent,
+                    tag <> "productList" && tag <> "deliverable" && tag <> "commissionBreakdown"
+                ),
+                SpecialFields: {
+                    ProductList: LookUp(
+                        DynamicContent,
+                        tag = "productList"
+                    ),
+                    Deliverable: LookUp(
+                        DynamicContent,
+                        tag = "deliverable"
+                    ),
+                    CommissionBreakdown: LookUp(
+                        DynamicContent,
+                        tag = "commissionBreakdown"
+                    )
+                }
+            }
+        ProcessDynamicFields: |-
+            =ForAll(
+                Breakdown As Section,
+                {
+                    id: GUID(),
+                    sectionName: Section.sectionName,
+                    items: ForAll(
+                        Section.items As Item,
+                        Patch(
+                            Item,
+                            {id: GUID()}
+                        )
+                    )
+                }
+            )
+        PutUserColor: |-
+            =Collect(
+                UserColorBuffer,
+                {
+                    Code: Code,
+                    Color: Color
+                }
+            )
+        RandomColor: |-
+            =RGBA(
+                RandBetween(
+                    First,
+                    Last
+                ),
+                RandBetween(
+                    First,
+                    Last
+                ),
+                RandBetween(
+                    First,
+                    Last
+                ),
+                Alpha
+            )
+        SectionCodeToComparableValue: |-
+            =With(
+                VersionSectionState,
+                Switch(
+                    Code,
+                    Locked.Code,
+                    -1,
+                    Opened.Code,
+                    0,
+                    Waiting.Code,
+                    0,
+                    Completed.Code,
+                    1,
+                    Default
+                )
+            )
+        SelectVersion: |-
+            =If(
+                !IsBlank(Versions) && !IsEmpty(Versions),
+                Self.WrapVersion(
+                    If(
+                        IsBlank(SelectedVersion.id),
+                        First(Versions),
+                        LookUp(
+                            Versions,
+                            id = SelectedVersion.id
+                        )
+                    ),
+                    IsReadOnly
+                )
+            )
+        SmallErrorFormat: |-
+            =IfError(
+                With(
+                    Self.ParseError(ErrorMessage) As error,
+                    $"<div style='box-sizing: border-box; height: 100%; text-align: left;'>
+                        <div style='padding: 0px 0px 10px 0px;'>
+                            {BriefDescription}
+                        </div>
+                        <div style='padding: 0px 10px;'>
+                            <div style='display: flex; height: 20px;'>
+                                <div style='width: 50%; display: inline-block; vertical-align: center;'>
+                                    <strong>{error.Operation}</strong>
+                                </div>
+                                <div style='width: 50%; display: inline-block; text-align: right; vertical-align: center;'>
+                                    <strong>{Self.HttpCodeToText(error.Code)}</strong>
+                                </div>
+                            </div>
+                            <div style='width: 100%; height: 1px; background-color: lightcoral;'>
+                            </div>
+                            <div>
+                                <p>{error.Message}</p>
+                            </div>
+                        </div>
+                    </div>"
+                ),
+                ErrorMessage
+            )
+        StringToFormatedAmount: |-
+            =Text(
+                Value(
+                    StringAmount,
+                    "en-US"
+                ),
+                "#,###.00",
+                "en-US"
+            )
+        SuccessMessage: |-
+            ={
+                item: {
+                    MessageType: GlobalNotificationType.Success,
+                    Title: Title,
+                    Message: Message,
+                    Description: Description,
+                    Icon: Icon.CheckBadge,
+                    AllowGoToApp: AllowGoToApp
+                }
+            }
+        SVGToImg: |-
+            ="data:image/svg+xml;utf8, "& EncodeUrl(SVG)
+        TableToUL: |-
+            =If(
+                IsBlank(Table) || IsEmpty(Table),
+                "",
+                With(
+                    {
+                        cleanedTable: Filter(
+                            Table,
+                            !IsBlank(Value)
+                        )
+                    },
+                    If(
+                        IsEmpty(cleanedTable),
+                        "",
+                        "<ul>" & Concat(
+                            cleanedTable,
+                            $"<li>{Value}</li>"
+                        ) & "</ul>"
+                    )
+                )
+            )
+        ToISODate: |-
+            =Text(
+                Date,
+                "yyyy-mm-dd"
+            )
+        ToSpaces: |-
+            =Substitute(
+                String,
+                "_",
+                " "
+            )
+        ULToCSV: |-
+            =Concat(
+                Self.ULToTable(HTMLText),
+                Value,
+                Char
+            )
+        ULToMap: |-
+            =ForAll(
+                Self.ULToTable(HTMLText),
+                With(
+                    {
+                        parts: Split(
+                            Value,
+                            Separator
+                        )
+                    },
+                    {
+                        Key: First(parts).Value,
+                        Value: Last(parts).Value
+                    }
+                )
+            )
+        ULToTable: |-
+            =Filter(
+                ForAll(
+                    Split(
+                        Substitute(
+                            Substitute(
+                                Substitute(
+                                    HTMLText,
+                                    "<ul>",
+                                    ""
+                                ),
+                                "</ul>",
+                                ""
+                            ),
+                            "<li>",
+                            ""
+                        ),
+                        "</li>"
+                    ),
+                    {Value: Value}
+                ),
+                !IsBlank(Value)
+            )
+        Visible: =false
+        WorkflowCodeToComparableValue: |-
+            =With(
+                WorkflowStatus,
+                Switch(
+                    Code,
+                    Launched.Code,
+                    0,
+                    Sent.Code,
+                    1,
+                    Error.Code,
+                    0,
+                    Locked.Code,
+                    -1,
+                    Ready.Code,
+                    0,
+                    -1
+                )
+            )
+        WrapVersion: |-
+            =With(
+                VersionState,
+                With(
+                    Version,
+                    {
+                        Source: ThisRecord,
+                        Status: Self.CodeToVersionState(status),
+                        IsActive: (status = New.Code || status = Filled.Code),
+                        IsClosed: status = Canceled.Code || status = Signed.Code,
+                        IsReadOnly: IsReadOnly || status = Canceled.Code || status = Signed.Code || status = Sent.Code,
+                        IsCancelable: !IsReadOnly && status <> Canceled.Code && status <> Sent.Code && status <> Rejected.Code
+                    }
+                )
+            )
+        ZIndex: =2
+
+    btnGoToScreen_LoadingScreen As button:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        FontWeight: =Blank()
+        Height: =0
+        HoverBorderColor: =Color.Transparent
+        HoverColor: =Color.Transparent
+        HoverFill: =Color.Transparent
+        OnSelect: |-
+            =With(
+                {
+                    path: If(
+                        !ignoreParam,
+                        AppFunctions.GetSubEntityPath()
+                    )
+                },
+                If(
+                    IsBlank(path),
+                    // Si no hay ruta
+                    Navigate(HomeScreen),
+                    // Si existe una ruta
+                    With(
+                        Index(
+                            path,
+                            1
+                        ),
+                        Switch(
+                            EntityType,
+                            DeepScreen.Job.EntityType,
+                            // Si el deep link apunta a vista de detalles de un job-----------------------------------------------------------------------------------------------
+                            IfError(
+                                Set(
+                                    LoadingItem,
+                                    " job requisition"
+                                );
+                                With(
+                                    ISignatureAPI.GetJobPosition(EntityId) As jobPosition,
+                                    Navigate(
+                                        JobScreen,
+                                        ScreenTransition.None,
+                                        {
+                                            sidebarSelectedItem: TopLevelScreen.JobRequisitions.Code,
+                                            jobPosition: jobPosition,
+                                            recruiters: Blank(),
+                                            candidates: Blank(),
+                                            isFormReseted: false,
+                                            isFirstScreen: true
+                                        }
+                                    )
+                                ),
+                                Navigate(
+                                    MessageScreen,
+                                    ScreenTransition.None,
+                                    AppFunctions.LoadingInfoErrorMessage(
+                                        "job requisition",
+                                        FirstError.Message
+                                    )
+                                )
+                            ),
+                            DeepScreen.Candidate.EntityType,
+                            // Si el deep link apunta a vista detalles del candidato----------------------------------------------------------------------------------------------
+                            IfError(
+                                Set(
+                                    LoadingItem,
+                                    " candidate"
+                                );
+                                With(
+                                    ISignatureAPI.GetCandidate(EntityId) As candidate,
+                                    Set(
+                                        LoadingItem,
+                                        " job requisition"
+                                    );
+                                    With(
+                                        ISignatureAPI.GetJobPosition(candidate.jobPosition.id) As jobPosition,
+                                        With(
+                                            If(
+                                                CountRows(path) > 1,
+                                                With(
+                                                    Index(
+                                                        path,
+                                                        2
+                                                    ) As versionSelector,
+                                                    Switch(
+                                                        versionSelector.EntityType,
+                                                        DeepScreen.Candidate.JobOffer.EntityType,
+                                                        With(
+                                                            ISignatureAPI.GetJobOfferVersion(versionSelector.EntityId).jobOffer,
+                                                            {
+                                                                Type: DeepScreen.Candidate.JobOffer,
+                                                                Value: ThisRecord
+                                                            }
+                                                        ),
+                                                        DeepScreen.Candidate.JobContract.EntityType,
+                                                        With(
+                                                            ISignatureAPI.GetJobContractVersion(versionSelector.EntityId).jobContract,
+                                                            {
+                                                                Type: DeepScreen.Candidate.JobContract,
+                                                                Value: ThisRecord
+                                                            }
+                                                        )
+                                                    )
+                                                )
+                                            ) As version,
+                                            Navigate(
+                                                CandidateScreen,
+                                                ScreenTransition.None,
+                                                {
+                                                    candidate: candidate,
+                                                    jobPosition: jobPosition,
+                                                    applications: Blank(),
+                                                    versions: Blank(),
+                                                    version: If(
+                                                        !IsBlank(version.Value),
+                                                        AppFunctions.WrapVersion(
+                                                            version.Value,
+                                                            false
+                                                        )
+                                                    ),
+                                                    jobOfferData: Blank(),
+                                                    jobContractData: Blank(),
+                                                    sidebarSelectedItem: TopLevelScreen.Candidates.Code,
+                                                    isFirstScreen: true,
+                                                    processStep: version.Type,
+                                                    verifySignedOffer: true
+                                                }
+                                            )
+                                        )
+                                    )
+                                ),
+                                Navigate(
+                                    MessageScreen,
+                                    ScreenTransition.None,
+                                    AppFunctions.LoadingInfoErrorMessage(
+                                        "candidate",
+                                        FirstError.Message
+                                    )
+                                )
+                            ),
+                            DeepScreen.SalaryPackage.EntityType,
+                            // Si el deep link apunta a vista de asignación de salario--------------------------------------------------------------------------------------------
+                            IfError(
+                                Set(
+                                    LoadingItem,
+                                    " job offer"
+                                );
+                                With(
+                                    ISignatureAPI.GetJobOfferVersion(EntityId) As version,
+                                    Set(
+                                        LoadingItem,
+                                        " salary package"
+                                    );
+                                    If(
+                                        IsBlank(version.salaryPackage) || version.salaryPackage.status <> VersionSectionState.Waiting.Code,
+                                        Navigate(
+                                            MessageScreen,
+                                            ScreenTransition.None,
+                                            AppFunctions.InfoMessage(
+                                                "No pending fill request!",
+                                                "There is no registered request for the filling of the salary package."
+                                            )
+                                        ),
+                                        If(
+                                            CurrentUser.idSystemUser <> version.salaryPackage.userAssignedBy.idSystemUser,
+                                            Navigate(
+                                                MessageScreen,
+                                                ScreenTransition.None,
+                                                AppFunctions.InfoMessage(
+                                                    "Unexpected user!",
+                                                    "The fill request is not intended for the current user, therefore, you will not be able to perform this operation."
+                                                )
+                                            ),
+                                            Set(
+                                                LoadingItem,
+                                                " candidate"
+                                            );
+                                            With(
+                                                ISignatureAPI.GetCandidate(version.jobOffer.idCandidateState) As candidate,
+                                                Set(
+                                                    LoadingItem,
+                                                    " job requisition"
+                                                );
+                                                With(
+                                                    ISignatureAPI.GetJobPosition(candidate.jobPosition.id) As jobPosition,
+                                                    With(
+                                                        AppFunctions.ProcessCurrencies(
+                                                            ISignatureAPI.GetCurrencies(),
+                                                            ISignatureAPI.GetTemplateMetadata(version.jobOffer.template.id).currencies
+                                                        ),
+                                                        Navigate(
+                                                            SalaryPackageScreen,
+                                                            ScreenTransition.None,
+                                                            {
+                                                                version: version.jobOffer,
+                                                                isReadOnly: false,
+                                                                isInstantFilling: false,
+                                                                candidate: candidate,
+                                                                jobPosition: jobPosition,
+                                                                salaryPackage: version.salaryPackage,
+                                                                currencies: currencies,
+                                                                financialBreakdownId: version.financialBreakdown.id
+                                                            }
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                Navigate(
+                                    MessageScreen,
+                                    ScreenTransition.None,
+                                    AppFunctions.LoadingInfoErrorMessage(
+                                        "salary package",
+                                        FirstError.Message
+                                    )
+                                )
+                            ),
+                            DeepScreen.FinancialBreakdown.EntityType,
+                            // Si el deep link apunta a vista de desglose económico----------------------------------------------------------------------------------------------
+                            IfError(
+                                Set(
+                                    LoadingItem,
+                                    " job offer"
+                                );
+                                With(
+                                    ISignatureAPI.GetJobOfferVersion(EntityId) As version,
+                                    Set(
+                                        LoadingItem,
+                                        " financial breakdown"
+                                    );
+                                    If(
+                                        IsBlank(version.financialBreakdown) || version.financialBreakdown.status <> VersionSectionState.Waiting.Code,
+                                        Navigate(
+                                            MessageScreen,
+                                            ScreenTransition.None,
+                                            AppFunctions.InfoMessage(
+                                                "No pending fill request!",
+                                                "There is no registered request for the filling of the financial breakdown."
+                                            )
+                                        ),
+                                        If(
+                                            CurrentUser.idSystemUser <> version.financialBreakdown.userFilledBy.idSystemUser,
+                                            Navigate(
+                                                MessageScreen,
+                                                ScreenTransition.None,
+                                                AppFunctions.InfoMessage(
+                                                    "Unexpected user!",
+                                                    "The fill request is not intended for the current user, therefore, you will not be able to perform this operation."
+                                                )
+                                            ),
+                                            Set(
+                                                LoadingItem,
+                                                " candidate"
+                                            );
+                                            With(
+                                                ISignatureAPI.GetCandidate(version.jobOffer.idCandidateState) As candidate,
+                                                Set(
+                                                    LoadingItem,
+                                                    " job requisition"
+                                                );
+                                                With(
+                                                    ISignatureAPI.GetJobPosition(candidate.jobPosition.id) As jobPosition,
+                                                    Set(
+                                                        LoadingItem,
+                                                        " breakdown structure"
+                                                    );
+                                                    With(
+                                                        {
+                                                            breakdown: AppFunctions.ProcessDynamicFields(
+                                                                If(
+                                                                    IsBlank(version.financialBreakdown.content),
+                                                                    ISignatureAPI.GetTemplateDynamicFields(version.jobOffer.template.id),
+                                                                    AppFunctions.ParseDynamicFields(version.financialBreakdown.content)
+                                                                )
+                                                            )
+                                                        },
+                                                        If(
+                                                            IsError(breakdown),
+                                                            IfError(
+                                                                breakdown,
+                                                                Navigate(
+                                                                    MessageScreen,
+                                                                    ScreenTransition.None,
+                                                                    AppFunctions.LoadingInfoErrorMessage(
+                                                                        "breakdown structure",
+                                                                        FirstError.Message
+                                                                    )
+                                                                );
+                                                                Blank()
+                                                            );
+                                                            false,
+                                                            Navigate(
+                                                                FinancialBreakdownScreen,
+                                                                ScreenTransition.None,
+                                                                {
+                                                                    version: version.jobOffer,
+                                                                    isInstantFilling: false,
+                                                                    isEditValues: true,
+                                                                    isReadOnly: false,
+                                                                    candidate: candidate,
+                                                                    jobPosition: jobPosition,
+                                                                    salaryPackage: version.salaryPackage,
+                                                                    financialBreakdown: version.financialBreakdown,
+                                                                    breakdown: breakdown
+                                                                }
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                ),
+                                Navigate(
+                                    MessageScreen,
+                                    ScreenTransition.None,
+                                    AppFunctions.LoadingInfoErrorMessage(
+                                        "financial breakdown",
+                                        FirstError.Message
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+            Set(
+                LoadingItem,
+                Blank()
+            )
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Size: =0
+        TabIndex: =-1
+        Text: =""
+        Visible: =false
+        Width: =0
+        ZIndex: =3
+
+    timer_LoadingScreen As timer:
+        AutoStart: =true
+        BorderColor: =Self.Fill
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Duration: =500
+        Fill: =Color.Transparent
+        FocusedBorderColor: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =0
+        HoverBorderColor: =Color.Transparent
+        HoverColor: =Color.Transparent
+        HoverFill: =Color.Transparent
+        OnTimerEnd: |-
+            =If(
+                CloseLoading,
+                If(
+                    IsBlank(CurrentUser),
+                    Navigate(
+                        MessageScreen,
+                        ScreenTransition.None,
+                        AppFunctions.ErrorMessage(
+                            "User load error!",
+                            $"Unable to load user <strong>{User().FullName}</strong> information.",
+                            "Your user name may not be registered in the database or the web service may be offline. Contact your system administrator to follow up on the case."
+                        )
+                    ),
+                    Select(btnGoToScreen_LoadingScreen)
+                )
+            )
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        RadiusBottomLeft: =0
+        RadiusBottomRight: =0
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        Repeat: =!CloseLoading
+        Size: =0
+        Text: =""
+        Visible: =false
+        Width: =0
+        ZIndex: =4
+
+    popLoader_LoadingScreen As PopupImager:
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        Img: |-
+            =If(
+                IsBlank(Style),
+                CyanEclipse,
+                Style.Loader
+            )
+        Width: =Parent.Width
+        ZIndex: =5
+
+    lblCurrentAction_LoadingScreen As label:
+        Align: =Align.Center
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Color: |-
+            =If(
+                IsBlank(Style),
+                RGBA(
+                    30,
+                    30,
+                    30,
+                    1
+                ),
+                Style.Text.Title.Color
+            )
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        Font: =Font.'Segoe UI'
+        Size: =16
+        Text: =$"Loading{LoadingItem}..."
+        Width: =400
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 4 * 3 - Self.Height / 2
+        ZIndex: =6
+

@@ -1,0 +1,204 @@
+Sheet As CanvasComponent:
+    SelectAccept():
+        ThisProperty:
+            Default: =Self.OnSelectAccept()
+    SelectCancel():
+        ThisProperty:
+            Default: =Self.OnSelectCancel()
+    AcceptText: ="Accept"
+    BodyHeight: =ctnLayout_Sheet.Height - 120
+    BodyWidth: =Self.SheetWidth
+    BodyX: =ctnLayout_Sheet.X
+    BodyY: =60
+    CancelText: ="Cancel"
+    EnableCancelButton: =true
+    EnableSaveButton: =true
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    SheetWidth: =400
+    Style: =Style
+    Title: ="Title"
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Sheet As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: =DropShadow.Bold
+        Fill: =Sheet.Style.Palette.ModalBackground
+        Height: =Parent.Height
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+        LayoutMode: =LayoutMode.Auto
+        Width: =Sheet.SheetWidth
+        X: =Parent.Width - Self.Width
+        ZIndex: =2
+
+        ctnHeader_Sheet As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =32
+            PaddingRight: =32
+            ZIndex: =1
+
+            lblTitle_Sheet As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Sheet.Style.Text.Title.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Sheet.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =Sheet.Style.Text.Title.Font
+                FontWeight: =Sheet.Style.Text.Title.Weight
+                LayoutMinWidth: =25
+                Size: =Sheet.Style.Text.Title.Size
+                Text: =Sheet.Title
+                ZIndex: =1
+
+            icoClose_Sheet As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =Sheet.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Sheet.Style.Palette.Disabled
+                DisplayMode: |-
+                    =If(
+                        Sheet.EnableCancelButton,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Sheet.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =Sheet.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =Sheet.Style.Palette.Selectable.HoverFill
+                Icon: =Icon.Cancel
+                OnSelect: =Sheet.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =Sheet.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =Sheet.Style.Palette.Selectable.PressedFill
+                TabIndex: =0
+                Tooltip: ="Close form"
+                Width: =32
+                ZIndex: =2
+
+        ctnFooter_Sheet As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =32
+            PaddingRight: =32
+            ZIndex: =2
+
+            btnAccept_Sheet As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =Sheet.Style.Palette.Fillable
+                DisabledColor: =Sheet.Style.Palette.Disabled
+                DisabledFill: =Sheet.Style.Palette.Fillable
+                DisplayMode: |-
+                    =If(
+                        Sheet.EnableSaveButton,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Sheet.Style.Palette.Accent
+                FocusedBorderColor: =Sheet.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Sheet.Style.Text.Subtitle.Font
+                FontWeight: =Sheet.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =Sheet.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =Sheet.Style.RadiusFactor
+                RadiusBottomRight: =Sheet.Style.RadiusFactor
+                RadiusTopLeft: =Sheet.Style.RadiusFactor
+                RadiusTopRight: =Sheet.Style.RadiusFactor
+                Size: =Sheet.Style.Text.Subtitle.Size
+                Text: =Sheet.AcceptText
+                Width: =150
+                ZIndex: =1
+
+            btnCancel_Sheet As button:
+                BorderColor: =Sheet.Style.Palette.Accent
+                Color: =Sheet.Style.Text.Normal.Color
+                DisabledBorderColor: =Sheet.Style.Palette.Fillable
+                DisabledColor: =Sheet.Style.Palette.Disabled
+                DisabledFill: =Sheet.Style.Palette.Fillable
+                DisplayMode: |-
+                    =If(
+                        Sheet.EnableCancelButton,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderColor: =Sheet.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Sheet.Style.Text.Normal.Font
+                FontWeight: =Sheet.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =Sheet.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =Sheet.Style.Text.Normal.Size
+                Text: =Sheet.CancelText
+                Width: =100
+                ZIndex: =2
+

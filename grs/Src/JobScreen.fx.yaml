@@ -1,0 +1,1342 @@
+JobScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    OnHidden: =
+    OnVisible: |-
+        =Concurrent(
+            If(
+                !candidatesPanelReseted,
+                Reset(candidatesPanel_JobScreen);
+                UpdateContext({candidatesPanelReseted: true})
+            ),
+            If(
+                resetTabs,
+                Reset(tabInfo_JobScreen);
+                UpdateContext({resetTabs: false})
+            );
+            If(
+                IsBlank(recruiters),
+                livRecruiters_JobScreen.Refresh()
+            );
+            If(
+                GrantAccess.JobRequisition.LoadCandidates && IsBlank(candidates),
+                candidatesPanel_JobScreen.Refresh()
+            )
+        )
+    Width: |-
+        =Max(
+            App.Width,
+            App.MinScreenWidth
+        )
+
+    ctnLayout_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        sidebar_JobScreen As Sidebar:
+            LayoutMinHeight: =50
+            LayoutMinWidth: =640
+            OnSelect: |-
+                =If(
+                    Item.InMaintenance,
+                    Navigate(
+                        MaintenanceScreen,
+                        ScreenTransition.None,
+                        {topLevelScreen: Item}
+                    ),
+                    Navigate(Item.Screen)
+                )
+            Select: =Sidebar.OnSelect(Item)
+            SelectedItem: =sidebarSelectedItem
+
+        shpSidebarSeparator_JobScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            LayoutMinHeight: =50
+            Width: =1
+            ZIndex: =2
+
+        ctnContent_JobScreen As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DropShadow: |-
+                =If(
+                    NewLook,
+                    DropShadow.Semibold,
+                    DropShadow.None
+                )
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =Self.PaddingLeft
+            PaddingLeft: |-
+                =If(
+                    NewLook,
+                    15,
+                    0
+                )
+            PaddingRight: =Self.PaddingLeft
+            PaddingTop: =Self.PaddingLeft
+            ZIndex: =3
+
+            ctnToolBar_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =1
+
+                icoBack_JobScreen As icon.Check:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Style.Palette.Selectable.Fill
+                    FocusedBorderColor: =Style.Palette.Border
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =Style.Palette.Selectable.HoverFill
+                    Icon: =Icon.ArrowLeft
+                    LayoutMinHeight: =17
+                    OnSelect: |-
+                        =If(
+                            isFirstScreen,
+                            Navigate(JobsScreen),
+                            Back()
+                        )
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Self.Color
+                    PressedColor: =Self.Color
+                    PressedFill: =Style.Palette.Selectable.PressedFill
+                    Tooltip: ="Back to previus screen"
+                    Width: =Self.Height
+                    ZIndex: =1
+
+                shpBackSeparator_JobScreen As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Style.Palette.Line
+                    LayoutMinHeight: =20
+                    Width: =1
+                    ZIndex: =3
+
+                ctnCommonActions_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =5
+
+                    commonTools_JobScreen As CommonTools:
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        OnChangeStyle: |-
+                            =Concurrent(
+                                Set(
+                                    Style,
+                                    Self.SelectedStyle
+                                ),
+                                Patch(
+                                    Cache,
+                                    LookUp(
+                                        Cache,
+                                        Key = "style"
+                                    ),
+                                    {Value: Self.SelectedStyle.Name}
+                                );
+                                IfError(
+                                    SaveData(
+                                        Cache,
+                                        "GRS"
+                                    ),
+                                    Blank()
+                                )
+                            )
+                        OnSelectBell: |-
+                            =UpdateContext({notificationPanelVisible: true})
+
+            shpToolbarSeparator_JobScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                Height: =1
+                Visible: =!NewLook
+                ZIndex: =2
+
+            ctnBody_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        NewLook,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                DropShadow: |-
+                    =If(
+                        NewLook,
+                        DropShadow.Semilight,
+                        DropShadow.None
+                    )
+                Fill: =Color.Transparent
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: |-
+                    =If(
+                        NewLook,
+                        15,
+                        20
+                    )
+                PaddingRight: =Self.PaddingLeft
+                RadiusBottomLeft: =Self.RadiusTopLeft
+                RadiusBottomRight: =Self.RadiusTopLeft
+                RadiusTopLeft: |-
+                    =If(
+                        NewLook,
+                        Style.RadiusFactor,
+                        0
+                    )
+                RadiusTopRight: =Self.RadiusTopLeft
+                ZIndex: =3
+
+                ctnHead_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =60
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutGap: =10
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblScreenTitle_JobScreen As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Style.Text.Title.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Style.Text.Title.Font
+                        FontWeight: =Style.Text.Title.Weight
+                        PaddingLeft: =15
+                        Size: =Style.Text.Title.Size
+                        Text: =$"{jobPosition.title} ({jobPosition.tag})"
+                        ZIndex: =1
+
+                    btnDuplicate_JobScreen As LabeledIconButton:
+                        Enable: =GrantAccess.JobRequisition.Duplicate
+                        Icon: =Icon.Copy
+                        LayoutMinHeight: =640
+                        LayoutMinWidth: =640
+                        OnSelect: |-
+                            =If(
+                                !isFormReseted,
+                                Reset(frmJob_JobScreen)
+                            );
+                            UpdateContext(
+                                {
+                                    isFormReseted: true,
+                                    frmJobVisible: true
+                                }
+                            )
+                        RadiusBottonLeft: =Style.RadiusFactor
+                        RadiusBottonRigth: =Style.RadiusFactor
+                        RadiusTopLeft: =Style.RadiusFactor
+                        RadiusTopRigth: =Style.RadiusFactor
+                        Select: |-
+                            =If(
+                                Self.Enable,
+                                Self.OnSelect()
+                            )
+                        Text: ="Duplicate"
+                        Tooltip: ="Duplicate this job requisition"
+                        Width: =100
+                        ZIndex: =2
+
+                    btnShareJob_JobScreen As LabeledIconButton:
+                        Enable: =GrantAccess.JobRequisition.Share
+                        Icon: =Icon.Share
+                        LayoutMinHeight: =640
+                        LayoutMinWidth: =640
+                        OnSelect: |-
+                            =UpdateContext(
+                                {
+                                    shareDialogModel: {
+                                        Title: $"Share: {jobPosition.title} ({jobPosition.tag})",
+                                        ResourceId: jobPosition.id,
+                                        Param: $"{DeepScreen.Job.EntityType}:{jobPosition.id}"
+                                    }
+                                }
+                            )
+                        RadiusBottonLeft: =Style.RadiusFactor
+                        RadiusBottonRigth: =Style.RadiusFactor
+                        RadiusTopLeft: =Style.RadiusFactor
+                        RadiusTopRigth: =Style.RadiusFactor
+                        Select: |-
+                            =If(
+                                Self.Enable,
+                                Self.OnSelect()
+                            )
+                        Text: ="Share"
+                        Tooltip: ="Share the current job requisition"
+                        Visible: =true
+                        Width: =70
+                        ZIndex: =3
+
+                ctnInfo_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =6
+
+                    ctnGeneralInfo_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =47
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        LayoutWrap: =true
+                        PaddingBottom: =5
+                        ZIndex: =1
+
+                        fldDepartment_JobScreen As ShowerField:
+                            AlignInContainer: =AlignInContainer.Start
+                            Height: =46
+                            Icon: =Icon.OfficeBuilding
+                            Key: ="Department"
+                            LayoutMinHeight: |
+                                =46
+                            LayoutMinWidth: =640
+                            MinWidth: =120
+                            Value: =jobPosition.department.name
+
+                        fldJobState_JobScreen As ShowerField:
+                            Height: =42
+                            Icon: =Icon.Flag
+                            Key: ="Job status"
+                            LayoutMinHeight: =42
+                            LayoutMinWidth: =640
+                            MinWidth: =120
+                            Value: =AppFunctions.CodeToJobState(jobPosition.jobState).Name
+                            ZIndex: =2
+
+                        fldPrimaryHiringManager_JobScreen As ShowerField:
+                            Height: =42
+                            Icon: =Icon.Person
+                            Key: ="Primary hiring manager"
+                            LayoutMinHeight: =42
+                            LayoutMinWidth: =640
+                            MinWidth: =120
+                            Tooltip: |-
+                                =AppFunctions.BuildUserInfo(
+                                    LookUp(
+                                        jobPosition.hiringManagers,
+                                        primary
+                                    )
+                                )
+                            Value: |-
+                                =LookUp(
+                                    jobPosition.hiringManagers,
+                                    primary
+                                ).name
+                            ZIndex: =3
+
+                        fldPrimaryLocation_JobScreen As ShowerField:
+                            EnableRightSeparator: =false
+                            Height: =42
+                            Icon: =Icon.Location
+                            Key: ="Primary location"
+                            LayoutMinHeight: =42
+                            LayoutMinWidth: =640
+                            MinWidth: =120
+                            Tooltip: |-
+                                =AppFunctions.BuildLocationInfo(
+                                    LookUp(
+                                        jobPosition.locations,
+                                        primary
+                                    )
+                                )
+                            Value: |-
+                                =With(
+                                    LookUp(
+                                        jobPosition.locations,
+                                        primary
+                                    ),
+                                    $"{name} {country}"
+                                )
+                            ZIndex: =4
+
+                        fldCreateBy_JobScreen As ShowerField:
+                            EnableLeftSeparator: =true
+                            EnableRightSeparator: =false
+                            Height: =42
+                            Icon: =Icon.Person
+                            Key: ="Created by"
+                            LayoutMinHeight: =42
+                            LayoutMinWidth: =640
+                            Value: =jobPosition.creatorEmailATS
+                            ZIndex: =5
+
+                    tabInfo_JobScreen As Tabs:
+                        Items: |-
+                            =Filter(
+                                Table(
+                                    {
+                                        Index: 0,
+                                        Label: "Details"
+                                    },
+                                    {
+                                        Index: 1,
+                                        Label: "About job"
+                                    },
+                                    If(
+                                        GrantAccess.JobRequisition.ReadComments,
+                                        {
+                                            Index: 2,
+                                            Label: "Comments"
+                                        }
+                                    )
+                                ),
+                                !IsBlank(ThisRecord)
+                            )
+                        LayoutMinHeight: =640
+                        LayoutMinWidth: =50
+                        OnSelect: |-
+                            =If(
+                                Self.Selected.Index = 2 && IsBlank(comments),
+                                commentsPanel_JobScreen.Refresh()
+                            )
+                        Select: =Self.OnSelect()
+                        ZIndex: =2
+
+                    shpTabSeparator_JobScreen As rectangle:
+                        AlignInContainer: =AlignInContainer.Start
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Style.Palette.Line
+                        Height: =1
+                        Width: =Parent.Width - If(ctnPinnedPanel_JobScreen.Visible,ctnPinnedPanel_JobScreen.Width,0)
+                        ZIndex: =3
+
+                    ctnInformation_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =50
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        ZIndex: =6
+
+                        ctnDetails_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            LayoutGap: =15
+                            LayoutMinHeight: =50
+                            LayoutMinWidth: =44
+                            LayoutMode: =LayoutMode.Auto
+                            LayoutOverflowY: =LayoutOverflow.Scroll
+                            LayoutWrap: =true
+                            PaddingBottom: =15
+                            PaddingTop: =15
+                            Visible: =tabInfo_JobScreen.Selected.Index = 0
+                            ZIndex: =1
+
+                            depJobFields_JobScreen As DetailsPanel:
+                                Items: |-
+                                    =Table(
+                                        {
+                                            Key: "Position type",
+                                            Value: jobPosition.positionType,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Job type",
+                                            Value: AppFunctions.CodeToJobType(jobPosition.jobType).Name,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Remote type",
+                                            Value: AppFunctions.CodeToRemoteType(jobPosition.remoteType).Name,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Available positions",
+                                            Value: Text(jobPosition.availablePositions),
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Confirmation level",
+                                            Value: jobPosition.confirmationLevel,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Opening date",
+                                            Value: AppFunctions.FormatDateValue(jobPosition.openingDate),
+                                            Tooltip: AppFunctions.FormatLongDateValue(jobPosition.openingDate),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Estimated hire date",
+                                            Value: AppFunctions.FormatDateValue(jobPosition.estimatedHireDate),
+                                            Tooltip: AppFunctions.FormatLongDateValue(jobPosition.estimatedHireDate),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Priority",
+                                            Value: jobPosition.priority,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Billable",
+                                            Value: jobPosition.billable,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: true
+                                        },
+                                        {
+                                            Key: "Template language",
+                                            Value: AppFunctions.CodeToTemplateLanguage(jobPosition.languageTemplate).Name,
+                                            Tooltip: Blank(),
+                                            Mark: true,
+                                            ShowSeparator: false
+                                        }
+                                    )
+                                KeyWidth: =145
+                                LayoutMinHeight: =640
+                                LayoutMinWidth: =50
+
+                            ctnInvolved_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Color.Transparent
+                                FillPortions: =0
+                                Height: =livOtherHiringManagers_JobScreen.Height + Self.LayoutGap + livRecruiters_JobScreen.Height + Self.LayoutGap + livClients_JobScreen.Height
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutGap: =15
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =350
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =350
+                                ZIndex: =3
+
+                                livOtherHiringManagers_JobScreen As ListViewer:
+                                    Items: |-
+                                        =ForAll(
+                                            Filter(
+                                                jobPosition.hiringManagers,
+                                                !primary
+                                            ),
+                                            {
+                                                PrimaryValue: name,
+                                                SecondValue: email,
+                                                Icon: Blank(),
+                                                Color: AppFunctions.RandomColor(),
+                                                Tooltip: AppFunctions.BuildUserInfo(ThisRecord)
+                                            }
+                                        )
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    NoItemsLegend: ="No other hiring managers registered"
+                                    Refresh: =Self.OnRefresh()
+                                    Title: ="Other hiring managers"
+
+                                livRecruiters_JobScreen As ListViewer:
+                                    IsLoading: =isLoadingRecruiters
+                                    Items: |-
+                                        =ForAll(
+                                            recruiters,
+                                            {
+                                                PrimaryValue: name,
+                                                SecondValue: email,
+                                                Icon: Blank(),
+                                                Color: color,
+                                                Tooltip: AppFunctions.BuildUserInfo(ThisRecord)
+                                            }
+                                        )
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    NoItemsLegend: ="No recruiters registered"
+                                    OnRefresh: |-
+                                        =UpdateContext({isLoadingRecruiters: true});
+                                        UpdateContext(
+                                            {
+                                                recruiters: IfError(
+                                                    ForAll(
+                                                        ISignatureAPI.GetRecruiters(jobPosition.id),
+                                                        Patch(
+                                                            ThisRecord,
+                                                            {color: AppFunctions.RandomColor()}
+                                                        )
+                                                    ),
+                                                    AppFunctions.NotifyError(
+                                                        "Error loading recruiters!",
+                                                        FirstError.Message,
+                                                        $"It was not possible to load the recruiters associated with the requisition <strong>{jobPosition.title}</strong>."
+                                                    );
+                                                    Blank()
+                                                )
+                                            }
+                                        );
+                                        UpdateContext({isLoadingRecruiters: false})
+                                    Refresh: =Self.OnRefresh()
+                                    Refreshable: =GrantAccess.JobRequisition.LoadRecruiters
+                                    Title: ="Recruiters"
+                                    Visible: =true
+                                    ZIndex: =2
+
+                                livClients_JobScreen As ListViewer:
+                                    Items: |-
+                                        =ForAll(
+                                            jobPosition.clients,
+                                            {
+                                                PrimaryValue: Value,
+                                                SecondValue: Blank(),
+                                                Icon: Icon.People,
+                                                Color: AppFunctions.RandomColor(),
+                                                Tooltip: ""
+                                            }
+                                        )
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    NoItemsLegend: ="No clients registered"
+                                    Refresh: =Self.OnRefresh()
+                                    Title: ="Clients"
+                                    ZIndex: =3
+
+                            ctnOtherData_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Color.Transparent
+                                FillPortions: =0
+                                Height: =livOtherLocations_JobScreen.Height
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutGap: =15
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =250
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =350
+                                ZIndex: =4
+
+                                livOtherLocations_JobScreen As ListViewer:
+                                    Items: |-
+                                        =ForAll(
+                                            Filter(
+                                                jobPosition.locations,
+                                                !primary
+                                            ),
+                                            {
+                                                PrimaryValue: name,
+                                                SecondValue: fullAddress,
+                                                Icon: Icon.Location,
+                                                Color: AppFunctions.RandomColor(),
+                                                Tooltip: AppFunctions.BuildLocationInfo(ThisRecord)
+                                            }
+                                        )
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    NoItemsLegend: ="No other locations registered"
+                                    Refresh: =Self.OnRefresh()
+                                    Title: ="Other locations"
+
+                            shpDetailsBottonPadding_JobScreen As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FocusedBorderThickness: =0
+                                Height: =1
+                                Width: =Parent.Width
+                                ZIndex: =5
+
+                        ctnAboutJob_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            LayoutGap: =15
+                            LayoutMinHeight: =50
+                            LayoutMinWidth: =50
+                            LayoutMode: =LayoutMode.Auto
+                            LayoutOverflowY: =LayoutOverflow.Scroll
+                            LayoutWrap: =true
+                            PaddingTop: =15
+                            Visible: =tabInfo_JobScreen.Selected.Index = 1
+                            ZIndex: =2
+
+                            ctnTargetFields_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Color.Transparent
+                                FillPortions: =0
+                                Height: =ctnComputerRequired_JobScreen.Height + ctnRequiredLanguages_JobScreen.Height + depRanges_JobScreen.Height + 32
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutGap: =15
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =250
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =350
+                                ZIndex: =1
+
+                                depRanges_JobScreen As DetailsPanel:
+                                    Items: |-
+                                        =Table(
+                                            {
+                                                Key: "Seniority",
+                                                Value: jobPosition.seniority,
+                                                Tooltip: Blank(),
+                                                Mark: true,
+                                                ShowSeparator: true
+                                            },
+                                            {
+                                                Key: "Currency",
+                                                Value: If(
+                                                    IsBlank(jobPosition.currency),
+                                                    "Unespecified",
+                                                    jobPosition.currency
+                                                ),
+                                                Tooltip: Blank(),
+                                                Mark: true,
+                                                ShowSeparator: true
+                                            },
+                                            {
+                                                Key: "Minimun salary",
+                                                Value: $"$ {AppFunctions.FormatAmout(jobPosition.minSalary)}",
+                                                Tooltip: Blank(),
+                                                Mark: true,
+                                                ShowSeparator: true
+                                            },
+                                            {
+                                                Key: "Maximun salary",
+                                                Value: $"$ {AppFunctions.FormatAmout(jobPosition.maxSalary)}",
+                                                Tooltip: Blank(),
+                                                Mark: true,
+                                                ShowSeparator: false
+                                            }
+                                        )
+                                    KeyWidth: =125
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+
+                                ctnComputerRequired_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Fill: =Color.Transparent
+                                    FillPortions: =0
+                                    Height: |-
+                                        =ctnRequiredComputer_JobScreen.Height + If(
+                                            jobPosition.computerRequired,
+                                            ctnComputerDescription_JobScreen.Height,
+                                            0
+                                        )
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =100
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    ZIndex: =3
+
+                                    ctnRequiredComputer_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Fill: =Color.Transparent
+                                        FillPortions: =0
+                                        Height: =32
+                                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                                        LayoutMinHeight: =100
+                                        LayoutMinWidth: =250
+                                        LayoutMode: =LayoutMode.Auto
+                                        ZIndex: =1
+
+                                        lblRequiredComputer As label:
+                                            BorderColor: =Color.Transparent
+                                            BorderStyle: =BorderStyle.None
+                                            Color: =Style.Text.Subtitle.Color
+                                            DisabledBorderColor: =Color.Transparent
+                                            DisabledColor: =Style.Palette.Disabled
+                                            DisabledFill: =Color.Transparent
+                                            DisplayMode: =DisplayMode.View
+                                            Fill: =Color.Transparent
+                                            Font: =Style.Text.Subtitle.Font
+                                            FontWeight: =Style.Text.Subtitle.Weight
+                                            LayoutMinHeight: =17
+                                            Size: =Style.Text.Subtitle.Size
+                                            Text: |-
+                                                ="Computer is required:"
+                                            ZIndex: =1
+
+                                        lblValueRequiredComputer As label:
+                                            BorderColor: =Color.Transparent
+                                            BorderStyle: =BorderStyle.None
+                                            Color: =Style.Text.Normal.Color
+                                            DisabledBorderColor: =Color.Transparent
+                                            DisabledColor: =Style.Palette.Disabled
+                                            DisabledFill: =Color.Transparent
+                                            DisplayMode: =DisplayMode.View
+                                            Fill: =Color.Transparent
+                                            Font: =Style.Text.Normal.Font
+                                            FontWeight: =Style.Text.Normal.Weight
+                                            LayoutMinHeight: =17
+                                            Size: =Style.Text.Normal.Size
+                                            Text: |-
+                                                =If(
+                                                    jobPosition.computerRequired,
+                                                    "Yes",
+                                                    "No"
+                                                )
+                                            ZIndex: =2
+
+                                    ctnComputerDescription_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Fill: =Color.Transparent
+                                        FillPortions: =0
+                                        Height: =lblComputerDescription_JobScreen.Height + htmComputerDescription_JobScreen.Height
+                                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                                        LayoutDirection: =LayoutDirection.Vertical
+                                        LayoutMinHeight: =50
+                                        LayoutMinWidth: =250
+                                        LayoutMode: =LayoutMode.Auto
+                                        Visible: =jobPosition.computerRequired
+                                        ZIndex: =2
+
+                                        lblComputerDescription_JobScreen As label:
+                                            BorderColor: =Color.Transparent
+                                            BorderStyle: =BorderStyle.None
+                                            Color: =Style.Text.Subtitle.Color
+                                            DisabledBorderColor: =Color.Transparent
+                                            DisabledColor: =Style.Palette.Disabled
+                                            DisabledFill: =Color.Transparent
+                                            DisplayMode: =DisplayMode.View
+                                            Fill: =Color.Transparent
+                                            Font: =Style.Text.Subtitle.Font
+                                            FontWeight: =Style.Text.Subtitle.Weight
+                                            Height: =32
+                                            LayoutMinWidth: =50
+                                            Size: =Style.Text.Subtitle.Size
+                                            Text: |-
+                                                ="Computer description:"
+                                            ZIndex: =1
+
+                                        htmComputerDescription_JobScreen As htmlViewer:
+                                            AutoHeight: =true
+                                            BorderColor: =Color.Transparent
+                                            Color: =Style.Text.Normal.Color
+                                            DisabledBorderColor: =Color.Transparent
+                                            DisabledFill: =Color.Transparent
+                                            DisplayMode: =DisplayMode.View
+                                            Fill: =Color.Transparent
+                                            Font: =Style.Text.Normal.Font
+                                            HtmlText: |-
+                                                =If(
+                                                    !IsBlank(jobPosition.computerDescription),
+                                                    jobPosition.computerDescription,
+                                                    "<p style='font-style:italic;'>No description</p>"
+                                                )
+                                            PaddingLeft: =10
+                                            Size: =Style.Text.Normal.Size
+                                            ZIndex: =2
+
+                                ctnRequiredLanguages_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Fill: =Color.Transparent
+                                    FillPortions: =0
+                                    Height: =lblRequiredLanguages_JobScreen.Height + htmRequiredLanguages_JobScreen.Height
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutMinHeight: =50
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    ZIndex: =4
+
+                                    lblRequiredLanguages_JobScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Style.Text.Subtitle.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Subtitle.Font
+                                        FontWeight: =Style.Text.Subtitle.Weight
+                                        Height: =32
+                                        LayoutMinWidth: =50
+                                        Size: =Style.Text.Subtitle.Size
+                                        Text: |-
+                                            ="Required languages:"
+                                        ZIndex: =1
+
+                                    htmRequiredLanguages_JobScreen As htmlViewer:
+                                        AutoHeight: =true
+                                        BorderColor: =Color.Transparent
+                                        Color: =Style.Text.Normal.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Normal.Font
+                                        HtmlText: |-
+                                            =If(
+                                                !IsBlank(jobPosition.requiredLanguages),
+                                                jobPosition.requiredLanguages,
+                                                "<p style='font-style:italic;'>No languages specified</p>"
+                                            )
+                                        PaddingLeft: =10
+                                        Size: =Style.Text.Normal.Size
+                                        ZIndex: =2
+
+                            ctnAccordion_JobScreen As groupContainer.verticalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                Height: =secSummary_JobScreen.Height + secJobActivities_JobScreen.Height + secAdditionalInfo_JobScreen.Height + secSoftSkills_JobScreen.Height + secTechnicalSkills_JobScreen.Height + secAdditionalRequirements_JobScreen.Height + secAdditionalBenefits_JobScreen.Height
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =50
+                                LayoutMinWidth: =350
+                                LayoutMode: =LayoutMode.Auto
+                                ZIndex: =2
+
+                                secSummary_JobScreen As ExpandableSection:
+                                    ExpandedByDefault: =true
+                                    HTMLText: =jobPosition.projectSummary
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Project or client summary"
+
+                                secJobActivities_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.jobActivities
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Job activities"
+                                    ZIndex: =2
+
+                                secAdditionalInfo_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.additionalInfo
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Other relevant information"
+                                    ZIndex: =3
+
+                                secSoftSkills_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.exclusionarySkills
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Soft skills"
+                                    ZIndex: =4
+
+                                secTechnicalSkills_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.generalTechnicalSkills
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Technical skills"
+                                    ZIndex: =5
+
+                                secAdditionalRequirements_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.additionalRequirements
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Requires something else (equipment or PPE)"
+                                    ZIndex: =6
+
+                                secAdditionalBenefits_JobScreen As ExpandableSection:
+                                    HTMLText: =jobPosition.additionalBenefits
+                                    LayoutMinHeight: =640
+                                    LayoutMinWidth: =50
+                                    Title: ="Additional benefits"
+                                    ZIndex: =7
+
+                            shpAboutJobBottonPadding_JobScreen As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FocusedBorderThickness: =0
+                                Height: =1
+                                Width: =Parent.Width
+                                ZIndex: =3
+
+                        ctnComments_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingBottom: =14
+                            Visible: =tabInfo_JobScreen.Selected.Index = 2
+                            ZIndex: =3
+
+                            commentsPanel_JobScreen As CommentPanel:
+                                AllowWriteComment: =GrantAccess.JobRequisition.WriteComments
+                                BuildUserInfo: =AppFunctions.BuildUserInfo(User)
+                                FillPortions: =1
+                                IsLoading: =isLoadingComments
+                                Items: =comments
+                                LayoutMinHeight: =50
+                                LayoutMinWidth: =200
+                                OnRefresh: |-
+                                    =UpdateContext({isLoadingComments: true});
+                                    UpdateContext(
+                                        {
+                                            comments: IfError(
+                                                ForAll(
+                                                    Sort(
+                                                        ISignatureAPI.GetJobPositionComments(jobPosition.id).comments,
+                                                        createdOn
+                                                    ),
+                                                    Patch(
+                                                        ThisRecord,
+                                                        {color: AppFunctions.RandomColor()}
+                                                    )
+                                                ),
+                                                AppFunctions.NotifyError(
+                                                    "Error loading comments!",
+                                                    FirstError.Message,
+                                                    $"It was not possible to load the comments associated with the requisition <strong>{jobPosition.title}</strong>."
+                                                );
+                                                Blank()
+                                            )
+                                        }
+                                    );
+                                    UpdateContext({isLoadingComments: false})
+                                OnSend: |-
+                                    =IfError(
+                                        With(
+                                            ISignatureAPI.CreateJobPositionComments(
+                                                {
+                                                    idJobPosition: jobPosition.id,
+                                                    comments: Table(
+                                                        {
+                                                            content: Comment,
+                                                            createdBy: CurrentUser
+                                                        }
+                                                    )
+                                                }
+                                            ),
+                                            Self.Refresh()
+                                        ),
+                                        AppFunctions.NotifyError(
+                                            "Failed comment submission!",
+                                                FirstError.Message,
+                                                $"An error occurred while trying to submit the comment."
+                                        )
+                                    )
+                                Refresh: =Self.OnRefresh()
+                                Send: =CommentPanel.OnSend(Text)
+                                Title: ="Add comments to this job requisition"
+                                Width: =600
+
+                        ctnPinnedPanel_JobScreen As groupContainer.horizontalAutoLayoutContainer:
+                            FillPortions: =0
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingBottom: =15
+                            PaddingLeft: =15
+                            Visible: =GrantAccess.JobRequisition.LoadCandidates
+                            Width: =candidatesPanel_JobScreen.Width + Self.PaddingLeft
+                            ZIndex: =4
+
+                            candidatesPanel_JobScreen As CandidatesPanel:
+                                AllowSelectCandidate: =GrantAccess.JobRequisition.GoToCandidateDetails
+                                IsLoading: =isLoadingCandidates
+                                Items: =candidates
+                                LayoutMinHeight: =50
+                                LayoutMinWidth: =640
+                                OnRefresh: |-
+                                    =UpdateContext({isLoadingCandidates: true});
+                                    UpdateContext(
+                                        {
+                                            candidates: IfError(
+                                                ISignatureAPI.GetJobPositionCandidates(jobPosition.id),
+                                                AppFunctions.NotifyError(
+                                                    "Error loading candidates!",
+                                                    FirstError.Message,
+                                                    $"It was not possible to load the candidates associated with the requisition <strong>{jobPosition.title}</strong>."
+                                                );
+                                                Blank()
+                                            )
+                                        }
+                                    );
+                                    UpdateContext({isLoadingCandidates: false})
+                                OnSelect: |-
+                                    =UpdateContext({popLoadVisible: true});
+                                    Navigate(
+                                        CandidateScreen,
+                                        ScreenTransition.None,
+                                        {
+                                            candidate: Self.Selected,
+                                            jobPosition: jobPosition,
+                                            applications: Blank(),
+                                            versions: Blank(),
+                                            version: Blank(),
+                                            jobOfferData: Blank(),
+                                            jobContractData: Blank(),
+                                            sidebarSelectedItem: sidebarSelectedItem,
+                                            isFirstScreen: false,
+                                            selectStep: true,
+                                            verifySignedOffer: true
+                                        }
+                                    );
+                                    UpdateContext({popLoadVisible: false})
+                                Refresh: =Self.OnRefresh()
+                                Select: =Self.OnSelect()
+
+    frmJob_JobScreen As JobForm:
+        Default: =jobPosition
+        GetValue: |-
+            ={
+                languageTemplate: Self.TemplateLanguage.Value,
+                creatorEmailATS: Self.CurrentUser.email,
+                postingType: 2,
+                distribution: true,
+                jobState: 9,
+                positionTitleName: Self.PositionTitle.Value,
+                coreTechnology: Self.CoreTechnology.Value,
+                department: comDepartment_JobForm.Selected,
+                jobType: Self.JobType.Value,
+                remoteType: Self.RemoteType.Value,
+                availablePositions: Self.AvailablePositions.Value,
+                positionType: Self.PositionType.Value,
+                priority: Self.Priority.Value,
+                confirmationLevel: Self.ConfirmationLevel.Value,
+                openingDate: Self.OpeningDate.Value,
+                estimatedHireDate: Self.EstimatedHireDate.Value,
+                billable: Self.Billable.Value,
+                locations: Self.Locations.Value,
+                hiringManagers: Self.HiringManagers.Value,
+                clients: comClients_JobForm.SelectedItems,
+                projectSummary: Self.ProjectSummary.Value,
+                jobActivities: Self.JobActivities.Value,
+                additionalInfo: Self.AdditionalInfo.Value,
+                seniority: droSeniority_JobForm.Selected.Value,
+                requiredLanguages: Self.RequiredLanguages.Value,
+                computerRequired: Self.ComputerRequired.Value,
+                computerDescription: Self.ComputerFeatures.Value,
+                exclusionarySkills: Self.SoftSkills.Value,
+                generalTechnicalSkills: Self.TechnicalSkills.Value,
+                additionalRequirements: Self.AdditionalRequirements.Value,
+                minSalary: Self.MinSalary.Value,
+                maxSalary: Self.MaxSalary.Value,
+                additionalBenefits: Self.AdditionalBenefits.Value,
+                currency: comCurrency_JobForm.Selected.code
+            }
+        IsSaving: =isSavingJobForm
+        OnSelectCancel: |-
+            =UpdateContext(
+                {
+                    optionDialogModel: AppFunctions.OptionDialogFace(
+                        "close_job_form",
+                        "Exit the form",
+                        "Do you want to leave the form? No data will be saved",
+                        "Close the form",
+                        "Back to form"
+                    )
+                }
+            )
+        OnSelectSave: |-
+            =UpdateContext({isSavingJobForm: true});
+            IfError(
+                With(
+                    ISignatureAPI.CreateJobPosition(Self.GetValue()),
+                    Navigate(
+                        JobsScreen,
+                        ScreenTransition.None,
+                        {reloadJobList: true}
+                    );
+                    AppFunctions.NotifySuccess(
+                        "Job requisition created!",
+                        $"<strong>{Self.JobTitle}</strong> has been created"
+                    )
+                ),
+                AppFunctions.NotifyError(
+                    "Error saving job requisition!",
+                    FirstError.Message
+                )
+            );
+            UpdateContext(
+                {
+                    frmJobVisible: false,
+                    isSavingJobForm: false
+                }
+            )
+        SelectTab: |-
+            =Set(
+                SelectedTab,
+                Index
+            )
+        TableToUL: =AppFunctions.TableToUL(Table)
+        Title: ="Duplicate job requisition"
+        ULToTable: =AppFunctions.ULToTable(HTMLText)
+        Visible: =frmJobVisible
+        ZIndex: =2
+
+    notificationPanel_JobScreen As Notifications:
+        ClearAll: =Self.OnClearAll()
+        OnCloseNotification: |-
+            =RemoveIf(
+                GlobalNotifications,
+                ThisRecord.Id = Notification.Id
+            )
+        OnSelectClose: |-
+            =UpdateContext({notificationPanelVisible: false})
+        SelectClose: =Self.OnSelectClose()
+        Visible: =notificationPanelVisible
+        ZIndex: =3
+
+    optionDialog_JobScreen As OptionDialog:
+        AcceptButtonWidth: =optionDialogModel.AcceptButtonWidth
+        AcceptText: =optionDialogModel.AcceptText
+        CancelButtonWidth: =optionDialogModel.CancelButtonWidth
+        CancelText: =optionDialogModel.CancelText
+        Message: =optionDialogModel.Message
+        ModalHeight: =optionDialogModel.ModalHeight
+        ModalWidth: =optionDialogModel.ModalWidth
+        OnSelectAccept: |-
+            =UpdateContext(
+                {
+                    optionDialogModel: Blank(),
+                    frmJobVisible: false
+                }
+            );
+            Reset(frmJob_JobScreen)
+        OnSelectCancel: |-
+            =UpdateContext({optionDialogModel: Blank()})
+        SelectAccept: =Self.OnSelectAccept()
+        SelectCancel: =Self.OnSelectCancel()
+        Title: =optionDialogModel.Title
+        Visible: =!IsBlank(optionDialogModel)
+        ZIndex: =4
+
+    shareDialog_JobScreen As ShareDialog:
+        OnSelectClose: |-
+            =UpdateContext({shareDialogModel: Blank()})
+        Param: =shareDialogModel.Param
+        ResourceId: =shareDialogModel.ResourceId
+        SelectClose: =Self.OnSelectClose()
+        Title: =shareDialogModel.Title
+        Visible: =!IsBlank(shareDialogModel)
+        ZIndex: =5
+
+    popLoad_JobScreen As PopupImager:
+        Height: =Parent.Height
+        Img: =Style.Loader
+        Visible: =popLoadVisible
+        Width: =Parent.Width
+        ZIndex: =6
+
+    notificationCard_JobScreen As NotificationCard:
+        OnSelectClose: |-
+            =Set(
+                NotificationCardVisible,
+                false
+            )
+        SelectClose: =Self.OnSelectClose()
+        Visible: =NotificationCardVisible
+        X: =Parent.Width - Self.Width
+        Y: =50
+        ZIndex: =7
+

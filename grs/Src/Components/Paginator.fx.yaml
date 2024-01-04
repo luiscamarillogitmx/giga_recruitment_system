@@ -1,0 +1,132 @@
+Paginator As CanvasComponent:
+    Paginate():
+        ThisProperty:
+            Default: =Self.OnPaginate()
+    CurrentCount: =100
+    Fill: =Color.Transparent
+    HasNextPages: =true
+    Height: =42
+    IsLoading: =false
+    MaxCount: =20
+    OnPaginate: =true
+    OnReset: |-
+        =Set(
+            pageNumber,
+            1
+        )
+    PageNumber: |-
+        =If(
+            IsBlank(pageNumber),
+            1,
+            pageNumber
+        )
+    Style: =Style
+    Width: =175
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Paginator As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutGap: =5
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =2
+
+        lblPaging_Paginator As label:
+            Align: =Align.Right
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =Paginator.Style.Text.Normal.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =Paginator.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =Paginator.Style.Text.Normal.Font
+            FontWeight: =Paginator.Style.Text.Normal.Weight
+            LayoutMinWidth: =25
+            Size: =Paginator.Style.Text.Normal.Size
+            Text: |-
+                =With(
+                    {
+                        start: Paginator.MaxCount * pageNumber - Paginator.MaxCount + 1,
+                        end: Paginator.MaxCount * pageNumber //- Paginator.MaxCount + Paginator.CurrentCount
+                    },
+                    $"{start} - {end}"
+                )
+            ZIndex: =1
+
+        icoLeft_Paginator As icon.ChevronDown:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =Paginator.Style.Palette.Accent
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =Paginator.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: |-
+                =If(
+                    pageNumber > 1 && !Paginator.IsLoading,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Fill: =Color.Transparent
+            HoverColor: =Self.Color
+            HoverFill: =Paginator.Style.Palette.Selectable.TransparentHoverFill
+            Icon: =Icon.ChevronLeft
+            LayoutMinHeight: =17
+            OnSelect: |-
+                =Set(
+                    pageNumber,
+                    pageNumber - 1
+                );
+                Paginator.OnPaginate()
+            PaddingBottom: =Self.PaddingTop
+            PaddingLeft: =Self.PaddingRight
+            PaddingRight: =Self.Width / 2 - 8.5
+            PaddingTop: =Self.Height / 2 - 8.5
+            PressedColor: =Self.Color
+            PressedFill: =Paginator.Style.Palette.Selectable.TransparentPressedFill
+            Tooltip: ="Previous page"
+            Width: =42
+            ZIndex: =2
+
+        icoRight_Paginator As icon.ChevronDown:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =Paginator.Style.Palette.Accent
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =Paginator.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: |-
+                =If(
+                    Paginator.HasNextPages && !Paginator.IsLoading,
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Fill: =Color.Transparent
+            HoverColor: =Self.Color
+            HoverFill: =Paginator.Style.Palette.Selectable.TransparentHoverFill
+            Icon: =Icon.ChevronRight
+            LayoutMinHeight: =17
+            OnSelect: |-
+                =Set(
+                    pageNumber,
+                    pageNumber + 1
+                );
+                Paginator.OnPaginate()
+            PaddingBottom: =Self.PaddingTop
+            PaddingLeft: =Self.PaddingRight
+            PaddingRight: =Self.Width / 2 - 8.5
+            PaddingTop: =Self.Height / 2 - 8.5
+            PressedColor: =Self.Color
+            PressedFill: =Paginator.Style.Palette.Selectable.TransparentPressedFill
+            Tooltip: ="Next page"
+            Width: =42
+            ZIndex: =3
+

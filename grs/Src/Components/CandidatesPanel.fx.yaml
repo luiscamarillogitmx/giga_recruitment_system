@@ -1,0 +1,695 @@
+CandidatesPanel As CanvasComponent:
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    Select():
+        ThisProperty:
+            Default: =Self.OnSelect()
+    AllowSelectCandidate: =true
+    DefaultContext: |-
+        ={sidebarSelectedItems: 0}
+    Fill: =Color.Transparent
+    Height: =600
+    IsExpanded: =Expanded
+    IsLoading: =false
+    Items: |-
+        =Table(
+            {
+                candidateState: {
+                    id: "",
+                    status: "Offer sent",
+                    active: 0,
+                    applicationDate: "2023-05-22T00:00:00Z",
+                    createdOn: "2023-05-22T17:26:39Z",
+                    candidateInfo: {
+                        idATS: "",
+                        fullName: "Luis Gerardo Camarillo Gamboa",
+                        firstName: "Luis Gerardo",
+                        lastName: "Camarillo Gamboa"
+                    }
+                },
+                jobPosition: {
+                    id: "",
+                    idATS: "",
+                    title: "",
+                    department: {
+                        id: "",
+                        name: "Information Technology"
+                    }
+                }
+            }
+        )
+    OnRefresh: =true
+    OnReset: |-
+        =Set(
+            Expanded,
+            false
+        )
+    OnSelect: =true
+    Selected: =galCandidates_CandidatesPanel.Selected.SourceRecord
+    SelectedCandidate: =galCandidates_CandidatesPanel.Selected
+    Style: =Style
+    Width: |-
+        =If(
+            Self.IsExpanded,
+            350,
+            34
+        )
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CandidatesPanel As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =CandidatesPanel.Style.Palette.Line
+        BorderThickness: =1
+        Fill: |-
+            =If(
+                Expanded,
+                Color.Transparent,
+                CandidatesPanel.Style.Palette.LightFillable
+            )
+        Height: =Parent.Height - 2
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: |-
+            =If(
+                Expanded,
+                10,
+                0
+            )
+        PaddingRight: |-
+            =If(
+                Expanded,
+                10,
+                0
+            )
+        RadiusBottomLeft: =CandidatesPanel.Style.RadiusFactor * 1.5
+        RadiusBottomRight: =CandidatesPanel.Style.RadiusFactor * 1.5
+        RadiusTopLeft: =CandidatesPanel.Style.RadiusFactor * 1.5
+        RadiusTopRight: =CandidatesPanel.Style.RadiusFactor * 1.5
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =1
+
+        ctnHead_CandidatesPanel As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =32
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =1
+
+            lblTitle_CandidatesPanel As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidatesPanel.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidatesPanel.Style.Text.Subtitle.Font
+                FontWeight: =CandidatesPanel.Style.Text.Subtitle.Weight
+                Height: =32
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidatesPanel.Style.Text.Subtitle.Size
+                Text: ="Candidates"
+                Visible: =Expanded
+                ZIndex: =2
+
+            icoHidePanel_CandidatesPanel As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidatesPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                Fill: =CandidatesPanel.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =25
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidatesPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        Expanded,
+                        Icon.ChevronRight,
+                        Icon.ChevronLeft
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        Expanded,
+                        !Expanded
+                    )
+                PaddingBottom: =5
+                PaddingLeft: =5
+                PaddingRight: =5
+                PaddingTop: =5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CandidatesPanel.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: |-
+                    =$"{If(
+                        Expanded,
+                        "Collapse",
+                        "Expand"
+                    )} candidates panel"
+                Width: =25
+                ZIndex: =3
+
+        shpHeadSeparator_CandidatesPanel As rectangle:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CandidatesPanel.Style.Palette.Line
+            Height: =1
+            LayoutMinWidth: =5
+            Visible: =!Expanded
+            Width: =22
+            ZIndex: =2
+
+        ctnActions_CandidatesPanel As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =CandidatesPanel.Style.Palette.Line
+            BorderThickness: =1
+            Fill: =CandidatesPanel.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =5
+            RadiusBottomLeft: =CandidatesPanel.Style.RadiusFactor
+            RadiusBottomRight: =CandidatesPanel.Style.RadiusFactor
+            RadiusTopLeft: =CandidatesPanel.Style.RadiusFactor
+            RadiusTopRight: =CandidatesPanel.Style.RadiusFactor
+            Visible: =Expanded
+            ZIndex: =3
+
+            ctnQuickFindInput_CandidatesPanel As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =CandidatesPanel.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =CandidatesPanel.Style.Palette.Background
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =15
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =CandidatesPanel.Style.RadiusFactor
+                RadiusBottomRight: =CandidatesPanel.Style.RadiusFactor
+                RadiusTopLeft: =CandidatesPanel.Style.RadiusFactor
+                RadiusTopRight: =CandidatesPanel.Style.RadiusFactor
+                ZIndex: =1
+
+                txtQuickFind_CandidatesPanel As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =CandidatesPanel.Style.Text.Normal.Color
+                    Default: =""
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                    DisabledFill: =CandidatesPanel.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =If(
+                            CandidatesPanel.IsLoading,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =1
+                    Font: =CandidatesPanel.Style.Text.Normal.Font
+                    FontWeight: =CandidatesPanel.Style.Text.Normal.Weight
+                    HintText: ="Quick find"
+                    HoverBorderColor: =Self.BorderColor
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =25
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidatesPanel.Style.Text.Normal.Size
+                    Tooltip: ="Enter the search text"
+                    ZIndex: =1
+
+                icoClearInput_CandidatesPanel As icon.Reload:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatesPanel.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =CandidatesPanel.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Cancel
+                    LayoutMinHeight: =17
+                    OnSelect: =Reset(txtQuickFind_CandidatesPanel)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =CandidatesPanel.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Clear entry"
+                    Visible: =!IsBlank(txtQuickFind_CandidatesPanel.Text)
+                    Width: =32
+                    ZIndex: =2
+
+            icoSort_CandidatesPanel As icon.ArrowsUpDown:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidatesPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        CandidatesPanel.IsLoading,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidatesPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Sort
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SortDescending,
+                        !SortDescending
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CandidatesPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        SortDescending,
+                        "Sort ascending",
+                        "Sort descending"
+                    )
+                Width: =42
+                ZIndex: =3
+
+            icoRefresh_CandidatesPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidatesPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        CandidatesPanel.IsLoading,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidatesPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: =CandidatesPanel.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CandidatesPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh candidate list"
+                Width: =42
+                ZIndex: =4
+
+        ctnTable_CandidatesPanel As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            Height: =50
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =50
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            Visible: =Expanded
+            ZIndex: =4
+
+            ctnTableHeader_CandidatesPanel As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =48
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =1
+
+                shpHeadLeftSeparator_CandidatesPanel As rectangle:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =CandidatesPanel.Style.Palette.Line
+                    FocusedBorderThickness: =0
+                    Height: =22
+                    LayoutMinHeight: =5
+                    LayoutMinWidth: =5
+                    Width: =1
+                    ZIndex: =1
+
+                lblHeadName_CandidatesPanel As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatesPanel.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =CandidatesPanel.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatesPanel.Style.Text.Subtitle.Weight
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =25
+                    Size: =CandidatesPanel.Style.Text.Subtitle.Size
+                    Text: ="Name"
+                    Width: =100
+                    ZIndex: =2
+
+                shpHeadNameSeparator_CandidatesPanel As rectangle:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =CandidatesPanel.Style.Palette.Line
+                    FocusedBorderThickness: =0
+                    Height: =22
+                    LayoutMinHeight: =5
+                    LayoutMinWidth: =5
+                    Width: =1
+                    ZIndex: =3
+
+                lblHeadStatus_CandidatesPanel As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatesPanel.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatesPanel.Style.Text.Subtitle.Font
+                    FontWeight: =CandidatesPanel.Style.Text.Subtitle.Weight
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =25
+                    Size: =CandidatesPanel.Style.Text.Subtitle.Size
+                    Text: ="Status"
+                    Width: =100
+                    ZIndex: =4
+
+                shpHeadRightSeparator_CandidatesPanel As rectangle:
+                    AlignInContainer: =AlignInContainer.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =CandidatesPanel.Style.Palette.Line
+                    FocusedBorderThickness: =0
+                    Height: =22
+                    LayoutMinHeight: =5
+                    LayoutMinWidth: =5
+                    Width: =1
+                    ZIndex: =5
+
+            shpTableHeaderSeparator_CandidatesPanel As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =CandidatesPanel.Style.Palette.Line
+                FocusedBorderThickness: =0
+                Height: =2
+                LayoutMinWidth: =5
+                ZIndex: =2
+
+            ctnContent_CandidatesPanel As groupContainer.manualLayoutContainer:
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                ZIndex: =3
+
+                galCandidates_CandidatesPanel As gallery.galleryVertical:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    Items: |-
+                        =SortByColumns(
+                            Search(
+                                ForAll(
+                                    CandidatesPanel.Items,
+                                    {
+                                        SourceRecord: ThisRecord,
+                                        FullName: candidateState.candidateInfo.fullName,
+                                        Status: candidateState.status
+                                    }
+                                ),
+                                txtQuickFind_CandidatesPanel.Text,
+                                "FullName"
+                            ),
+                            "FullName",
+                            If(
+                                SortDescending,
+                                SortOrder.Descending,
+                                SortOrder.Ascending
+                            )
+                        )
+                    Layout: =Layout.Vertical
+                    TemplateFill: =Color.Transparent
+                    TemplatePadding: =0
+                    TemplateSize: =42
+                    Visible: =Expanded && !IsEmpty(CandidatesPanel.Items)
+                    Width: =Parent.Width
+                    ZIndex: =1
+
+                    ctnCandidate_CandidatesPanel As groupContainer.horizontalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =Parent.TemplateHeight
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =1
+
+                        lblName_CandidatesPanel As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: |-
+                                =If(
+                                    CandidatesPanel.AllowSelectCandidate,
+                                    CandidatesPanel.Style.Palette.Accent,
+                                    CandidatesPanel.Style.Text.Normal.Color
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =CandidatesPanel.Style.Text.Normal.Font
+                            FontWeight: =CandidatesPanel.Style.Text.Normal.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =25
+                            Size: =CandidatesPanel.Style.Text.Normal.Size
+                            Text: =ThisItem.FullName
+                            ZIndex: =1
+
+                        lblStatus_CandidatesPanel As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =CandidatesPanel.Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =CandidatesPanel.Style.Text.Normal.Font
+                            FontWeight: =CandidatesPanel.Style.Text.Normal.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =25
+                            Size: =CandidatesPanel.Style.Text.Normal.Size
+                            Text: =ThisItem.Status
+                            Width: =100
+                            ZIndex: =2
+
+                    shpCandidateSeparator_CandidatesPanel As rectangle:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =CandidatesPanel.Style.Palette.Line
+                        FocusedBorderThickness: =0
+                        Height: =1
+                        Width: =Parent.TemplateWidth
+                        Y: =Parent.TemplateHeight - Self.Height
+                        ZIndex: =2
+
+                    btnTouch_CandidatesPanel As button:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        BorderThickness: =0
+                        Color: =Color.Transparent
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Color.Transparent
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: |-
+                            =If(
+                                CandidatesPanel.AllowSelectCandidate,
+                                DisplayMode.Edit,
+                                DisplayMode.Disabled
+                            )
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        FontWeight: =FontWeight.Semibold
+                        Height: =Parent.TemplateHeight
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Color.Transparent
+                        HoverFill: =CandidatesPanel.Style.Palette.Selectable.TransparentHoverFill
+                        OnSelect: =CandidatesPanel.OnSelect()
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        PressedFill: =CandidatesPanel.Style.Palette.Selectable.TransparentPressedFill
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =0
+                        TabIndex: =-1
+                        Text: =""
+                        Tooltip: ="Go to candidate details"
+                        Width: =Parent.TemplateWidth
+                        ZIndex: =3
+
+                ctnLoader_CandidatesPanel As groupContainer.verticalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =CandidatesPanel.Style.Palette.TransparentBackground
+                    Height: =Parent.Height
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMode: =LayoutMode.Auto
+                    Visible: =CandidatesPanel.IsLoading
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+                    imgLoader_CandidatesPanel As image:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        Height: =75
+                        HoverBorderColor: =Self.BorderColor
+                        HoverFill: =Self.Fill
+                        Image: =GrayEllipsis
+                        PressedBorderColor: =Self.BorderColor
+                        PressedFill: =Self.Fill
+                        Width: =75
+                        X: =Parent.Width / 2 - Self.Width / 2
+                        Y: =Parent.Height / 2 - Self.Height/ 2
+                        ZIndex: =1
+
+                lblNoCandidates_CandidatesPanel As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidatesPanel.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidatesPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =CandidatesPanel.Style.Text.Normal.Font
+                    FontWeight: =CandidatesPanel.Style.Text.Normal.Weight
+                    Height: =50
+                    Italic: =true
+                    Size: =CandidatesPanel.Style.Text.Normal.Size
+                    Text: ="No candidates registered"
+                    Visible: =!CandidatesPanel.IsLoading && IsEmpty(CandidatesPanel.Items)
+                    Width: =Parent.Width
+                    Y: =Parent.Height / 2 - Self.Height / 2
+                    ZIndex: =4
+
+        htmLegend_CandidatesPanel As htmlViewer:
+            BorderColor: =Color.Transparent
+            Color: =CandidatesPanel.Style.Text.Subtitle.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =CandidatesPanel.Style.Text.Subtitle.Font
+            Height: =10
+            HtmlText: |-
+                =$"<div
+                    style='
+                        text-align: center;
+                        line-height: {Self.Width}px;
+                        position: absolute;
+                        left:{-Round((Self.Height - Self.Width) / 2, 0)}px;
+                        top:{Round((Self.Height - Self.Width) / 2, 0)}px;
+                        transform: rotate(90deg);
+                        width:{Self.Height}px;
+                        height:{Self.Width}px;
+                    '
+                >
+                    <strong>Candidates</strong>
+                </div>"
+            LayoutMinWidth: =15
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =CandidatesPanel.Style.Text.Subtitle.Size
+            Visible: =!Expanded
+            Width: =10
+            ZIndex: =5
+

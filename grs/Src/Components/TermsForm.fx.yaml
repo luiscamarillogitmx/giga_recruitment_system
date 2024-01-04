@@ -1,0 +1,848 @@
+TermsForm As CanvasComponent:
+    GetValue():
+        ThisProperty:
+            Default: |-
+                ={
+                    startDate: Self.StartDate.Value,
+                    endDate: Self.EndDate.Value,
+                    expeditionDate: Self.ExpeditionDate.Value,
+                    period: Self.Period.Value
+                }
+    ADFIUsers: |-
+        =Table(
+            {
+                id: "8217367d-7361-ee11-be6e-000d3a596548",
+                name: "Jessica Marlene Barragán Mandujano",
+                role: "ADFI",
+                email: "jessica.barragan@grupo-giga.com",
+                idSystemUser: "a3817770-dbfd-ea11-a815-000d3a598e02"
+            },
+            {
+                id: "c92f6789-7361-ee11-be6e-000d3a596548",
+                name: "Florencia Alcain",
+                role: "ADFI",
+                email: "florencia.alcain@grupo-giga.com",
+                idSystemUser: "850dc9da-dafd-ea11-a815-000d3a5988c5"
+            },
+            {
+                id: "b9598e70-7361-ee11-be6e-6045bd0064b3",
+                name: "Shirley Anaya Robles",
+                role: "ADFI",
+                email: "shirley.anaya@grupo-giga.com",
+                idSystemUser: "ec4c781e-dbfd-ea11-a815-000d3a598e02"
+            }
+        )
+    Default: |-
+        ={
+            startDate: "24-10-2023",
+            endDate: "24-10-2023",
+            expeditionDate: "24-10-2023",
+            period: 2
+        }
+    DisplayMode: =AppFunctions.FormModeToDisplayMode(Self.FormMode)
+    EndDate: |-
+        =With(
+            {endDate: datEndDate_TermsForm.SelectedDate},
+            {
+                Value: If(
+                    droPeriod_ContractDetailsForm.Selected.Code = 4,
+                    Blank(),
+                    Text(
+                        endDate,
+                        "yyyy-mm-dd"
+                    )
+                ),
+                IsValid: droPeriod_ContractDetailsForm.Selected.Code = 4 || !IsBlank(endDate) && DateDiff(
+                    datStartDate_TermsForm.SelectedDate,
+                    endDate
+                ) >= 0
+            }
+        )
+    ExpeditionDate: |-
+        =With(
+            {expeditionDate: datExpeditionDate_TermsForm.SelectedDate},
+            {
+                Value: Text(
+                    expeditionDate,
+                    "yyyy-mm-dd"
+                ),
+                IsValid: !IsBlank(expeditionDate)
+            }
+        )
+    Fill: =Color.Transparent
+    FormMode: =FormMode.Edit
+    Height: =Self.SuggestedHeigth
+    IsValid: |-
+        =IsEmpty(Warnings)
+        && Self.StartDate.IsValid
+        && Self.EndDate.IsValid
+        && Self.ExpeditionDate.IsValid
+        && Self.Period.IsValid
+    OnReset: |-
+        =Clear(Warnings);
+        Set(
+            CalculatedPeriod,
+            false
+        );
+        Reset(droPeriod_ContractDetailsForm);
+        Reset(datStartDate_TermsForm);
+        Reset(datEndDate_TermsForm)
+    PaddingBottom: =32
+    PaddingLeft: =32
+    PaddingRight: =32
+    PaddingTop: =32
+    Period: |-
+        ={
+            IsValid: true,
+            Value: droPeriod_ContractDetailsForm.Selected.Code
+        }
+    PresentationData: |-
+        ={
+            ADFIUser: {
+                Label: "ADFI User",
+                Tooltip: "Select a user",
+                Placeholder: "ADFI user lookup"
+            },
+            TotalRewardsUser: {
+                Label: "Total Rewards User",
+                Tooltip: "Select a user",
+                Placeholder: "Total Rewards user lookup"
+            },
+            ExpeditionDate: {
+                Label: "Expedition date",
+                Tooltip: "Select contract expedition date",
+                Placeholder: "dd/mm/yyyy"
+            },
+            StartDate: {
+                Label: "Start date",
+                Tooltip: "Select contract start date",
+                Placeholder: "dd/mm/yyyy"
+            },
+            EndDate: {
+                Label: "End date",
+                Tooltip: "Select contract start date",
+                Placeholder: "dd/mm/yyyy"
+            },
+            Period: {
+                Label: "Period",
+                Tooltip: "Select a period for contract"
+            }
+        }
+    StartDate: |-
+        =With(
+            {startDate: datStartDate_TermsForm.SelectedDate},
+            {
+                Value: Text(
+                    startDate,
+                    "yyyy-mm-dd"
+                ),
+                IsValid: !IsBlank(startDate)
+            }
+        )
+    Style: =Style
+    SuggestedDefault: |-
+        ={
+            startDate: Blank(),
+            endDate: Blank(),
+            expeditionDate: Blank(),
+            period: Blank()
+        }
+    SuggestedHeigth: |-
+        =Self.PaddingTop + If(ctnWarning_TermsForm.Visible, ctnWarning_TermsForm.Height, 0) + 78
+         + Self.PaddingBottom
+    TotalRewardsUsers: |-
+        =Table(
+            {
+                id: "c6b9b44e-7361-ee11-be6e-000d3a596548",
+                name: "Claudia Guadalupe Romero García",
+                role: "Total Rewards",
+                email: "claudia.romero@grupo-giga.com",
+                idSystemUser: "c4f97033-c5ab-ed11-aad1-00224808d0c9"
+            },
+            {
+                id: "87ada45c-7361-ee11-be6e-6045bd0064b3",
+                name: "Paola Verdinelli",
+                role: "Total Rewards",
+                email: "paola.verdinelli@grupo-giga.com",
+                idSystemUser: "c1fbc325-95e5-eb11-bacb-000d3a32deff"
+            },
+            {
+                id: "13b60b6a-7361-ee11-be6e-6045bd0064b3",
+                name: "Shirley Anaya Robles",
+                role: "Total Rewards",
+                email: "shirley.anaya@grupo-giga.com",
+                idSystemUser: "ec4c781e-dbfd-ea11-a815-000d3a598e02"
+            }
+        )
+    Width: =900
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_TermsForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =2
+
+        ctnWarning_TermsForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =22
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            Visible: =!IsEmpty(Warnings)
+            ZIndex: =1
+
+            lblWarning_TermsForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =TermsForm.Style.Text.Little.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TermsForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =TermsForm.Style.Palette.Warning
+                FillPortions: =1
+                Font: =TermsForm.Style.Text.Little.Font
+                FontWeight: =TermsForm.Style.Text.Little.Weight
+                Height: =17
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =TermsForm.Style.Text.Little.Size
+                Text: =Last(Warnings).Text
+                Tooltip: =Self.Text
+                Wrap: =false
+                ZIndex: =1
+
+        ctnColumns_TermsForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =32
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =TermsForm.PaddingBottom
+            PaddingLeft: =TermsForm.PaddingLeft
+            PaddingRight: =TermsForm.PaddingRight
+            PaddingTop: =TermsForm.PaddingTop
+            Width: =Parent.Width
+            ZIndex: =2
+
+            ctnLeftColumn_TermsForm As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =1
+
+                ctnPeriod_ContractDetailsForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    Width: =Parent.Width
+                    ZIndex: =1
+
+                    lblPeriod_ContractDetailsForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TermsForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: =TermsForm.PresentationData.Period.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblPeriodRequired_ContractDetailsForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    droPeriod_ContractDetailsForm As dropdown:
+                        BorderColor: =Color.Transparent
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =Color.Transparent
+                        ChevronFill: =TermsForm.Style.Palette.Accent
+                        ChevronHoverBackground: =TermsForm.Style.Palette.Selectable.HoverFill
+                        Color: =TermsForm.Style.Text.Subtitle.Color
+                        Default: |-
+                            =Switch(
+                                TermsForm.Default.period,
+                                1,
+                                "3 months",
+                                2,
+                                "6 months",
+                                3,
+                                "12 months",
+                                4,
+                                "Indeterminate"
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =TermsForm.Style.Palette.Fillable
+                        DisplayMode: =TermsForm.DisplayMode
+                        Fill: =TermsForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =TermsForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =TermsForm.Style.Text.Subtitle.Font
+                        FontWeight: =TermsForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =TermsForm.Style.Palette.Border
+                        HoverFill: =TermsForm.Style.Palette.Selectable.HoverFill
+                        Items: |-
+                            =Table(
+                                {
+                                    Code: 1,
+                                    Name: "3 months"
+                                },
+                                {
+                                    Code: 2,
+                                    Name: "6 months"
+                                },
+                                {
+                                    Code: 3,
+                                    Name: "12 months"
+                                },
+                                {
+                                    Code: 4,
+                                    Name: "Indeterminate"
+                                }
+                            )
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =Set(
+                                CalculatedPeriod,
+                                true
+                            )
+                        PressedFill: =TermsForm.Style.Palette.Selectable.PressedFill
+                        SelectionColor: =TermsForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                TermsForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        Size: =TermsForm.Style.Text.Subtitle.Size
+                        Tooltip: =TermsForm.PresentationData.Period.Tooltip
+                        Width: =200
+                        ZIndex: =3
+
+                ctnExpeditionDate_TermsForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    ZIndex: =2
+
+                    lblExpeditionDate_TermsForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TermsForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: =TermsForm.PresentationData.ExpeditionDate.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblExpeditionRequired_TermsForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    datExpeditionDate_TermsForm As datepicker:
+                        BorderColor: |-
+                            =If(
+                                TermsForm.ExpeditionDate.IsValid,
+                                Color.Transparent,
+                                TermsForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                        Color: =TermsForm.Style.Text.Subtitle.Color
+                        DefaultDate: =DateValue(TermsForm.Default.expeditionDate)
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =TermsForm.Style.Palette.Fillable
+                        DisplayMode: =TermsForm.DisplayMode
+                        Fill: =TermsForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =TermsForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =TermsForm.Style.Text.Subtitle.Font
+                        FontWeight: =TermsForm.Style.Text.Subtitle.Weight
+                        Format: ="dd/mm/yyyy"
+                        HoverDateFill: =RGBA(186, 202, 226, 1)
+                        IconBackground: =Self.Fill
+                        IconFill: =TermsForm.Style.Palette.Accent
+                        InputTextPlaceholder: |-
+                            =If(
+                                IsBlank(Self.SelectedDate),
+                                Text(
+                                    Date(
+                                        2001,
+                                        12,
+                                        31
+                                    ),
+                                    Self.Format,
+                                    Self.Language
+                                )
+                            )
+                        IsEditable: =true
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =/*With(
+                                {
+                                    invalidDate: {
+                                        Code: 3;
+                                        Text: $"Invalid date in '{TermsForm.PresentationData.StartDate.Label}': the date provided must be later than or equal to the current date"
+                                    };
+                                    invalidDates: {
+                                        Code: 2;
+                                        Text: $"Invalid dates: '{TermsForm.PresentationData.EndDate.Label}' must be a date equal to or later than '{TermsForm.PresentationData.EndDate.Label}'"
+                                    };
+                                    startDate: datStartDate_TermsForm.SelectedDate;
+                                    endDate: datEndDate_TermsForm.SelectedDate
+                                };
+                                If(
+                                    IsBlank(startDate) || TermsForm.FormMode = FormMode.New;
+                                    RemoveIf(
+                                        Warnings;
+                                        Code = invalidDate.Code || Code = invalidDates.Code
+                                    );
+                                    If(
+                                        !IsBlank(endDate) && DateDiff(
+                                            startDate;
+                                            endDate
+                                        ) < 0;
+                                        Collect(
+                                            Warnings;
+                                            invalidDates
+                                        );
+                                        RemoveIf(
+                                            Warnings;
+                                            Code = invalidDates.Code
+                                        )
+                                    );;
+                                    If(
+                                        DateDiff(
+                                            Today();
+                                            startDate
+                                        ) < 0;
+                                        Collect(
+                                            Warnings;
+                                            invalidDate
+                                        );
+                                        RemoveIf(
+                                            Warnings;
+                                            Code = invalidDate.Code
+                                        )
+                                    )
+                                )
+                            )*/
+                        PaddingTop: =5
+                        SelectedDateFill: =RGBA(56, 96, 178, 1)
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Tooltip: =TermsForm.PresentationData.StartDate.Tooltip
+                        ZIndex: =3
+
+            shpFieldsRowSeparator_TermsForm As rectangle:
+                BorderColor: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =TermsForm.Style.Palette.Line
+                FocusedBorderThickness: =0
+                LayoutMinHeight: =50
+                Width: =1
+                ZIndex: =2
+
+            ctnRightColumn_TermsForm As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =3
+
+                ctnStartDate_TermsForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    ZIndex: =2
+
+                    lblStartDate_TermsForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TermsForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: =TermsForm.PresentationData.StartDate.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblStartDateRequired_TermsForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    datStartDate_TermsForm As datepicker:
+                        BorderColor: |-
+                            =If(
+                                TermsForm.StartDate.IsValid,
+                                Color.Transparent,
+                                TermsForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                        Color: =TermsForm.Style.Text.Subtitle.Color
+                        DefaultDate: =DateValue(TermsForm.Default.startDate)
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =TermsForm.Style.Palette.Fillable
+                        DisplayMode: =TermsForm.DisplayMode
+                        Fill: =TermsForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =TermsForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =TermsForm.Style.Text.Subtitle.Font
+                        FontWeight: =TermsForm.Style.Text.Subtitle.Weight
+                        Format: ="dd/mm/yyyy"
+                        HoverDateFill: =RGBA(186, 202, 226, 1)
+                        IconBackground: =Self.Fill
+                        IconFill: =TermsForm.Style.Palette.Accent
+                        InputTextPlaceholder: |-
+                            =If(
+                                IsBlank(Self.SelectedDate),
+                                Text(
+                                    Date(
+                                        2001,
+                                        12,
+                                        31
+                                    ),
+                                    Self.Format,
+                                    Self.Language
+                                )
+                            )
+                        IsEditable: =true
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidDate: {
+                                        Code: 3,
+                                        Text: $"Invalid date in '{TermsForm.PresentationData.StartDate.Label}': the date provided must be later than or equal to the current date"
+                                    },
+                                    invalidDates: {
+                                        Code: 2,
+                                        Text: $"Invalid dates: '{TermsForm.PresentationData.EndDate.Label}' must be a date equal to or later than '{TermsForm.PresentationData.EndDate.Label}'"
+                                    },
+                                    startDate: datStartDate_TermsForm.SelectedDate,
+                                    endDate: datEndDate_TermsForm.SelectedDate
+                                },
+                                If(
+                                    IsBlank(startDate) || TermsForm.FormMode = FormMode.New,
+                                    RemoveIf(
+                                        Warnings,
+                                        Code = invalidDate.Code || Code = invalidDates.Code
+                                    ),
+                                    If(
+                                        !IsBlank(endDate) && DateDiff(
+                                            startDate,
+                                            endDate
+                                        ) < 0,
+                                        Collect(
+                                            Warnings,
+                                            invalidDates
+                                        ),
+                                        RemoveIf(
+                                            Warnings,
+                                            Code = invalidDates.Code
+                                        )
+                                    );
+                                    If(
+                                        DateDiff(
+                                            Today(),
+                                            startDate
+                                        ) < 0,
+                                        Collect(
+                                            Warnings,
+                                            invalidDate
+                                        ),
+                                        RemoveIf(
+                                            Warnings,
+                                            Code = invalidDate.Code
+                                        )
+                                    )
+                                )
+                            )
+                        PaddingTop: =5
+                        SelectedDateFill: =RGBA(56, 96, 178, 1)
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Tooltip: =TermsForm.PresentationData.StartDate.Tooltip
+                        ZIndex: =3
+
+                ctnEndDate_TermsForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    Visible: =TermsForm.Period.Value <> 4
+                    ZIndex: =3
+
+                    lblEndHireDate_TermsForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TermsForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: =TermsForm.PresentationData.EndDate.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblEndDateRequired_TermsForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TermsForm.Style.Text.Normal.Font
+                        FontWeight: =TermsForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =TermsForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    datEndDate_TermsForm As datepicker:
+                        BorderColor: |-
+                            =If(
+                                TermsForm.EndDate.IsValid,
+                                Color.Transparent,
+                                TermsForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        CalendarHeaderFill: =RGBA(56, 96, 178, 1)
+                        Color: =TermsForm.Style.Text.Subtitle.Color
+                        DefaultDate: |-
+                            =If(
+                                CalculatedPeriod,
+                                DateAdd(
+                                    datStartDate_TermsForm.SelectedDate,
+                                    Switch(
+                                        TermsForm.Period.Value,
+                                        1,
+                                        3,
+                                        2,
+                                        6,
+                                        3,
+                                        12
+                                    ),
+                                    TimeUnit.Months
+                                ),
+                                DateValue(TermsForm.Default.endDate)
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TermsForm.Style.Palette.Disabled
+                        DisabledFill: =TermsForm.Style.Palette.Fillable
+                        DisplayMode: =TermsForm.DisplayMode
+                        Fill: =TermsForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =TermsForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =TermsForm.Style.Text.Subtitle.Font
+                        FontWeight: =TermsForm.Style.Text.Subtitle.Weight
+                        Format: ="dd/mm/yyyy"
+                        HoverDateFill: =RGBA(186, 202, 226, 1)
+                        IconBackground: =Self.Fill
+                        IconFill: =TermsForm.Style.Palette.Accent
+                        IsEditable: =true
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =50
+                        OnChange: |-
+                            =With(
+                                {
+                                    invalidDates: {
+                                        Code: 2,
+                                        Text: $"Invalid dates: ""{TermsForm.PresentationData.EndDate.Label}"" must be a date equal to or later than ""{TermsForm.PresentationData.StartDate.Label}"""
+                                    },
+                                    startDate: datStartDate_TermsForm.SelectedDate,
+                                    endDate: datEndDate_TermsForm.SelectedDate
+                                },
+                                If(
+                                    !IsBlank(startDate) && !IsBlank(endDate) && DateDiff(
+                                        startDate,
+                                        endDate
+                                    ) < 0,
+                                    Collect(
+                                        Warnings,
+                                        invalidDates
+                                    ),
+                                    RemoveIf(
+                                        Warnings,
+                                        Code = invalidDates.Code
+                                    )
+                                )
+                            )
+                        PaddingTop: =5
+                        SelectedDateFill: =RGBA(56, 96, 178, 1)
+                        Size: =TermsForm.Style.Text.Subtitle.Size
+                        Tooltip: =TermsForm.PresentationData.EndDate.Tooltip
+                        ZIndex: =3
+

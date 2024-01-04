@@ -1,0 +1,2594 @@
+JobContractInfoForm As CanvasComponent:
+    GetValue():
+        ThisProperty:
+            Default: |-
+                ={
+                    userADFI: Self.ADFIUser.Value,
+                    userHC: Self.TotalRewardsUser.Value,
+                    workingHours: Self.WorkingHours.Value,
+                    extraJobActivities: Self.JobActivities.Value,
+                    client: Self.Client.Value,
+                    workLocation: Self.WorkLocation.Value,
+                    compensation: JobContractInfoForm.Default.compensation
+                }
+    TableToUL(Table As Table):
+        Table:
+            Default: =[""]
+        ThisProperty:
+            Default: =AppFunctions.TableToUL(Table)
+    ULToTable(HTMLText As String):
+        HTMLText:
+            Default: ="Texto"
+        ThisProperty:
+            Default: =AppFunctions.ULToTable(HTMLText)
+    ADFIUser: |-
+        ={
+            Value: With(
+                comADFIUser_JobContractInfoForm.Selected,
+                {
+                    id: id,
+                    name: name,
+                    email: email,
+                    role: role,
+                    idSystemUser: idSystemUser
+                }
+            ),
+            IsValid: !IsBlank(comADFIUser_JobContractInfoForm.Selected)
+        }
+    ADFIUsers: |-
+        =Table(
+            {
+                id: "8217367d-7361-ee11-be6e-000d3a596548",
+                name: "Jessica Marlene Barragán Mandujano",
+                role: "ADFI",
+                email: "jessica.barragan@grupo-giga.com",
+                idSystemUser: "a3817770-dbfd-ea11-a815-000d3a598e02"
+            },
+            {
+                id: "c92f6789-7361-ee11-be6e-000d3a596548",
+                name: "Florencia Alcain",
+                role: "ADFI",
+                email: "florencia.alcain@grupo-giga.com",
+                idSystemUser: "850dc9da-dafd-ea11-a815-000d3a5988c5"
+            },
+            {
+                id: "b9598e70-7361-ee11-be6e-6045bd0064b3",
+                name: "Shirley Anaya Robles",
+                role: "ADFI",
+                email: "shirley.anaya@grupo-giga.com",
+                idSystemUser: "ec4c781e-dbfd-ea11-a815-000d3a598e02"
+            }
+        )
+    Client: |-
+        ={
+            IsValid: !IsBlank(comClient_JobContractInfoForm.Selected),
+            Value: comClient_JobContractInfoForm.Selected.Value
+        }
+    ClientItems: |-
+        =[
+            "Giga IT",
+            "Otro cliente"
+        ]
+    CompensationValue: ="$ 15,000.00 MXN"
+    Default: |-
+        ={
+            userADFI: {
+                id: "c92f6789-7361-ee11-be6e-000d3a596548",
+                name: "Florencia Alcain",
+                role: "ADFI",
+                email: "florencia.alcain@grupo-giga.com",
+                idSystemUser: "850dc9da-dafd-ea11-a815-000d3a5988c5"
+            },
+            userHC: {
+                id: "87ada45c-7361-ee11-be6e-6045bd0064b3",
+                name: "Paola Verdinelli",
+                role: "Total Rewards",
+                email: "paola.verdinelli@grupo-giga.com",
+                idSystemUser: "c1fbc325-95e5-eb11-bacb-000d3a32deff"
+            },
+            workingHours: "Monday to Friday: 08:00 to 17:30, Saturday: 08:00 to 13:30",
+            extraJobActivities: "<ul><li>Unirse al equipo de profesionales del área.</li><li>Desarrollo de Software, soporte y seguimiento de las aplicaciones.</li><li>Desarrollo de procedimientos almacenados.</li><li>Desarrollo de aplicaciones WEB en plataforma .NET</li><li>Desarrollo de backend con tecnologías .NET, C#</li><li>Trato directo con usuarios y con el cliente.</li></ul>",
+            client: "Giga IT",
+            workLocation: "Veracruz, Veracruz, México",
+            compensation: 20000
+        }
+    DisplayMode: =AppFunctions.FormModeToDisplayMode(Self.FormMode)
+    Fill: =Color.Transparent
+    FormMode: =FormMode.Edit
+    Height: =Self.SuggestedHeigth
+    IsLoading: =false
+    IsValid: |-
+        =IsEmpty(Warnings)
+        && Self.ADFIUser.IsValid
+        && Self.TotalRewardsUser.IsValid
+        && Self.WorkingHours.IsValid
+        && Self.JobActivities.IsValid
+        && Self.Client.IsValid
+        && Self.WorkLocation.IsValid
+        //&& Self.CompensationInLetter.IsValid
+    JobActivities: |-
+        =With(
+            {
+                selectedItems: comJobActivities_JobContractInfoForm.SelectedItems,
+                inputItems: OtherJobActivities,
+                maxLength: Self.PresentationData.JobActivities.MaxLength
+            },
+            With(
+                {hasContent: !IsEmpty(selectedItems) || !IsEmpty(inputItems)},
+                With(
+                    {
+                        value: If(
+                            hasContent,
+                            $"<ul>{Concat(
+                                Filter(
+                                    Ungroup(
+                                        [
+                                            selectedItems,
+                                            inputItems
+                                        ],
+                                        "Value"
+                                    ),
+                                    !IsBlank(Value)
+                                ),
+                                $"<li>{Value}</li>"
+                            )}</ul>",
+                            ""
+                        )
+                    },
+                    With(
+                        {
+                            len: Len(value),
+                            primaryIsValid: hasContent,
+                            otherIsValid: true
+                        },
+                        {
+                            Value: value,
+                            Length: len,
+                            PrimaryIsValid: primaryIsValid,
+                            OtherIsValid: otherIsValid,
+                            IsValid: primaryIsValid && otherIsValid && len <= maxLength
+                        }
+                    )
+                )
+            )
+        )
+    JobActivityItems: |-
+        =Sort(
+            ISignatureAPI.GetCustomFieldOptions("Job activities"),
+            Value
+        )
+    LocationItems: |-
+        =Table(
+            {
+                id: "CGR4Xfwi",
+                primary: true,
+                name: "Veracruz",
+                fullAddress: "Calle Abedules No. 80, Loc. 19 Col. Bruno Pagliai Veracruz Veracruz America/Monterrey 91697",
+                country: "Mexico"
+            }
+        )
+    OnReset: |-
+        =Clear(Warnings);
+        Set(
+            LocationSelected,
+            false
+        );
+        Reset(comADFIUser_JobContractInfoForm);
+        Reset(comTotalRewardsUser_JobContractInfoForm);
+        Reset(comClient_JobContractInfoForm);
+        Reset(comLocations_JobContractInfoForm);
+        Reset(txtWorkLocation_JobContractInfoForm);
+        Reset(droWorkingHours_JobContractInfoForm);
+        Reset(droWeekFromHour_JobContractInfoForm);
+        Reset(droWeekToHour_JobContractInfoForm);
+        Reset(togEnableSaturday_JobContractInfoForm);
+        Reset(droSaturdayFromHour_JobContractInfoForm);
+        Reset(droSaturdayToHour_JobContractInfoForm);
+        Reset(comJobActivities_JobContractInfoForm);
+        If(
+            !IsEmpty(comLocations_JobContractInfoForm.SelectedItems),
+            Set(
+                LocationSelected,
+                true
+            )
+        );
+        With(
+            {
+                Collects: ForAll(
+                    Table(
+                        {
+                            Default: JobContractInfoForm.Default.extraJobActivities,
+                            Items: JobContractInfoForm.JobActivityItems
+                        }
+                    ),
+                    ForAll(
+                        Filter(
+                            Self.ULToTable(Default),
+                            !(Value in Items)
+                        ),
+                        {
+                            Id: GUID(),
+                            Value: Value
+                        }
+                    )
+                )
+            },
+            ClearCollect(
+                OtherJobActivities,
+                Index(
+                    Collects,
+                    1
+                ).Value
+            )
+        )
+    PaddingBottom: =32
+    PaddingLeft: =32
+    PaddingRight: =32
+    PaddingTop: =32
+    PresentationData: |-
+        ={
+            ADFIUser: {
+                Label: "ADFI User",
+                Tooltip: "Select a user",
+                Placeholder: "ADFI user lookup"
+            },
+            TotalRewardsUser: {
+                Label: "Total Rewards User",
+                Tooltip: "Select a user",
+                Placeholder: "Total Rewards user lookup"
+            },
+            JobOffer: {
+                Label: "Job offer",
+                Tooltip: "Select job offer",
+                Placeholder: "Job offer lookup"
+            },
+            WorkingHours: {
+                Label: "Working hours",
+                Options: {
+                    Selector: {
+                        Code: 1,
+                        Name: "Selector"
+                    },
+                    RotativeSchedules: {
+                        Code: 2,
+                        Name: "Rotative schedules"
+                    },
+                    Custom: {
+                        Code: 3,
+                        Name: "Custom"
+                    }
+                },
+                Selector: {
+                    Label: "Select hours",
+                    MondayToFriday: {
+                        Label: "Monday to Friday",
+                        From: {
+                            Label: "From",
+                            Tooltip: "Select the start time"
+                        },
+                        To: {
+                            Label: "To",
+                            Tooltip: "Select end time"
+                        }
+                    },
+                    Saturday: {
+                        TrueLabel: "Saturday",
+                        FalseLabel: "Saturday",
+                        Tooltip: "",
+                        From: {
+                            Label: "From",
+                            Tooltip: "Select the start time"
+                        },
+                        To: {
+                            Label: "To",
+                            Tooltip: "Select end time"
+                        }
+                    }
+                },
+                Custom: {
+                    Tooltip: "Write a custom schedule",
+                    Placeholder: "---"
+                }
+            },
+            JobActivities: {
+                Label: "Job activities",
+                Tooltip: "Select job activities",
+                Placeholder: "Job activities lookup",
+                MaxLength: 800,
+                Other: {
+                    Label: "Other job activities",
+                    InputTooltip: "Insert an activity and press enter to add it to the list",
+                    AddTooltip: "Add activity to other activities list",
+                    DeleteTooltip: "Delete selected activity",
+                    Placeholder: "Enter other job activity"
+                }
+            },
+            Client: {
+                Label: "Client",
+                Tooltip: "Select a client",
+                Placeholder: "Client lookup"
+            },
+            WorkLocation: {
+                Label: "Work location",
+                Selector: {
+                    Tooltip: "Enter work location",
+                    Placeholder: "Locations lookup"
+                },
+                Custom: {
+                    Tooltip: "Enter work location",
+                    MaxLength: 400,
+                    Placeholder: "---"
+                }
+            },
+            Compensation: {Label: "Compensation"},
+            CompensationInLetter: {
+                Label: "Compensation in letter",
+                Tooltip: "Enter compensation text",
+                MaxLength: 200,
+                Placeholder: "---"
+            }
+        }
+    Style: =Style
+    SuggestedDefault: |-
+        ={
+            userADFI: Blank(),
+            userHC: Blank(),
+            workingHours: Blank(),
+            extraJobActivities: Blank(),
+            client: Blank(),
+            workLocation: Blank(),
+            compensationInLetter: Blank()
+        }
+    SuggestedHeigth: |-
+        =Self.PaddingTop + If(
+            ctnWarning_JobContractInfoForm.Visible,
+            ctnWarning_JobContractInfoForm.Height,
+            0
+        ) + 600 + Self.PaddingBottom
+    TimeItems: =AppFunctions.TimeItems
+    TotalRewardsUser: |-
+        ={
+            Value: With(
+                comTotalRewardsUser_JobContractInfoForm.Selected,
+                {
+                    id: id,
+                    name: name,
+                    email: email,
+                    role: role,
+                    idSystemUser: idSystemUser
+                }
+            ),
+            IsValid: !IsBlank(comTotalRewardsUser_JobContractInfoForm.Selected)
+        }
+    TotalRewardsUsers: |-
+        =Table(
+            {
+                id: "c6b9b44e-7361-ee11-be6e-000d3a596548",
+                name: "Claudia Guadalupe Romero García",
+                role: "Total Rewards",
+                email: "claudia.romero@grupo-giga.com",
+                idSystemUser: "c4f97033-c5ab-ed11-aad1-00224808d0c9"
+            },
+            {
+                id: "87ada45c-7361-ee11-be6e-6045bd0064b3",
+                name: "Paola Verdinelli",
+                role: "Total Rewards",
+                email: "paola.verdinelli@grupo-giga.com",
+                idSystemUser: "c1fbc325-95e5-eb11-bacb-000d3a32deff"
+            },
+            {
+                id: "13b60b6a-7361-ee11-be6e-6045bd0064b3",
+                name: "Shirley Anaya Robles",
+                role: "Total Rewards",
+                email: "shirley.anaya@grupo-giga.com",
+                idSystemUser: "ec4c781e-dbfd-ea11-a815-000d3a598e02"
+            }
+        )
+    Width: =900
+    WorkingHours: |-
+        =Switch(
+            droWorkingHours_JobContractInfoForm.Selected.Code,
+            JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+            With(
+                {
+                    weekHours: {
+                        From: droWeekFromHour_JobContractInfoForm.Selected.Value,
+                        To: droWeekToHour_JobContractInfoForm.Selected.Value
+                    },
+                    saturdayHours: If(
+                        togEnableSaturday_JobContractInfoForm.Value,
+                        {
+                            From: droSaturdayFromHour_JobContractInfoForm.Selected.Value,
+                            To: droSaturdayToHour_JobContractInfoForm.Selected.Value
+                        },
+                        Blank()
+                    )
+                },
+                With(
+                    {
+                        weekHoursNumbers: {
+                            From: Split(
+                                weekHours.From,
+                                ":"
+                            ),
+                            To: Split(
+                                weekHours.To,
+                                ":"
+                            )
+                        },
+                        saturdayHoursNumbers: If(
+                            IsBlank(saturdayHours),
+                            Blank(),
+                            {
+                                From: Split(
+                                    saturdayHours.From,
+                                    ":"
+                                ),
+                                To: Split(
+                                    saturdayHours.To,
+                                    ":"
+                                )
+                            }
+                        )
+                    },
+                    With(
+                        {
+                            weekHoursIsValid: If(
+                                Value(First(weekHoursNumbers.From).Value) = Value(First(weekHoursNumbers.To).Value),
+                                Value(Last(weekHoursNumbers.From).Value) <= Value(Last(weekHoursNumbers.To).Value),
+                                Value(First(weekHoursNumbers.From).Value) < Value(First(weekHoursNumbers.To).Value)
+                            ),
+                            saturdayHoursIsValid: IsBlank(saturdayHoursNumbers) || If(
+                                Value(First(saturdayHoursNumbers.From).Value) = Value(First(saturdayHoursNumbers.To).Value),
+                                Value(Last(saturdayHoursNumbers.From).Value) <= Value(Last(saturdayHoursNumbers.To).Value),
+                                Value(First(saturdayHoursNumbers.From).Value) < Value(First(saturdayHoursNumbers.To).Value)
+                            )
+                        },
+                        {
+                            Value: $"Monday to Friday: {weekHours.From} to {weekHours.To}{If(
+                                IsBlank(saturdayHours),
+                                "",
+                                $", Saturday: {saturdayHours.From} to {saturdayHours.To}"
+                            )}",
+                            WeekHoursIsValid: weekHoursIsValid,
+                            SaturdayHoursIsValid: saturdayHoursIsValid,
+                            IsValid: weekHoursIsValid && saturdayHoursIsValid
+                        }
+                    )
+                )
+            ),
+            JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Code,
+            {
+                Value: JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                IsValid: true,
+                WeekHoursIsValid: true,
+                SaturdayHoursIsValid: true
+            },
+            {
+                Value: txtWorkingHours_JobContractInfoForm.Text,
+                IsValid: !IsBlank(txtWorkingHours_JobContractInfoForm.Text),
+                WeekHoursIsValid: true,
+                SaturdayHoursIsValid: true
+            }
+        )
+    WorkLocation: |-
+        ={
+            IsValid: !IsBlank(txtWorkLocation_JobContractInfoForm.Text),
+            Value: txtWorkLocation_JobContractInfoForm.Text
+        }
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =2
+
+        ctnWarning_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =22
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            Visible: =!IsEmpty(Warnings)
+            ZIndex: =1
+
+            lblWarning_JobContractInfoForm As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =JobContractInfoForm.Style.Text.Little.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =JobContractInfoForm.Style.Palette.Warning
+                FillPortions: =1
+                Font: =JobContractInfoForm.Style.Text.Little.Font
+                FontWeight: =JobContractInfoForm.Style.Text.Little.Weight
+                Height: =17
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =JobContractInfoForm.Style.Text.Little.Size
+                Text: =Last(Warnings).Text
+                Tooltip: =Self.Text
+                Wrap: =false
+                ZIndex: =1
+
+        ctnColumns_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            Height: =500
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =28
+            LayoutMinHeight: =100
+            LayoutMinWidth: =280
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =JobContractInfoForm.PaddingBottom
+            PaddingLeft: =JobContractInfoForm.PaddingLeft
+            PaddingRight: =JobContractInfoForm.PaddingRight
+            PaddingTop: =JobContractInfoForm.PaddingTop
+            ZIndex: =2
+
+            ctnLeftColumn_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =10
+                LayoutMinHeight: =50
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =1
+
+                ctnADFIUser_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =1
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =1
+                    ZIndex: =2
+
+                    lblADFIUser_JobContractInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        OnSelect: =
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.PresentationData.ADFIUser.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblADFIUserRequired_JobContractInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    comADFIUser_JobContractInfoForm As combobox:
+                        BorderColor: |-
+                            =If(
+                                JobContractInfoForm.ADFIUser.IsValid,
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                        ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DefaultSelectedItems: |-
+                            =If(
+                                IsBlank(JobContractInfoForm.Default.userADFI),
+                                [],
+                                JobContractInfoForm.Default.userADFI
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayFields: =["name"]
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        InputTextPlaceholder: =JobContractInfoForm.PresentationData.ADFIUser.Placeholder
+                        Items: =JobContractInfoForm.ADFIUsers
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        PressedColor: =Self.ChevronFill
+                        PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                        SearchFields: =["name"]
+                        SearchItems: =Search(JobContractInfoForm.ADFIUsers,comADFIUser_JobContractInfoForm.SearchText,"name")
+                        SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                JobContractInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        SelectionTagColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectMultiple: =false
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.ADFIUser.Tooltip
+                        ZIndex: =3
+
+                ctnTotalRewardsUser_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =1
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =1
+                    ZIndex: =3
+
+                    lblTotalRewardsUser_JobContractInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.PresentationData.TotalRewardsUser.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblTotalRewardsUserRequired_JobContractInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    comTotalRewardsUser_JobContractInfoForm As combobox:
+                        BorderColor: |-
+                            =If(
+                                JobContractInfoForm.TotalRewardsUser.IsValid,
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                        ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DefaultSelectedItems: |-
+                            =If(
+                                IsBlank(JobContractInfoForm.Default.userHC),
+                                [],
+                                JobContractInfoForm.Default.userHC
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayFields: =["name"]
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        InputTextPlaceholder: =JobContractInfoForm.PresentationData.TotalRewardsUser.Placeholder
+                        Items: =JobContractInfoForm.TotalRewardsUsers
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        PressedColor: =Self.ChevronFill
+                        PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                        SearchFields: =["name"]
+                        SearchItems: =Search(JobContractInfoForm.TotalRewardsUsers,comTotalRewardsUser_JobContractInfoForm.SearchText,"name")
+                        SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                JobContractInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        SelectionTagColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectMultiple: =false
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.ADFIUser.Tooltip
+                        ZIndex: =3
+
+                ctnClient_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    Width: =Parent.Width
+                    ZIndex: =4
+
+                    lblClient_JobContractInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.PresentationData.Client.Label
+                        Width: =119
+                        ZIndex: =1
+
+                    lblClientRequired_JobContractInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.Red
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: ="*"
+                        Width: =15
+                        ZIndex: =2
+
+                    comClient_JobContractInfoForm As combobox:
+                        BorderColor: |-
+                            =If(
+                                JobContractInfoForm.Client.IsValid,
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                        ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                        DefaultSelectedItems: |-
+                            =[
+                                If(
+                                    IsBlank(JobContractInfoForm.Default.client),
+                                    Blank(),
+                                    {Value: JobContractInfoForm.Default.client}
+                                )
+                            ]
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayFields: =["Value"]
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        InputTextPlaceholder: =JobContractInfoForm.PresentationData.Client.Placeholder
+                        Items: =JobContractInfoForm.ClientItems
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        PressedColor: =JobContractInfoForm.Style.Palette.Icon
+                        PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                        SearchFields: =["Value"]
+                        SearchItems: =Search(JobContractInfoForm.ClientItems,comClient_JobContractInfoForm.SearchText,"Value")
+                        SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                JobContractInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        SelectionTagColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectMultiple: =false
+                        Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.Client.Tooltip
+                        ZIndex: =3
+
+                ctnCompensation_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =34
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =2
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    PaddingTop: =2
+                    Width: =Parent.Width
+                    ZIndex: =5
+
+                    lblCompensation_JobContractInfoForm As label:
+                        Align: =Align.Right
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.PresentationData.Compensation.Label
+                        Width: =120
+                        ZIndex: =1
+
+                    lblCompensationValue_JobContractInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                        LayoutMinHeight: =15
+                        PaddingLeft: =20
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.CompensationValue
+                        Width: =100
+                        ZIndex: =2
+
+                ctnWorkLocation_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =71
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutGap: =5
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =1
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    Width: =Parent.Width
+                    ZIndex: =7
+
+                    ctnWorkLocationHeader_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =34
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =2
+                        PaddingRight: =1
+                        PaddingTop: =2
+                        ZIndex: =1
+
+                        lblWorkLocationRequired_JobContractInfoForm As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Color.Red
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                            LayoutMinHeight: =15
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Text: ="*"
+                            Width: =15
+                            ZIndex: =1
+
+                        lblWorkLocation_JobContractInfoForm As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                            LayoutMinHeight: =15
+                            LayoutMinWidth: =50
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Text: =JobContractInfoForm.PresentationData.WorkLocation.Label
+                            Width: =110
+                            ZIndex: =2
+
+                        comLocations_JobContractInfoForm As combobox:
+                            BorderColor: =JobContractInfoForm.Style.Palette.Line
+                            BorderThickness: =1
+                            ChevronBackground: =Self.Fill
+                            ChevronDisabledBackground: =Color.Transparent
+                            ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                            ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                            ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                            Color: =JobContractInfoForm.Style.Text.Normal.Color
+                            DefaultSelectedItems: |-
+                                =If(
+                                    JobContractInfoForm.FormMode = FormMode.Edit,
+                                    Filter(
+                                        JobContractInfoForm.LocationItems,
+                                        fullAddress = JobContractInfoForm.Default.workLocation
+                                    ),
+                                    LookUp(
+                                        JobContractInfoForm.LocationItems,
+                                        primary
+                                    )
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                            DisplayFields: |-
+                                =[
+                                    "name",
+                                    "fullAddress"
+                                ]
+                            DisplayMode: =JobContractInfoForm.DisplayMode
+                            Fill: =JobContractInfoForm.Style.Palette.Background
+                            FillPortions: =1
+                            FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                            FocusedBorderThickness: =2
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                            HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                            HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                            InputTextPlaceholder: =JobContractInfoForm.PresentationData.WorkLocation.Selector.Placeholder
+                            Items: =JobContractInfoForm.LocationItems
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            OnChange: |-
+                                =Set(
+                                    LocationSelected,
+                                    true
+                                )
+                            PressedColor: =JobContractInfoForm.Style.Palette.Icon
+                            PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                            SearchFields: =["name"]
+                            SearchItems: =Search(JobContractInfoForm.LocationItems,comLocations_JobContractInfoForm.SearchText,"name")
+                            SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                            SelectionFill: |-
+                                =ColorFade(
+                                    JobContractInfoForm.Style.Palette.Fillable,
+                                    -5%
+                                )
+                            SelectionTagColor: =JobContractInfoForm.Style.Palette.Accent
+                            SelectMultiple: =false
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Template: =ListItemTemplate.Double
+                            Tooltip: =JobContractInfoForm.PresentationData.WorkLocation.Selector.Tooltip
+                            Visible: =JobContractInfoForm.DisplayMode = DisplayMode.Edit
+                            Width: =250
+                            ZIndex: =3
+
+                    txtWorkLocation_JobContractInfoForm As text:
+                        BorderColor: |-
+                            =If(
+                                JobContractInfoForm.WorkLocation.IsValid,
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        Default: |-
+                            =If(
+                                LocationSelected,
+                                comLocations_JobContractInfoForm.Selected.fullAddress,
+                                JobContractInfoForm.Default.workLocation
+                            )
+                        DelayOutput: =true
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FillPortions: =1
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        HintText: =JobContractInfoForm.PresentationData.WorkLocation.Custom.Placeholder
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        MaxLength: =JobContractInfoForm.PresentationData.WorkLocation.Custom.MaxLength
+                        OnChange: =
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.WorkLocation.Custom.Tooltip
+                        Width: =170
+                        ZIndex: =4
+
+                ctnWorkingHours_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =190
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutGap: =2
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    ZIndex: =8
+
+                    shpWorkingHoursSeparator_JobContractInfoForm As rectangle:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =JobContractInfoForm.Style.Palette.Line
+                        Height: =1
+                        LayoutMinWidth: =50
+                        ZIndex: =1
+
+                    ctnWorkingHoursHeader_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =34
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =2
+                        PaddingLeft: =1
+                        PaddingRight: =1
+                        PaddingTop: =2
+                        ZIndex: =2
+
+                        lblWorkingHoursRequired_JobContractInfoForm As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Color.Red
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                            LayoutMinHeight: =15
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Text: ="*"
+                            Width: =15
+                            ZIndex: =1
+
+                        lblWorkingHours_JobContractInfoForm As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                            Height: =32
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                            Text: =JobContractInfoForm.PresentationData.WorkingHours.Label
+                            ZIndex: =2
+
+                        droWorkingHours_JobContractInfoForm As dropdown:
+                            BorderColor: =Color.Transparent
+                            BorderThickness: =1
+                            ChevronBackground: =Self.Fill
+                            ChevronDisabledBackground: =Color.Transparent
+                            ChevronDisabledFill: =Color.Transparent
+                            ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                            ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                            Color: =JobContractInfoForm.Style.Text.Normal.Color
+                            Default: |-
+                                =If(
+                                    IsMatch(
+                                        JobContractInfoForm.Default.workingHours,
+                                        $"Monday to Friday: \d\d:\d\d to \d\d:\d\d,( Saturday: \d\d:\d\d to \d\d:\d\d)?"
+                                    ),
+                                    JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Name,
+                                    If(
+                                        JobContractInfoForm.Default.workingHours = JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                                        JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name,
+                                        JobContractInfoForm.PresentationData.WorkingHours.Options.Custom.Name
+                                    )
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                            DisplayMode: =JobContractInfoForm.DisplayMode
+                            Fill: =JobContractInfoForm.Style.Palette.Background
+                            FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                            FocusedBorderThickness: =2
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                            HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                            HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                            Items: |-
+                                =Table(
+                                    JobContractInfoForm.PresentationData.WorkingHours.Options.Selector,
+                                    JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules,
+                                    JobContractInfoForm.PresentationData.WorkingHours.Options.Custom
+                                )
+                            LayoutMinHeight: =15
+                            LayoutMinWidth: =50
+                            OnChange: |-
+                                =RemoveIf(
+                                    Warnings,
+                                    Code = 4 || Code = 5
+                                )
+                            PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                            SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                            SelectionFill: |-
+                                =ColorFade(
+                                    JobContractInfoForm.Style.Palette.Fillable,
+                                    -5%
+                                )
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Visible: =JobContractInfoForm.DisplayMode = DisplayMode.Edit
+                            Width: =175
+                            ZIndex: =3
+
+                    ctnWeekHours_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =50
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =1
+                        PaddingLeft: =1
+                        PaddingRight: =1
+                        Visible: =droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code
+                        ZIndex: =3
+
+                        ctnWeekHoursHeader_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            Height: =32
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =1
+
+                            lblHoursSelector_JobContractInfoForm As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                Height: =32
+                                LayoutMinHeight: =17
+                                LayoutMinWidth: =50
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Label
+                                ZIndex: =2
+
+                            lblWeekHours_JobContractInfoForm As label:
+                                Align: =Align.Right
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                PaddingRight: =15
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.Label
+                                Width: =130
+                                ZIndex: =3
+
+                        ctnWeekRangeOfHours_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =JobContractInfoForm.Style.Palette.Line
+                            BorderThickness: =1
+                            Fill: =JobContractInfoForm.Style.Palette.LightFillable
+                            Height: =42
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingBottom: =5
+                            PaddingLeft: =5
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            RadiusBottomLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusBottomRight: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopRight: =JobContractInfoForm.Style.RadiusFactor
+                            ZIndex: =2
+
+                            lblWeekFromHour_JobContractInfoForm As label:
+                                Align: =Align.Right
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.From.Label
+                                Width: =50
+                                ZIndex: =1
+
+                            droWeekFromHour_JobContractInfoForm As dropdown:
+                                BorderColor: |-
+                                    =If(
+                                        JobContractInfoForm.WorkingHours.WeekHoursIsValid,
+                                        JobContractInfoForm.Style.Palette.Line,
+                                        JobContractInfoForm.Style.Palette.Warning
+                                    )
+                                BorderThickness: =1
+                                ChevronBackground: =Self.Fill
+                                ChevronDisabledBackground: =Color.Transparent
+                                ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                                ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                                ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                                Default: |-
+                                    =If(
+                                        droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+                                        First(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        First(
+                                                            Split(
+                                                                JobContractInfoForm.Default.workingHours,
+                                                                ", "
+                                                            )
+                                                        ).Value,
+                                                        ": "
+                                                    )
+                                                ).Value,
+                                                " to "
+                                            )
+                                        ).Value
+                                    )
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =JobContractInfoForm.DisplayMode
+                                Fill: |-
+                                    =If(
+                                        Self.DisplayMode = DisplayMode.View,
+                                        Color.Transparent,
+                                        JobContractInfoForm.Style.Palette.Background
+                                    )
+                                FillPortions: =1
+                                FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                                FocusedBorderThickness: =2
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                                HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Items: =JobContractInfoForm.TimeItems
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                OnChange: |-
+                                    =With(
+                                        {
+                                            invalidHours: {
+                                                Code: 4,
+                                                Text: $"Final time must be greater than the initial time"
+                                            },
+                                            fromHour: droWeekFromHour_JobContractInfoForm.Selected.Value,
+                                            toHour: droWeekToHour_JobContractInfoForm.Selected.Value
+                                        },
+                                        With(
+                                            {
+                                                fromHourNumbers: ForAll(
+                                                    Split(
+                                                        fromHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                ),
+                                                toHourNumbers: ForAll(
+                                                    Split(
+                                                        toHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                )
+                                            },
+                                            If(
+                                                First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                                If(
+                                                    Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                ),
+                                                If(
+                                                    First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                                SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                                SelectionFill: |-
+                                    =ColorFade(
+                                        JobContractInfoForm.Style.Palette.Fillable,
+                                        -5%
+                                    )
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.From.Tooltip
+                                Width: =200
+                                ZIndex: =2
+
+                            lblWeekToHour_JobContractInfoForm As label:
+                                Align: =Align.Right
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.To.Label
+                                Width: =50
+                                ZIndex: =3
+
+                            droWeekToHour_JobContractInfoForm As dropdown:
+                                BorderColor: |-
+                                    =If(
+                                        JobContractInfoForm.WorkingHours.WeekHoursIsValid,
+                                        JobContractInfoForm.Style.Palette.Line,
+                                        JobContractInfoForm.Style.Palette.Warning
+                                    )
+                                BorderThickness: =1
+                                ChevronBackground: =Self.Fill
+                                ChevronDisabledBackground: =Color.Transparent
+                                ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                                ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                                ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                                Default: |-
+                                    =If(
+                                        droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code,
+                                        Last(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        First(
+                                                            Split(
+                                                                JobContractInfoForm.Default.workingHours,
+                                                                ", "
+                                                            )
+                                                        ).Value,
+                                                        ": "
+                                                    )
+                                                ).Value,
+                                                " to "
+                                            )
+                                        ).Value
+                                    )
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =JobContractInfoForm.DisplayMode
+                                Fill: |-
+                                    =If(
+                                        Self.DisplayMode = DisplayMode.View,
+                                        Color.Transparent,
+                                        JobContractInfoForm.Style.Palette.Background
+                                    )
+                                FillPortions: =1
+                                FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                                FocusedBorderThickness: =2
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                                HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Items: =JobContractInfoForm.TimeItems
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                OnChange: |-
+                                    =With(
+                                        {
+                                            invalidHours: {
+                                                Code: 4,
+                                                Text: $"Final time must be greater than the initial time"
+                                            },
+                                            fromHour: droWeekFromHour_JobContractInfoForm.Selected.Value,
+                                            toHour: droWeekToHour_JobContractInfoForm.Selected.Value
+                                        },
+                                        With(
+                                            {
+                                                fromHourNumbers: ForAll(
+                                                    Split(
+                                                        fromHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                ),
+                                                toHourNumbers: ForAll(
+                                                    Split(
+                                                        toHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                )
+                                            },
+                                            If(
+                                                First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                                If(
+                                                    Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                ),
+                                                If(
+                                                    First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                                SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                                SelectionFill: |-
+                                    =ColorFade(
+                                        JobContractInfoForm.Style.Palette.Fillable,
+                                        -5%
+                                    )
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Selector.MondayToFriday.To.Tooltip
+                                Width: =200
+                                ZIndex: =4
+
+                    ctnSaturdayHours_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =50
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =1
+                        PaddingLeft: =1
+                        PaddingRight: =1
+                        Visible: =droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code
+                        ZIndex: =4
+
+                        ctnSaturdayHoursHeader_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            Height: =32
+                            LayoutAlignItems: =LayoutAlignItems.Center
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingLeft: =5
+                            PaddingRight: =15
+                            ZIndex: =1
+
+                            togEnableSaturday_JobContractInfoForm As toggleSwitch:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.Dotted
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                Default: |-
+                                    =CountRows(
+                                        Split(
+                                            JobContractInfoForm.Default.workingHours,
+                                            ", "
+                                        )
+                                    ) = 2
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisplayMode: =JobContractInfoForm.DisplayMode
+                                FalseFill: =JobContractInfoForm.Style.Palette.Line
+                                FalseHoverFill: |-
+                                    =ColorFade(
+                                        Self.FalseFill,
+                                        -5%
+                                    )
+                                FalseText: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.FalseLabel
+                                FocusedBorderColor: =JobContractInfoForm.Style.Palette.Border
+                                FocusedBorderThickness: =1
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                HandleFill: =JobContractInfoForm.Style.Palette.Background
+                                Height: =17
+                                HoverBorderColor: =Self.BorderColor
+                                LabelPaddingLeft: =0
+                                LabelPaddingRight: =0
+                                LayoutMinHeight: =17
+                                LayoutMinWidth: =25
+                                OnChange: |-
+                                    =If(
+                                        Self.Value,
+                                        Reset(droSaturdayFromHour_JobContractInfoForm);
+                                        Reset(droSaturdayToHour_JobContractInfoForm)
+                                    )
+                                PressedBorderColor: =Self.BorderColor
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.Tooltip
+                                TrueFill: =JobContractInfoForm.Style.Palette.Accent
+                                TrueHoverFill: |-
+                                    =ColorFade(
+                                        Self.TrueFill,
+                                        -5%
+                                    )
+                                TrueText: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.TrueLabel
+                                Width: =Parent.Width - Parent.PaddingRight
+                                ZIndex: =1
+
+                        ctnSaturdayRangeOfHours_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =JobContractInfoForm.Style.Palette.Line
+                            BorderThickness: =1
+                            Fill: =JobContractInfoForm.Style.Palette.LightFillable
+                            Height: =34
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingBottom: =5
+                            PaddingLeft: =5
+                            PaddingRight: =5
+                            PaddingTop: =5
+                            RadiusBottomLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusBottomRight: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopRight: =JobContractInfoForm.Style.RadiusFactor
+                            ZIndex: =2
+
+                            lblSaturdayFromHour_JobContractInfoForm As label:
+                                Align: =Align.Right
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.From.Label
+                                Visible: =togEnableSaturday_JobContractInfoForm.Value
+                                Width: =50
+                                ZIndex: =1
+
+                            droSaturdayFromHour_JobContractInfoForm As dropdown:
+                                BorderColor: |-
+                                    =If(
+                                        JobContractInfoForm.WorkingHours.SaturdayHoursIsValid,
+                                        JobContractInfoForm.Style.Palette.Line,
+                                        JobContractInfoForm.Style.Palette.Warning
+                                    )
+                                BorderThickness: =1
+                                ChevronBackground: =Self.Fill
+                                ChevronDisabledBackground: =Color.Transparent
+                                ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                                ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                                ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                                Default: |-
+                                    =If(
+                                        droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code && Self.Visible,
+                                        First(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        Last(
+                                                            Split(
+                                                                JobContractInfoForm.Default.workingHours,
+                                                                ", "
+                                                            )
+                                                        ).Value,
+                                                        ": "
+                                                    )
+                                                ).Value,
+                                                " to "
+                                            )
+                                        ).Value
+                                    )
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =JobContractInfoForm.DisplayMode
+                                Fill: |-
+                                    =If(
+                                        Self.DisplayMode = DisplayMode.View,
+                                        Color.Transparent,
+                                        JobContractInfoForm.Style.Palette.Background
+                                    )
+                                FillPortions: =1
+                                FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                                FocusedBorderThickness: =2
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                                HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Items: =JobContractInfoForm.TimeItems
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                OnChange: |-
+                                    =With(
+                                        {
+                                            invalidHours: {
+                                                Code: 5,
+                                                Text: $"Final time must be greater than the initial time"
+                                            },
+                                            fromHour: droSaturdayFromHour_JobContractInfoForm.Selected.Value,
+                                            toHour: droSaturdayToHour_JobContractInfoForm.Selected.Value
+                                        },
+                                        With(
+                                            {
+                                                fromHourNumbers: ForAll(
+                                                    Split(
+                                                        fromHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                ),
+                                                toHourNumbers: ForAll(
+                                                    Split(
+                                                        toHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                )
+                                            },
+                                            If(
+                                                First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                                If(
+                                                    Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                ),
+                                                If(
+                                                    First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                                SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                                SelectionFill: |-
+                                    =ColorFade(
+                                        JobContractInfoForm.Style.Palette.Fillable,
+                                        -5%
+                                    )
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.From.Tooltip
+                                Visible: =togEnableSaturday_JobContractInfoForm.Value
+                                Width: =200
+                                ZIndex: =2
+
+                            lblSaturdayToHour_JobContractInfoForm As label:
+                                Align: =Align.Right
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Text: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.To.Label
+                                Visible: =togEnableSaturday_JobContractInfoForm.Value
+                                Width: =50
+                                ZIndex: =3
+
+                            droSaturdayToHour_JobContractInfoForm As dropdown:
+                                BorderColor: |-
+                                    =If(
+                                        JobContractInfoForm.WorkingHours.SaturdayHoursIsValid,
+                                        JobContractInfoForm.Style.Palette.Line,
+                                        JobContractInfoForm.Style.Palette.Warning
+                                    )
+                                BorderThickness: =1
+                                ChevronBackground: =Self.Fill
+                                ChevronDisabledBackground: =Color.Transparent
+                                ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                                ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                                ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                                Default: |-
+                                    =If(
+                                        droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Selector.Code && Self.Visible,
+                                        Last(
+                                            Split(
+                                                Last(
+                                                    Split(
+                                                        Last(
+                                                            Split(
+                                                                JobContractInfoForm.Default.workingHours,
+                                                                ", "
+                                                            )
+                                                        ).Value,
+                                                        ": "
+                                                    )
+                                                ).Value,
+                                                " to "
+                                            )
+                                        ).Value
+                                    )
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =JobContractInfoForm.DisplayMode
+                                Fill: |-
+                                    =If(
+                                        Self.DisplayMode = DisplayMode.View,
+                                        Color.Transparent,
+                                        JobContractInfoForm.Style.Palette.Background
+                                    )
+                                FillPortions: =1
+                                FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                                FocusedBorderThickness: =2
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                                HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Items: =JobContractInfoForm.TimeItems
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                OnChange: |-
+                                    =With(
+                                        {
+                                            invalidHours: {
+                                                Code: 5,
+                                                Text: $"Final time must be greater than the initial time"
+                                            },
+                                            fromHour: droSaturdayFromHour_JobContractInfoForm.Selected.Value,
+                                            toHour: droSaturdayToHour_JobContractInfoForm.Selected.Value
+                                        },
+                                        With(
+                                            {
+                                                fromHourNumbers: ForAll(
+                                                    Split(
+                                                        fromHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                ),
+                                                toHourNumbers: ForAll(
+                                                    Split(
+                                                        toHour,
+                                                        ":"
+                                                    ),
+                                                    Value(Value)
+                                                )
+                                            },
+                                            If(
+                                                First(fromHourNumbers).Value = First(toHourNumbers).Value,//Si las horas son iguales
+                                                If(
+                                                    Last(fromHourNumbers).Value > Last(toHourNumbers).Value,// si los minutos de la hora de inicio es mayor que la hora de término
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                ),
+                                                If(
+                                                    First(fromHourNumbers).Value > First(toHourNumbers).Value,
+                                                    Collect(
+                                                        Warnings,
+                                                        invalidHours
+                                                    ),
+                                                    RemoveIf(
+                                                        Warnings,
+                                                        Code = invalidHours.Code
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                                SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                                SelectionFill: |-
+                                    =ColorFade(
+                                        JobContractInfoForm.Style.Palette.Fillable,
+                                        -5%
+                                    )
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Selector.Saturday.To.Tooltip
+                                Visible: =togEnableSaturday_JobContractInfoForm.Value
+                                Width: =200
+                                ZIndex: =4
+
+                            lblSaturdayScheduleOff_JobContractInfoForm As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                                Height: =32
+                                Italic: =true
+                                LayoutMinHeight: =17
+                                LayoutMinWidth: =50
+                                Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                                Text: ="Saturday schedule off"
+                                Visible: =!togEnableSaturday_JobContractInfoForm.Value
+                                ZIndex: =5
+
+                    txtWorkingHours_JobContractInfoForm As text:
+                        BorderColor: |-
+                            =If(
+                                JobContractInfoForm.WorkingHours.IsValid,
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        Default: =JobContractInfoForm.Default.workingHours
+                        DelayOutput: =true
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        Height: =32
+                        HintText: =JobContractInfoForm.PresentationData.WorkingHours.Custom.Placeholder
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        MaxLength: =500
+                        OnChange: =
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.WorkingHours.Custom.Tooltip
+                        Visible: =droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.Custom.Code
+                        Width: =170
+                        ZIndex: =5
+
+                    lblRotativeSchedules_JobContractInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        Height: =32
+                        Italic: =true
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: =JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Name
+                        Visible: =droWorkingHours_JobContractInfoForm.Selected.Code = JobContractInfoForm.PresentationData.WorkingHours.Options.RotativeSchedules.Code
+                        ZIndex: =6
+
+            shpFieldsRowSeparator_JobContractInfoForm As rectangle:
+                BorderColor: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =JobContractInfoForm.Style.Palette.Line
+                FocusedBorderThickness: =0
+                Width: =1
+                ZIndex: =2
+
+            ctnRigthColumn_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                ZIndex: =3
+
+                ctnJobActivities_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =65
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =1
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    ZIndex: =1
+
+                    ctnJobActivitiesHeader_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =32
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        ZIndex: =1
+
+                        lblJobActivitiesRequired_JobContractInfoForm As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Color.Red
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                            LayoutMinHeight: =15
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                            Text: ="*"
+                            Width: =15
+                            ZIndex: =1
+
+                        lblJobActivities_JobContractInfoForm As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                            Height: =32
+                            LayoutMinHeight: =32
+                            LayoutMinWidth: =50
+                            PaddingLeft: =0
+                            Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                            Text: =JobContractInfoForm.PresentationData.JobActivities.Label
+                            ZIndex: =2
+
+                        lblJobActivitiesLength_JobContractInfoForm As label:
+                            Align: =Align.Right
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: |-
+                                =If(
+                                    JobContractInfoForm.JobActivities.Length <= JobContractInfoForm.PresentationData.JobActivities.MaxLength,
+                                    JobContractInfoForm.Style.Palette.Disabled,
+                                    JobContractInfoForm.Style.Palette.Error
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Little.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Little.Weight
+                            Height: =Parent.Height
+                            LayoutMinHeight: =17
+                            PaddingLeft: =0
+                            Size: =JobContractInfoForm.Style.Text.Little.Size
+                            Text: =$"{JobContractInfoForm.JobActivities.Length}/{JobContractInfoForm.PresentationData.JobActivities.MaxLength}"
+                            Tooltip: ="Combines the character count of the 'Job activities' and 'Other job activities' fields"
+                            Visible: =JobContractInfoForm.DisplayMode = DisplayMode.Edit
+                            Width: =65
+                            X: =Parent.Width - Self.Width
+                            ZIndex: =3
+
+                        icoValidateJobActivities_JobContractInfoForm As icon.HorizontalLine:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Palette.Success
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisplayMode: |-
+                                =If(
+                                    JobContractInfoForm.JobActivities.IsValid,
+                                    DisplayMode.View,
+                                    DisplayMode.Disabled
+                                )
+                            Fill: =JobContractInfoForm.Style.Palette.Selectable.Fill
+                            FocusedBorderThickness: =0
+                            Height: =Parent.Height
+                            HoverBorderColor: =Self.BorderColor
+                            HoverColor: =Self.Color
+                            HoverFill: =Color.Transparent
+                            Icon: =Icon.Check
+                            LayoutMinHeight: =17
+                            PaddingBottom: =7.5
+                            PaddingLeft: =7.5
+                            PaddingRight: =7.5
+                            PaddingTop: =7.5
+                            PressedBorderColor: =Self.BorderColor
+                            PressedColor: =Self.Color
+                            PressedFill: =Color.Transparent
+                            Visible: =JobContractInfoForm.DisplayMode = DisplayMode.Edit
+                            Width: =32
+                            X: =Parent.Width - Self.Width
+                            ZIndex: =4
+
+                    comJobActivities_JobContractInfoForm As combobox:
+                        BorderColor: |-
+                            =If(
+                                !IsEmpty(Self.SelectedItems) || !IsEmpty(OtherJobActivities),
+                                JobContractInfoForm.Style.Palette.Line,
+                                JobContractInfoForm.Style.Palette.Warning
+                            )
+                        BorderThickness: =1
+                        ChevronBackground: =Self.Fill
+                        ChevronDisabledBackground: =Color.Transparent
+                        ChevronDisabledFill: =JobContractInfoForm.Style.Palette.Disabled
+                        ChevronFill: =JobContractInfoForm.Style.Palette.Accent
+                        ChevronHoverBackground: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DefaultSelectedItems: |-
+                            =If(
+                                IsBlank(JobContractInfoForm.Default.extraJobActivities),
+                                [],
+                                Filter(
+                                    JobContractInfoForm.ULToTable(JobContractInfoForm.Default.extraJobActivities),
+                                    Value in JobContractInfoForm.JobActivityItems
+                                )
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                        DisplayFields: =["Value"]
+                        DisplayMode: =JobContractInfoForm.DisplayMode
+                        Fill: =JobContractInfoForm.Style.Palette.Background
+                        FocusedBorderColor: =JobContractInfoForm.Style.Palette.Accent
+                        FocusedBorderThickness: =2
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        Height: =32
+                        HoverBorderColor: =JobContractInfoForm.Style.Palette.Border
+                        HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                        InputTextPlaceholder: =JobContractInfoForm.PresentationData.JobActivities.Placeholder
+                        Items: =JobContractInfoForm.JobActivityItems
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        NoSelectionText: =JobContractInfoForm.PresentationData.JobActivities.Placeholder
+                        PressedColor: =JobContractInfoForm.Style.Palette.Icon
+                        PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                        SearchFields: =["Value"]
+                        SearchItems: =Search(JobContractInfoForm.JobActivityItems,comJobActivities_JobContractInfoForm.SearchText,"Value")
+                        SelectionColor: =JobContractInfoForm.Style.Palette.Accent
+                        SelectionFill: |-
+                            =ColorFade(
+                                JobContractInfoForm.Style.Palette.Fillable,
+                                -5%
+                            )
+                        SelectionTagColor: =JobContractInfoForm.Style.Palette.Accent
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Tooltip: =JobContractInfoForm.PresentationData.JobActivities.Tooltip
+                        Visible: =JobContractInfoForm.DisplayMode <> DisplayMode.View || !IsEmpty(comJobActivities_JobContractInfoForm.SelectedItems)
+                        Width: =400
+                        ZIndex: =2
+
+                    lblNoJobActivities_JobContractInfoForm As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Normal.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                        Height: =32
+                        Italic: =true
+                        Size: =JobContractInfoForm.Style.Text.Normal.Size
+                        Text: ="No job activities selected"
+                        Visible: =JobContractInfoForm.DisplayMode = DisplayMode.View && IsEmpty(comJobActivities_JobContractInfoForm.SelectedItems)
+                        ZIndex: =3
+
+                ctnOtherJobActivities_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =390
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =1
+                    PaddingRight: =1
+                    ZIndex: =2
+
+                    lblOtherJobActivities_JobContractInfoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =JobContractInfoForm.Style.Text.Subtitle.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =JobContractInfoForm.Style.Text.Subtitle.Font
+                        FontWeight: =JobContractInfoForm.Style.Text.Subtitle.Weight
+                        Height: =32
+                        LayoutMinWidth: =50
+                        PaddingLeft: =15
+                        Size: =JobContractInfoForm.Style.Text.Subtitle.Size
+                        Text: =JobContractInfoForm.PresentationData.JobActivities.Other.Label
+                        ZIndex: =1
+
+                    ctnOtherJobActivitiyActions_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =JobContractInfoForm.Style.Palette.Line
+                        BorderThickness: =1
+                        Fill: =JobContractInfoForm.Style.Palette.LightFillable
+                        FillPortions: =0
+                        Height: =42
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutGap: =5
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingLeft: =5
+                        RadiusBottomLeft: =JobContractInfoForm.Style.RadiusFactor
+                        RadiusBottomRight: =JobContractInfoForm.Style.RadiusFactor
+                        RadiusTopLeft: =JobContractInfoForm.Style.RadiusFactor
+                        RadiusTopRight: =JobContractInfoForm.Style.RadiusFactor
+                        Visible: =JobContractInfoForm.DisplayMode = DisplayMode.Edit
+                        ZIndex: =2
+
+                        ctnOtherJobActivityInput_JobContractInfoForm As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =JobContractInfoForm.Style.Palette.Line
+                            BorderThickness: =1
+                            Fill: =JobContractInfoForm.Style.Palette.Background
+                            Height: =32
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutGap: =10
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =25
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusBottomRight: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopLeft: =JobContractInfoForm.Style.RadiusFactor
+                            RadiusTopRight: =JobContractInfoForm.Style.RadiusFactor
+                            Width: =350
+                            X: =1
+                            Y: =1
+                            ZIndex: =1
+
+                            txtOtherJobActivityInput_JobContractInfoForm As text:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                BorderThickness: =0
+                                Color: =JobContractInfoForm.Style.Text.Normal.Color
+                                Default: =""
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =Color.Transparent
+                                DisabledFill: =JobContractInfoForm.Style.Palette.Fillable
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                FocusedBorderThickness: =0
+                                Font: =JobContractInfoForm.Style.Text.Normal.Font
+                                FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                                HintText: =JobContractInfoForm.PresentationData.JobActivities.Other.Placeholder
+                                HoverBorderColor: =Color.Transparent
+                                HoverFill: =Color.Transparent
+                                LayoutMinHeight: =17
+                                LayoutMinWidth: =50
+                                MaxLength: =200
+                                OnChange: =Select(icoAddJobActivity_JobContractInfoForm)
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =JobContractInfoForm.Style.Text.Normal.Size
+                                Tooltip: =JobContractInfoForm.PresentationData.JobActivities.Other.InputTooltip
+                                ZIndex: =1
+
+                            icoAddJobActivity_JobContractInfoForm As icon.ArrowRight:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =JobContractInfoForm.Style.Palette.Icon
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                                Fill: =JobContractInfoForm.Style.Palette.Selectable.Fill
+                                FocusedBorderThickness: =0
+                                Height: =32
+                                HoverBorderColor: =Self.BorderColor
+                                HoverColor: =Self.Color
+                                HoverFill: =JobContractInfoForm.Style.Palette.Selectable.HoverFill
+                                Icon: =Icon.ArrowRight
+                                LayoutMinHeight: =15
+                                OnSelect: |-
+                                    =With(
+                                        {Text: Trim(txtOtherJobActivityInput_JobContractInfoForm.Text)},
+                                        If(
+                                            !IsBlank(Text),
+                                            Collect(
+                                                OtherJobActivities,
+                                                {
+                                                    Id: GUID(),
+                                                    Value: Text
+                                                }
+                                            )
+                                        )
+                                    );
+                                    Reset(txtOtherJobActivityInput_JobContractInfoForm)
+                                PaddingBottom: =8.5
+                                PaddingLeft: =8.5
+                                PaddingRight: =8.5
+                                PaddingTop: =8.5
+                                PressedBorderColor: =Self.BorderColor
+                                PressedColor: =Self.Color
+                                PressedFill: =JobContractInfoForm.Style.Palette.Selectable.PressedFill
+                                Tooltip: =JobContractInfoForm.PresentationData.JobActivities.Other.AddTooltip
+                                Visible: =!IsBlank(txtOtherJobActivityInput_JobContractInfoForm.Text)
+                                Width: =32
+                                ZIndex: =3
+
+                        icoDeleteOtherJobActivity_JobContractInfoForm As icon.CancelBadge:
+                            AlignInContainer: =AlignInContainer.Stretch
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Palette.Icon
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: |-
+                                =If(
+                                    IsBlank(galOtherJobActivities_JobContractInfoForm.Selected.Value),
+                                    DisplayMode.Disabled,
+                                    DisplayMode.Edit
+                                )
+                            Fill: =JobContractInfoForm.Style.Palette.Selectable.Fill
+                            FocusedBorderThickness: =0
+                            Height: =32
+                            HoverBorderColor: =Color.Transparent
+                            HoverColor: =Self.Color
+                            HoverFill: =JobContractInfoForm.Style.Palette.Selectable.TransparentHoverFill
+                            Icon: =Icon.Trash
+                            LayoutMinHeight: =15
+                            OnSelect: |-
+                                =RemoveIf(
+                                    OtherJobActivities,
+                                    Id = galOtherJobActivities_JobContractInfoForm.Selected.Id
+                                )
+                            PaddingBottom: =12.5
+                            PaddingLeft: =12.5
+                            PaddingRight: =12.5
+                            PaddingTop: =12.5
+                            PressedBorderColor: =Color.Transparent
+                            PressedColor: =Self.Color
+                            PressedFill: =JobContractInfoForm.Style.Palette.Selectable.TransparentPressedFill
+                            Tooltip: =JobContractInfoForm.PresentationData.JobActivities.Other.DeleteTooltip
+                            Width: =42
+                            ZIndex: =2
+
+                    galOtherJobActivities_JobContractInfoForm As gallery.galleryVertical:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Default: =First(OtherJobActivities)
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        Items: =OtherJobActivities
+                        Layout: =Layout.Vertical
+                        LayoutMinHeight: =55
+                        LayoutMinWidth: =50
+                        Selectable: =JobContractInfoForm.DisplayMode <> DisplayMode.View
+                        TemplateFill: |-
+                            =If(
+                                ThisItem.IsSelected && JobContractInfoForm.DisplayMode <> DisplayMode.View,
+                                JobContractInfoForm.Style.Palette.Selectable.SelectedShadow,
+                                Color.Transparent
+                            )
+                        TemplatePadding: =0
+                        TemplateSize: =32
+                        ZIndex: =3
+
+                        lblOtherJobActivity_JobContractInfoForm As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =JobContractInfoForm.Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =JobContractInfoForm.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            Fill: =Color.Transparent
+                            Font: =JobContractInfoForm.Style.Text.Normal.Font
+                            FontWeight: =JobContractInfoForm.Style.Text.Normal.Weight
+                            Height: =Parent.TemplateHeight
+                            OnSelect: =Select(Parent)
+                            PaddingBottom: =10
+                            PaddingLeft: =30
+                            PaddingTop: =10
+                            Size: =JobContractInfoForm.Style.Text.Normal.Size
+                            Text: =ThisItem.Value
+                            Width: =394
+                            ZIndex: =1
+
+                        shpOtherJobActivityPoint_JobContractInfoForm As circle:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisplayMode: =DisplayMode.View
+                            Fill: |-
+                                =If(
+                                    JobContractInfoForm.DisplayMode <> DisplayMode.View,
+                                    JobContractInfoForm.Style.Palette.Accent,
+                                    JobContractInfoForm.Style.Palette.Disabled
+                                )
+                            FocusedBorderThickness: =0
+                            Height: =8
+                            Width: =8
+                            X: =10
+                            Y: =Parent.TemplateHeight / 2 - Self.Height / 2
+                            ZIndex: =2
+
+    ctnLoader_JobContractInfoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =JobContractInfoForm.Style.Palette.TransparentBackground
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutJustifyContent: =LayoutJustifyContent.Center
+        LayoutMode: =LayoutMode.Auto
+        Visible: =JobContractInfoForm.IsLoading
+        Width: =JobContractInfoForm.Width
+        ZIndex: =3
+
+        imgLoader_JobContractInfoForm As image:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FocusedBorderThickness: =0
+            Height: =75
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Self.Fill
+            Image: =JobContractInfoForm.Style.Loader
+            PressedBorderColor: =Self.BorderColor
+            PressedFill: =Self.Fill
+            Width: =75
+            X: =Parent.Width / 2 - Self.Width / 2
+            Y: =Parent.Height / 2 - Self.Height/ 2
+            ZIndex: =3
+

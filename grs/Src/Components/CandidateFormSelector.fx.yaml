@@ -1,0 +1,872 @@
+CandidateFormSelector As CanvasComponent:
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    Default: |-
+        ={
+            id: "7CA88176-1400-0000-0000BA29",
+            name: "MEX - Datos Generales de Ingreso",
+            idForm: "F65PXAmglkGF-puVatvR6k2M9fTnmytEk2T0VN6EAulURVFGRFdNWEcySEZNV1JJUVdCODRLVFhEMC4u",
+            country: "México",
+            template: "[]"
+        }
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    IsLoadingItems: =false
+    IsSaving: =false
+    Items: |-
+        =Table(
+            {
+                id: "7CA88176-1400-0000-0000BA29",
+                name: "MEX - Datos Generales de Ingreso",
+                idForm: "F65PXAmglkGF-puVatvR6k2M9fTnmytEk2T0VN6EAulURVFGRFdNWEcySEZNV1JJUVdCODRLVFhEMC4u",
+                country: "México",
+                template: "[]"
+            }
+        )
+    OnRefresh: =true
+    OnReset: |-
+        =Set(
+            SelectedCandidateForm,
+            Blank()
+        );
+        Set(
+            Expanded,
+            false
+        );
+        Reset(galCandidateForms_CandidateFormSelector)
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    Selected: |-
+        =With(
+            galCandidateForms_CandidateFormSelector.Selected,
+            {
+                id: id,
+                name: name,
+                country: country,
+                idForm: idForm,
+                template: template
+            }
+        )
+    Style: =Style
+    Title: ="Candidate form selection"
+    Validation: =!IsBlank(SelectedCandidateForm)
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CandidateFormSelector As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: |-
+            =If(
+                Expanded,
+                DropShadow.None,
+                DropShadow.Bold
+            )
+        Fill: =CandidateFormSelector.Style.Palette.ModalBackground
+        Height: |-
+            =If(
+                Expanded,
+                Parent.Height,
+                560
+            )
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        RadiusBottomLeft: |-
+            =If(
+                Expanded,
+                0,
+                CandidateFormSelector.Style.RadiusFactor * 2
+            )
+        RadiusBottomRight: =Self.RadiusBottomLeft
+        RadiusTopLeft: =Self.RadiusBottomLeft
+        RadiusTopRight: =Self.RadiusBottomLeft
+        Width: |-
+            =If(
+                Expanded,
+                Parent.Width,
+                900
+            )
+        X: |-
+            =If(
+                Expanded,
+                0,
+                Parent.Width / 2 - Self.Width / 2
+            )
+        Y: |-
+            =If(
+                Expanded,
+                0,
+                Parent.Height / 2 - Self.Height / 2
+            )
+        ZIndex: =2
+
+        ctnHeader_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =CandidateFormSelector.Style.Palette.Accent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =100
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =1
+
+            lblTitle_CandidateFormSelector As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateFormSelector.Style.Text.Title.Font
+                FontWeight: =CandidateFormSelector.Style.Text.Title.Weight
+                Size: =CandidateFormSelector.Style.Text.Title.Size
+                Text: =CandidateFormSelector.Title
+                ZIndex: =1
+
+            icoExpand_CandidateFormselector As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisplayMode: |
+                    =DisplayMode.Edit
+                Fill: =CandidateFormSelector.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        Expanded,
+                        Icon.CollapseView,
+                        Icon.ExpandView
+                    )
+                OnSelect: |-
+                    =Set(
+                        Expanded,
+                        !Expanded
+                    )
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: |-
+                    =If(
+                        Expanded,
+                        "Collapse window",
+                        "Expand window"
+                    )
+                Width: =32
+                ZIndex: =2
+
+            icoClose_CandidateFormSelector As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisplayMode: |
+                    =DisplayMode.Edit
+                Fill: =CandidateFormSelector.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Cancel
+                OnSelect: =CandidateFormSelector.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: ="Close window"
+                Width: =32
+                ZIndex: =3
+
+        ctnToolBar_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =CandidateFormSelector.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =46
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =7
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =2
+
+            ctnQuickFindInput_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =CandidateFormSelector.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =CandidateFormSelector.Style.Palette.Background
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =15
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =CandidateFormSelector.Style.RadiusFactor
+                RadiusBottomRight: =CandidateFormSelector.Style.RadiusFactor
+                RadiusTopLeft: =CandidateFormSelector.Style.RadiusFactor
+                RadiusTopRight: =CandidateFormSelector.Style.RadiusFactor
+                ZIndex: =1
+
+                txtQuickFind_CandidateFormSelector As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =CandidateFormSelector.Style.Text.Normal.Color
+                    Default: =""
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                    DisabledFill: =CandidateFormSelector.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =If(
+                            CandidateFormSelector.IsLoadingItems,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =0
+                    Font: =CandidateFormSelector.Style.Text.Normal.Font
+                    FontWeight: =CandidateFormSelector.Style.Text.Normal.Weight
+                    HintText: ="Quick find"
+                    HoverBorderColor: =Self.BorderColor
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =25
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CandidateFormSelector.Style.Text.Normal.Size
+                    Tooltip: ="Enter search text"
+                    ZIndex: =1
+
+                icoClearInput_CandidateFormSelector As icon.Reload:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidateFormSelector.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Cancel
+                    LayoutMinHeight: =17
+                    OnSelect: =Reset(txtQuickFind_CandidateFormSelector)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Clear entry"
+                    Visible: =!IsBlank(txtQuickFind_CandidateFormSelector.Text)
+                    Width: =32
+                    ZIndex: =2
+
+            icoSort_CandidateFormSelector As icon.ArrowsUpDown:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateFormSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        CandidateFormSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Sort
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SortDescending,
+                        !SortDescending
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        SortDescending,
+                        "Sort ascending",
+                        "Sort descending"
+                    )
+                Width: =42
+                ZIndex: =3
+
+            icoRefresh_CandidateFormSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateFormSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        CandidateFormSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SelectedCandidateForm,
+                        Blank()
+                    );
+                    CandidateFormSelector.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh template list"
+                Width: =42
+                ZIndex: =4
+
+        shpToolBarSeparator_CandidateFormSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CandidateFormSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =3
+
+        ctnBody_CandidateFormSelector As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            ZIndex: =4
+
+            ctnContent_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =15
+                PaddingRight: =15
+                Width: =Parent.Width
+                ZIndex: =1
+
+                ctnTemplates_CandidateFormSelector As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    ZIndex: =1
+
+                    ctnTable_CandidateFormSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        ctnTableHeader_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            Height: =42
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            RadiusBottomLeft: =4
+                            RadiusBottomRight: =4
+                            RadiusTopLeft: =4
+                            RadiusTopRight: =4
+                            ZIndex: =1
+
+                            shpLeftSeparator_CandidateFormSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =CandidateFormSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =CandidateFormSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =1
+
+                            lblNameHead_CandidateFormSelector As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =CandidateFormSelector.Style.Text.Subtitle.Color
+                                ContentLanguage: ="en"
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =CandidateFormSelector.Style.Text.Subtitle.Font
+                                FontWeight: =CandidateFormSelector.Style.Text.Subtitle.Weight
+                                LayoutMinWidth: =50
+                                Size: =CandidateFormSelector.Style.Text.Subtitle.Size
+                                Text: ="Name"
+                                Width: =250
+                                ZIndex: =2
+
+                            shpNameHeadSeparator_CandidateFormSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =CandidateFormSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =CandidateFormSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =3
+
+                            lblCountryHead_CandidateFormSelector As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =CandidateFormSelector.Style.Text.Subtitle.Color
+                                ContentLanguage: ="en"
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =CandidateFormSelector.Style.Text.Subtitle.Font
+                                FontWeight: =CandidateFormSelector.Style.Text.Subtitle.Weight
+                                LayoutMinWidth: =50
+                                Size: =CandidateFormSelector.Style.Text.Subtitle.Size
+                                Text: ="Country"
+                                Width: =250
+                                ZIndex: =4
+
+                            shpRightSeparator_CandidateFormSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =CandidateFormSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =CandidateFormSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =5
+
+                        shpTableSeparator_CandidateFormSelector As rectangle:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisplayMode: =DisplayMode.View
+                            Fill: =CandidateFormSelector.Style.Palette.Line
+                            FocusedBorderThickness: =0
+                            Height: =2
+                            ZIndex: =2
+
+                        galCandidateForms_CandidateFormSelector As gallery.galleryVertical:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Default: =CandidateFormSelector.Default
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =100
+                            Items: |-
+                                =SortByColumns(
+                                    Search(
+                                        Filter(
+                                            CandidateFormSelector.Items,
+                                            !IsBlank(name)
+                                        ),
+                                        txtQuickFind_CandidateFormSelector.Text,
+                                        "name"
+                                    ),
+                                    "name",
+                                    If(
+                                        SortDescending,
+                                        SortOrder.Descending,
+                                        SortOrder.Ascending
+                                    )
+                                )
+                            Layout: =Layout.Vertical
+                            LayoutMinHeight: =287
+                            LayoutMinWidth: =320
+                            LoadingSpinner: =LoadingSpinner.Data
+                            TemplateFill: =Color.Transparent
+                            TemplatePadding: =0
+                            TemplateSize: =42
+                            Visible: =CandidateFormSelector.Visible
+                            Width: =100
+                            ZIndex: =3
+
+                            ctnCandidateFormLayout_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: |-
+                                    =If(
+                                        SelectedCandidateForm.id = ThisItem.id,
+                                        //ThisItem.IsSelected;
+                                        CandidateFormSelector.Style.Palette.Selectable.SelectedShadow,
+                                        Color.Transparent
+                                    )
+                                Height: =Parent.TemplateHeight
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =Parent.TemplateWidth
+                                ZIndex: =1
+
+                                lblName_CandidateFormSelector As label:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =CandidateFormSelector.Style.Text.Normal.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =CandidateFormSelector.Style.Text.Normal.Font
+                                    FontWeight: =CandidateFormSelector.Style.Text.Normal.Weight
+                                    LayoutMinHeight: =17
+                                    Size: =CandidateFormSelector.Style.Text.Normal.Size
+                                    Text: =ThisItem.name
+                                    Width: =lblNameHead_CandidateFormSelector.Width + 1
+                                    ZIndex: =1
+
+                                lblCountry_CandidateFormSelector As label:
+                                    Align: =Align.Center
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =CandidateFormSelector.Style.Text.Normal.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =CandidateFormSelector.Style.Text.Normal.Font
+                                    FontWeight: =CandidateFormSelector.Style.Text.Normal.Weight
+                                    LayoutMinHeight: =17
+                                    Size: =CandidateFormSelector.Style.Text.Normal.Size
+                                    Text: =ThisItem.country
+                                    Width: =lblCountryHead_CandidateFormSelector.Width + 1
+                                    ZIndex: =2
+
+                            btnTemplate_CandidateFormSelector As button:
+                                Align: =Align.Left
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.Dotted
+                                BorderThickness: =0
+                                Color: =CandidateFormSelector.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                Fill: =Color.Transparent
+                                FocusedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                                FocusedBorderThickness: =1
+                                Font: =CandidateFormSelector.Style.Text.Normal.Font
+                                FontWeight: =CandidateFormSelector.Style.Text.Normal.Weight
+                                Height: =Parent.TemplateHeight - 2
+                                HoverBorderColor: =Color.Transparent
+                                HoverFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentHoverFill
+                                OnSelect: |-
+                                    =Set(
+                                        SelectedCandidateForm,
+                                        ThisItem
+                                    )
+                                PaddingRight: =27
+                                PressedColor: =Self.Color
+                                PressedFill: =CandidateFormSelector.Style.Palette.Selectable.TransparentPressedFill
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =CandidateFormSelector.Style.Text.Normal.Size
+                                Text: =""
+                                Tooltip: ="Press to select this template"
+                                Width: =Parent.TemplateWidth - 2
+                                X: =1
+                                Y: =1
+                                ZIndex: =2
+
+                    ctnLoadTemplates_CandidateFormSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =CandidateFormSelector.Style.Palette.TransparentBackground
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =CandidateFormSelector.IsLoadingItems
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                        imgLoadTemplates_CandidateFormSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =GrayEllipsis
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Width: =75
+                            X: =Parent.Width / 2 - Self.Width / 2
+                            Y: =Parent.Height / 2 - Self.Height/ 2
+                            ZIndex: =1
+
+                    ctnNoTemplates_CandidateFormSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =175
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =!CandidateFormSelector.IsLoadingItems && IsEmpty(CandidateFormSelector.Items)
+                        Width: =Parent.Width
+                        Y: =Parent.Height / 2 - Self.Height / 2
+                        ZIndex: =4
+
+                        imgNoTemplates_CandidateFormSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =FlowTemplate
+                            LayoutMinHeight: =25
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Transparency: =0.9
+                            Width: =75
+                            ZIndex: =1
+
+                        lblNoTemplates_CandidateFormSelector As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =CandidateFormSelector.Style.Text.Title.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =CandidateFormSelector.Style.Text.Title.Font
+                            FontWeight: =CandidateFormSelector.Style.Text.Title.Weight
+                            Size: =CandidateFormSelector.Style.Text.Title.Size
+                            Text: ="No templates available"
+                            ZIndex: =2
+
+            ctnSaveLoader_CandidateFormSelector As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =CandidateFormSelector.Style.Palette.TransparentBackground
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                Visible: =CandidateFormSelector.IsSaving
+                Width: =Parent.Width
+                ZIndex: =2
+
+                imgSaveLoader_CandidateFormSelector As image:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =75
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Self.Fill
+                    Image: =CandidateFormSelector.Style.Loader
+                    PressedBorderColor: =Self.BorderColor
+                    PressedFill: =Self.Fill
+                    Width: =75
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height/ 2
+                    ZIndex: =1
+
+        shpBodySeparator_CandidateFormSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CandidateFormSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =5
+
+        ctnFooter_CandidateFormSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =6
+
+            btnAccept_CandidateFormSelector As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =CandidateFormSelector.Style.Palette.Fillable
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisabledFill: =CandidateFormSelector.Style.Palette.Fillable
+                DisplayMode: |-
+                    =If(
+                        CandidateFormSelector.Validation && !CandidateFormSelector.IsLoadingItems && !CandidateFormSelector.IsSaving,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =CandidateFormSelector.Style.Palette.Accent
+                FocusedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =CandidateFormSelector.Style.Text.Subtitle.Font
+                FontWeight: =CandidateFormSelector.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =CandidateFormSelector.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =CandidateFormSelector.Style.RadiusFactor
+                RadiusBottomRight: =CandidateFormSelector.Style.RadiusFactor
+                RadiusTopLeft: =CandidateFormSelector.Style.RadiusFactor
+                RadiusTopRight: =CandidateFormSelector.Style.RadiusFactor
+                Size: =CandidateFormSelector.Style.Text.Subtitle.Size
+                Text: ="Send form"
+                Width: =150
+                ZIndex: =2
+
+            btnCancel_CandidateFormSelector As button:
+                BorderColor: =CandidateFormSelector.Style.Palette.Accent
+                Color: =CandidateFormSelector.Style.Text.Normal.Color
+                DisabledBorderColor: =CandidateFormSelector.Style.Palette.Fillable
+                DisabledColor: =CandidateFormSelector.Style.Palette.Disabled
+                DisabledFill: =CandidateFormSelector.Style.Palette.Fillable
+                Fill: =Color.Transparent
+                FocusedBorderColor: =CandidateFormSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =CandidateFormSelector.Style.Text.Normal.Font
+                FontWeight: =CandidateFormSelector.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =CandidateFormSelector.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =CandidateFormSelector.Style.Text.Normal.Size
+                Text: ="Cancel"
+                Width: =100
+                ZIndex: =3
+

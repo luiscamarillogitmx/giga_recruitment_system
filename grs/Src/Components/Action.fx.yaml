@@ -1,0 +1,14 @@
+Action As CanvasComponent:
+    Action():
+        ThisProperty:
+            Default: =Self.OnAction()
+    OnAction():
+        ThisProperty:
+            Default: =true
+    Fill: =Color.Transparent
+    Height: =0
+    Width: =0
+    X: =0
+    Y: =0
+    ZIndex: =1
+

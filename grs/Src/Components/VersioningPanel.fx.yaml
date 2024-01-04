@@ -1,0 +1,615 @@
+VersioningPanel As CanvasComponent:
+    BuildSignableInfo(Signable As Record):
+        Signable:
+            Default: |-
+                ={
+                    status: "",
+                    version: "",
+                    createdOn: "",
+                    template: {
+                        id: "",
+                        name: "",
+                        description: ""
+                    }
+                }
+        ThisProperty:
+            Default: =AppFunctions.BuildSignableInfo(Signable)
+    Init():
+        ThisProperty:
+            Default: |-
+                =If(
+                    !Initialized,
+                    Reset(Self);
+                    Set(
+                        Initialized,
+                        true
+                    )
+                )
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    Select():
+        ThisProperty:
+            Default: =Self.OnSelect()
+    Default: |-
+        ={
+            id: "",
+            idCandidateState: "",
+            version: "Version 2",
+            template: {
+                id: "",
+                name: "Propuesta MX v3",
+                description: "Flujo de trabajo para recabar datos personales"
+            },
+            status: 1,
+            createdOn: "2023-03-29T21:22:50Z"
+        }
+    EnableAdd: =true
+    Fill: =Color.Transparent
+    Height: =640
+    IsExpanded: =Expanded
+    IsLoading: =false
+    Items: |-
+        =Table(
+            {
+                id: "",
+                idCandidateState: "",
+                version: "Version 1",
+                template: {
+                    id: "",
+                    name: "Propuesta MX v3",
+                    description: "Flujo de trabajo para recabar datos personales"
+                },
+                status: 5,
+                createdOn: "2023-03-29T21:22:50Z"
+            },
+            {
+                id: "",
+                idCandidateState: "",
+                version: "Version 2",
+                template: {
+                    id: "",
+                    name: "Propuesta MX v3",
+                    description: "Flujo de trabajo para recabar datos personales"
+                },
+                status: 6,
+                createdOn: "2023-03-29T21:22:50Z"
+            }
+        )
+    OnAdd: =true
+    OnRefresh: =true
+    OnReset: |-
+        =Set(
+            Expanded,
+            true
+        )
+    OnSelect: =true
+    Selected: |-
+        =/*With(
+            galProcess_VersioningPanel.Selected;
+            {
+                id: id;
+                createdOn: createdOn;
+                idCandidateState: idCandidateState;
+                status: status;
+                template: template;
+                version: version
+            }
+        );;*/
+        galProcess_VersioningPanel.Selected
+    Style: =Style
+    Title: ="Versioning Panel"
+    Width: |-
+        =If(
+            Self.IsExpanded,
+            250,
+            34
+        )
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_VersioningPanel As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =VersioningPanel.Style.Palette.Line
+        BorderThickness: =1
+        Fill: |-
+            =If(
+                Expanded,
+                Color.Transparent,
+                VersioningPanel.Style.Palette.LightFillable
+            )
+        Height: =Parent.Height - 2
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: |-
+            =If(
+                Expanded,
+                10,
+                0
+            )
+        PaddingRight: |-
+            =If(
+                Expanded,
+                10,
+                0
+            )
+        RadiusBottomLeft: =VersioningPanel.Style.RadiusFactor * 1.5
+        RadiusBottomRight: =VersioningPanel.Style.RadiusFactor * 1.5
+        RadiusTopLeft: =VersioningPanel.Style.RadiusFactor * 1.5
+        RadiusTopRight: =VersioningPanel.Style.RadiusFactor * 1.5
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =1
+
+        ctnHead_VersioningPanel As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =32
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =1
+
+            icoHidePanel_VersioningPanel As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =VersioningPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                Fill: =VersioningPanel.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =25
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =VersioningPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        Expanded,
+                        Icon.ChevronLeft,
+                        Icon.ChevronRight
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        Expanded,
+                        !Expanded
+                    )
+                PaddingBottom: =5
+                PaddingLeft: =5
+                PaddingRight: =5
+                PaddingTop: =5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =VersioningPanel.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: |-
+                    =$"{If(
+                        Expanded,
+                        "Collapse",
+                        "Expand"
+                    )} versioning panel"
+                Width: =25
+                ZIndex: =1
+
+            lblTitle_VersioningPanel As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =VersioningPanel.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =VersioningPanel.Style.Text.Subtitle.Font
+                FontWeight: =VersioningPanel.Style.Text.Subtitle.Weight
+                Height: =32
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                PaddingLeft: =0
+                PaddingRight: =25
+                Size: =VersioningPanel.Style.Text.Subtitle.Size
+                Text: =VersioningPanel.Title
+                Visible: =Expanded
+                ZIndex: =2
+
+        shpHeadSeparator_VersioningPanel As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =VersioningPanel.Style.Palette.Line
+            Height: =1
+            LayoutMinWidth: =5
+            Visible: =!Expanded
+            Width: =22
+            ZIndex: =2
+
+        ctnActions_VersioningPanel As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =VersioningPanel.Style.Palette.Line
+            BorderThickness: =1
+            Fill: =VersioningPanel.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =VersioningPanel.Style.RadiusFactor
+            RadiusBottomRight: =VersioningPanel.Style.RadiusFactor
+            RadiusTopLeft: =VersioningPanel.Style.RadiusFactor
+            RadiusTopRight: =VersioningPanel.Style.RadiusFactor
+            Visible: =Expanded
+            ZIndex: =3
+
+            icoAddVersion_VersioningPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =VersioningPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        VersioningPanel.IsLoading || !VersioningPanel.EnableAdd,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =VersioningPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Add
+                LayoutMinHeight: =17
+                OnSelect: =VersioningPanel.OnAdd()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =VersioningPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Create a version from a template"
+                Width: =42
+                ZIndex: =1
+
+            icoRefresh_VersioningPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =VersioningPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        VersioningPanel.IsLoading,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =VersioningPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: =VersioningPanel.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =VersioningPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh version list"
+                Width: =42
+                ZIndex: =2
+
+        ctnVersions_VersioningPanel As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            Visible: =Expanded
+            ZIndex: =4
+
+            galProcess_VersioningPanel As gallery.galleryVertical:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Default: =VersioningPanel.Default
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                Items: =VersioningPanel.Items
+                Layout: =Layout.Vertical
+                OnSelect: |-
+                    =VersioningPanel.OnSelect()
+                    //VersioningPanel.OnRefresh()
+                TemplatePadding: =0
+                TemplateSize: =62
+                Width: =Parent.Width
+                ZIndex: =1
+
+                ctnVersionLayout_VersioningPanel As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    Height: =Parent.TemplateHeight
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutGap: =10
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =5
+                    Width: =Parent.Width
+                    ZIndex: =2
+
+                    shpIndicator_VersioningPanel As rectangle:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: |-
+                            =If(
+                                ThisItem.IsSelected,
+                                VersioningPanel.Style.Palette.Accent,
+                                VersioningPanel.Style.Palette.Line
+                            )
+                        LayoutMinHeight: =5
+                        LayoutMinWidth: =5
+                        Width: =5
+                        ZIndex: =1
+
+                    versionIcon_VersioningPanel As icon.Lock:
+                        AlignInContainer: =AlignInContainer.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: |-
+                            =Switch(
+                                ThisItem.status,
+                                1,//New
+                                VersioningPanel.Style.Palette.Border,
+                                2,//Canceled
+                                VersioningPanel.Style.Palette.Error,
+                                3,//Filled
+                                VersioningPanel.Style.Palette.Warning,
+                                4,//Sent
+                                VersioningPanel.Style.Palette.Accent,
+                                5,//Signed
+                                VersioningPanel.Style.Palette.Success,
+                                6,//Rejected
+                                VersioningPanel.Style.Palette.Error
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        Height: =17
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        Icon: |-
+                            =Switch(
+                                ThisItem.status,
+                                1,//New
+                                Icon.Document,
+                                2,//Canceled
+                                Icon.Lock,
+                                3,//Filled
+                                Icon.DocumentWithContent,
+                                4,//Sent
+                                Icon.Send,
+                                5,//Signed
+                                Icon.Draw,
+                                6,//Rejected;
+                                Icon.ThumbsDown
+                            )
+                        LayoutMinHeight: =17
+                        PressedBorderColor: =Self.BorderColor
+                        PressedColor: =Self.Color
+                        Width: =17
+                        X: =8
+                        Y: =40
+                        ZIndex: =2
+
+                    ctnLabels_VersioningPanel As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =25
+                        LayoutMinWidth: =100
+                        LayoutMode: =LayoutMode.Auto
+                        ZIndex: =3
+
+                        lblVersionName_VersioningPanel As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =VersioningPanel.Style.Text.Subtitle.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =VersioningPanel.Style.Text.Subtitle.Font
+                            FontWeight: =VersioningPanel.Style.Text.Subtitle.Weight
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =100
+                            PaddingBottom: =4
+                            PaddingTop: =0
+                            Size: =VersioningPanel.Style.Text.Subtitle.Size
+                            Text: =ThisItem.version
+                            VerticalAlign: =VerticalAlign.Bottom
+                            ZIndex: =1
+
+                        lblCreationDate_VersioningPanel As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =VersioningPanel.Style.Text.Little.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =VersioningPanel.Style.Text.Little.Font
+                            FontWeight: =VersioningPanel.Style.Text.Little.Weight
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =100
+                            PaddingBottom: =0
+                            PaddingTop: =4
+                            Size: =VersioningPanel.Style.Text.Little.Size
+                            Text: |-
+                                =Text(
+                                    DateTimeValue(ThisItem.createdOn),
+                                    "dd/mm/yyyy, hh:mm"
+                                )
+                            VerticalAlign: =VerticalAlign.Top
+                            ZIndex: =2
+
+                btnProcess_ProcessListPanel As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =VersioningPanel.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: |-
+                        =If(
+                            ThisItem.IsSelected,
+                            VersioningPanel.Style.Palette.Selectable.SelectedShadow,
+                            Color.Transparent
+                        )
+                    FocusedBorderThickness: =0
+                    Font: =VersioningPanel.Style.Text.Subtitle.Font
+                    FontWeight: =VersioningPanel.Style.Text.Subtitle.Weight
+                    Height: =Parent.TemplateHeight - 8
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =VersioningPanel.Style.Palette.Selectable.TransparentHoverFill
+                    OnSelect: =Select(Parent)
+                    PaddingRight: =53
+                    PressedColor: =Self.Color
+                    PressedFill: =VersioningPanel.Style.Palette.Selectable.TransparentPressedFill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =VersioningPanel.Style.RadiusFactor
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =VersioningPanel.Style.RadiusFactor
+                    Size: =VersioningPanel.Style.Text.Subtitle.Size
+                    Text: =""
+                    Tooltip: |-
+                        =VersioningPanel.BuildSignableInfo(ThisItem) & Char(10) & Char(10) & If(
+                            ThisItem.IsSelected,
+                            "Press to reload this version",
+                            "Press to select this version"
+                        )
+                    Width: =Parent.TemplateWidth - 10
+                    X: =5
+                    Y: =4
+                    ZIndex: =3
+
+            ctnLoader_VersioningPanel As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =VersioningPanel.Style.Palette.TransparentBackground
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                Visible: =VersioningPanel.IsLoading
+                Width: =Parent.Width
+                ZIndex: =2
+
+                imgLoader_VersioningPanel As image:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =75
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Self.Fill
+                    Image: =GrayEllipsis
+                    PressedBorderColor: =Self.BorderColor
+                    PressedFill: =Self.Fill
+                    Width: =75
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height/ 2
+                    ZIndex: =1
+
+            lblNoVersions_VersioningPanel As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =VersioningPanel.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =VersioningPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =VersioningPanel.Style.Text.Normal.Font
+                FontWeight: =VersioningPanel.Style.Text.Normal.Weight
+                Height: =50
+                Italic: =true
+                Size: =VersioningPanel.Style.Text.Normal.Size
+                Text: ="No versions available"
+                Visible: =!VersioningPanel.IsLoading && (IsBlank(VersioningPanel.Items) || IsEmpty(VersioningPanel.Items))
+                Width: =Parent.Width
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =3
+
+        htmLegend_VersioningPanel As htmlViewer:
+            BorderColor: =Color.Transparent
+            Color: =VersioningPanel.Style.Text.Subtitle.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =VersioningPanel.Style.Text.Subtitle.Font
+            Height: =10
+            HtmlText: |-
+                =$"<div
+                    style='
+                        text-align: center;
+                        line-height: {Self.Width}px;
+                        position: absolute;
+                        left:{-Round((Self.Height - Self.Width) / 2, 0)}px;
+                        top:{Round((Self.Height - Self.Width) / 2, 0)}px;
+                        transform: rotate(270deg);
+                        width:{Self.Height}px;
+                        height:{Self.Width}px;
+                    '
+                >
+                    <strong>{VersioningPanel.Title}</strong>
+                </div>"
+            LayoutMinWidth: =15
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =VersioningPanel.Style.Text.Subtitle.Size
+            Visible: =!Expanded
+            Width: =10
+            ZIndex: =6
+

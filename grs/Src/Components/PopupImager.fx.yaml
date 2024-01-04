@@ -1,0 +1,32 @@
+PopupImager As CanvasComponent:
+    Fill: =Style.Palette.TransparentBackground
+    Height: =640
+    Img: =GrayEclipse
+    ImgHeight: =Self.ImgWidth
+    ImgWidth: =75
+    Transparency: =0
+    Width: =600
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    image_PopupImager As image:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DisabledBorderColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =PopupImager.ImgHeight
+        HoverBorderColor: =Self.BorderColor
+        HoverFill: =Self.Fill
+        Image: =PopupImager.Img
+        PressedBorderColor: =Self.BorderColor
+        PressedFill: =Self.Fill
+        Transparency: =PopupImager.Transparency
+        Width: =PopupImager.ImgWidth
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 2 - Self.Height/ 2
+        ZIndex: =1
+

@@ -1,0 +1,79 @@
+BasicField As CanvasComponent:
+    Default: ="Not specified"
+    DisplayMode: =DisplayMode.View
+    Fill: =Color.Transparent
+    Height: =32
+    ItalizeDefault: =true
+    Key: ="Key"
+    KeyStyle: =Style.Text.Normal
+    KeyWidth: =75
+    Mark: =true
+    Style: =Style
+    Tooltip: =""
+    Value: ="Value"
+    ValueStyle: =Style.Text.Subtitle
+    Width: =300
+    Wrap: =true
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_BasicField As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        lblKey_BasicField As label:
+            Align: =Align.Right
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =BasicField.KeyStyle.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =BasicField.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =BasicField.DisplayMode
+            Fill: =Color.Transparent
+            Font: =BasicField.KeyStyle.Font
+            FontWeight: =BasicField.KeyStyle.Weight
+            LayoutMinHeight: =17
+            Size: =BasicField.KeyStyle.Size
+            Text: =BasicField.Key
+            Width: =BasicField.KeyWidth
+            ZIndex: =1
+
+        lblValue_BasicField As label:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: |-
+                =If(
+                    BasicField.Mark,
+                    BasicField.Style.Palette.Accent,
+                    BasicField.ValueStyle.Color
+                )
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =BasicField.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =BasicField.DisplayMode
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =BasicField.ValueStyle.Font
+            FontWeight: =BasicField.ValueStyle.Weight
+            Italic: =IsBlank(BasicField.Value) && BasicField.ItalizeDefault
+            LayoutMinHeight: =25
+            LayoutMinWidth: =30
+            Size: =BasicField.ValueStyle.Size
+            Text: |-
+                =If(
+                    IsBlank(BasicField.Value),
+                    BasicField.Default,
+                    BasicField.Value
+                )
+            Tooltip: =BasicField.Tooltip
+            Wrap: =BasicField.Wrap
+            ZIndex: =2
+

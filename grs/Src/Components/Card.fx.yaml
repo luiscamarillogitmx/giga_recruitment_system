@@ -1,0 +1,104 @@
+Card As CanvasComponent:
+    OnSelect():
+        ThisProperty:
+            Default: =
+    Select():
+        ThisProperty:
+            Default: =Self.OnSelect()
+    ContentLanguage: ="en-US"
+    Description: ="Description"
+    Fill: =Color.Transparent
+    Height: =250
+    Icon: =Icon.AddDocument
+    Style: =Style
+    Title: ="Title"
+    Width: =200
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnButton_Card As groupContainer.manualLayoutContainer:
+        BorderColor: =Card.Style.Palette.Line
+        BorderThickness: =1
+        DropShadow: =DropShadow.Semilight
+        Fill: =Card.Style.Palette.LightFillable
+        Height: =Parent.Height - 15
+        RadiusBottomLeft: =Card.Style.RadiusFactor * 2
+        RadiusBottomRight: =Card.Style.RadiusFactor * 2
+        RadiusTopLeft: =Card.Style.RadiusFactor * 2
+        RadiusTopRight: =Card.Style.RadiusFactor * 2
+        Width: =Parent.Width - 15
+        X: =7
+        Y: =7
+        ZIndex: =2
+
+        icon_Card As icon.AddLibrary:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =Card.Style.Palette.Accent
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =Card.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FocusedBorderThickness: =0
+            Height: =42
+            HoverBorderColor: =Self.BorderColor
+            HoverColor: =Self.Color
+            Icon: =Card.Icon
+            OnSelect: =true
+            PressedBorderColor: =Self.BorderColor
+            PressedColor: =Self.Color
+            Width: =42
+            X: =Parent.Width / 2 - Self.Width / 2
+            Y: =Parent.Height / 4 - Self.Height / 2
+            ZIndex: =1
+
+        lblDescription_Card As label:
+            Align: =Align.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Color: =Card.Style.Text.Normal.Color
+            DisabledColor: =RGBA(166, 166, 166, 1)
+            Font: =Card.Style.Text.Little.Font
+            FontWeight: =Card.Style.Text.Little.Weight
+            Height: =80
+            Italic: =true
+            PaddingLeft: =25
+            PaddingRight: =25
+            Size: =Card.Style.Text.Little.Size
+            Text: =Card.Description
+            VerticalAlign: =VerticalAlign.Top
+            Width: =Parent.Width
+            Y: =Parent.Height - Self.Height - 20
+            ZIndex: =2
+
+        button_Card As button:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =0
+            Color: =Card.Style.Text.Subtitle.Color
+            DisabledBorderColor: =Card.Style.Palette.Disabled
+            DisabledColor: =Card.Style.Palette.Disabled
+            DisabledFill: =Color.Transparent
+            Fill: =Color.Transparent
+            FocusedBorderColor: =Card.Style.Palette.Accent
+            FocusedBorderThickness: =2
+            Font: =Card.Style.Text.Subtitle.Font
+            FontWeight: =Card.Style.Text.Subtitle.Weight
+            Height: =Parent.Height
+            HoverBorderColor: =Self.BorderColor
+            HoverFill: =Card.Style.Palette.Selectable.TransparentHoverFill
+            OnSelect: =Card.OnSelect()
+            PressedBorderColor: =Self.BorderColor
+            PressedColor: =Self.Color
+            PressedFill: =Card.Style.Palette.Selectable.TransparentPressedFill
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =Card.Style.RadiusFactor * 2
+            Size: =Card.Style.Text.Subtitle.Size
+            Text: =Card.Title
+            Width: =Parent.Width
+            ZIndex: =3
+

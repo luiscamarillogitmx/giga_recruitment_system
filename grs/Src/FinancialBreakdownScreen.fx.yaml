@@ -1,0 +1,1610 @@
+FinancialBreakdownScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.Background
+    LoadingSpinnerColor: =Color.Transparent
+    OnHidden: |-
+        =UpdateContext({isInstantFilling: false});
+        Clear(FinancialBreakdownWarnings);
+        Reset(boxGrossSalaryValue_FinancialBreakdownScreen)
+    OnVisible: |-
+        =UpdateContext({isCandidateInfoExpand: true});
+        ForAll(
+            breakdown,
+            ForAll(
+                items As item,
+                If(
+                    !AppFunctions.IsPositiveOrZero(item.value),
+                    Collect(
+                        FinancialBreakdownWarnings,
+                        {id: item.id}
+                    )
+                )
+            )
+        );
+        If(
+            AppFunctions.IsZero(financialBreakdown.grossSalary) && !IsEmpty(breakdown),
+            btnCalculate_FinancialBreakdownScreen.Select()
+        )
+
+    btnSaveData_FinancialBreakdownScreen As button:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        DisplayMode: =DisplayMode.View
+        Fill: =Color.Transparent
+        FocusedBorderColor: =Color.Transparent
+        FocusedBorderThickness: =0
+        FontWeight: =FontWeight.Semibold
+        Height: =0
+        HoverBorderColor: =Color.Transparent
+        HoverColor: =Color.Transparent
+        HoverFill: =Color.Transparent
+        OnSelect: |-
+            =UpdateContext({popLoadVisible: true});
+            With(
+                {
+                    grossSalary: Value(
+                        boxGrossSalaryValue_FinancialBreakdownScreen.Value,
+                        "en-US"
+                    )
+                },
+                With(
+                    {
+                        totalGrossSalary: With(
+                            AppFunctions.FindItemByTag(
+                                breakdown,
+                                "totalGrossSalary"
+                            ) As item,
+                            If(
+                                IsBlank(item),
+                                grossSalary,
+                                Value(
+                                    item.value,
+                                    "en-US"
+                                )
+                            )
+                        ),
+                        totalRetentions: With(
+                            AppFunctions.FindItemByTag(
+                                breakdown,
+                                "totalRetentions"
+                            ) As item,
+                            If(
+                                IsBlank(item),
+                                0,
+                                Value(
+                                    item.value,
+                                    "en-US"
+                                )
+                            )
+                        )
+                    },
+                    With(
+                        {
+                            name: financialBreakdown.name,
+                            idJobOffer: version.id,
+                            status: VersionSectionState.Completed.Code,
+                            content: JSON(editedBreakdown),
+                            grossSalary: grossSalary,
+                            dailySalary: grossSalary / 30.4,
+                            monthlySalary: totalGrossSalary - totalRetentions,
+                            totalGrossSalary: totalGrossSalary,
+                            totalRetentions: totalRetentions,
+                            modifiedOn: AppFunctions.NowAsUTC,
+                            requested: If(
+                                IsBlank(financialBreakdown),
+                                false,
+                                financialBreakdown.requested
+                            ),
+                            userLastUpdatedBy: CurrentUser,
+                            userFilledBy: If(
+                                IsBlank(financialBreakdown),
+                                CurrentUser,
+                                financialBreakdown.userFilledBy
+                            )
+                        } As requestBody,
+                        IfError(
+                            With(
+                                If(
+                                    IsBlank(financialBreakdown),
+                                    ISignatureAPI.CreateFinancialBreakdown(requestBody),
+                                    ISignatureAPI.UpdateFinancialBreakdown(
+                                        Patch(
+                                            requestBody,
+                                            {id: financialBreakdown.id}
+                                        )
+                                    )
+                                ) As financialBreakdownResponse,
+                                With(
+                                    If(
+                                        version.status <> VersionState.Filled.Code,
+                                        ISignatureAPI.UpdateVersion(
+                                            Patch(
+                                                version,
+                                                {status: VersionState.Filled.Code}
+                                            )
+                                        ),
+                                        Blank()
+                                    ) As versionResponse,
+                                    If(
+                                        isInstantFilling,
+                                        Set(
+                                            UpdateVersions,
+                                            version.status <> VersionState.Filled.Code
+                                        );
+                                        Set(
+                                            UpdateVersion,
+                                            version.status = VersionState.Filled.Code
+                                        );
+                                        Back();
+                                        AppFunctions.NotifySuccess(
+                                            "Data save successfully!",
+                                            "The financial breakdown has been correctly assigned to the candidate's job offer."
+                                        ),
+                                        Navigate(
+                                            MessageScreen,
+                                            ScreenTransition.None,
+                                            AppFunctions.SuccessMessage(
+                                                "Data save successfully!",
+                                                "The financial breakdown has been correctly assigned to the candidate's job offer.",
+                                                "You can close this page or if you wish you can continue checking in the app."
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            If(
+                                isInstantFilling,
+                                Back();
+                                AppFunctions.NotifyError(
+                                    "Error saving financial breakdown!",
+                                    FirstError.Message,
+                                    "An error occurred while trying to save financial breakdown data."
+                                ),
+                                Navigate(
+                                    MessageScreen,
+                                    ScreenTransition.None,
+                                    AppFunctions.ErrorMessage(
+                                        "Error saving financial breakdown!",
+                                        "An error occurred while trying to save financial breakdown data.",
+                                        $"The message returned by the error is:<br>'{FirstError.Message}'.<br>Contact your system administrator to follow up on the case.<br>You can close this page or if you wish you can continue checking in the app."
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+            UpdateContext(
+                {
+                    popLoadVisible: false,
+                    editedBreakdown: Blank()
+                }
+            )
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedBorderColor: =Color.Transparent
+        PressedColor: =Color.Transparent
+        PressedFill: =Color.Transparent
+        Size: =0
+        TabIndex: =-1
+        Text: =""
+        Visible: =false
+        Width: =0
+        ZIndex: =1
+
+    ctnLayout_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        Width: =Parent.Width
+        ZIndex: =2
+
+        ctnHead_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =15
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =1
+
+            icoBack_FinancialBreakdownScreen As icon.Check:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Style.Palette.Disabled
+                DisplayMode: |-
+                    =//If(
+                    //    FirstScreen;
+                        //DisplayMode.Disabled
+                    DisplayMode.Edit
+                    //)
+                Fill: =Style.Palette.Selectable.Fill
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =0
+                Height: =42
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.ArrowLeft
+                LayoutMinHeight: =17
+                OnSelect: =Back()
+                PaddingBottom: =21.5
+                PaddingLeft: =21.5
+                PaddingRight: =21.5
+                PaddingTop: =21.5
+                PressedBorderColor: =Self.Color
+                PressedColor: =Self.Color
+                PressedFill: =Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Back to previus screen"
+                Visible: =isInstantFilling
+                Width: =Self.Height
+                ZIndex: =1
+
+            lblTitle_FinancialBreakdownScreen As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Style.Text.Title.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Style.Text.Title.Font
+                FontWeight: =Style.Text.Title.Weight
+                LayoutMinWidth: =50
+                PaddingLeft: |-
+                    =If(
+                        isInstantFilling,
+                        5,
+                        17.5
+                    )
+                Size: =Style.Text.Title.Size
+                Text: ="Financial breakdown"
+                Width: =250
+                ZIndex: =2
+
+            ctnGlobalActions_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutGap: =10
+                LayoutJustifyContent: =LayoutJustifyContent.End
+                LayoutMinHeight: =17
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =9
+                PaddingRight: =9
+                PaddingTop: =9
+                Width: =775
+                ZIndex: =3
+
+                btnCalculate_FinancialBreakdownScreen As LabeledIconButton:
+                    Enable: =boxGrossSalaryValue_FinancialBreakdownScreen.IsValid
+                    Icon: =Icon.Calculator
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =640
+                    OnSelect: |-
+                        =UpdateContext({popLoadVisible: true});
+                        With(
+                            {
+                                struct: ForAll(
+                                    galSections_FinancialBreakdownScreen.AllItems,
+                                    {
+                                        sectionName: sectionName,
+                                        items: ForAll(
+                                            galSectionItems_FinancialBreakdownScreen.AllItems,
+                                            {
+                                                concept: concept,
+                                                rate: rate,
+                                                factor: factor,
+                                                tag: tag,
+                                                blocked: blocked,
+                                                value: If(
+                                                    tag = "grossSalary" || Value(
+                                                        factor,
+                                                        "en-US"
+                                                    ) = 1,
+                                                    lblInputValue_FinancialBreakdownScreen.Text,
+                                                    If(
+                                                        blocked && !grossSalaryWasModified,
+                                                        lblInputValue_FinancialBreakdownScreen.Text,
+                                                        ""
+                                                    )
+                                                )
+                                            }
+                                        )
+                                    }
+                                )
+                            },
+                            With(
+                                {response: ISignatureAPI.CalculateBreakdown(struct)},
+                                If(
+                                    !IsError(response),
+                                    UpdateContext({breakdown: AppFunctions.ProcessDynamicFields(response)}),
+                                    IfError(
+                                        response,
+                                        Notify(FirstError.Message);
+                                        Blank()
+                                    )
+                                )
+                            )
+                        );
+                        Clear(FinancialBreakdownWarnings);
+                        ForAll(
+                            breakdown,
+                            ForAll(
+                                items As item,
+                                If(
+                                    !AppFunctions.IsPositiveOrZero(item.value),
+                                    Collect(
+                                        FinancialBreakdownWarnings,
+                                        {id: item.id}
+                                    )
+                                )
+                            )
+                        );
+                        UpdateContext(
+                            {
+                                popLoadVisible: false,
+                                grossSalaryWasModified: false
+                            }
+                        )
+                    RadiusBottonLeft: =Style.RadiusFactor
+                    RadiusBottonRigth: =Style.RadiusFactor
+                    RadiusTopLeft: =Style.RadiusFactor
+                    RadiusTopRigth: =Style.RadiusFactor
+                    Select: |-
+                        =If(
+                            Self.Enable,
+                            Self.OnSelect()
+                        )
+                    Text: ="Calculate"
+                    Tooltip: ="Press to calculate breakdown fields"
+                    Visible: =!isReadOnly
+                    Width: =103
+
+                btnModes_FinancialBreakdownScreen As LabeledIconButton:
+                    Icon: |-
+                        =If(
+                            isEditValues,
+                            Icon.View,
+                            Icon.Edit
+                        )
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =640
+                    OnSelect: |-
+                        =UpdateContext({isEditValues: !isEditValues})
+                    RadiusBottonLeft: =Style.RadiusFactor
+                    RadiusBottonRigth: =Style.RadiusFactor
+                    RadiusTopLeft: =Style.RadiusFactor
+                    RadiusTopRigth: =Style.RadiusFactor
+                    Select: |-
+                        =If(
+                            Self.Enable,
+                            Self.OnSelect()
+                        )
+                    Text: |-
+                        =If(
+                            isEditValues,
+                            "View mode",
+                            "Edit mode"
+                        )
+                    Tooltip: |-
+                        =If(
+                            isEditValues,
+                            "Press to enable view mode",
+                            "Press to enable edit mode"
+                        )
+                    Visible: =!isReadOnly
+                    Width: =113
+                    ZIndex: =2
+
+                commonTools_FinancialBreakdownScreen As CommonTools:
+                    BellVisible: =false
+                    Count: =0
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =640
+                    OnChangeStyle: |-
+                        =Concurrent(
+                            Set(
+                                Style,
+                                Self.SelectedStyle
+                            ),
+                            Patch(
+                                Cache,
+                                LookUp(
+                                    Cache,
+                                    Key = "style"
+                                ),
+                                {Value: Self.SelectedStyle.Name}
+                            );
+                            IfError(
+                                SaveData(
+                                    Cache,
+                                    "GRS"
+                                ),
+                                Blank()
+                            )
+                        )
+                    OnSelectBell: =false
+                    ZIndex: =3
+
+        shpHeadSeparator_FinancialBreakdownScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            LayoutMinWidth: =50
+            ZIndex: =2
+
+        ctnBody_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =3
+
+            ctnBreakdownInfo_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Style.Palette.LightFillable
+                FillPortions: =0
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =15
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                PaddingTop: =15
+                Visible: =isCandidateInfoExpand
+                Width: =390
+                ZIndex: =1
+
+                ctnCandidateInfoHeader_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =42
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    lblCandidateInfoHeader_FinancialBreakdownScreen As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Style.Palette.Accent
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Style.Text.Title.Font
+                        FontWeight: =Style.Text.Title.Weight
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        Size: =Style.Text.Title.Size - 3
+                        Text: ="About this breakdown"
+                        ZIndex: =1
+
+                versionDetails_FinancialBreakdownScreen As DetailsPanel:
+                    AlignInContainer: =AlignInContainer.Center
+                    InternalLateralPadding: =10
+                    Items: |-
+                        =Table(
+                            {
+                                Key: "Name",
+                                Value: If(
+                                    IsBlank(financialBreakdown),
+                                    "Not registered",
+                                    financialBreakdown.name
+                                ),
+                                Tooltip: financialBreakdown.name,
+                                Mark: true,
+                                ShowSeparator: true
+                            },
+                            {
+                                Key: "Template",
+                                Value: version.template.name,
+                                Tooltip: version.template.name,
+                                Mark: true,
+                                ShowSeparator: false
+                            }
+                        )
+                    KeyWidth: =65
+                    LateralPadding: =15
+                    LayoutMinHeight: =640
+                    LayoutMinWidth: =200
+                    PanelFill: =Style.Palette.Background
+                    Width: =326
+                    ZIndex: =2
+
+                candidateInfo_FinancialBreakdownScreen As CandidateInfo:
+                    FillPortions: =1
+                    Item: |-
+                        ={
+                            Name: candidate.candidateState.candidateInfo.fullName,
+                            JobRequisition: jobPosition.title,
+                            Department: jobPosition.department.name,
+                            MinSalary: jobPosition.minSalary,
+                            MaxSalary: jobPosition.maxSalary,
+                            Currency: jobPosition.currency,
+                            AdditionalBenefits: salaryPackage.extraBenefits
+                        }
+                    LabelWidth: =100
+                    LateralPadding: =32
+                    LayoutMinHeight: =50
+                    LayoutMinWidth: =50
+                    Visible: =true
+                    ZIndex: =3
+
+            shpCandidateInfoSeparator_FinancialBreakdownScreen As rectangle:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DisplayMode: =DisplayMode.View
+                Fill: =Style.Palette.Line
+                FocusedBorderThickness: =0
+                Visible: =isCandidateInfoExpand
+                Width: =1
+                ZIndex: =2
+
+            ctnDocumentViewer_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Style.Palette.Fillable
+                LayoutAlignItems: |-
+                    =If(
+                        Self.Width < 940,
+                        LayoutAlignItems.Start,
+                        LayoutAlignItems.Center
+                    )
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutMinHeight: =100
+                LayoutMinWidth: =100
+                LayoutMode: =LayoutMode.Auto
+                LayoutOverflowX: =LayoutOverflow.Scroll
+                LayoutOverflowY: =LayoutOverflow.Scroll
+                ZIndex: =3
+
+                ctnContentDesign_FinancialBreakdownScreen As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =ctnContent_FinancialBreakdownScreen.Height + 40
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    Width: =940
+                    ZIndex: =1
+
+                    ctnContent_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DropShadow: =DropShadow.Semibold
+                        Fill: =Style.Palette.Background
+                        Height: |-
+                            =ctnDocumentHeader_FinancialBreakdownScreen.Height + 125 + If(
+                                IsEmpty(breakdown),
+                                lblWithoutBreakdown_FinancialBreakdownScreen.Height,
+                                galSections_FinancialBreakdownScreen.Height
+                            )
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =25
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =50
+                        PaddingTop: =50
+                        Width: =900
+                        X: =20
+                        Y: =20
+                        ZIndex: =2
+
+                        ctnDocumentHeader_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            Fill: =Style.Palette.Fillable
+                            FillPortions: =0
+                            Height: =150
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingRight: =125
+                            ZIndex: =2
+
+                            ctnGeneralSalary_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Style.Palette.Accent
+                                FillPortions: =0
+                                Height: =120
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutJustifyContent: =LayoutJustifyContent.Center
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =250
+                                LayoutMode: =LayoutMode.Auto
+                                PaddingLeft: =75
+                                PaddingRight: =15
+                                Width: =560
+                                ZIndex: =1
+
+                                ctnGrossSalary_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutMinHeight: =17
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    PaddingRight: =1
+                                    ZIndex: =1
+
+                                    lblGrossSalary_FinancialBreakdownScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="Gross salary"
+                                        ZIndex: =1
+
+                                    lblGrossSalaryCurrencySymbol_FinancialBreakdownScreen As label:
+                                        Align: =Align.Center
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="$"
+                                        Width: =17
+                                        ZIndex: =2
+
+                                    lblGrossSalaryValue_FinancialBreakdownScreen As label:
+                                        Align: =Align.Right
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: |-
+                                            =If(
+                                                !isReadOnly && IsBlank(Self.Text),
+                                                Style.Palette.Warning,
+                                                Color.Transparent
+                                            )
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        Size: =Style.Text.Title.Size
+                                        Text: |-
+                                            =If(
+                                                boxGrossSalaryValue_FinancialBreakdownScreen.IsValid,
+                                                AppFunctions.StringToFormatedAmount(boxGrossSalaryValue_FinancialBreakdownScreen.Value),
+                                                "Empty"
+                                            )
+                                        Visible: =isReadOnly || !isEditValues
+                                        Width: =140
+                                        Wrap: =isReadOnly || !isEditValues
+                                        ZIndex: =3
+
+                                    boxGrossSalaryValue_FinancialBreakdownScreen As NumberBox:
+                                        AlignInContainer: =AlignInContainer.Center
+                                        Default: |-
+                                            =Text(
+                                                If(
+                                                    IsBlank(financialBreakdown.grossSalary) || financialBreakdown.grossSalary = 0,
+                                                    salaryPackage.compensation,
+                                                    financialBreakdown.grossSalary
+                                                ),
+                                                "#.00",
+                                                "en-US"
+                                            )
+                                        Height: =34
+                                        LayoutMinHeight: =640
+                                        LayoutMinWidth: =640
+                                        OnChange: |-
+                                            =If(
+                                                Self.IsValid,
+                                                UpdateContext({grossSalaryWasModified: true});
+                                                btnCalculate_FinancialBreakdownScreen.Select(),
+                                                Reset(Self)
+                                            )
+                                        Visible: =!isReadOnly && isEditValues
+                                        Width: =140
+                                        ZIndex: =5
+
+                                ctnDailySalary_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutMinHeight: =17
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    PaddingRight: =1
+                                    ZIndex: =2
+
+                                    lblDailySalary_FinancialBreakdownScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="Daily salary"
+                                        ZIndex: =1
+
+                                    lblDailySalaryCurrencySymbol_FinancialBreakdownScreen As label:
+                                        Align: =Align.Center
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="$"
+                                        Width: =17
+                                        ZIndex: =2
+
+                                    lblDailySalaryValue_FinancialBreakdownScreen As label:
+                                        Align: =Align.Right
+                                        AlignInContainer: =AlignInContainer.Center
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        Height: =32
+                                        Size: =Style.Text.Title.Size
+                                        Text: |-
+                                            =If(
+                                                boxGrossSalaryValue_FinancialBreakdownScreen.IsValid,
+                                                AppFunctions.FormatAmout(
+                                                    Value(
+                                                        boxGrossSalaryValue_FinancialBreakdownScreen.Value,
+                                                        "en-US"
+                                                    ) / 30.4
+                                                ),
+                                                "Empty"
+                                            )
+                                        Width: =140
+                                        ZIndex: =3
+
+                                ctnMonthlySalary_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                                    AlignInContainer: =AlignInContainer.SetByContainer
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutMinHeight: =17
+                                    LayoutMinWidth: =250
+                                    LayoutMode: =LayoutMode.Auto
+                                    PaddingRight: =1
+                                    Visible: =!IsEmpty(breakdown)
+                                    ZIndex: =3
+
+                                    lblMonthlySalary_FinancialBreakdownScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="Montly salary"
+                                        ZIndex: =1
+
+                                    lblMontlySalaryCurrencySymbol_FinancialBreakdownScreen As label:
+                                        Align: =Align.Center
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Title.Size
+                                        Text: ="$"
+                                        Width: =17
+                                        ZIndex: =2
+
+                                    lblMontlySalaryValue_FinancialBreakdownScreen As label:
+                                        Align: =Align.Right
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Color.White
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Title.Font
+                                        FontWeight: =Style.Text.Title.Weight
+                                        Height: =32
+                                        Size: =Style.Text.Title.Size
+                                        Text: |-
+                                            =If(
+                                                Self.Visible,
+                                                With(
+                                                    {
+                                                        totalGrossSalary: With(
+                                                            AppFunctions.FindItemByTag(
+                                                                breakdown,
+                                                                "totalGrossSalary"
+                                                            ) As item,
+                                                            If(
+                                                                IsBlank(item),
+                                                                0,
+                                                                Value(
+                                                                    item.value,
+                                                                    "en-US"
+                                                                )
+                                                            )
+                                                        ),
+                                                        totalRetentions: With(
+                                                            AppFunctions.FindItemByTag(
+                                                                breakdown,
+                                                                "totalRetentions"
+                                                            ) As item,
+                                                            If(
+                                                                IsBlank(item),
+                                                                0,
+                                                                Value(
+                                                                    item.value,
+                                                                    "en-US"
+                                                                )
+                                                            )
+                                                        )
+                                                    },
+                                                    AppFunctions.FormatAmout(totalGrossSalary - totalRetentions)
+                                                )
+                                            )
+                                        Width: =140
+                                        ZIndex: =3
+
+                            ctnCurrency_FinancialBreakdownScreen As groupContainer.verticalAutoLayoutContainer:
+                                AlignInContainer: =AlignInContainer.SetByContainer
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: =Style.Palette.LightFillable
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =50
+                                LayoutMinWidth: =50
+                                LayoutMode: =LayoutMode.Auto
+                                RadiusBottomRight: =Style.RadiusFactor
+                                RadiusTopRight: =Style.RadiusFactor
+                                ZIndex: =3
+
+                                lblCurrencyValue_FinancialBreakdownScreen As label:
+                                    Align: =Align.Center
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =Style.Palette.Accent
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    FillPortions: =1
+                                    Font: =Style.Text.Title.Font
+                                    FontWeight: =Style.Text.Title.Weight
+                                    LayoutMinHeight: =17
+                                    Size: =Style.Text.Title.Size
+                                    Text: =salaryPackage.currency
+                                    VerticalAlign: =VerticalAlign.Bottom
+                                    ZIndex: =1
+
+                                lblCurrency_FinancialBreakdownScreen As label:
+                                    Align: =Align.Center
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =Style.Text.Subtitle.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    FillPortions: =1
+                                    Font: =Style.Text.Subtitle.Font
+                                    FontWeight: =Style.Text.Subtitle.Weight
+                                    Height: =32
+                                    LayoutMinHeight: =17
+                                    Size: =Style.Text.Subtitle.Size
+                                    Text: ="Currency"
+                                    VerticalAlign: =VerticalAlign.Top
+                                    ZIndex: =2
+
+                        galSections_FinancialBreakdownScreen As gallery.variableTemplateHeightGallery:
+                            AlignInContainer: =AlignInContainer.SetByContainer
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            FocusedBorderThickness: =0
+                            Height: |-
+                                =Sum(
+                                    ForAll(
+                                        Self.AllItems,
+                                        84 + ThisRecord.galSectionItems_FinancialBreakdownScreen.Height
+                                    ),
+                                    Value
+                                )
+                            Items: =breakdown
+                            Layout: =Layout.Vertical
+                            LayoutMinHeight: =287
+                            LayoutMinWidth: =320
+                            LoadingSpinner: =LoadingSpinner.Data
+                            Selectable: =false
+                            ShowScrollbar: =false
+                            TemplateFill: =Color.Transparent
+                            TemplatePadding: =0
+                            TemplateSize: =300
+                            Visible: =!IsEmpty(breakdown)
+                            Width: =Parent.Width - 75 * 2
+                            ZIndex: =3
+
+                            shpPaddingBotton_FinancialBreakdownScreen As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FocusedBorderThickness: =0
+                                Height: =40
+                                Width: =Parent.Width
+                                Y: =44 + galSectionItems_FinancialBreakdownScreen.Height
+                                ZIndex: =1
+
+                            galSectionItems_FinancialBreakdownScreen As gallery.galleryVertical:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Default: |-
+                                    =With(
+                                        Last(Self.AllItems),
+                                        {
+                                            id: id,
+                                            concept: concept,
+                                            rate: rate,
+                                            value: value,
+                                            tag: tag,
+                                            blocked: blocked,
+                                            factor: factor
+                                        }
+                                    )
+                                Fill: =Color.Transparent
+                                FocusedBorderThickness: =0
+                                Height: =CountRows(Self.AllItems) * Self.TemplateHeight
+                                Items: =ThisItem.items
+                                Layout: =Layout.Vertical
+                                LoadingSpinner: =LoadingSpinner.Data
+                                Selectable: =false
+                                ShowScrollbar: =false
+                                TemplateFill: =Color.Transparent
+                                TemplatePadding: =0
+                                TemplateSize: =42
+                                Width: =700
+                                X: =25
+                                Y: =44
+                                ZIndex: =2
+
+                                lblInputValue_FinancialBreakdownScreen As label:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =Color.Transparent
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =Color.Transparent
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Height: =0
+                                    LineHeight: =0
+                                    OnSelect: =Select(Parent)
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =0
+                                    Text: =txtValue_FinancialBreakdownScreen.Text
+                                    Visible: =false
+                                    Width: =0
+                                    ZIndex: =1
+
+                                ctnItemLayout_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Fill: |-
+                                        =If(
+                                            ThisItem.IsSelected,
+                                            Style.Palette.Selectable.SelectedShadow,
+                                            Color.Transparent
+                                        )
+                                    Height: =Parent.TemplateHeight
+                                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                                    LayoutGap: =5
+                                    LayoutMode: =LayoutMode.Auto
+                                    PaddingBottom: =4
+                                    PaddingLeft: =5
+                                    PaddingRight: =5
+                                    PaddingTop: =4
+                                    Width: =Parent.Width
+                                    ZIndex: =2
+
+                                    lblConcept_FinancialBreakdownScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Style.Text.Normal.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        FillPortions: =1
+                                        Font: =Style.Text.Normal.Font
+                                        FontWeight: |-
+                                            =If(
+                                                ThisItem.IsSelected,
+                                                FontWeight.Bold,
+                                                Style.Text.Normal.Weight
+                                            )
+                                        LayoutMinHeight: =17
+                                        LayoutMinWidth: =50
+                                        Size: =Style.Text.Normal.Size
+                                        Text: =ThisItem.concept
+                                        ZIndex: =1
+
+                                    lblInfo_FinancialBreakdownScreen As label:
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Style.Text.Normal.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Normal.Font
+                                        FontWeight: |-
+                                            =If(
+                                                ThisItem.IsSelected,
+                                                FontWeight.Bold,
+                                                Style.Text.Normal.Weight
+                                            )
+                                        LayoutMinHeight: =17
+                                        Size: =Style.Text.Normal.Size
+                                        Text: =ThisItem.rate
+                                        Width: =100
+                                        ZIndex: =2
+
+                                    lblCurrencySymbol_FinancialBreakdownScreen As label:
+                                        Align: =Align.Right
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Style.Text.Normal.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: =Color.Transparent
+                                        Font: =Style.Text.Normal.Font
+                                        FontWeight: =Style.Text.Normal.Weight
+                                        LayoutMinHeight: =17
+                                        PaddingBottom: =0
+                                        PaddingLeft: =0
+                                        PaddingRight: =0
+                                        PaddingTop: =0
+                                        Size: =Style.Text.Normal.Size
+                                        Text: ="$"
+                                        Width: =15
+                                        ZIndex: =3
+
+                                    txtValue_FinancialBreakdownScreen As text:
+                                        Align: =Align.Right
+                                        BorderColor: |-
+                                            =If(
+                                                AppFunctions.IsPositiveOrZero(Self.Text),
+                                                Style.Palette.Line,
+                                                Style.Palette.Warning
+                                            )
+                                        Color: =Style.Text.Normal.Color
+                                        ContentLanguage: ="en-US"
+                                        Default: |-
+                                            =If(
+                                                ThisItem.tag = "grossSalary",
+                                                boxGrossSalaryValue_FinancialBreakdownScreen.Value,
+                                                ThisItem.value
+                                            )
+                                        DelayOutput: =true
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Self.Color
+                                        DisabledFill: =Color.Transparent
+                                        Fill: =Style.Palette.Background
+                                        FocusedBorderColor: =Style.Palette.Accent
+                                        FocusedBorderThickness: =1
+                                        Font: =Style.Text.Normal.Font
+                                        FontWeight: |-
+                                            =If(
+                                                ThisItem.IsSelected,
+                                                FontWeight.Bold,
+                                                Style.Text.Normal.Weight
+                                            )
+                                        Height: =32
+                                        HintText: ="---"
+                                        HoverBorderColor: =Style.Palette.Border
+                                        LayoutMinHeight: =17
+                                        MaxLength: =9
+                                        OnChange: |-
+                                            =If(
+                                                IsBlank(Self.Text) && Value(
+                                                    ThisItem.factor,
+                                                    "en-US"
+                                                ) <> 1 && ThisItem.blocked,
+                                                Collect(
+                                                    FinancialBreakdownWarnings,
+                                                    {id: ThisItem.id}
+                                                );
+                                                btnCalculate_FinancialBreakdownScreen.Select(),
+                                                If(
+                                                    !AppFunctions.IsPositiveOrZero(Self.Text),
+                                                    Reset(Self),
+                                                    RemoveIf(
+                                                        FinancialBreakdownWarnings,
+                                                        id = ThisItem.id
+                                                    );
+                                                    If(
+                                                        ThisItem.blocked,
+                                                        btnCalculate_FinancialBreakdownScreen.Select()
+                                                    )
+                                                )
+                                            )
+                                        PaddingLeft: =5
+                                        RadiusBottomLeft: =Style.RadiusFactor
+                                        RadiusBottomRight: =Style.RadiusFactor
+                                        RadiusTopLeft: =Style.RadiusFactor
+                                        RadiusTopRight: =Style.RadiusFactor
+                                        Size: =Style.Text.Normal.Size
+                                        Tooltip: ="Enter an amount"
+                                        Visible: =!isReadOnly && isEditValues && ThisItem.blocked
+                                        Width: =100
+                                        ZIndex: =4
+
+                                    lblValue_FinancialBreakdownScreen As label:
+                                        Align: =Align.Right
+                                        BorderColor: =Color.Transparent
+                                        BorderStyle: =BorderStyle.None
+                                        Color: =Style.Text.Normal.Color
+                                        DisabledBorderColor: =Color.Transparent
+                                        DisabledColor: =Style.Palette.Disabled
+                                        DisabledFill: =Color.Transparent
+                                        DisplayMode: =DisplayMode.View
+                                        Fill: |-
+                                            =If(
+                                                !isReadOnly && IsBlank(Self.Text),
+                                                Style.Palette.Warning,
+                                                Color.Transparent
+                                            )
+                                        Font: =Style.Text.Normal.Font
+                                        FontWeight: |-
+                                            =If(
+                                                ThisItem.IsSelected,
+                                                FontWeight.Bold,
+                                                Style.Text.Normal.Weight
+                                            )
+                                        LayoutMinHeight: =17
+                                        Size: =Style.Text.Normal.Size
+                                        Text: |-
+                                            =If(
+                                                AppFunctions.IsPositiveOrZero(txtValue_FinancialBreakdownScreen.Text),
+                                                If(
+                                                    Value(txtValue_FinancialBreakdownScreen.Text) > 0,
+                                                    AppFunctions.StringToFormatedAmount(txtValue_FinancialBreakdownScreen.Text),
+                                                    "0"
+                                                ),
+                                                "Empty"
+                                            )
+                                        Visible: =isReadOnly || !isEditValues || !ThisItem.blocked
+                                        Width: =100
+                                        ZIndex: =5
+
+                                shpItemSeparator_FinancialBreakdownScreen As rectangle:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Style.Palette.Border
+                                    Height: =2
+                                    OnSelect: =
+                                    Visible: =ThisItem.IsSelected
+                                    Width: =Parent.Width
+                                    ZIndex: =3
+
+                            shpSectionHeadSeparator_FinancialBreakdownScreen As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Style.Palette.Accent
+                                FocusedBorderThickness: =0
+                                Height: =2
+                                Width: =Parent.Width
+                                Y: =43
+                                ZIndex: =3
+
+                            lblSectionTitle_FinancialBreakdownScreen As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =Style.Text.Title.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =Style.Text.Title.Font
+                                FontWeight: =Style.Text.Title.Weight
+                                Height: =42
+                                Size: =Style.Text.Title.Size
+                                Text: =AppFunctions.ToSpaces(ThisItem.sectionName)
+                                Width: =Parent.Width
+                                ZIndex: =4
+
+                        lblWithoutBreakdown_FinancialBreakdownScreen As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Title.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =Style.Text.Title.Font
+                            FontWeight: =Style.Text.Title.Weight
+                            LayoutMinWidth: =50
+                            Size: =Style.Text.Title.Size
+                            Text: ="Without breakdown"
+                            Visible: =IsEmpty(breakdown)
+                            Width: =250
+                            ZIndex: =4
+
+        shpBodySeparator_FinancialBreakdownScreen As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            LayoutMinWidth: =50
+            ZIndex: =4
+
+        ctnFooter_FinancialBreakdownScreen As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =15
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =15
+            PaddingRight: =15
+            Visible: =!isReadOnly
+            ZIndex: =5
+
+            btnDone_FinancialBreakdownScreen As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =Style.Palette.Fillable
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Style.Palette.LightFillable
+                DisplayMode: |-
+                    =If(
+                        !boxGrossSalaryValue_FinancialBreakdownScreen.IsValid || !IsEmpty(FinancialBreakdownWarnings),
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Style.Palette.Accent
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Style.Text.Subtitle.Font
+                FontWeight: =Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: |-
+                    =UpdateContext(
+                        {
+                            editedBreakdown: ForAll(
+                                galSections_FinancialBreakdownScreen.AllItems,
+                                {
+                                    sectionName: sectionName,
+                                    items: ForAll(
+                                        galSectionItems_FinancialBreakdownScreen.AllItems,
+                                        {
+                                            concept: concept,
+                                            rate: rate,
+                                            factor: factor,
+                                            tag: tag,
+                                            blocked: blocked,
+                                            value: lblInputValue_FinancialBreakdownScreen.Text
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                    );
+                    With(
+                        {
+                            fieldsWithZero: Filter(
+                                ForAll(
+                                    editedBreakdown As section,
+                                    Patch(
+                                        section,
+                                        {
+                                            items: Filter(
+                                                section.items As item,
+                                                Value(item.value) = 0
+                                            )
+                                        }
+                                    )
+                                ) As section,
+                                !IsEmpty(section.items)
+                            )
+                        },
+                        If(
+                            IsEmpty(fieldsWithZero),
+                            Select(btnSaveData_FinancialBreakdownScreen),
+                            UpdateContext(
+                                {
+                                    optionDialogModel: AppFunctions.OptionDialogFace(
+                                        "breakdown_with_zeros",
+                                        "Breakdown with zeros",
+                                        "Some fields in the breakdown contains 0 value:<br>" & AppFunctions.FormatBreakdownWithZeros(fieldsWithZero) & "<br>Surely you want to save the data with this value?",
+                                        "Yes",
+                                        "No"
+                                    )
+                                }
+                            )
+                        )
+                    )
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =Style.RadiusFactor
+                RadiusBottomRight: =Style.RadiusFactor
+                RadiusTopLeft: =Style.RadiusFactor
+                RadiusTopRight: =Style.RadiusFactor
+                Size: =Style.Text.Subtitle.Size
+                Text: ="Done"
+                Width: =150
+                ZIndex: =1
+
+            btnCancel_FinancialBreakdownScreen As button:
+                BorderColor: =Style.Palette.Accent
+                Color: =Style.Text.Normal.Color
+                DisabledBorderColor: =Style.Palette.Fillable
+                DisabledColor: =Style.Palette.Disabled
+                DisabledFill: =Style.Palette.LightFillable
+                Fill: =Style.Palette.Background
+                FocusedBorderColor: =Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =Style.Text.Normal.Font
+                FontWeight: =Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: |-
+                    =If(
+                        isInstantFilling,
+                        Back(),
+                        UpdateContext(
+                            {
+                                optionDialogModel: AppFunctions.OptionDialogFace(
+                                    "cancel_breakdown",
+                                    "Cancel breakdown",
+                                    "Are you sure you want to cancel the filling of the financial breakdown?"
+                                )
+                            }
+                        )
+                    )
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =Style.Text.Normal.Size
+                Text: ="Cancel"
+                Width: =100
+                ZIndex: =2
+
+    btnExpandRelatedInfo_FinancialBreakdownScreen As IconButton:
+        Color: =Style.Palette.Accent
+        Height: =100
+        Icon: |-
+            =If(
+                isCandidateInfoExpand,
+                Icon.ChevronLeft,
+                Icon.ChevronRight
+            )
+        OnSelect: |-
+            =UpdateContext({isCandidateInfoExpand: !isCandidateInfoExpand})
+        RadiusBottomRigth: =Style.RadiusFactor * 2
+        RadiusTopRigth: =Style.RadiusFactor * 2
+        SelectableStyle: |-
+            ={
+                BorderColor: Color.Transparent,
+                Fill: Style.Palette.Selectable.SelectedShadow,
+                HoverFill: Style.Palette.Selectable.TransparentHoverFill,
+                PressedFill: Style.Palette.Selectable.TransparentPressedFill
+            }
+        Tooltip: |-
+            =If(
+                isCandidateInfoExpand,
+                "Collapse info panel",
+                "Expand info panel"
+            )
+        Width: =22
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =3
+
+    optionDialog_FinancialBreakdownScreen As OptionDialog:
+        AcceptButtonWidth: =optionDialogModel.AcceptButtonWidth
+        AcceptText: =optionDialogModel.AcceptText
+        CancelButtonWidth: =optionDialogModel.CancelButtonWidth
+        CancelText: =optionDialogModel.CancelText
+        Message: =optionDialogModel.Message
+        ModalHeight: =optionDialogModel.ModalHeight
+        ModalWidth: =optionDialogModel.ModalWidth
+        OnSelectAccept: |-
+            =Switch(
+                optionDialogModel.Code,
+                "cancel_breakdown",
+                Navigate(
+                    MessageScreen,
+                    ScreenTransition.None,
+                    AppFunctions.InfoMessage(
+                        "Cancel filling",
+                        "Has cancelled the filling of the economic breakdown.<br> You can fill in the economic breakdown at another time.",
+                        "You can close this page or if you wish you can continue checking in the app."
+                    )
+                ),
+                "breakdown_with_zeros",
+                Select(btnSaveData_FinancialBreakdownScreen)
+            );
+            UpdateContext({optionDialogModel: Blank()})
+        OnSelectCancel: |-
+            =UpdateContext(
+                {
+                    optionDialogModel: Blank(),
+                    editedBreakdown: Blank()
+                }
+            )
+        SelectAccept: =Self.OnSelectAccept()
+        SelectCancel: =Self.OnSelectCancel()
+        Title: =optionDialogModel.Title
+        Visible: =!IsBlank(optionDialogModel)
+        ZIndex: =4
+
+    popLoad_FinancialBreakdownScreen As PopupImager:
+        Height: =Parent.Height
+        Img: =Style.Loader
+        Visible: =popLoadVisible
+        Width: =Parent.Width
+        ZIndex: =5
+

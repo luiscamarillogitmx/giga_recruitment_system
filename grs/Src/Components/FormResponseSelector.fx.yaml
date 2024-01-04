@@ -1,0 +1,1167 @@
+FormResponseSelector As CanvasComponent:
+    CodeToEducationalDegree(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: =AppFunctions.CodeToEducationalDegree(Code)
+    CodeToGender(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: =AppFunctions.CodeToGender(Code)
+    CodeToMaritalStatus(Code As Number):
+        Code:
+            Default: =100
+        ThisProperty:
+            Default: =AppFunctions.CodeToMaritalStatus(Code)
+    FormatDateTimeValue(DateValue As String):
+        DateValue:
+            Default: =""
+        ThisProperty:
+            Default: =AppFunctions.FormatDateTimeValue(DateValue)
+    FormatDateValue(DateValue As String):
+        DateValue:
+            Default: ="2023-11-10"
+        ThisProperty:
+            Default: =AppFunctions.FormatDateValue(DateValue)
+    ParseAdditionalInfo(AdditionalInfoValue As String):
+        AdditionalInfoValue:
+            Default: ="[]"
+        ThisProperty:
+            Default: =AppFunctions.ParseDynamicFields(AdditionalInfoValue)
+    ParseCandidateInfo(CandidateInfoValue As String):
+        CandidateInfoValue:
+            Default: =""
+        ThisProperty:
+            Default: =AppFunctions.ParseCandidateInfo(CandidateInfoValue)
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    DefaultSearch: =""
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    IsLoadingItems: =false
+    IsSaving: =false
+    Items: |-
+        =Table(
+            {
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                name: "Luis Gerardo Camarillo Gamboa",
+                idNumber: "string",
+                address: "string",
+                educationalLevel: 1,
+                fieldStudy: "string",
+                maritalStatus: 1,
+                birthCity: "string",
+                birthDate: "2023-12-22T20:06:46.530Z",
+                nationality: "string",
+                phoneNumber: "string",
+                gender: 1,
+                additionalInfo: "[]"
+            }
+        )
+    OnRefresh: =true
+    OnReset: |
+        =Set(
+            DefaultSearchText,
+            FormResponseSelector.DefaultSearch
+        );
+        Reset(txtSearch_FormResponseSelector);
+        Set(
+            SelectedResponse,
+            Blank()
+        )
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    SearchText: =Trim(txtSearch_FormResponseSelector.Text)
+    Selected: =SelectedResponse
+    Style: =Style
+    Title: ="Form entry selection"
+    Validation: =!IsBlank(SelectedResponse)
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: =DropShadow.Bold
+        Fill: =FormResponseSelector.Style.Palette.ModalBackground
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =850
+        X: =Parent.Width - Self.Width
+        ZIndex: =2
+
+        ctnHeader_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =100
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =1
+
+            lblTitle_FormResponseSelector As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =FormResponseSelector.Style.Text.Title.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =FormResponseSelector.Style.Text.Title.Font
+                FontWeight: =FormResponseSelector.Style.Text.Title.Weight
+                Size: =FormResponseSelector.Style.Text.Title.Size
+                Text: =FormResponseSelector.Title
+                ZIndex: =1
+
+            icoClose_FormResponseSelector As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =FormResponseSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisplayMode: |
+                    =DisplayMode.Edit
+                Fill: =FormResponseSelector.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =FormResponseSelector.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Cancel
+                LayoutMinHeight: =25
+                OnSelect: =FormResponseSelector.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =FormResponseSelector.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: ="Close template selector"
+                Width: =32
+                ZIndex: =3
+
+        shpHeaderSeparator_FormResponseSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =FormResponseSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =2
+
+        ctnToolBar_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =FormResponseSelector.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =46
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =7
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =3
+
+            ctnSearchInput_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =FormResponseSelector.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =FormResponseSelector.Style.Palette.Background
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =15
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =FormResponseSelector.Style.RadiusFactor
+                RadiusBottomRight: =FormResponseSelector.Style.RadiusFactor
+                RadiusTopLeft: =FormResponseSelector.Style.RadiusFactor
+                RadiusTopRight: =FormResponseSelector.Style.RadiusFactor
+                ZIndex: =1
+
+                txtSearch_FormResponseSelector As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =FormResponseSelector.Style.Text.Normal.Color
+                    Default: =DefaultSearchText
+                    DelayOutput: =true
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                    DisabledFill: =FormResponseSelector.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =If(
+                            FormResponseSelector.IsLoadingItems,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =1
+                    Font: =FormResponseSelector.Style.Text.Normal.Font
+                    FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                    HintText: ="---"
+                    HoverBorderColor: =Self.BorderColor
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =25
+                    OnChange: =Select(icoSearch_FormResponseSelector)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =FormResponseSelector.Style.Text.Normal.Size
+                    Tooltip: ="Enter search text"
+                    ZIndex: =1
+
+                icoClearInput_FormResponseSelector As icon.Reload:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =FormResponseSelector.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: |-
+                        =If(
+                            FormResponseSelector.IsLoadingItems,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Cancel
+                    LayoutMinHeight: =17
+                    OnSelect: |-
+                        =Set(
+                            DefaultSearchText,
+                            ""
+                        );
+                        Reset(txtSearch_FormResponseSelector)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Clear entry"
+                    Visible: =!IsBlank(txtSearch_FormResponseSelector.Text)
+                    Width: =32
+                    ZIndex: =2
+
+            icoSearch_FormResponseSelector As icon.ArrowsUpDown:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =FormResponseSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        FormResponseSelector.IsLoadingItems || IsBlank(Trim(txtSearch_FormResponseSelector.Text)),
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Search
+                LayoutMinHeight: =17
+                OnSelect: =FormResponseSelector.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Prees for search"
+                Width: =42
+                ZIndex: =2
+
+            icoSort_FormResponseSelector As icon.ArrowsUpDown:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =FormResponseSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        FormResponseSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Sort
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SortDescending,
+                        !SortDescending
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        SortDescending,
+                        "Sort ascending",
+                        "Sort descending"
+                    )
+                Width: =42
+                ZIndex: =3
+
+            icoRefresh_FormResponseSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =FormResponseSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        FormResponseSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SelectedResponse,
+                        Blank()
+                    );
+                    FormResponseSelector.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh response list"
+                Width: =42
+                ZIndex: =4
+
+            icoExpandDetails_FormResponseSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =FormResponseSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        FormResponseSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        NoExpandDetails,
+                        Icon.DockLeft,
+                        Icon.DockRight
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        NoExpandDetails,
+                        !NoExpandDetails
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        NoExpandDetails,
+                        "Expand preview panel",
+                        "Collapse preview panel"
+                    )
+                Width: =42
+                ZIndex: =6
+
+        shpToolBarSeparator_FormResponseSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =FormResponseSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =4
+
+        ctnBody_FormResponseSelector As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            ZIndex: =5
+
+            ctnContent_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =30
+                PaddingRight: =30
+                Width: =Parent.Width
+                ZIndex: =1
+
+                ctnResponses_FormResponseSelector As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    ZIndex: =1
+
+                    ctnTable_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: |-
+                            =If(
+                                NoExpandDetails,
+                                0,
+                                15
+                            )
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        ctnTableHeader_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            Height: =42
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutMinHeight: =100
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            ZIndex: =1
+
+                            shpLeftSeparator_FormResponseSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =FormResponseSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =FormResponseSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =1
+
+                            lblNameHead_FormResponseSelector As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =FormResponseSelector.Style.Text.Subtitle.Color
+                                ContentLanguage: ="en"
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =FormResponseSelector.Style.Text.Subtitle.Font
+                                FontWeight: =FormResponseSelector.Style.Text.Subtitle.Weight
+                                LayoutMinWidth: =50
+                                Size: =FormResponseSelector.Style.Text.Subtitle.Size
+                                Text: ="Name"
+                                Width: =250
+                                ZIndex: =2
+
+                            shpNameHeadSeparator_FormResponseSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =FormResponseSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =FormResponseSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =3
+
+                            lblCreatedOnHead_FormResponseSelector As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =FormResponseSelector.Style.Text.Subtitle.Color
+                                ContentLanguage: ="en"
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =FormResponseSelector.Style.Text.Subtitle.Font
+                                FontWeight: =FormResponseSelector.Style.Text.Subtitle.Weight
+                                LayoutMinWidth: =50
+                                Size: =FormResponseSelector.Style.Text.Subtitle.Size
+                                Text: ="Created on"
+                                Width: =140
+                                ZIndex: =4
+
+                            shpRightSeparator_FormResponseSelector As rectangle:
+                                AlignInContainer: =AlignInContainer.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =FormResponseSelector.Style.Palette.Line
+                                FocusedBorderThickness: =1
+                                Height: =22
+                                OnSelect: =FormResponseSelector.Style.Palette.Line
+                                Width: =1
+                                ZIndex: =5
+
+                        shpTableSeparator_FormResponseSelector As rectangle:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisplayMode: =DisplayMode.View
+                            Fill: =FormResponseSelector.Style.Palette.Line
+                            FocusedBorderThickness: =0
+                            Height: =2
+                            ZIndex: =2
+
+                        galResponses_FormResponseSelector As gallery.galleryVertical:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =100
+                            Items: |-
+                                =SortByColumns(
+                                    FormResponseSelector.Items,
+                                    "name",
+                                    If(
+                                        SortDescending,
+                                        SortOrder.Descending,
+                                        SortOrder.Ascending
+                                    )
+                                )
+                            Layout: =Layout.Vertical
+                            LayoutMinHeight: =287
+                            LayoutMinWidth: =320
+                            LoadingSpinner: =LoadingSpinner.Data
+                            TemplateFill: =Color.Transparent
+                            TemplatePadding: =0
+                            TemplateSize: =42
+                            Width: =100
+                            ZIndex: =3
+
+                            ctnResponseLayout_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Fill: |-
+                                    =If(
+                                        SelectedResponse.Source.id = ThisItem.id,
+                                        FormResponseSelector.Style.Palette.Selectable.SelectedShadow,
+                                        Color.Transparent
+                                    )
+                                Height: =Parent.TemplateHeight
+                                LayoutMode: =LayoutMode.Auto
+                                Width: =Parent.TemplateWidth
+                                ZIndex: =1
+
+                                lblName_FormResponseSelector As label:
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =FormResponseSelector.Style.Text.Normal.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =FormResponseSelector.Style.Text.Normal.Font
+                                    FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                                    LayoutMinHeight: =17
+                                    Size: =FormResponseSelector.Style.Text.Normal.Size
+                                    Text: =ThisItem.name
+                                    Width: =lblNameHead_FormResponseSelector.Width + 1
+                                    ZIndex: =1
+
+                                lblCreatedOn_FormResponseSelector As label:
+                                    Align: =Align.Center
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =FormResponseSelector.Style.Text.Normal.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =FormResponseSelector.Style.Text.Normal.Font
+                                    FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                                    LayoutMinHeight: =17
+                                    Size: =FormResponseSelector.Style.Text.Normal.Size
+                                    Text: =//FormResponseSelector.FormatDateTimeValue(ThisItem.createdOn)
+                                    Width: =lblCreatedOnHead_FormResponseSelector.Width + 1
+                                    ZIndex: =2
+
+                            btnResponse_FormResponseSelector As button:
+                                Align: =Align.Left
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.Dotted
+                                BorderThickness: =0
+                                Color: =FormResponseSelector.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                Fill: =Color.Transparent
+                                FocusedBorderColor: =FormResponseSelector.Style.Palette.Border
+                                FocusedBorderThickness: =1
+                                Font: =FormResponseSelector.Style.Text.Normal.Font
+                                FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                                Height: =Parent.TemplateHeight - 2
+                                HoverBorderColor: =Color.Transparent
+                                HoverFill: =FormResponseSelector.Style.Palette.Selectable.TransparentHoverFill
+                                OnSelect: |-
+                                    =Set(
+                                        SelectedResponse,
+                                        {
+                                            Source: ThisItem,
+                                            DynamicContent: FormResponseSelector.ParseAdditionalInfo(ThisItem.additionalInfo)
+                                        }
+                                    )
+                                PaddingRight: =27
+                                PressedColor: =Self.Color
+                                PressedFill: =FormResponseSelector.Style.Palette.Selectable.TransparentPressedFill
+                                RadiusBottomLeft: =0
+                                RadiusBottomRight: =0
+                                RadiusTopLeft: =0
+                                RadiusTopRight: =0
+                                Size: =0
+                                Text: =//ThisItem.name & Char(10) & FormResponseSelector.FormatDateTimeValue( ThisItem.createdOn)
+                                Tooltip: ="Press to select this response"
+                                Width: =Parent.TemplateWidth - 2
+                                X: =1
+                                Y: =1
+                                ZIndex: =2
+
+                            shpResponseSeparator_FormResponseSelector As rectangle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: |-
+                                    =ColorFade(
+                                        FormResponseSelector.Style.Palette.Line,
+                                        10%
+                                    )
+                                Height: =1
+                                Width: =Parent.Width
+                                Y: =Parent.TemplateHeight - Self.Height
+                                ZIndex: =3
+
+                    ctnLoadResponses_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =FormResponseSelector.Style.Palette.TransparentBackground
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: |-
+                            =If(
+                                NoExpandDetails,
+                                0,
+                                15
+                            )
+                        Visible: =FormResponseSelector.IsLoadingItems
+                        Width: =Parent.Width
+                        ZIndex: =3
+
+                        imgLoadResponses_FormResponseSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =GrayEllipsis
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Width: =75
+                            X: =Parent.Width / 2 - Self.Width / 2
+                            Y: =Parent.Height / 2 - Self.Height/ 2
+                            ZIndex: =1
+
+                    ctnNoResponses_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =175
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingRight: |-
+                            =If(
+                                NoExpandDetails,
+                                0,
+                                15
+                            )
+                        Visible: =!FormResponseSelector.IsLoadingItems && IsEmpty(FormResponseSelector.Items)
+                        Width: =Parent.Width
+                        Y: =Parent.Height / 2 - Self.Height / 2
+                        ZIndex: =4
+
+                        imgNoResponses_FormResponseSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =FlowTemplate
+                            LayoutMinHeight: =25
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Transparency: =0.9
+                            Width: =75
+                            ZIndex: =1
+
+                        lblNoResponses_FormResponseSelector As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =FormResponseSelector.Style.Text.Title.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =FormResponseSelector.Style.Text.Title.Font
+                            FontWeight: =FormResponseSelector.Style.Text.Title.Weight
+                            Size: =FormResponseSelector.Style.Text.Title.Size
+                            Text: ="No form entries available"
+                            ZIndex: =2
+
+                shpExplorerSeparator_FormResponseSelector As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =FormResponseSelector.Style.Palette.Line
+                    FocusedBorderThickness: =0
+                    Visible: =!NoExpandDetails
+                    Width: =1
+                    ZIndex: =3
+
+                ctnDetails_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =15
+                    Visible: =!NoExpandDetails
+                    Width: =400
+                    ZIndex: =4
+
+                    lblDetailTitle_FormResponseSelector As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =FormResponseSelector.Style.Text.Subtitle.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =FormResponseSelector.Style.Text.Subtitle.Font
+                        FontWeight: =FormResponseSelector.Style.Text.Subtitle.Weight
+                        Height: =42
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =FormResponseSelector.Style.Text.Subtitle.Size
+                        Text: ="Form entry preview"
+                        Visible: =!lblInfo_FormResponseSelector.Visible
+                        ZIndex: =2
+
+                    shpDetailSeparator_FormResponseSelector As rectangle:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =FormResponseSelector.Style.Palette.Line
+                        FocusedBorderThickness: =0
+                        Height: =2
+                        Visible: =galResponseDetails_FormResponseSelector.Visible
+                        ZIndex: =3
+
+                    galResponseDetails_FormResponseSelector As gallery.galleryVertical:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        Items: |-
+                            =If(
+                                !IsBlank(SelectedResponse),
+                                With(
+                                    SelectedResponse.Source As CandidateInfo,
+                                    Ungroup(
+                                        [
+                                            Table(
+                                                {
+                                                    tag: "name",
+                                                    concept: "Candidate name",
+                                                    value: CandidateInfo.name
+                                                },
+                                                {
+                                                    tag: "idNumber",
+                                                    concept: "Identification",
+                                                    value: CandidateInfo.idNumber
+                                                },
+                                                {
+                                                    tag: "address",
+                                                    concept: "Address",
+                                                    value: CandidateInfo.address
+                                                },
+                                                {
+                                                    tag: "educationalLevel",
+                                                    concept: "Educational level",
+                                                    value: FormResponseSelector.CodeToEducationalDegree(CandidateInfo.educationalLevel).Name
+                                                },
+                                                {
+                                                    tag: "fieldStudy",
+                                                    concept: "Field study",
+                                                    value: CandidateInfo.fieldStudy
+                                                },
+                                                {
+                                                    tag: "maritalStatus",
+                                                    concept: "Marital status",
+                                                    value: FormResponseSelector.CodeToMaritalStatus(CandidateInfo.maritalStatus).Name
+                                                },
+                                                {
+                                                    tag: "bithCity",
+                                                    concept: "Birth city",
+                                                    value: CandidateInfo.birthCity
+                                                },
+                                                {
+                                                    tag: "birthDate",
+                                                    concept: "Birth date",
+                                                    value: FormResponseSelector.FormatDateValue(CandidateInfo.birthDate)
+                                                },
+                                                {
+                                                    tag: "nationality",
+                                                    concept: "Nationality",
+                                                    value: CandidateInfo.nationality
+                                                },
+                                                {
+                                                    tag: "phoneNumber",
+                                                    concept: "Phone",
+                                                    value: CandidateInfo.phoneNumber
+                                                },
+                                                {
+                                                    tag: "gender",
+                                                    concept: "Gender",
+                                                    value: FormResponseSelector.CodeToGender(CandidateInfo.gender).Name
+                                                }
+                                            ),
+                                            First(SelectedResponse.DynamicContent).items
+                                        ],
+                                        "Value"
+                                    )
+                                )
+                            )
+                        Layout: =Layout.Vertical
+                        LayoutMinHeight: =287
+                        LayoutMinWidth: =25
+                        LoadingSpinnerColor: =Color.Transparent
+                        Selectable: =false
+                        TemplateFill: =Color.Transparent
+                        TemplatePadding: =0
+                        TemplateSize: =65
+                        Visible: =!lblInfo_FormResponseSelector.Visible
+                        ZIndex: =4
+
+                        ctnDetailLayout_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            Height: =Parent.TemplateHeight
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingLeft: =5
+                            PaddingRight: =5
+                            Width: =Parent.TemplateWidth
+                            ZIndex: =1
+
+                            lblConcept_FormResponseSelector As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =FormResponseSelector.Style.Palette.Accent
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =FormResponseSelector.Style.Text.Subtitle.Font
+                                FontWeight: =FormResponseSelector.Style.Text.Subtitle.Weight
+                                Height: =22
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =FormResponseSelector.Style.Text.Subtitle.Size
+                                Text: =ThisItem.concept
+                                Width: =130
+                                ZIndex: =1
+
+                            lblValue_FormResponseSelector As label:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =FormResponseSelector.Style.Text.Normal.Color
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                FillPortions: =1
+                                Font: =FormResponseSelector.Style.Text.Normal.Font
+                                FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                                LayoutMinHeight: =15
+                                LayoutMinWidth: =50
+                                PaddingBottom: =0
+                                PaddingLeft: =0
+                                PaddingRight: =0
+                                PaddingTop: =0
+                                Size: =FormResponseSelector.Style.Text.Normal.Size
+                                Text: =ThisItem.value
+                                VerticalAlign: =VerticalAlign.Top
+                                Width: =130
+                                ZIndex: =2
+
+                    lblInfo_FormResponseSelector As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =FormResponseSelector.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =FormResponseSelector.Style.Text.Normal.Font
+                        FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                        Italic: =true
+                        LayoutMinWidth: =20
+                        Size: =FormResponseSelector.Style.Text.Normal.Size
+                        Text: ="Select a form response"
+                        Visible: =IsBlank(SelectedResponse)
+                        ZIndex: =5
+
+            ctnSaveLoader_FormResponseSelector As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =FormResponseSelector.Style.Palette.TransparentBackground
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                Visible: =FormResponseSelector.IsSaving
+                Width: =Parent.Width
+                ZIndex: =2
+
+                imgSaveLoader_FormResponseSelector As image:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =75
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Self.Fill
+                    Image: =FormResponseSelector.Style.Loader
+                    PressedBorderColor: =Self.BorderColor
+                    PressedFill: =Self.Fill
+                    Width: =75
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height/ 2
+                    ZIndex: =1
+
+        shpBodySeparator_FormResponseSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =FormResponseSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =6
+
+        ctnFooter_FormResponseSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =7
+
+            btnAccept_FormResponseSelector As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =FormResponseSelector.Style.Palette.Fillable
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =FormResponseSelector.Style.Palette.Fillable
+                DisplayMode: |-
+                    =If(
+                        FormResponseSelector.Validation && !FormResponseSelector.IsLoadingItems && !FormResponseSelector.IsSaving,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =FormResponseSelector.Style.Palette.Accent
+                FocusedBorderColor: =FormResponseSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =FormResponseSelector.Style.Text.Subtitle.Font
+                FontWeight: =FormResponseSelector.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =FormResponseSelector.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =FormResponseSelector.Style.RadiusFactor
+                RadiusBottomRight: =FormResponseSelector.Style.RadiusFactor
+                RadiusTopLeft: =FormResponseSelector.Style.RadiusFactor
+                RadiusTopRight: =FormResponseSelector.Style.RadiusFactor
+                Size: =FormResponseSelector.Style.Text.Subtitle.Size
+                Text: ="Done"
+                Width: =150
+                ZIndex: =2
+
+            btnCancel_FormResponseSelector As button:
+                BorderColor: =FormResponseSelector.Style.Palette.Accent
+                Color: =FormResponseSelector.Style.Text.Normal.Color
+                DisabledBorderColor: =FormResponseSelector.Style.Palette.Fillable
+                DisabledColor: =FormResponseSelector.Style.Palette.Disabled
+                DisabledFill: =FormResponseSelector.Style.Palette.Fillable
+                Fill: =Color.Transparent
+                FocusedBorderColor: =FormResponseSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =FormResponseSelector.Style.Text.Normal.Font
+                FontWeight: =FormResponseSelector.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =FormResponseSelector.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =FormResponseSelector.Style.Text.Normal.Size
+                Text: ="Cancel"
+                Width: =100
+                ZIndex: =3
+

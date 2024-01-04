@@ -1,0 +1,377 @@
+Lister As CanvasComponent:
+    GetItems():
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    Items,
+                    Value
+                )
+    ProcessUserInput(Text As String):
+        Text:
+            Default: ="Texto"
+        ThisProperty:
+            Default: =Text
+    DisplayMode: =DisplayMode.Edit
+    Fill: =Color.Transparent
+    GalleryFill: =Style.Palette.Background
+    Height: =640
+    InputFormat: =TextFormat.Text
+    IsValid: =!Lister.RequiredValues || !IsEmpty(Items)
+    Items: |-
+        =[
+            "Value 1",
+            "Value 2"
+        ]
+    NoItemsText: ="There are no items"
+    OnReset: |-
+        =Clear(Items);
+        ForAll(
+            Lister.Items,
+            Collect(
+                Items,
+                {
+                    Id: GUID(),
+                    Value: Value
+                }
+            )
+        )
+    PaddingBottom: =15
+    PaddingLeft: =15
+    PaddingRight: =15
+    PaddingTop: =15
+    RequiredValues: =true
+    ShowScrollbar: =true
+    Style: =Style
+    SuggestedHeight: |-
+        =Self.PaddingTop + Self.PaddingBottom + 42 + If(
+            ctnActions_Lister.Visible,
+            52,
+            0
+        ) + If(
+            CountRows(Items) < 3,
+            96,
+            CountRows(Items) * 32
+        )
+    Title: ="Lister"
+    Width: =350
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Lister As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =10
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =Lister.PaddingBottom
+        PaddingLeft: =Lister.PaddingLeft
+        PaddingRight: =Lister.PaddingRight
+        PaddingTop: =Lister.PaddingTop
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnHeader_Lister As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =32
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            ZIndex: =1
+
+            lblRequiredValues_Lister As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Red
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Lister.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Lister.Style.Text.Normal.Font
+                FontWeight: =Lister.Style.Text.Normal.Weight
+                LayoutMinHeight: =15
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =Lister.Style.Text.Normal.Size
+                Text: ="*"
+                Visible: =Lister.RequiredValues
+                Width: =15
+                ZIndex: =1
+
+            lblTitle_Lister As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Lister.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Lister.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =Lister.Style.Text.Subtitle.Font
+                FontWeight: =Lister.Style.Text.Subtitle.Weight
+                Height: =32
+                LayoutMinHeight: =32
+                LayoutMinWidth: =50
+                PaddingLeft: =0
+                Size: =Lister.Style.Text.Subtitle.Size
+                Text: =Lister.Title
+                ZIndex: =2
+
+        ctnActions_Lister As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Lister.Style.Palette.Line
+            BorderThickness: =1
+            Fill: =Lister.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =5
+            RadiusBottomLeft: =Lister.Style.RadiusFactor
+            RadiusBottomRight: =Lister.Style.RadiusFactor
+            RadiusTopLeft: =Lister.Style.RadiusFactor
+            RadiusTopRight: =Lister.Style.RadiusFactor
+            Visible: =Lister.DisplayMode = DisplayMode.Edit
+            ZIndex: =3
+
+            ctnInput_Lister As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Lister.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =Lister.Style.Palette.Background
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutGap: =10
+                LayoutMinHeight: =17
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =Lister.Style.RadiusFactor
+                RadiusBottomRight: =Lister.Style.RadiusFactor
+                RadiusTopLeft: =Lister.Style.RadiusFactor
+                RadiusTopRight: =Lister.Style.RadiusFactor
+                Width: =350
+                X: =1
+                Y: =1
+                ZIndex: =1
+
+                txtInput_Lister As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Lister.Style.Text.Normal.Color
+                    Default: =""
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Color.Transparent
+                    DisabledFill: =Lister.Style.Palette.Fillable
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =0
+                    Font: =Lister.Style.Text.Normal.Font
+                    FontWeight: =Lister.Style.Text.Normal.Weight
+                    Format: =Lister.InputFormat
+                    HintText: ="---"
+                    HoverBorderColor: =Color.Transparent
+                    HoverFill: =Color.Transparent
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =200
+                    OnChange: =Select(icoAdd_Lister)
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =Lister.Style.Text.Normal.Size
+                    ZIndex: =1
+
+                icoAdd_Lister As icon.ArrowRight:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Lister.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Lister.Style.Palette.Disabled
+                    Fill: =Lister.Style.Palette.Selectable.Fill
+                    FocusedBorderThickness: =0
+                    Height: =32
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =Lister.Style.Palette.Selectable.HoverFill
+                    Icon: =Icon.ArrowRight
+                    LayoutMinHeight: =15
+                    OnSelect: |-
+                        =With(
+                            {Text: Trim(txtInput_Lister.Text)},
+                            If(
+                                !IsBlank(Text),
+                                Collect(
+                                    Items,
+                                    {
+                                        Id: GUID(),
+                                        Value: Lister.ProcessUserInput(Text)
+                                    }
+                                )
+                            )
+                        );
+                        Reset(txtInput_Lister)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =Lister.Style.Palette.Selectable.PressedFill
+                    Visible: =!IsBlank(txtInput_Lister.Text)
+                    Width: =32
+                    ZIndex: =3
+
+            icoDelete_Lister As icon.CancelBadge:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Lister.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Lister.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        IsBlank(galItems_Lister.Selected.Value),
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Lister.Style.Palette.Selectable.Fill
+                FocusedBorderThickness: =0
+                Height: =32
+                HoverBorderColor: =Color.Transparent
+                HoverColor: =Self.Color
+                HoverFill: =Lister.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Trash
+                LayoutMinHeight: =15
+                OnSelect: |-
+                    =RemoveIf(
+                        Items,
+                        Id = galItems_Lister.Selected.Id
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Color.Transparent
+                PressedColor: =Self.Color
+                PressedFill: =Lister.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Remove selected row"
+                Width: =42
+                ZIndex: =3
+
+        ctnItems_Lister As groupContainer.manualLayoutContainer:
+            BorderColor: |-
+                =If(
+                    Lister.RequiredValues && Lister.DisplayMode = DisplayMode.Edit && IsEmpty(Items),
+                    Lister.Style.Palette.Warning,
+                    Color.Transparent
+                )
+            BorderThickness: =1
+            Fill: =Lister.GalleryFill
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =Lister.Style.RadiusFactor
+            RadiusBottomRight: =Lister.Style.RadiusFactor
+            RadiusTopLeft: =Lister.Style.RadiusFactor
+            RadiusTopRight: =Lister.Style.RadiusFactor
+            ZIndex: =4
+
+            galItems_Lister As gallery.galleryVertical:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Default: =First(Items)
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                Items: =Items
+                Layout: =Layout.Vertical
+                Selectable: =Lister.DisplayMode = DisplayMode.Edit
+                ShowScrollbar: =Lister.ShowScrollbar
+                TemplateFill: |-
+                    =If(
+                        ThisItem.IsSelected && Lister.DisplayMode <> DisplayMode.View,
+                        Lister.Style.Palette.Selectable.TransparentHoverFill,
+                        Color.Transparent
+                    )
+                TemplatePadding: =0
+                TemplateSize: =32
+                Visible: =!IsEmpty(Items)
+                Width: =Parent.Width
+                ZIndex: =1
+
+                lblItem_Lister As label:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Lister.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Lister.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Color.Transparent
+                    Font: =Lister.Style.Text.Normal.Font
+                    FontWeight: =Lister.Style.Text.Normal.Weight
+                    Height: =Parent.TemplateHeight
+                    OnSelect: =Select(Parent)
+                    PaddingLeft: =30
+                    Size: =Lister.Style.Text.Normal.Size
+                    Text: =ThisItem.Value
+                    Tooltip: =Self.Text
+                    Width: =Parent.TemplateWidth
+                    Wrap: =false
+                    ZIndex: =1
+
+                shpPoint_Lister As circle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: |-
+                        =If(
+                            Lister.DisplayMode <> DisplayMode.View,
+                            Lister.Style.Palette.Accent,
+                            Lister.Style.Palette.Disabled
+                        )
+                    FocusedBorderThickness: =0
+                    Height: =8
+                    Width: =8
+                    X: =10
+                    Y: =Parent.TemplateHeight / 2 - Self.Height / 2
+                    ZIndex: =2
+
+            lblNoItems_Lister As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Lister.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Lister.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Lister.Style.Text.Subtitle.Font
+                FontWeight: =Lister.Style.Text.Subtitle.Weight
+                Height: =32
+                Italic: =true
+                Size: =Lister.Style.Text.Subtitle.Size
+                Text: =Lister.NoItemsText
+                Visible: =IsEmpty(Items)
+                Width: =Parent.Width
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =2
+

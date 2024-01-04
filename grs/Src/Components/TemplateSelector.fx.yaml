@@ -1,0 +1,1053 @@
+TemplateSelector As CanvasComponent:
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    SelectAccept():
+        ThisProperty:
+            Default: =Self.OnSelectAccept()
+    SelectCancel():
+        ThisProperty:
+            Default: =Self.OnSelectCancel()
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    IsLoadingItems: =false
+    IsSaving: =false
+    Items: |-
+        =Table(
+            {
+                id: "7CA88176-1400-0000-0000BA29",
+                name: "Propuesta_Laboral_Presencial_Bruto_Mex V3",
+                description: "",
+                capitalLetter: "P",
+                color: Color.Red
+            },
+            {
+                id: "F9E9DB49-D400-0000-0000BA29",
+                name: "Test1",
+                description: "",
+                capitalLetter: "T",
+                color: Color.Aquamarine
+            }
+        )
+    OnRefresh: =true
+    OnReset: |
+        =Set(
+            SelectedTemplate,
+            Blank()
+        );
+        Set(
+            Expanded,
+            false
+        );
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    Selected: |-
+        =With(
+            galTemplates_TemplateSelector.Selected,
+            {
+                id: id,
+                name: name,
+                description: description
+            }
+        )
+    Style: =Style
+    Title: ="Template selection"
+    Validation: =!IsBlank(SelectedTemplate)
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_TemplateSelector As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: |-
+            =If(
+                Expanded,
+                DropShadow.None,
+                DropShadow.Bold
+            )
+        Fill: =TemplateSelector.Style.Palette.ModalBackground
+        Height: |-
+            =If(
+                Expanded,
+                Parent.Height,
+                560
+            )
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        RadiusBottomLeft: |-
+            =If(
+                Expanded,
+                0,
+                TemplateSelector.Style.RadiusFactor * 2
+            )
+        RadiusBottomRight: =Self.RadiusBottomLeft
+        RadiusTopLeft: =Self.RadiusBottomLeft
+        RadiusTopRight: =Self.RadiusBottomLeft
+        Width: |-
+            =If(
+                Expanded,
+                Parent.Width,
+                900
+            )
+        X: |-
+            =If(
+                Expanded,
+                0,
+                Parent.Width / 2 - Self.Width / 2
+            )
+        Y: |-
+            =If(
+                Expanded,
+                0,
+                Parent.Height / 2 - Self.Height / 2
+            )
+        ZIndex: =2
+
+        ctnHeader_TemplateSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =TemplateSelector.Style.Palette.Accent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =100
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =1
+
+            lblTitle_TemplateSelector As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =TemplateSelector.Style.Text.Title.Font
+                FontWeight: =TemplateSelector.Style.Text.Title.Weight
+                Size: =TemplateSelector.Style.Text.Title.Size
+                Text: =TemplateSelector.Title
+                ZIndex: =1
+
+            icoExpand_TemplateSelector As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisplayMode: |
+                    =DisplayMode.Edit
+                Fill: =TemplateSelector.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =TemplateSelector.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        Expanded,
+                        Icon.CollapseView,
+                        Icon.ExpandView
+                    )
+                OnSelect: |-
+                    =Set(
+                        Expanded,
+                        !Expanded
+                    )
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =TemplateSelector.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: |-
+                    =If(
+                        Expanded,
+                        "Collapse window",
+                        "Expand window"
+                    )
+                Width: =32
+                ZIndex: =2
+
+            icoClose_TemplateSelector As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderThickness: =1
+                Color: =Color.White
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisplayMode: |
+                    =DisplayMode.Edit
+                Fill: =TemplateSelector.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =TemplateSelector.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Cancel
+                OnSelect: =TemplateSelector.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =TemplateSelector.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                TabIndex: =0
+                Tooltip: ="Close window"
+                Width: =32
+                ZIndex: =3
+
+        ctnToolBar_TemplateSelector As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =TemplateSelector.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =46
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =7
+            LayoutMinHeight: =100
+            LayoutMinWidth: =5
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =2
+
+            ctnQuickFindInput_TemplateSelector As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                BorderColor: =TemplateSelector.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =TemplateSelector.Style.Palette.Background
+                Height: =32
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =15
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =TemplateSelector.Style.RadiusFactor
+                RadiusBottomRight: =TemplateSelector.Style.RadiusFactor
+                RadiusTopLeft: =TemplateSelector.Style.RadiusFactor
+                RadiusTopRight: =TemplateSelector.Style.RadiusFactor
+                ZIndex: =1
+
+                txtQuickFind_TemplateSelector As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =TemplateSelector.Style.Text.Normal.Color
+                    Default: =""
+                    DelayOutput: =true
+                    DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                    DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                    DisabledFill: =TemplateSelector.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =If(
+                            TemplateSelector.IsLoadingItems,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =1
+                    Font: =TemplateSelector.Style.Text.Normal.Font
+                    FontWeight: =TemplateSelector.Style.Text.Normal.Weight
+                    HintText: ="Quick find"
+                    HoverBorderColor: =Self.BorderColor
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =25
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =TemplateSelector.Style.Text.Normal.Size
+                    Tooltip: ="Enter search text"
+                    ZIndex: =1
+
+                icoClearInput_TemplateSelector As icon.Reload:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =TemplateSelector.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Cancel
+                    LayoutMinHeight: =17
+                    OnSelect: =Reset(txtQuickFind_TemplateSelector)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Clear entry"
+                    Visible: =!IsBlank(txtQuickFind_TemplateSelector.Text)
+                    Width: =32
+                    ZIndex: =2
+
+            icoSort_TemplateSelector As icon.ArrowsUpDown:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =TemplateSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        TemplateSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Sort
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SortDescending,
+                        !SortDescending
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        SortDescending,
+                        "Sort ascending",
+                        "Sort descending"
+                    )
+                Width: =42
+                ZIndex: =3
+
+            icoRefresh_TemplateSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =TemplateSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        TemplateSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        SelectedTemplate,
+                        Blank()
+                    );
+                    TemplateSelector.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh template list"
+                Width: =42
+                ZIndex: =4
+
+            icoViewMode_TemplateSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =TemplateSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        TemplateSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        ListMode,
+                        Icon.Waffle,
+                        Icon.DetailList
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        ListMode,
+                        !ListMode
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        ListMode,
+                        "Tile view",
+                        "List view"
+                    )
+                Width: =42
+                ZIndex: =5
+
+            icoExpandDetails_TemplateSelector As icon.Reload:
+                AlignInContainer: =AlignInContainer.Stretch
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =TemplateSelector.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        TemplateSelector.IsLoadingItems,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        NoExpandDetails,
+                        Icon.DockLeft,
+                        Icon.DockRight
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        NoExpandDetails,
+                        !NoExpandDetails
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        NoExpandDetails,
+                        "Expand details panel",
+                        "Collapse details panel"
+                    )
+                Width: =42
+                ZIndex: =6
+
+        shpToolBarSeparator_TemplateSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =TemplateSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =3
+
+        ctnBody_TemplateSelector As groupContainer.manualLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            ZIndex: =4
+
+            ctnContent_TemplateSelector As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMode: =LayoutMode.Auto
+                PaddingLeft: =15
+                PaddingRight: |-
+                    =If(
+                        NoExpandDetails,
+                        15,
+                        0
+                    )
+                Width: =Parent.Width
+                ZIndex: =1
+
+                ctnTemplates_TemplateSelector As groupContainer.manualLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    ZIndex: =1
+
+                    galTemplates_TemplateSelector As gallery.galleryVertical:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FocusedBorderThickness: =0
+                        Height: =Parent.Height
+                        Items: |-
+                            =SortByColumns(
+                                Search(
+                                    TemplateSelector.Items,
+                                    txtQuickFind_TemplateSelector.Text,
+                                    "name"
+                                ),
+                                "name",
+                                If(
+                                    SortDescending,
+                                    SortOrder.Descending,
+                                    SortOrder.Ascending
+                                )
+                            )
+                        Layout: =Layout.Vertical
+                        LoadingSpinner: =LoadingSpinner.Data
+                        TemplateFill: =Color.Transparent
+                        TemplatePadding: =0
+                        TemplateSize: |-
+                            =If(
+                                ListMode,
+                                60,
+                                120
+                            )
+                        Visible: =TemplateSelector.Visible
+                        Width: =Parent.Width
+                        WrapCount: |-
+                            =If(
+                                ListMode,
+                                1,
+                                RoundDown(
+                                    Self.Width / 250,
+                                    0
+                                )
+                            )
+                        ZIndex: =1
+
+                        icoDoc_TemplateSelector As icon.DocumentwithContent:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =ThisItem.color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: |-
+                                =If(
+                                    ListMode,
+                                    32,
+                                    60
+                                )
+                            HoverBorderColor: =Self.BorderColor
+                            HoverColor: =Self.Color
+                            Icon: =Icon.Document
+                            OnSelect: =
+                            PressedBorderColor: =Self.BorderColor
+                            PressedColor: =Self.Color
+                            Width: =Self.Height
+                            X: =32
+                            Y: =Parent.TemplateHeight / 2 - Self.Height / 2
+                            ZIndex: =2
+
+                        lblCapitalLetter_TemplateSelector As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =icoDoc_TemplateSelector.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: |-
+                                =If(
+                                    ListMode,
+                                    TemplateSelector.Style.Text.Subtitle.Font,
+                                    TemplateSelector.Style.Text.Title.Font
+                                )
+                            FontWeight: |-
+                                =If(
+                                    ListMode,
+                                    TemplateSelector.Style.Text.Subtitle.Weight,
+                                    TemplateSelector.Style.Text.Title.Weight
+                                )
+                            Height: =icoDoc_TemplateSelector.Height
+                            Size: |-
+                                =If(
+                                    ListMode,
+                                    TemplateSelector.Style.Text.Subtitle.Size,
+                                    TemplateSelector.Style.Text.Title.Size
+                                )
+                            Text: =ThisItem.capitalLetter
+                            Width: =icoDoc_TemplateSelector.Width
+                            X: =icoDoc_TemplateSelector.X
+                            Y: =icoDoc_TemplateSelector.Y
+                            ZIndex: =3
+
+                        btnTemplate_TemplateSelector As button:
+                            Align: =Align.Left
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.Dotted
+                            BorderThickness: =0
+                            Color: =TemplateSelector.Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            Fill: |-
+                                =If(
+                                    SelectedTemplate.id = ThisItem.id,
+                                    TemplateSelector.Style.Palette.Selectable.SelectedShadow,
+                                    Color.Transparent
+                                )
+                            FocusedBorderColor: =TemplateSelector.Style.Palette.Border
+                            FocusedBorderThickness: =1
+                            Font: =TemplateSelector.Style.Text.Normal.Font
+                            FontWeight: =TemplateSelector.Style.Text.Normal.Weight
+                            Height: |-
+                                =Parent.TemplateHeight - If(
+                                    ListMode,
+                                    8,
+                                    30
+                                )
+                            HoverBorderColor: =Color.Transparent
+                            HoverFill: =TemplateSelector.Style.Palette.Selectable.TransparentHoverFill
+                            OnSelect: |-
+                                =Set(
+                                    SelectedTemplate,
+                                    ThisItem
+                                )
+                            PaddingLeft: =30 + icoDoc_TemplateSelector.Width
+                            PaddingRight: =27
+                            PressedColor: =Self.Color
+                            PressedFill: =TemplateSelector.Style.Palette.Selectable.TransparentPressedFill
+                            RadiusBottomLeft: =TemplateSelector.Style.RadiusFactor
+                            RadiusBottomRight: =TemplateSelector.Style.RadiusFactor
+                            RadiusTopLeft: =TemplateSelector.Style.RadiusFactor
+                            RadiusTopRight: =TemplateSelector.Style.RadiusFactor
+                            Size: =TemplateSelector.Style.Text.Normal.Size
+                            Text: =ThisItem.name
+                            Tooltip: ="Press to select this template"
+                            Width: =Parent.TemplateWidth - 30
+                            X: =15
+                            Y: |-
+                                =If(
+                                    ListMode,
+                                    4,
+                                    15
+                                )
+                            ZIndex: =4
+
+                    ctnLoadTemplates_TemplateSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =TemplateSelector.Style.Palette.TransparentBackground
+                        Height: =Parent.Height
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutJustifyContent: =LayoutJustifyContent.Center
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =TemplateSelector.IsLoadingItems
+                        Width: =Parent.Width
+                        ZIndex: =2
+
+                        imgLoadTemplates_TemplateSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =GrayEllipsis
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Width: =75
+                            X: =Parent.Width / 2 - Self.Width / 2
+                            Y: =Parent.Height / 2 - Self.Height/ 2
+                            ZIndex: =1
+
+                    ctnNoTemplates_TemplateSelector As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        Height: =175
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMode: =LayoutMode.Auto
+                        Visible: =!TemplateSelector.IsLoadingItems && IsEmpty(TemplateSelector.Items)
+                        Width: =Parent.Width
+                        Y: =Parent.Height / 2 - Self.Height / 2
+                        ZIndex: =3
+
+                        imgNoTemplates_TemplateSelector As image:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            FocusedBorderThickness: =0
+                            Height: =75
+                            HoverBorderColor: =Self.BorderColor
+                            HoverFill: =Self.Fill
+                            Image: =FlowTemplate
+                            LayoutMinHeight: =25
+                            PressedBorderColor: =Self.BorderColor
+                            PressedFill: =Self.Fill
+                            Transparency: =0.9
+                            Width: =75
+                            ZIndex: =1
+
+                        lblNoTemplates_TemplateSelector As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =TemplateSelector.Style.Text.Title.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =TemplateSelector.Style.Text.Title.Font
+                            FontWeight: =TemplateSelector.Style.Text.Title.Weight
+                            Size: =TemplateSelector.Style.Text.Title.Size
+                            Text: ="No templates available"
+                            ZIndex: =2
+
+                shpExplorerSeparator_TemplateSelector As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =TemplateSelector.Style.Palette.Line
+                    FocusedBorderThickness: =0
+                    Visible: =!NoExpandDetails
+                    Width: =1
+                    ZIndex: =3
+
+                ctnDetails_TemplateSelector As groupContainer.verticalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutGap: =5
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =15
+                    PaddingLeft: =15
+                    PaddingRight: =15
+                    PaddingTop: =15
+                    Visible: =!NoExpandDetails
+                    Width: =225
+                    ZIndex: =4
+
+                    ctnIcon_TemplateSelector As groupContainer.manualLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =100
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =100
+                        Visible: =!lblInfo_TemplateSelector.Visible
+                        ZIndex: =1
+
+                        icoDocIcon_TemplateSelector As icon.DocumentwithContent:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =SelectedTemplate.color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FocusedBorderThickness: =0
+                            Height: =70
+                            HoverBorderColor: =Self.BorderColor
+                            HoverColor: =Self.Color
+                            Icon: =Icon.Document
+                            OnSelect: =
+                            PressedBorderColor: =Self.BorderColor
+                            PressedColor: =Self.Color
+                            Width: =Self.Height
+                            X: =Parent.Width / 2 - Self.Width / 2
+                            Y: =Parent.Height / 2 - Self.Height / 2
+                            ZIndex: =1
+
+                        lblCapitalLetterIcon_TemplateSelector As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =icoDocIcon_TemplateSelector.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: |-
+                                =If(
+                                    ListMode,
+                                    TemplateSelector.Style.Text.Subtitle.Font,
+                                    TemplateSelector.Style.Text.Title.Font
+                                )
+                            FontWeight: |-
+                                =If(
+                                    ListMode,
+                                    TemplateSelector.Style.Text.Subtitle.Weight,
+                                    TemplateSelector.Style.Text.Title.Weight
+                                )
+                            Height: =icoDocIcon_TemplateSelector.Height
+                            Size: =TemplateSelector.Style.Text.Title.Size
+                            Text: =SelectedTemplate.capitalLetter
+                            Width: =icoDocIcon_TemplateSelector.Width
+                            X: =icoDocIcon_TemplateSelector.X
+                            Y: =icoDocIcon_TemplateSelector.Y
+                            ZIndex: =2
+
+                    lblDetailTitle_TemplateSelector As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TemplateSelector.Style.Text.Subtitle.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        Font: =TemplateSelector.Style.Text.Subtitle.Font
+                        FontWeight: =TemplateSelector.Style.Text.Subtitle.Weight
+                        Height: =42
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =TemplateSelector.Style.Text.Subtitle.Size
+                        Text: =SelectedTemplate.name
+                        VerticalAlign: =VerticalAlign.Bottom
+                        Visible: =!lblInfo_TemplateSelector.Visible
+                        ZIndex: =2
+
+                    htmDescription_TemplateSelector As htmlViewer:
+                        BorderColor: =Color.Transparent
+                        Color: =TemplateSelector.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =TemplateSelector.Style.Text.Normal.Font
+                        HtmlText: |-
+                            =If(
+                                IsBlank(SelectedTemplate.description),
+                                "<p style='font-style: italic; text-align: center;'>No description</p>"
+                            )
+                        LayoutMinHeight: =20
+                        LayoutMinWidth: =50
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =TemplateSelector.Style.Text.Normal.Size
+                        Visible: =!lblInfo_TemplateSelector.Visible
+                        ZIndex: =4
+
+                    lblInfo_TemplateSelector As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =TemplateSelector.Style.Text.Normal.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =TemplateSelector.Style.Text.Normal.Font
+                        FontWeight: =TemplateSelector.Style.Text.Normal.Weight
+                        Italic: =true
+                        LayoutMinWidth: =20
+                        Size: =TemplateSelector.Style.Text.Normal.Size
+                        Text: ="Select a template"
+                        Visible: =IsBlank(SelectedTemplate)
+                        ZIndex: =5
+
+            ctnSaveLoader_TemplateSelector As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =TemplateSelector.Style.Palette.TransparentBackground
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                Visible: =TemplateSelector.IsSaving
+                Width: =Parent.Width
+                ZIndex: =2
+
+                imgSaveLoader_TemplateSelector As image:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =75
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Self.Fill
+                    Image: =TemplateSelector.Style.Loader
+                    PressedBorderColor: =Self.BorderColor
+                    PressedFill: =Self.Fill
+                    Width: =75
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height/ 2
+                    ZIndex: =1
+
+        shpBodySeparator_TemplateSelector As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =TemplateSelector.Style.Palette.Line
+            FocusedBorderThickness: =0
+            Height: =1
+            ZIndex: =5
+
+        ctnFooter_TemplateSelector As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =60
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =30
+            PaddingRight: =30
+            ZIndex: =6
+
+            btnAccept_TemplateSelector As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =TemplateSelector.Style.Palette.Fillable
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =TemplateSelector.Style.Palette.Fillable
+                DisplayMode: |-
+                    =If(
+                        TemplateSelector.Validation && !TemplateSelector.IsLoadingItems && !TemplateSelector.IsSaving,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =TemplateSelector.Style.Palette.Accent
+                FocusedBorderColor: =TemplateSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =TemplateSelector.Style.Text.Subtitle.Font
+                FontWeight: =TemplateSelector.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =TemplateSelector.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =TemplateSelector.Style.RadiusFactor
+                RadiusBottomRight: =TemplateSelector.Style.RadiusFactor
+                RadiusTopLeft: =TemplateSelector.Style.RadiusFactor
+                RadiusTopRight: =TemplateSelector.Style.RadiusFactor
+                Size: =TemplateSelector.Style.Text.Subtitle.Size
+                Text: ="Done"
+                Width: =150
+                ZIndex: =2
+
+            btnCancel_TemplateSelector As button:
+                BorderColor: =TemplateSelector.Style.Palette.Accent
+                Color: =TemplateSelector.Style.Text.Normal.Color
+                DisabledBorderColor: =TemplateSelector.Style.Palette.Fillable
+                DisabledColor: =TemplateSelector.Style.Palette.Disabled
+                DisabledFill: =TemplateSelector.Style.Palette.Fillable
+                Fill: =Color.Transparent
+                FocusedBorderColor: =TemplateSelector.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =TemplateSelector.Style.Text.Normal.Font
+                FontWeight: =TemplateSelector.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =TemplateSelector.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =TemplateSelector.Style.Text.Normal.Size
+                Text: ="Cancel"
+                Width: =100
+                ZIndex: =3
+

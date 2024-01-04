@@ -1,0 +1,229 @@
+OptionDialog As CanvasComponent:
+    SelectAccept():
+        ThisProperty:
+            Default: =Self.OnSelectAccept()
+    SelectCancel():
+        ThisProperty:
+            Default: =Self.OnSelectCancel()
+    AcceptButtonWidth: =100
+    AcceptText: ="Accept"
+    CancelButtonWidth: =100
+    CancelText: ="Cancel"
+    Fill: =Style.Palette.Shadow
+    Height: =App.Height
+    Message: ="Message"
+    ModalHeight: =250
+    ModalWidth: =400
+    OnReset: =false
+    OnSelectAccept: =true
+    OnSelectCancel: =true
+    Style: =Style
+    Title: ="Title"
+    Width: =App.Width
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_OptionDialog As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DropShadow: =DropShadow.Bold
+        Fill: =OptionDialog.Style.Palette.ModalBackground
+        Height: =OptionDialog.ModalHeight
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =25
+        PaddingRight: =25
+        RadiusBottomLeft: =OptionDialog.Style.RadiusFactor * 2
+        RadiusBottomRight: =OptionDialog.Style.RadiusFactor * 2
+        RadiusTopLeft: =OptionDialog.Style.RadiusFactor * 2
+        RadiusTopRight: =OptionDialog.Style.RadiusFactor * 2
+        Width: =OptionDialog.ModalWidth
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =2
+
+        ctnHeader_OptionDialog As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            ContentLanguage: ="en"
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =62
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =35
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =1
+
+            lblTitle_OptionDialog As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =OptionDialog.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =OptionDialog.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =OptionDialog.Style.Text.Subtitle.Font
+                FontWeight: =OptionDialog.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =10
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =OptionDialog.Style.Text.Subtitle.Size
+                Text: =OptionDialog.Title
+                ZIndex: =1
+
+            icoCancel_OptionDialog As icon.Cancel:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.Dotted
+                BorderThickness: =1
+                Color: =OptionDialog.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =OptionDialog.Style.Palette.Disabled
+                Fill: =OptionDialog.Style.Palette.Selectable.Fill
+                FocusedBorderColor: =OptionDialog.Style.Palette.Border
+                FocusedBorderThickness: =1
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =OptionDialog.Style.Palette.Selectable.HoverFill
+                Icon: =Icon.Cancel
+                OnSelect: =OptionDialog.OnSelectCancel()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =OptionDialog.Style.Palette.Border
+                PressedColor: =Self.Color
+                PressedFill: =OptionDialog.Style.Palette.Selectable.PressedFill
+                TabIndex: =0
+                Width: =32
+                ZIndex: =2
+
+        htmMessage_OptionDialog As htmlViewer:
+            BorderColor: =Color.Transparent
+            Color: =OptionDialog.Style.Text.Normal.Color
+            DisabledBorderColor: =Color.Transparent
+            DisabledFill: =Color.Transparent
+            DisplayMode: =DisplayMode.View
+            Fill: =Color.Transparent
+            FillPortions: =1
+            Font: =OptionDialog.Style.Text.Normal.Font
+            HtmlText: |-
+                =$"<div
+                    style='
+                        box-sizing: border-box;
+                        align-text: center;
+                        display: flex;
+                        height: {Self.Height - 1}px;
+                    '
+                  >
+                    <div style='margin: auto;'>
+                        {OptionDialog.Message}
+                    </div>
+                </div>"
+            LayoutMinHeight: =50
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Size: =OptionDialog.Style.Text.Normal.Size
+            ZIndex: =3
+
+        ctnFooter_OptionDialog As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            ContentLanguage: ="en"
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =62
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutGap: =10
+            LayoutJustifyContent: =LayoutJustifyContent.End
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =1
+            PaddingRight: =1
+            ZIndex: =4
+
+            btnAccept_OptionDialog As button:
+                BorderColor: =Self.Fill
+                Color: =Color.White
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =OptionDialog.Style.Palette.Fillable
+                Fill: =OptionDialog.Style.Palette.Accent
+                FocusedBorderColor: =OptionDialog.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =OptionDialog.Style.Text.Subtitle.Font
+                FontWeight: =OptionDialog.Style.Text.Subtitle.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -10%
+                    )
+                OnSelect: =OptionDialog.OnSelectAccept()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Self.Color
+                PressedFill: |-
+                    =ColorFade(
+                        Self.Fill,
+                        -20%
+                    )
+                RadiusBottomLeft: =OptionDialog.Style.RadiusFactor
+                RadiusBottomRight: =OptionDialog.Style.RadiusFactor
+                RadiusTopLeft: =OptionDialog.Style.RadiusFactor
+                RadiusTopRight: =OptionDialog.Style.RadiusFactor
+                Size: =OptionDialog.Style.Text.Subtitle.Size
+                Text: =OptionDialog.AcceptText
+                Width: =OptionDialog.AcceptButtonWidth
+                ZIndex: =1
+
+            btnCancel_OptionDialog As button:
+                BorderColor: =OptionDialog.Style.Palette.Accent
+                Color: =OptionDialog.Style.Text.Normal.Color
+                DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                DisabledColor: =RGBA(166, 166, 166, 1)
+                DisabledFill: =OptionDialog.Style.Palette.Fillable
+                Fill: =Color.Transparent
+                FocusedBorderColor: =OptionDialog.Style.Palette.Border
+                FocusedBorderThickness: =2
+                Font: =OptionDialog.Style.Text.Normal.Font
+                FontWeight: =OptionDialog.Style.Text.Normal.Weight
+                Height: =35
+                HoverBorderColor: =Self.HoverFill
+                HoverColor: =Color.White
+                HoverFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -10%
+                    )
+                OnSelect: =OptionDialog.OnSelectCancel()
+                PressedBorderColor: =Self.PressedFill
+                PressedColor: =Color.White
+                PressedFill: |-
+                    =ColorFade(
+                        Self.BorderColor,
+                        -20%
+                    )
+                RadiusBottomLeft: =0
+                RadiusBottomRight: =0
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =OptionDialog.Style.Text.Normal.Size
+                Text: =OptionDialog.CancelText
+                Width: =OptionDialog.CancelButtonWidth
+                ZIndex: =2
+

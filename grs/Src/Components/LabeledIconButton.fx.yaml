@@ -1,0 +1,113 @@
+LabeledIconButton As CanvasComponent:
+    Select():
+        ThisProperty:
+            Default: |-
+                =If(
+                    Self.Enable,
+                    Self.OnSelect()
+                )
+    Align: =Align.Left
+    Enable: =true
+    Fill: =Color.Transparent
+    Height: =42
+    Icon: =Icon.Add
+    OnSelect: =true
+    RadiusBottonLeft: =0
+    RadiusBottonRigth: =0
+    RadiusTopLeft: =0
+    RadiusTopRigth: =0
+    Style: =Style
+    Text: ="Text"
+    Tooltip: =""
+    Width: =75
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    icon_LabeledIconButton As icon.Check:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Color: =LabeledIconButton.Style.Palette.Accent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =LabeledIconButton.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        DisplayMode: |-
+            =If(
+                LabeledIconButton.Enable,
+                DisplayMode.View,
+                DisplayMode.Disabled
+            )
+        Fill: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =Parent.Height
+        HoverBorderColor: =Self.BorderColor
+        HoverColor: =Self.Color
+        Icon: =LabeledIconButton.Icon
+        PaddingBottom: =Self.PaddingTop
+        PaddingLeft: =6.5
+        PaddingRight: =6.5
+        PaddingTop: =Self.Height / 2 - 8.5
+        PressedBorderColor: =Self.BorderColor
+        PressedColor: =Self.Color
+        Width: =30
+        X: |-
+            =Switch(
+                LabeledIconButton.Align,
+                Align.Right,
+                Parent.Width - Self.Width,
+                0
+            )
+        ZIndex: =1
+
+    button_LabeledIconButton As button:
+        Align: =LabeledIconButton.Align
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =LabeledIconButton.Style.Text.Normal.Color
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =LabeledIconButton.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        DisplayMode: |-
+            =If(
+                LabeledIconButton.Enable,
+                DisplayMode.Edit,
+                DisplayMode.Disabled
+            )
+        Fill: =LabeledIconButton.Style.Palette.Selectable.Fill
+        FocusedBorderColor: =LabeledIconButton.Style.Palette.Border
+        FocusedBorderThickness: =0
+        Font: =LabeledIconButton.Style.Text.Normal.Font
+        FontWeight: =LabeledIconButton.Style.Text.Normal.Weight
+        Height: =Parent.Height
+        HoverBorderColor: =Color.Transparent
+        HoverFill: =LabeledIconButton.Style.Palette.Selectable.TransparentHoverFill
+        OnSelect: =LabeledIconButton.OnSelect()
+        PaddingBottom: =0
+        PaddingLeft: |-
+            =Switch(
+                LabeledIconButton.Align,
+                Align.Right,
+                0,
+                icon_LabeledIconButton.Width
+            )
+        PaddingRight: |-
+            =Switch(
+                LabeledIconButton.Align,
+                Align.Right,
+                icon_LabeledIconButton.Width,
+                0
+            )
+        PaddingTop: =0
+        PressedColor: =Self.Color
+        PressedFill: =LabeledIconButton.Style.Palette.Selectable.TransparentPressedFill
+        RadiusBottomLeft: =LabeledIconButton.RadiusBottonLeft
+        RadiusBottomRight: =LabeledIconButton.RadiusBottonRigth
+        RadiusTopLeft: =LabeledIconButton.RadiusTopLeft
+        RadiusTopRight: =LabeledIconButton.RadiusTopRigth
+        Size: =LabeledIconButton.Style.Text.Normal.Size
+        Text: =LabeledIconButton.Text
+        Tooltip: =LabeledIconButton.Tooltip
+        Width: =Parent.Width
+        ZIndex: =2
+

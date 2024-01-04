@@ -1,0 +1,3116 @@
+{
+  "ControlStates": {
+    "Functions": {
+      "AllowAccessToGlobals": true,
+      "ControlPropertyState": [
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(0, 0, 0, 0)",
+          "InvariantPropertyName": "Fill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "",
+          "InvariantPropertyName": "Height",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "",
+          "InvariantPropertyName": "Width",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "X",
+        "Y",
+        "ZIndex",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Self.CreateNotification(\n    GlobalNotificationType.Error,\n    Title,\n    Description\n)",
+          "InvariantPropertyName": "CreateError",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CreateError_BriefDescription",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Description\"",
+          "InvariantPropertyName": "CreateError_ErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\r\n    Id: GUID(),\r\n    Stamp: Now(),\r\n    Type: GlobalNotificationType.Error,\r\n    Title: Title,\r\n    Description: Description\r\n}",
+          "InvariantPropertyName": "CreateSuccess",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSuccess_Description",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSuccess_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ErrorMessage_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ErrorMessage_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ErrorMessage_Description",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ErrorMessage_AllowGoToApp",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\n    item: {\n        MessageType:{Code:3, Distinctive:ColorValue(\"#E9463B\")}, //Self.GlobalNotificationType.Error;\n        Title: Title,\n        Message: Message,\n        Description: Description,\n        Icon: Icon.Error,\n        AllowGoToApp: AllowGoToApp\n    }\n}",
+          "InvariantPropertyName": "ErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\n    item: {\n        MessageType: {\n            Code: 1,\n            Distinctive: ColorValue(\"#31A836\")\n        },//Self.GlobalNotificationType.Success;\n        Title: Title,\n        Message: Message,\n        Description: Description,\n        Icon: Icon.CheckBadge,\n        AllowGoToApp: AllowGoToApp\n    }\n}",
+          "InvariantPropertyName": "SuccessMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "SuccessMessage_AllowGoToApp",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "SuccessMessage_Description",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "SuccessMessage_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "SuccessMessage_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToVersionState_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\n    Code,\n    VersionState.New.Code,\n    VersionState.New,\n    VersionState.Canceled.Code,\n    VersionState.Canceled,\n    VersionState.Filled.Code,\n    VersionState.Filled,\n    VersionState.Sent.Code,\n    VersionState.Sent,\n    VersionState.Signed.Code,\n    VersionState.Signed,\n    {\n        Code: -1,\n        Name: \"Undefined\"\n    }\n)\n/*Switch(\n    Code;\n    1;\n    {\n        Code: 1;\n        Name: \"New\";\n        IsNew: true;\n        IsCanceled: false;\n        IsFilled: false;\n        IsSent: false;\n        IsSigned: false\n    };\n    2;\n    {\n        Code: 2;\n        Name: \"Canceled\";\n        IsNew: false;\n        IsCanceled: true;\n        IsFilled: false;\n        IsSent: false;\n        IsSigned: false\n    };\n    3;\n    {\n        Code: 3;\n        Name: \"Filled\";\n        IsNew: false;\n        IsCanceled: false;\n        IsFilled: true;\n        IsSent: false;\n        IsSigned: false\n    };\n    4;\n    {\n        Code: 4;\n        Name: \"Sent\";\n        IsNew: false;\n        IsCanceled: false;\n        IsFilled: false;\n        IsSent: true;\n        IsSigned: false\n    };\n    5;\n    {\n        Code: 5;\n        Name: \"Signed\";\n        IsNew: false;\n        IsCanceled: false;\n        IsFilled: false;\n        IsSent: false;\n        IsSigned: true\n    };\n    {\n        Code: -1;\n        Name: \"Undefined\"\n    }\n)*/",
+          "InvariantPropertyName": "CodeToVersionState",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "SectionCodeToComparableValue_Default",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "SectionCodeToComparableValue_Code",
+        "CodeToVersionSectionState_Code",
+        "CreateNotification_Description",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatDateTimeValue_DateTimeValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatDateTimeValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatDateValue_DateValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatDateValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "ChildTabPriority",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "EnableChildFocus",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\n        Code,\n        JobState.Open.Code,\n        JobState.Open,\n        JobState.Closed.Code,\n        JobState.Closed,\n        JobState.Filled.Code,\n        JobState.Filled,\n        JobState.OnHold.Code,\n        JobState.OnHold,\n        JobState.AwaitingApproval.Code,\n        JobState.AwaitingApproval,\n        JobState.Approved.Code,\n        JobState.Approved,\n        JobState.Rejected.Code,\n        JobState.Rejected,\n        JobState.Retracted.Code,\n        JobState.Retracted,\n        JobState.Draft.Code,\n        JobState.Draft,\n        {\n            Code: -1,\n            Name: \"Undefined\"\n        }\n)\n/*Switch(\n    Code;\n    1;\n    {\n        Code: 1;\n        Name: \"Open\"\n    };\n    2;\n    {\n        Code: 2;\n        Name: \"Closed\"\n    };\n    3;\n    {\n        Code: 3;\n        Name: \"Filled\"\n    };\n    4;\n    {\n        Code: 4;\n        Name: \"On hold\"\n    };\n    5;\n    {\n        Code: 5;\n        Name: \"Awaiting approval\"\n    };\n    6;\n    {\n        Code: 6;\n        Name: \"Approved\"\n    };\n    7;\n    {\n        Code: 7;\n        Name: \"Rejected\"\n    };\n    8;\n    {\n        Code: 8;\n        Name: \"Retracted\"\n    };\n    9;\n    {\n        Code: 9;\n        Name: \"Draft\"\n    };\n    {\n        Code: -1;\n        Name: \"Undefined\"\n    }\n)*/",
+          "InvariantPropertyName": "CodeToJobState",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToJobState_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "/*Switch(\r\n    Code;\r\n    Self.JobType.FullTime.Code;\r\n    Self.JobType.FullTime;\r\n    Self.JobType.PartTime.Code;\r\n    Self.JobType.PartTime;\r\n    Self.JobType.Intern.Code;\r\n    Self.JobType.Intern;\r\n    Self.JobType.Contractor.Code;\r\n    Self.JobType.Contractor;\r\n    {\r\n        Code: -1;\r\n        Name: \"Undefined\"\r\n    }\r\n)*/\r\nSwitch(\r\n    Code,\r\n    1,\r\n    {\r\n            Code: 1,\r\n            Name: \"Full time\"\r\n        }\r\n)",
+          "InvariantPropertyName": "CodeToJobType",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToJobType_Code",
+        "CodeToRemoteType_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\n    Code,\n    RemoteType.Remote.Code,\n    RemoteType.Remote,\n    RemoteType.HybridRemote.Code,\n    RemoteType.HybridRemote,\n    RemoteType.TemporarilyRemote.Code,\n    RemoteType.TemporarilyRemote,\n    RemoteType.NoRemote.Code,\n    RemoteType.NoRemote,\n    {\n        Code: -1,\n        Name: \"Undefined\"\n    }\n)\n/*Switch(\n    Code;\n    1;\n    {\n        Code: 1;\n        Name: \"Remote\"\n    };\n    2;\n    {\n        Code: 2;\n        Name: \"Hybrid Remote\"\n    };\n    3;\n    {\n        Code: 3;\n        Name: \"Temporarily remote\"\n    };\n    4;\n    {\n        Code: 4;\n        Name: \"No remote\"\n    };\n    {\n        Code: -1;\n        Name: \"Undefined\"\n    }\n)*/",
+          "InvariantPropertyName": "CodeToRemoteType",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "/*Switch(\n    Code;\n    Self.TemplateLanguage.English.Code;\n    Self.TemplateLanguage.English;\n    Self.TemplateLanguage.Spanish.Code;\n    Self.TemplateLanguage.Spanish;\n    Self.TemplateLanguage.Portuguese.Code;\n    Self.TemplateLanguage.Portuguese;\n    {\n        Code: -1;\n        Name: \"Undefined\"\n    }\n)*/\nSwitch(\n    Code,\n    1,\n    {\n            Code: 1,\n            Name: \"English\"\n        }\n)",
+          "InvariantPropertyName": "CodeToTemplateLanguage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToTemplateLanguage_Code",
+        "FormatAmout_Amount",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatAmout",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "StringToFormatedAmount_StringAmount",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "StringToFormatedAmount",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ToISODate_Date",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ToISODate",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "SelectVersion_SelectedVersion",
+        "SelectVersion_Versions",
+        "WrapVersion_IsReadOnly",
+        "WrapVersion_Version",
+        "SelectVersion_IsReadOnly",
+        "CodeToVersionSectionState_Default",
+        "CreateNotification_Title",
+        "CreateNotification_Type",
+        "CreateNotification",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\n    item: {\n        MessageType: {\n            Code: 0,\n            Distinctive: ColorValue(\"#106EBE\")\n        },//Self.GlobalNotificationType.Info;\n        Title: Title,\n        Message: Message,\n        Description: Description,\n        Icon: Icon.Information,\n        AllowGoToApp: AllowGoToApp\n    }\n}",
+          "InvariantPropertyName": "InfoMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "InfoMessage_Description",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "InfoMessage_AllowGoToApp",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\r\n    Code,\r\n    VersionSectionState.Locked.Code,\r\n    -1,\r\n    VersionSectionState.Opened.Code,\r\n    0,\r\n    VersionSectionState.Waiting.Code,\r\n    0,\r\n    VersionSectionState.Completed.Code,\r\n    1,\r\n    -1\r\n)",
+          "InvariantPropertyName": "SectionCodeToComparableValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToVersionSectionState",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "InfoMessage_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "InfoMessage_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\r\n    id: \"\",\r\n    idCandidateState: \"\",\r\n    version: \"Version 1\",\r\n    template: {\r\n        id: \"\",\r\n        name: \"Propuesta MX v3\",\r\n        description: \"Flujo de trabajo para recabar datos personales\",\r\n        createdOn: \"2023-03-29T21:22:49Z\",\r\n        lastActivity: \"2023-03-29T21:22:50Z\"\r\n    },\r\n    status: 1,\r\n    createdOn: \"2023-03-29T21:22:50Z\"\r\n}",
+          "InvariantPropertyName": "VersionStructure",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ParseDynamicFields",
+        "ParseDynamicFields_Breakdown",
+        "ManagerToUser_HiringManager",
+        "ManagerToUser",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingErrorAssociatedToMessage_LoadObject",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "IsZero_Number",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "IsZero",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "DeepScreen.",
+          "InvariantPropertyName": "IsDeepScreen",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "IsDeepScreen_EntityType",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingErrorAssociatedToMessage_AssociatedWith",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "LoadingErrorMessage",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingErrorAssociatedToMessage_ErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingInfoErrorMessage_LoadObject",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingInfoErrorMessage_ErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Self.LoadingErrorMessage(\r\n    LoadObject,\r\n    \"An error occurred while loading the job offer version associated with the salary package to be filled out.<br>Message obtained:<br>\" & ErrorMessage\r\n)",
+          "InvariantPropertyName": "LoadingErrorAssociatedToMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Self.LoadingErrorMessage(\r\n    LoadObject,\r\n    \"An error occurred while loading the job requisition information.<br>Message obtained:<br>\"\r\n)",
+          "InvariantPropertyName": "LoadingInfoErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingErrorMessage_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "LoadingErrorMessage_LoadObject",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ProcessDynamicFields",
+        "ProcessDynamicFields_Breakdown",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    VersionState,\n    With(\n        Version,\n        {\n            Source: ThisRecord,\n            Status: Self.CodeToVersionState(status),\n            IsActive: !IsReadOnly && (status = New.Code || status = Filled.Code),\n            IsClosed: status = Canceled.Code || status = Signed.Code,\n            IsReadOnly: IsReadOnly || status = Canceled.Code || status = Signed.Code || status = Sent.Code,\n            IsCancelable: !IsReadOnly && status <> Canceled.Code && status <> Sent.Code\n        }\n    )\n)",
+          "InvariantPropertyName": "WrapVersion",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "If(\n    IsBlank(Versions) || IsEmpty(Versions),\n    Blank(),\n    Self.WrapVersion(\n        If(\n            IsBlank(SelectedVersion),\n            First(Versions),\n            LookUp(\n                Versions,\n                id = SelectedVersion.id\n            )\n        ),\n        IsReadOnly\n    )\n)",
+          "InvariantPropertyName": "SelectVersion",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "DynamicFieldsStructure",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NowAsUTC",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "DateTimeAsUTC_DateTime",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Text(\r\n    \r\n)",
+          "InvariantPropertyName": "DateTimeAsUTC",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "IsPositiveNumber_NumberString",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "IsPositiveNumber",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ConcatIfExist_Values",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ConcatIfExist",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "FormatDate_Date",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatDate",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ParseError",
+        "ParseError_ErrorMessage",
+        "ToSpaces_String",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ToSpaces",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    {object: ParseJSON(JsonError)},\n    {\n        Code: Value(object.code),\n        Message: Text(object.message),\n        Trace: Text(object)\n    }\n)",
+          "InvariantPropertyName": "ParseMessageError",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ParseMessageError_JsonError",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Blank()",
+          "InvariantPropertyName": "SmallErrorFormat_BriefDescription",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "SmallErrorFormat_ErrorMessage",
+        "SmallErrorFormat",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Title\"",
+          "InvariantPropertyName": "CreateError_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "HttpCodeToText_HttpCode",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "HttpCodeToText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "RandomColor_Alpha",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "RandomColor_Last",
+        "RandomColor_First",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(\r\n    RandBetween(\r\n        First,\r\n        Last\r\n    ),\r\n    RandBetween(\r\n        First,\r\n        Last\r\n    ),\r\n    RandBetween(\r\n        First,\r\n        Last\r\n    ),\r\n    1\r\n)",
+          "InvariantPropertyName": "RandomColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "OptionDialogFace",
+        "OptionDialogFace_CancelButtonWidth",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "OptionDialogFace_AcceptButtonWidth",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "OptionDialogFace_ModalHeight",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "OptionDialogFace_ModalWidth",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "OptionDialogFace_CancelText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "OptionDialogFace_AcceptText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "OptionDialogFace_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "OptionDialogFace_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "OptionDialogFace_Code",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\r\n    Code: Code,\r\n    Title: Title,\r\n    Message: Message,\r\n    ShowInput: true,\r\n    InputIsRequired: InputIsRequired,\r\n    InputLabel: InputLabel,\r\n    Default: \"default\",\r\n    AcceptText: AcceptText,\r\n    CancelText: CancelText,\r\n    ModalWidth: ModalWidth,\r\n    ModalHeight: ModalHeight,\r\n    AcceptButtonWidth: AcceptButtonWidth,\r\n    CancelButtonWidth: CancelButtonWidth\r\n}",
+          "InvariantPropertyName": "BasicInputDialogFace",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BasicInputDialogFace_CancelButtonWidth",
+        "BasicInputDialogFace_AcceptButtonWidth",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "BasicInputDialogFace_ModalHeight",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "BasicInputDialogFace_ModalWidth",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_CancelText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_AcceptText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_Default",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_InputLabel",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BasicInputDialogFace_InputIsRequired",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_Message",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BasicInputDialogFace_Code",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "PutUserColor_Color",
+        "PutUserColor_Code",
+        "OnReset",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\r\n    {param: Param(\"subEntityId\")},\r\n    If(\r\n        IsBlank(param),\r\n        Blank(),\r\n        With(\r\n            {pathItems: Split(param,\"/\")},\r\n            With(\r\n                {path: ForAll(\r\n                    pathItems,\r\n                    With(\r\n                        {\r\n                            itemValues: Split(\r\n                                Value,\r\n                                \":\"\r\n                            )\r\n                        },\r\n                        If(\r\n                            CountRows(itemValues) <> 2,\r\n                            Blank(),\r\n                            {\r\n                                EntityType: Index(\r\n                                    itemValues,\r\n                                    1\r\n                                ).Value,\r\n                                EntityId: Index(\r\n                                    itemValues,\r\n                                    2\r\n                                ).Value\r\n                            }\r\n                        )\r\n                    )\r\n                )},\r\n                If(\r\n                    IsEmpty(path),\r\n                    Blank(),\r\n                    path\r\n                )\r\n            )\r\n        )\r\n    )\r\n)",
+          "InvariantPropertyName": "GetSubEntityPath",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "InitialsOnly_Sentence",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "InitialsOnly",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FixAccents_Text",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FixAccents",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "FindItemByTag_Breakdown",
+        "FindItemByTag_Tag",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\r\n            LookUp(\r\n                Breakdown As section,\r\n                !IsBlank(\r\n                    LookUp(\r\n                        section.items As item,\r\n                        item.tag = \"totalGrossSalary\"\r\n                    )\r\n                )\r\n            ) As section,\r\n                LookUp(\r\n                    section.items As item,\r\n                    item.tag = \"totalGrossSalary\"\r\n                )\r\n)",
+          "InvariantPropertyName": "FindItemByTag",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Text\"",
+          "InvariantPropertyName": "FormatLongDateTimeValue_DateTimeValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Text\"",
+          "InvariantPropertyName": "FormatLongDateTimeValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatLongDateValue_DateValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormatLongDateValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "PutUserColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "GetUserColor_UserId",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(0, 0, 0, 1)",
+          "InvariantPropertyName": "GetUserColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BuildUserInfo_User",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BuildUserInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BuildLocationInfo_Location",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BuildLocationInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\r\n        Text: {\r\n            Title: {\r\n                Font: Font.'Segoe UI',\r\n                Size: 16,\r\n                Weight: FontWeight.Semibold\r\n            },\r\n            Subtitle: {\r\n                Font: Font.'Segoe UI',\r\n                Size: 10,\r\n                Weight: FontWeight.Semibold\r\n            },\r\n            Normal: {\r\n                Font: Font.'Segoe UI',\r\n                Size: 10,\r\n                Weight: FontWeight.Normal\r\n            },\r\n            Little: {\r\n                Font: Font.'Segoe UI',\r\n                Size: 8,\r\n                Weight: FontWeight.Normal\r\n            }\r\n        },\r\n        Palette: {\r\n            Success: ColorValue(\"#92c353\"),\r\n            Error: ColorValue(\"#d74654\"),\r\n            Warning: ColorValue(\"#F49B46\")\r\n        },\r\n        RadiusFactor: 4,\r\n        AlphaShadow: \"0.3\"\r\n    }",
+          "InvariantPropertyName": "BaseStyle",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    {textBase: {Color: Color.Transparent}};\n    {\n        Name: \"\";\n        Type: \"\";\n        Text: {\n            Title: textBase;\n            Subtitle: textBase;\n            Normal: textBase;\n            Little: textBase\n        };\n        Palette: {\n            Background: Color.Transparent;\n            ModalBackground: Color.Transparent;\n            TransparentBackground: Color.Transparent;\n            Shadow: Color.Transparent;\n            Fillable: Color.Transparent;\n            LightFillable: Color.Transparent;\n            Accent: Color.Transparent;\n            Line: Color.Transparent;\n            Border: Color.Transparent;\n            Disabled: Color.Transparent;\n            Selectable: {\n                Fill: Color.Transparent;\n                HoverFill: Color.Transparent;\n                PressedFill: Color.Transparent;\n                TransparentHoverFill: Color.Transparent;\n                TransparentPressedFill: Color.Transparent;\n                SelectedShadow: Color.Transparent\n            };\n            Icon: Color.Transparent\n        };\n        GigaLogo: SampleImage;\n        GRSLogo: SampleImage;\n        SidebarFill: Color.Transparent;\n        Loader: SampleImage\n    }\n)",
+          "InvariantPropertyName": "BuildStyle_StyleExtension",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BuildStyle",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\n    status: \"\",\n    version: \"\",\n    createdOn: \"2023-09-26T14:32:09.495Z\",\n    template: {\n      id: \"string\",\n      name: \"string\",\n      description: \"string\"\n    }\n  }",
+          "InvariantPropertyName": "BuildSignableInfo_Signable",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "If(\r\n    IsBlank(Template),\r\n    \"\",\r\n    $\"• \uD835\uDDE1\uD835\uDDEE\uD835\uDDFA\uD835\uDDF2: {Location.name}\r\n• \uD835\uDDD6\uD835\uDDFC\uD835\uDE02\uD835\uDDFB\uD835\uDE01\uD835\uDDFF\uD835\uDE06: {Location.country}\r\n• \uD835\uDDD9\uD835\uDE02\uD835\uDDF9\uD835\uDDF9 \uD835\uDDEE\uD835\uDDF1\uD835\uDDF1\uD835\uDDFF\uD835\uDDF2\uD835\uDE00\uD835\uDE00: {Location.fullAddress}\"\r\n)",
+          "InvariantPropertyName": "BuildSignableInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "If(\n    IsError(CurrencySource),\n    Error(\"\"),\n    If(\n        Error(\"\"),\n        If(\n            IsBlank(Values),\n            Error(\"No hay monedas especificadas en la plantilla\"),\n            With(\n                {\n                    selectedCurrencies: Filter(\n                        ForAll(\n                            Values,\n                            LookUp(\n                                CurrencySource,\n                                code = Value\n                            )\n                        ),\n                        !IsBlank(ThisRecord)\n                    )\n                },\n                If(\n                    IsEmpty(selectedCurrencies),\n                    Error(\"No se hizo match con ninguna moneda\"),\n                    {currencies: selectedCurrencies}\n                )\n            )\n        )\n    )\n)",
+          "InvariantPropertyName": "ProcessCurrencies",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ProcessCurrencies_Values",
+        "ProcessCurrencies_CurrencySource",
+        "CurrencySamples",
+        "Notify_Notification",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Collect(\r\n    GlobalNotifications,\r\n    Notification\r\n);\r\nSet(\r\n    NotificationCardVisible,\r\n    Launch\r\n)",
+          "InvariantPropertyName": "Notify",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NotifySuccess_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NotifySuccess_Description",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "NotifySuccess",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NotifyError_Title",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NotifyError_ErrorMessage",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "NotifyError_BriefDescription",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "NotifyError",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "IsPositiveOrZero_NumberString",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "IfError(\r\n    Value(\r\n        NumberString,\r\n        \"en-US\"\r\n    ),\r\n    0\r\n) > 0",
+          "InvariantPropertyName": "IsPositiveOrZero",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "FormatBreakdownWithZeros_Breakdown",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"<ul>\" & Concat(\n    Breakdown,\n    \"<li>Section: <strong>\" & Substitute(\n        sectionName,\n        \"_\",\n        \" \"\n    ) & \"</strong><ul>\" & Concat(\n        items,\n        \"<li> Field \"\"\" & tag & \"\"\"</li>\"\n    ) & \"</ul>\"\n) & \"</ul>\"",
+          "InvariantPropertyName": "FormatBreakdownWithZeros",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "TimeItems",
+        "FormModeToDisplayMode_FormModeInput",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "FormModeToDisplayMode",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "JobContractStructure",
+        "CodeToEducationalDegree_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\r\n    Code,\r\n    EducationalDegree.Engineer.Code,\r\n    EducationalDegree.Engineer,\r\n    EducationalDegree.Bachelor.Code,\r\n    EducationalDegree.Bachelor,\r\n    EducationalDegree.UniversityTechnician.Code,\r\n    EducationalDegree.UniversityTechnician,\r\n    {\r\n        Code: -1,\r\n        Name: \"\"\r\n    }\r\n)",
+          "InvariantPropertyName": "CodeToEducationalDegree",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToGender_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\n    Code,\n    Gender.Male.Code,\n    Gender.Male,\n    Gender.Female.Code,\n    Gender.Female,\n    Gender.Unspecified\n)",
+          "InvariantPropertyName": "CodeToGender",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToPeriod_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\n    Code,\n    Period.ThreeMonths.Code,\n    Period.ThreeMonths,\n    Period.SixMonths.Code,\n    Period.SixMonths,\n    Period.TwelveMonths.Code,\n    Period.TwelveMonths,\n    Period.Indeterminate.Code,\n Period.Indeterminate,\n {Code:-1,Name:\"\"}\n)",
+          "InvariantPropertyName": "CodeToPeriod",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Table(\n    {\n        tag: \"\",\n        concept: \"\",\n        value: \"\"\n    }\n)",
+          "InvariantPropertyName": "OtherDataStructure",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ParseAdditionalInfo",
+        "ParseAdditionalInfo_StringValue",
+        "BooleanToFormMode_Value",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "BooleanToFormMode",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "LoadOtherData_CallTo",
+        "LoadOtherData_AdditionalInfoContent",
+        "LoadOtherData_AdditionalInfo",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "If(\n    AdditionalInfo.IsLoaded,\n    {additionalInfo: AdditionalInfo.Value},\n    With(\n        {\n            additionalInfo: If(\n                IsBlank(AdditionalInfoContent),\n                If(\n                    IgnoreLoadExternal,\n                    Blank(),\n                    With(\n                        {loaded: ISignatureAPI.GetTemplateDynamicFields(Id)},\n                        IfError(\n                            loaded,\n                            Error(FirstError.Message)\n                        )\n                    )\n                ),\n                Self.ParseDynamicFields(AdditionalInfoContent)\n            )\n        },\n        IfError(\n            additionalInfo,\n            Error(FirstError.Message),\n            ThisRecord\n        )\n    )\n)",
+          "InvariantPropertyName": "LoadOtherData",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BooleanToViewDisplayMode_Value",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "BooleanToViewDisplayMode",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    {\n        SignedOffers: ISignatureAPI.GetJobOffersByStatus(CandidateStateId, VersionState.Signed.Code)\n    },\n    IfError(\n        SignedOffers,\n        Blank(),//Error(FirstError.Message);\n        ThisRecord\n    )\n)",
+          "InvariantPropertyName": "LoadSignedOffers",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "LoadSignedOffers_CandidateStateId",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Self.Notify(\r\n\r\n)",
+          "InvariantPropertyName": "NotifyInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "NotifyInfo_Description",
+        "NotifyInfo_Title",
+        "CreateInfo",
+        "CreateInfo_Description",
+        "CreateInfo_Title",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CommonWorkingHours",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ULToTable_HTMLText",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ULToTable",
+        "TableToUL_Table",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "If(\n    IsBlank(Table) || IsEmpty(Table),\n    \"\",\n    \"<ul>\" & Concat(\n        Table,\n        $\"<li>{Value}</li>\"\n    ) & \"</ul>\"\n)",
+          "InvariantPropertyName": "TableToUL",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ULToCSV_Char",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ULToCSV_HTMLText",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "ULToCSV",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ULToMap",
+        "ULToMap_Separator",
+        "ULToMap_HTMLText",
+        "MapToUL_Map",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "MapToUL_Separator",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Self.TableToUL(\r\n    ForAll(\r\n        Map,\r\n        Key & Value\r\n    )\r\n)",
+          "InvariantPropertyName": "MapToUL",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BuildListInfo_Items",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Concat(\r\n    Tab\r\n)",
+          "InvariantPropertyName": "BuildListInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToWorkflowStatus_Code",
+        "CodeToWorkflowStatus_Default",
+        "ParseCandidateInfo_CandidateInfoValue",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    {o: ParseJSON(CandidateInfoValue)},\n    {\n        name: Text(o.name),\n        idNumber: Text(o.idNumber),\n        address: Text(o.address),\n        educationalLevel: Value(o.educationalLevel),\n        fieldStudy: Text(o.fieldOfStudy),\n        maritalStatus: Value(o.maritalStatus),\n        birthCity: Text(o.birthCity),\n        birthDate: Text(o.birthDate),\n        nationality: Text(o.nationality),\n        phoneNumber: Text(o.phoneNumber),\n        gender: Value(o.gender),\n        additionalInfo: Text(o.additionalInfo)\n    }\n)",
+          "InvariantPropertyName": "ParseCandidateInfo",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "WorkflowCodeToComparableValue_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "WorkflowCodeToComparableValue",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\r\n    Code,\r\n    WorkflowStatus.Launched.Code,\r\n    WorkflowStatus.Launched,\r\n    WorkflowStatus.Sent.Code,\r\n    WorkflowStatus.Sent,\r\n    WorkflowStatus.Error.Code,\r\n    WorkflowStatus.Error,\r\n    WorkflowStatus.Locked.Code,\r\n    WorkflowStatus.Locked,\r\n    WorkflowStatus.Ready.Code,\r\n    WorkflowStatus.Ready,\r\n    Default\r\n)",
+          "InvariantPropertyName": "CodeToWorkflowStatus",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "JobOfferVersions",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "JSON(\n    Self.JobContractStructure.candidateInfo,\n    JSONFormat.IndentFour\n)",
+          "InvariantPropertyName": "CandidateInfoString",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Switch(\r\n    Code,\r\n    MaritalStatus.Single.Code,\r\n    MaritalStatus.Single\r\n)",
+          "InvariantPropertyName": "CodeToMaritalStatus",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "CodeToMaritalStatus_Code",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "{\n    DynamicContent: Filter(\n        DynamicContent,\n        tag <> \"productList\" && tag <> \"deliverable\" && tag <> \"commissionBreakdown\"\n    ),\n    SpecialFields:{\n        ProductList: LookUp(DynamicContent, tag = \"productList\"),\n        Deliverable: LookUp(DynamicContent, tag = \"deliverable\"),\n        CommissionBreakdown: LookUp(DynamicContent, tag = \"\")\n    }\n}",
+          "InvariantPropertyName": "ProcessDynamicContent",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ProcessDynamicContent_DynamicContent",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "CreateSVG_StrokeWidth",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVG_Stroke",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVG_Fill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVG_D",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVG",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "SVGToImg_SVG",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "SVGToImg",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVGAsImg_D",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVGAsImg_Fill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVGAsImg_Stroke",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "100",
+          "InvariantPropertyName": "CreateSVGAsImg_StrokeWidth",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "\"Texto\"",
+          "InvariantPropertyName": "CreateSVGAsImg",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ForFixAccents",
+        "ForFixAccents_Table",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Table(\r\n    {\r\n        EntityType: \"\",\r\n        EntityId: \"\"\r\n    }\r\n)",
+          "InvariantPropertyName": "GetSubEntityTestPath",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "MetadataStructure",
+        "LoadOtherData_Id",
+        "BasicDynamicFieldsStructure",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "With(\n    UserType,\n    With(\n        User,\n        {\n            Common: {\n                GoToJobRequisitions: role = Admin || role = HiringManager || role = TalentDiscovery,\n                GoToCandidates: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                GoToSettings: role = Admin,\n                ChangeStyle: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI,\n                SeeNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI,\n                ClearNotifications: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI\n            },\n            JobRequisitions: {\n                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery,\n                LoadList: role = Admin || role = HiringManager || role = TalentDiscovery,\n                GoToDetails: role = Admin || role = HiringManager || role = TalentDiscovery,\n                Share: role = Admin || role = HiringManager || role = TalentDiscovery,\n                FilterList: role = Admin || role = HiringManager || role = TalentDiscovery,\n                Paginate: role = Admin || role = HiringManager || role = TalentDiscovery,\n                Create: role = Admin || role = HiringManager || role = TalentDiscovery,\n                Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery\n            },\n            JobRequisition: {\n                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                Duplicate: role = Admin || role = HiringManager || role = TalentDiscovery,\n                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                LoadRecruiters: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                LoadCandidates: role = Admin || role = HiringManager || role = TalentDiscovery,\n                GoToCandidateDetails: role = Admin || role = HiringManager || role = TalentDiscovery,\n                ReadComments: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                WriteComments: role = Admin || role = HiringManager || role = TalentDiscovery\n            },\n            Candidates: {\n                ViewAccess: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                LoadList: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                Share: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                GoToCandidateDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                GoToJobDetails: role = Admin || role = TalentDiscovery || role = ADFI || role = TotalRewards\n            },\n            Candidate: {\n                ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                JobOffer: {\n                    See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                    Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                    Create: role = Admin || role = TalentDiscovery,\n                    Edit: role = Admin || role = TalentDiscovery,\n                    Launch: role = Admin || role = TalentDiscovery,\n                    SalaryPackage: {\n                        ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI,\n                        EditBenefits: role = Admin || role = HiringManager || role = TalentDiscovery,\n                        ChangesCurrency: role = Admin || role = HiringManager || role = TalentDiscovery,\n                        AssignSalary: role = Admin || role = HiringManager || role = TalentDiscovery\n                    },\n                    FinancialBreakdown: {\n                        ViewAccess: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                        EditFields: role = Admin || role = TalentDiscovery || role = ADFI\n                    }\n                },\n                JobContract: {\n                    See: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                    Share: role = Admin || role = HiringManager || role = TalentDiscovery || role = ADFI || role = TotalRewards,\n                    Create: role = Admin || role = TotalRewards,\n                    Edit: role = Admin || role = TotalRewards,\n                    Launch: role = Admin || role = TotalRewards\n                }\n            }\n        }\n    )\n)",
+          "InvariantPropertyName": "BuildGrantAccess",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "BuildGrantAccess_User"
+      ],
+      "IsAutoGenerated": false,
+      "IsComponentDefinition": true,
+      "IsDataControl": false,
+      "IsFromScreenLayout": false,
+      "IsGroupControl": false,
+      "IsLocked": false,
+      "LayoutName": "",
+      "MetaDataIDKey": "",
+      "Name": "Functions",
+      "OptimizeForDevices": "Off",
+      "ParentIndex": 0,
+      "PersistMetaDataIDKey": false,
+      "Properties": [
+        {
+          "Category": "Data",
+          "PropertyName": "ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ErrorMessage_AllowGoToApp",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SuccessMessage_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SuccessMessage_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ErrorMessage_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ErrorMessage_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSuccess_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SuccessMessage_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSuccess_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateError_BriefDescription",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateError_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SuccessMessage_AllowGoToApp",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SuccessMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ErrorMessage_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSuccess",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateError",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToVersionState_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToVersionState",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SectionCodeToComparableValue_Default",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SectionCodeToComparableValue_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToVersionSectionState",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToVersionSectionState_Default",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToVersionSectionState_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDateTimeValue_DateTimeValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDateTimeValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDateValue_DateValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDateValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToJobState",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToJobState_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToJobType",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToJobType_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToRemoteType_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToRemoteType",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToTemplateLanguage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToTemplateLanguage_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatAmout_Amount",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatAmout",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "StringToFormatedAmount_StringAmount",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "StringToFormatedAmount",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ToISODate_Date",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ToISODate",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "WrapVersion_Version",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "WrapVersion_IsReadOnly",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SelectVersion_IsReadOnly",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SelectVersion_SelectedVersion",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SelectVersion_Versions",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateNotification",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateNotification_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateNotification_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateNotification_Type",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InfoMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InfoMessage_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InfoMessage_AllowGoToApp",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SectionCodeToComparableValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InfoMessage_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InfoMessage_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "VersionStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseDynamicFields",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseDynamicFields_Breakdown",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ManagerToUser_HiringManager",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ManagerToUser",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorMessage_LoadObject",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsZero_Number",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsZero",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsDeepScreen",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsDeepScreen_EntityType",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorMessage_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorAssociatedToMessage_LoadObject",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorAssociatedToMessage_AssociatedWith",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorAssociatedToMessage_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingErrorAssociatedToMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingInfoErrorMessage_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingInfoErrorMessage_LoadObject",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadingInfoErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessDynamicFields",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessDynamicFields_Breakdown",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "WrapVersion",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SelectVersion",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "DynamicFieldsStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NowAsUTC",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "DateTimeAsUTC_DateTime",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "DateTimeAsUTC",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsPositiveNumber_NumberString",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsPositiveNumber",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ConcatIfExist_Values",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ConcatIfExist",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDate_Date",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatDate",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseError",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseError_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ToSpaces_String",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ToSpaces",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseMessageError",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseMessageError_JsonError",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SmallErrorFormat_BriefDescription",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SmallErrorFormat_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SmallErrorFormat",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateError_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "HttpCodeToText_HttpCode",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "HttpCodeToText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "RandomColor_Alpha",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "RandomColor_Last",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "RandomColor_First",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "RandomColor",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_CancelButtonWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_AcceptButtonWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_ModalHeight",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_ModalWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_CancelText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_AcceptText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OptionDialogFace_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_CancelButtonWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_AcceptButtonWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_ModalHeight",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_ModalWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_CancelText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_AcceptText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_Default",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_InputLabel",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_InputIsRequired",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_Message",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicInputDialogFace_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "PutUserColor_Color",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "GetSubEntityPath",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InitialsOnly_Sentence",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "InitialsOnly",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FixAccents_Text",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FixAccents",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FindItemByTag_Breakdown",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FindItemByTag_Tag",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FindItemByTag",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatLongDateTimeValue_DateTimeValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatLongDateTimeValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatLongDateValue_DateValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatLongDateValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "PutUserColor_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "GetUserColor_UserId",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildUserInfo_User",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildUserInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildLocationInfo_Location",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildLocationInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BaseStyle",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildStyle_StyleExtension",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildStyle",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildSignableInfo_Signable",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildSignableInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessCurrencies",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessCurrencies_Values",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessCurrencies_CurrencySource",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CurrencySamples",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "Notify_Notification",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifySuccess_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifySuccess_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifyError_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifyError_ErrorMessage",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifyError_BriefDescription",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsPositiveOrZero_NumberString",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "IsPositiveOrZero",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatBreakdownWithZeros_Breakdown",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormatBreakdownWithZeros",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "TimeItems",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormModeToDisplayMode_FormModeInput",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "FormModeToDisplayMode",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "JobContractStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToEducationalDegree_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToEducationalDegree",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToGender_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToGender",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToPeriod_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToPeriod",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "OtherDataStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseAdditionalInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseAdditionalInfo_StringValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BooleanToFormMode_Value",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BooleanToFormMode",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadOtherData_AdditionalInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadOtherData_AdditionalInfoContent",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadOtherData_CallTo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadOtherData",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BooleanToViewDisplayMode_Value",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BooleanToViewDisplayMode",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadSignedOffers",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadSignedOffers_CandidateStateId",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifyInfo_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "NotifyInfo_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateInfo_Description",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateInfo_Title",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CommonWorkingHours",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToTable_HTMLText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToTable",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "TableToUL_Table",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "TableToUL",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToCSV_Char",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToCSV_HTMLText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToCSV",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToMap",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToMap_Separator",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ULToMap_HTMLText",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "MapToUL_Map",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "MapToUL_Separator",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "MapToUL",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildListInfo_Items",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildListInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToWorkflowStatus_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToWorkflowStatus_Default",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseCandidateInfo_CandidateInfoValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ParseCandidateInfo",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "WorkflowCodeToComparableValue_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "WorkflowCodeToComparableValue",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToWorkflowStatus",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "JobOfferVersions",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CandidateInfoString",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToMaritalStatus",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CodeToMaritalStatus_Code",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessDynamicContent",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ProcessDynamicContent_DynamicContent",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVG_StrokeWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVG_Stroke",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVG_Fill",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVG_D",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVG",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SVGToImg_SVG",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "SVGToImg",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVGAsImg_D",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVGAsImg_Fill",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVGAsImg_Stroke",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVGAsImg_StrokeWidth",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "CreateSVGAsImg",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ForFixAccents",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "ForFixAccents_Table",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "GetSubEntityTestPath",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "MetadataStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "LoadOtherData_Id",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BasicDynamicFieldsStructure",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildGrantAccess",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "BuildGrantAccess_User",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "ZIndex",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Fill",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Height",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Width",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "X",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Y",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "ChildTabPriority",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "EnableChildFocus",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "OnReset",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "PutUserColor",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "GetUserColor",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "Notify",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "NotifySuccess",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "NotifyError",
+          "RuleProviderType": "System"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "NotifyInfo",
+          "RuleProviderType": "System"
+        }
+      ],
+      "StyleName": "",
+      "Type": "ControlInfo"
+    },
+    "notificationTimer_Functions": {
+      "AllowAccessToGlobals": true,
+      "ControlPropertyState": [
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "Text(Time(0, 0, Self.Value/1000), \"hh:mm:ss\")",
+          "InvariantPropertyName": "Text",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(Self.Fill, -15%)",
+          "InvariantPropertyName": "BorderColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(Self.BorderColor, 70%)",
+          "InvariantPropertyName": "DisabledBorderColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "PressedBorderColor",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(Self.BorderColor, 20%)",
+          "InvariantPropertyName": "HoverBorderColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "BorderStyle.Solid",
+          "InvariantPropertyName": "BorderStyle",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "FocusedBorderColor",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(255, 255, 255, 1)",
+          "InvariantPropertyName": "Color",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(Self.Fill, 90%)",
+          "InvariantPropertyName": "DisabledColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "PressedColor",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(255, 255, 255, 1)",
+          "InvariantPropertyName": "HoverColor",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "DisplayMode.Edit",
+          "InvariantPropertyName": "DisplayMode",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "RGBA(100, 118, 132, 1)",
+          "InvariantPropertyName": "Fill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(Self.Fill, 70%)",
+          "InvariantPropertyName": "DisabledFill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "PressedFill",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "ColorFade(RGBA(100, 118, 132, 1), -20%)",
+          "InvariantPropertyName": "HoverFill",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "Font",
+        "FontWeight",
+        "Align",
+        "VerticalAlign",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "107",
+          "InvariantPropertyName": "X",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "42",
+          "InvariantPropertyName": "Y",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "160",
+          "InvariantPropertyName": "Width",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "40",
+          "InvariantPropertyName": "Height",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "ZIndex",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "2",
+          "InvariantPropertyName": "BorderThickness",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "4",
+          "InvariantPropertyName": "FocusedBorderThickness",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        "Size",
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "60000",
+          "InvariantPropertyName": "Duration",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "false",
+          "InvariantPropertyName": "OnTimerEnd",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "",
+          "InvariantPropertyName": "PaddingTop",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "",
+          "InvariantPropertyName": "PaddingLeft",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "5",
+          "InvariantPropertyName": "PaddingBottom",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "",
+          "InvariantPropertyName": "PaddingRight",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "10",
+          "InvariantPropertyName": "RadiusBottomLeft",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "10",
+          "InvariantPropertyName": "RadiusBottomRight",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "10",
+          "InvariantPropertyName": "RadiusTopLeft",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "10",
+          "InvariantPropertyName": "RadiusTopRight",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "false",
+          "InvariantPropertyName": "Start",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "0",
+          "InvariantPropertyName": "TabIndex",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        },
+        {
+          "AFDDataSourceName": "",
+          "AutoRuleBindingEnabled": false,
+          "AutoRuleBindingString": "true",
+          "InvariantPropertyName": "Visible",
+          "IsLockable": false,
+          "NameMapSourceSchema": "?"
+        }
+      ],
+      "HasDynamicProperties": false,
+      "IsAutoGenerated": false,
+      "IsComponentDefinition": false,
+      "IsDataControl": false,
+      "IsFromScreenLayout": false,
+      "IsGroupControl": false,
+      "IsLocked": false,
+      "LayoutName": "",
+      "MetaDataIDKey": "",
+      "Name": "notificationTimer_Functions",
+      "OptimizeForDevices": "Off",
+      "ParentIndex": 0,
+      "PersistMetaDataIDKey": false,
+      "Properties": [
+        {
+          "Category": "Data",
+          "PropertyName": "Start",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "Text",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Data",
+          "PropertyName": "Duration",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "RadiusTopLeft",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "RadiusBottomRight",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "RadiusBottomLeft",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PaddingRight",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PaddingBottom",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PaddingLeft",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PaddingTop",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "DisabledBorderColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "HoverBorderColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "BorderColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "DisabledColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "DisabledFill",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "BorderStyle",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Color",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "HoverColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "DisplayMode",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "ZIndex",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "VerticalAlign",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Fill",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "HoverFill",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Font",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "X",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "TabIndex",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Y",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "RadiusTopRight",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "FontWeight",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Visible",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "BorderThickness",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Align",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "FocusedBorderThickness",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Width",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Size",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "Height",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PressedBorderColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PressedColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "PressedFill",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Design",
+          "PropertyName": "FocusedBorderColor",
+          "RuleProviderType": "Unknown"
+        },
+        {
+          "Category": "Behavior",
+          "PropertyName": "OnTimerEnd",
+          "RuleProviderType": "Unknown"
+        }
+      ],
+      "StyleName": "defaultTimerStyle",
+      "Type": "ControlInfo"
+    }
+  },
+  "TopParentName": "Functions"
+}

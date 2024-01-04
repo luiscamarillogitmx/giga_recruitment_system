@@ -1,0 +1,70 @@
+NumberBox As CanvasComponent:
+    OnChange():
+        ThisProperty:
+            Default: =true
+    Align: =Align.Right
+    Default: ="1.5"
+    DisplayMode: =DisplayMode.Edit
+    Fill: =Color.Transparent
+    Height: =32
+    IsValid: |-
+        =With(
+            {Text: txtInput_NumberBox.Text},
+            !IsBlank(Text) && IsMatch(
+                Text,
+                "\-?\d+\.?\d*"
+            ) && If(
+                NumberBox.OnlyPositive,
+                Value(Text) > 0,
+                true
+            )
+        )
+    MaxLength: =9
+    OnlyPositive: =true
+    OnReset: =Reset(txtInput_NumberBox)
+    Style: =Style
+    Value: =txtInput_NumberBox.Text
+    Width: =100
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    txtInput_NumberBox As text:
+        Align: =NumberBox.Align
+        BorderColor: |-
+            =If(
+                NumberBox.IsValid,
+                NumberBox.Style.Palette.Line,
+                NumberBox.Style.Palette.Warning
+            )
+        Color: =NumberBox.Style.Text.Title.Color
+        ContentLanguage: ="en-US"
+        Default: =NumberBox.Default
+        DelayOutput: =true
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =NumberBox.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        DisplayMode: =NumberBox.DisplayMode
+        Fill: =NumberBox.Style.Palette.Background
+        FocusedBorderColor: =NumberBox.Style.Palette.Accent
+        FocusedBorderThickness: =1
+        Font: =NumberBox.Style.Text.Title.Font
+        Height: =Parent.Height - 2
+        HintText: ="---"
+        HoverBorderColor: =NumberBox.Style.Palette.Border
+        MaxLength: =NumberBox.MaxLength
+        OnChange: =NumberBox.OnChange()
+        PaddingBottom: =0
+        PaddingLeft: =5
+        PaddingTop: =0
+        RadiusBottomLeft: =NumberBox.Style.RadiusFactor
+        RadiusBottomRight: =NumberBox.Style.RadiusFactor
+        RadiusTopLeft: =NumberBox.Style.RadiusFactor
+        RadiusTopRight: =NumberBox.Style.RadiusFactor
+        Size: =NumberBox.Style.Text.Title.Size
+        Tooltip: ="Enter an amount"
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =1
+

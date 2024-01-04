@@ -1,0 +1,585 @@
+Sidebar As CanvasComponent:
+    OnSelect(Item As Record):
+        Item:
+            Default: =Sidebar.TopLevelScreen.JobRequisitions
+        ThisProperty:
+            Default: |-
+                =If(
+                    Item.InMaintenance,
+                    Navigate(
+                        MaintenanceScreen,
+                        ScreenTransition.None,
+                        {topLevelScreen: Item}
+                    ),
+                    Navigate(Item.Screen)
+                )
+    Select(Item As Record):
+        Item:
+            Default: =Sidebar.TopLevelScreen.Home
+        ThisProperty:
+            Default: =Sidebar.OnSelect(Item)
+    AllowSelfNavigation: =true
+    EnableSuperiorButton: =App.Width > 1000
+    Fill: =Style.SidebarFill
+    Height: =768
+    OnSelectSuperiorButton: |-
+        =Set(
+            SidebarExpanded,
+            !SidebarExpanded
+        )
+    SelectedItem: =0
+    Style: =Style
+    TopLevelScreen: =TopLevelScreen
+    Width: |-
+        =If(
+            App.Width < 1000,
+            42,
+            If(
+                SidebarExpanded,
+                200,
+                42
+            )
+        )
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_Sidebar As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height + 1
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnHead_Sidebar As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =5
+            Width: =42
+            ZIndex: =1
+
+            icoSuperior_Sidebar As icon.ChevronDown:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Sidebar.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Sidebar.Style.Palette.Disabled
+                DisplayMode: |-
+                    =If(
+                        Sidebar.EnableSuperiorButton,
+                        DisplayMode.Edit,
+                        DisplayMode.Disabled
+                    )
+                Fill: =Sidebar.Style.Palette.Selectable.Fill
+                FocusedBorderThickness: =0
+                Height: =32
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =Sidebar.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Hamburger
+                OnSelect: =Sidebar.OnSelectSuperiorButton()
+                PaddingBottom: =7.5
+                PaddingLeft: =7.5
+                PaddingRight: =7.5
+                PaddingTop: =7.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =Sidebar.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        Sidebar.EnableSuperiorButton,
+                        $"{If(
+                            Sidebar.Width < 100,
+                            "Expand",
+                            "Collapse"
+                        )} sidebar",
+                        ""
+                    )
+                Width: =32
+                ZIndex: =1
+
+            lblTitle_Sidebar As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Sidebar.Style.Palette.Accent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Sidebar.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =Sidebar.Style.Text.Subtitle.Font
+                FontWeight: =Sidebar.Style.Text.Subtitle.Weight
+                PaddingLeft: =0
+                PaddingRight: =0
+                Size: =9
+                Text: ="GIGA Recruitment System"
+                ZIndex: =2
+
+        shpHeaderSeparator_Sidebar As rectangle:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Sidebar.Style.Palette.Line
+            Height: =1
+            Width: =Parent.Width - 20
+            X: =10
+            ZIndex: =2
+
+        ctnGeneralSection_Sidebar As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =62
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =200
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =10
+            PaddingTop: =10
+            ZIndex: =11
+
+            ctnHome_Sidebar As groupContainer.manualLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutMinHeight: =100
+                LayoutMinWidth: =200
+                Visible: =Sidebar.TopLevelScreen.Home.Visible
+                ZIndex: =1
+
+                icoHome_Sidebar As icon.ChevronDown:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Sidebar.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    HoverColor: =Self.Color
+                    Icon: =Sidebar.TopLevelScreen.Home.Icon
+                    OnSelect: =true
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    Width: =42
+                    ZIndex: =1
+
+                shpHomeSelected_Sidebar As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Sidebar.Style.Palette.Accent
+                    Height: =24
+                    OnSelect: =true
+                    Visible: =Sidebar.TopLevelScreen.Home.Code = Sidebar.SelectedItem
+                    Width: =3
+                    X: =4
+                    Y: =9
+                    ZIndex: =2
+
+                btnHome_Sidebar As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Sidebar.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Sidebar.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: |-
+                        =If(
+                            Sidebar.TopLevelScreen.Home.Code = Sidebar.SelectedItem,
+                            Sidebar.Style.Palette.Selectable.SelectedShadow,
+                            Color.Transparent
+                        )
+                    FocusedBorderThickness: =0
+                    Font: =Sidebar.Style.Text.Normal.Font
+                    FontWeight: =Sidebar.Style.Text.Normal.Weight
+                    Height: =Parent.Height
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Sidebar.Style.Palette.Selectable.TransparentHoverFill
+                    OnSelect: |-
+                        =If(
+                            Sidebar.AllowSelfNavigation || Sidebar.TopLevelScreen.Home.Code <> Sidebar.SelectedItem,
+                            Sidebar.OnSelect(Sidebar.TopLevelScreen.Home)
+                        )
+                    PaddingBottom: =0
+                    PaddingLeft: =50
+                    PaddingRight: =0
+                    PaddingTop: |
+                        =0
+                    PressedColor: =Self.Color
+                    PressedFill: =Sidebar.Style.Palette.Selectable.TransparentPressedFill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =Sidebar.Style.Text.Normal.Size
+                    TabIndex: =-1
+                    Text: |-
+                        =If(
+                            Self.Width > 60,
+                            Sidebar.TopLevelScreen.Home.Name,
+                            ""
+                        )
+                    Tooltip: =Sidebar.TopLevelScreen.Home.Description
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+        shpGeneralSectionSeparator_Sidebar As rectangle:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Sidebar.Style.Palette.Line
+            Height: =1
+            Width: =Parent.Width - 20
+            X: =10
+            ZIndex: =12
+
+        ctnRecruitmentSection_Sidebar As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =104
+            LayoutMinWidth: =200
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =10
+            PaddingTop: =10
+            ZIndex: =13
+
+            ctnJobRequisitions_Sidebar As groupContainer.manualLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutMinHeight: =100
+                LayoutMinWidth: =200
+                Visible: =Sidebar.TopLevelScreen.JobRequisitions.Visible
+                ZIndex: =1
+
+                icoJobRequisitions_Sidebar As icon.ChevronDown:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Sidebar.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    HoverColor: =Self.Color
+                    Icon: =Sidebar.TopLevelScreen.JobRequisitions.Icon
+                    OnSelect: =true
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    Width: =42
+                    ZIndex: =1
+
+                shpJobRequisitionsSelected_Sidebar As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Sidebar.Style.Palette.Accent
+                    Height: =24
+                    OnSelect: =true
+                    Visible: =Sidebar.TopLevelScreen.JobRequisitions.Code = Sidebar.SelectedItem
+                    Width: =3
+                    X: =4
+                    Y: =9
+                    ZIndex: =2
+
+                btnJobRequisitions_Sidebar As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Sidebar.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Sidebar.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: |-
+                        =If(
+                            Sidebar.TopLevelScreen.JobRequisitions.Code = Sidebar.SelectedItem,
+                            Sidebar.Style.Palette.Selectable.SelectedShadow,
+                            Color.Transparent
+                        )
+                    FocusedBorderThickness: =0
+                    Font: =Sidebar.Style.Text.Normal.Font
+                    FontWeight: =Sidebar.Style.Text.Normal.Weight
+                    Height: =Parent.Height
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Sidebar.Style.Palette.Selectable.TransparentHoverFill
+                    OnSelect: |-
+                        =If(
+                            Sidebar.AllowSelfNavigation || Sidebar.TopLevelScreen.JobRequisitions.Code <> Sidebar.SelectedItem,
+                            Sidebar.OnSelect(Sidebar.TopLevelScreen.JobRequisitions)
+                        )
+                    PaddingBottom: =0
+                    PaddingLeft: =50
+                    PaddingRight: =0
+                    PaddingTop: |
+                        =0
+                    PressedColor: =Self.Color
+                    PressedFill: =Sidebar.Style.Palette.Selectable.TransparentPressedFill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =Sidebar.Style.Text.Normal.Size
+                    TabIndex: =-1
+                    Text: |-
+                        =If(
+                            Self.Width > 60,
+                            Sidebar.TopLevelScreen.JobRequisitions.Name,
+                            ""
+                        )
+                    Tooltip: =Sidebar.TopLevelScreen.JobRequisitions.Description
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+            ctnCandidates_Sidebar As groupContainer.manualLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutMinHeight: =100
+                LayoutMinWidth: =200
+                Visible: =Sidebar.TopLevelScreen.Candidates.Visible
+                ZIndex: =2
+
+                icoCandidates_Sidebar As icon.ChevronDown:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Sidebar.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    HoverColor: =Self.Color
+                    Icon: =Sidebar.TopLevelScreen.Candidates.Icon
+                    OnSelect: =true
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    Width: =42
+                    ZIndex: =1
+
+                shpCandidatesSelected_Sidebar As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Sidebar.Style.Palette.Accent
+                    Height: =24
+                    OnSelect: =true
+                    Visible: =Sidebar.TopLevelScreen.Candidates.Code = Sidebar.SelectedItem
+                    Width: =3
+                    X: =4
+                    Y: =9
+                    ZIndex: =2
+
+                btnCandidates_Sidebar As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Sidebar.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Sidebar.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: |-
+                        =If(
+                            Sidebar.TopLevelScreen.Candidates.Code = Sidebar.SelectedItem,
+                            Sidebar.Style.Palette.Selectable.SelectedShadow,
+                            Color.Transparent
+                        )
+                    FocusedBorderThickness: =0
+                    Font: =Sidebar.Style.Text.Normal.Font
+                    FontWeight: =Sidebar.Style.Text.Normal.Weight
+                    Height: =Parent.Height
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Sidebar.Style.Palette.Selectable.TransparentHoverFill
+                    OnSelect: |-
+                        =If(
+                            Sidebar.AllowSelfNavigation || Sidebar.TopLevelScreen.Candidates.Code <> Sidebar.SelectedItem,
+                            Sidebar.OnSelect(Sidebar.TopLevelScreen.Candidates)
+                        )
+                    PaddingBottom: =0
+                    PaddingLeft: =50
+                    PaddingRight: =0
+                    PaddingTop: |
+                        =0
+                    PressedColor: =Self.Color
+                    PressedFill: =Sidebar.Style.Palette.Selectable.TransparentPressedFill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =Sidebar.Style.Text.Normal.Size
+                    TabIndex: =-1
+                    Text: |-
+                        =If(
+                            Self.Width > 60,
+                            Sidebar.TopLevelScreen.Candidates.Name,
+                            ""
+                        )
+                    Tooltip: =Sidebar.TopLevelScreen.Candidates.Description
+                    Width: =Parent.Width
+                    ZIndex: =3
+
+        shpRecruitmentSectionSeparator_Sidebar As rectangle:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =Sidebar.Style.Palette.Line
+            Height: =1
+            Width: =Parent.Width - 20
+            X: =10
+            ZIndex: =14
+
+        ctnSystemSection_Sidebar As groupContainer.verticalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =52
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =200
+            LayoutMode: =LayoutMode.Auto
+            PaddingTop: =10
+            ZIndex: =15
+
+            ctnSettings_Sidebar As groupContainer.manualLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                FillPortions: =0
+                Height: =42
+                LayoutMinHeight: =100
+                LayoutMinWidth: =200
+                Visible: =Sidebar.TopLevelScreen.Settings.Visible
+                ZIndex: =1
+
+                icoSettings_Sidebar As icon.ChevronDown:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =Sidebar.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =RGBA(244, 244, 244, 1)
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =Parent.Height
+                    HoverColor: =Self.Color
+                    Icon: =Sidebar.TopLevelScreen.Settings.Icon
+                    OnSelect: =true
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    Width: =42
+                    ZIndex: =1
+
+                shpSettingsSelected_Sidebar As rectangle:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Sidebar.Style.Palette.Accent
+                    Height: =24
+                    OnSelect: =true
+                    Visible: =Sidebar.TopLevelScreen.Settings.Code = Sidebar.SelectedItem
+                    Width: =3
+                    X: =4
+                    Y: =9
+                    ZIndex: =2
+
+                btnSettings_Sidebar As button:
+                    Align: =Align.Left
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =Sidebar.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =Sidebar.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: |-
+                        =If(
+                            Sidebar.TopLevelScreen.Settings.Code = Sidebar.SelectedItem,
+                            Sidebar.Style.Palette.Selectable.SelectedShadow,
+                            Color.Transparent
+                        )
+                    FocusedBorderThickness: =0
+                    Font: =Sidebar.Style.Text.Normal.Font
+                    FontWeight: =Sidebar.Style.Text.Normal.Weight
+                    Height: =Parent.Height
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Sidebar.Style.Palette.Selectable.TransparentHoverFill
+                    OnSelect: |-
+                        =If(
+                            Sidebar.AllowSelfNavigation || Sidebar.TopLevelScreen.Settings.Code <> Sidebar.SelectedItem,
+                            Sidebar.OnSelect(Sidebar.TopLevelScreen.Settings)
+                        )
+                    PaddingBottom: =0
+                    PaddingLeft: =50
+                    PaddingRight: =0
+                    PaddingTop: |
+                        =0
+                    PressedColor: =Self.Color
+                    PressedFill: =Sidebar.Style.Palette.Selectable.TransparentPressedFill
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =Sidebar.Style.Text.Normal.Size
+                    TabIndex: =-1
+                    Text: |-
+                        =If(
+                            Self.Width > 60,
+                            Sidebar.TopLevelScreen.Settings.Name,
+                            ""
+                        )
+                    Tooltip: =Sidebar.TopLevelScreen.Settings.Description
+                    Width: =Parent.Width
+                    ZIndex: =3
+

@@ -1,0 +1,237 @@
+CommonTools As CanvasComponent:
+    OnChangeStyle():
+        ThisProperty:
+            Default: |-
+                =Concurrent(
+                    Set(
+                        Style,
+                        Self.SelectedStyle
+                    ),
+                    Patch(
+                        Cache,
+                        LookUp(
+                            Cache,
+                            Key = "style"
+                        ),
+                        {Value: Self.SelectedStyle.Name}
+                    );
+                    IfError(
+                        SaveData(
+                            Cache,
+                            "GRS"
+                        ),
+                        Blank()
+                    )
+                )
+    BellVisible: =GrantAccess.Common.SeeNotifications
+    Count: =CountRows(GlobalNotifications)
+    Fill: =Color.Transparent
+    Height: =42
+    OnSelectBell: |-
+        =/*UpdateContext({notificationPanelVisible: true})*/
+    SelectedStyle: =droChangeStyle_CommonTools.Selected
+    Style: =Style
+    StyleList: =StyleList
+    StyleSelectorVisible: =GrantAccess.Common.ChangeStyle
+    User: =CurrentUser
+    Width: =700
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CommonTools As groupContainer.horizontalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutJustifyContent: =LayoutJustifyContent.End
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =2
+        Width: =700
+        ZIndex: =1
+
+        droChangeStyle_CommonTools As dropdown:
+            AlignInContainer: =AlignInContainer.Center
+            BorderColor: =Color.Transparent
+            BorderThickness: =1
+            ChevronBackground: =Self.Fill
+            ChevronDisabledBackground: =Color.Transparent
+            ChevronDisabledFill: =Color.Transparent
+            ChevronFill: =CommonTools.Style.Palette.Accent
+            ChevronHoverBackground: =CommonTools.Style.Palette.Selectable.HoverFill
+            Color: =CommonTools.Style.Text.Normal.Color
+            Default: =CommonTools.Style.Name
+            DisabledBorderColor: =Color.Transparent
+            DisabledColor: =CommonTools.Style.Palette.Disabled
+            DisabledFill: =CommonTools.Style.Palette.Fillable
+            Fill: =CommonTools.Style.Palette.Background
+            FocusedBorderColor: =CommonTools.Style.Palette.Accent
+            FocusedBorderThickness: =2
+            Font: =CommonTools.Style.Text.Normal.Font
+            FontWeight: =CommonTools.Style.Text.Normal.Weight
+            Height: =32
+            HoverBorderColor: =CommonTools.Style.Palette.Border
+            HoverFill: =CommonTools.Style.Palette.Selectable.HoverFill
+            Items: =CommonTools.StyleList
+            LayoutMinHeight: =15
+            LayoutMinWidth: =50
+            OnChange: =CommonTools.OnChangeStyle()
+            PressedFill: =CommonTools.Style.Palette.Selectable.PressedFill
+            SelectionColor: =CommonTools.Style.Palette.Accent
+            SelectionFill: |-
+                =ColorFade(
+                    CommonTools.Style.Palette.Fillable,
+                    -5%
+                )
+            Size: =CommonTools.Style.Text.Normal.Size
+            Tooltip: ="Change the application style"
+            Visible: =CommonTools.StyleSelectorVisible
+            Width: =120
+            ZIndex: =1
+
+        ctnUser_CommonTools As groupContainer.horizontalAutoLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =17
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =8.5
+            PaddingLeft: =8.5
+            PaddingRight: =8.5
+            PaddingTop: =8.5
+            Width: =425
+            ZIndex: =2
+
+            ctnWrapper_CommonTools As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =CommonTools.Style.Palette.Fillable
+                BorderThickness: =1
+                Fill: =Color.Transparent
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =17
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                ZIndex: =1
+
+                lblUserRole_CommonTools As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CommonTools.Style.Palette.Disabled
+                    ContentLanguage: ="en"
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CommonTools.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =CommonTools.Style.Palette.Fillable
+                    Font: =CommonTools.Style.Text.Subtitle.Font
+                    FontWeight: =CommonTools.Style.Text.Subtitle.Weight
+                    Height: =25
+                    LayoutMinHeight: =17
+                    PaddingRight: =0
+                    Size: =CommonTools.Style.Text.Subtitle.Size
+                    Text: =CommonTools.User.role
+                    ZIndex: =1
+
+                lblUserName_CommonTools As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CommonTools.Style.Palette.Accent
+                    ContentLanguage: ="en"
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CommonTools.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =CommonTools.Style.Palette.LightFillable
+                    FillPortions: =1
+                    Font: =CommonTools.Style.Text.Normal.Font
+                    FontWeight: =CommonTools.Style.Text.Normal.Weight
+                    Height: =25
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    Size: =CommonTools.Style.Text.Normal.Size
+                    Text: =CommonTools.User.name
+                    Tooltip: =CommonTools.User.email
+                    Wrap: =false
+                    ZIndex: =2
+
+        shpUserInfoSeparator_CommonTools As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CommonTools.Style.Palette.Line
+            LayoutMinHeight: =17
+            Visible: =CommonTools.BellVisible
+            Width: =1
+            ZIndex: =3
+
+        ctnNotification_CommonTools As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            LayoutMinHeight: =17
+            LayoutMinWidth: =250
+            Visible: =CommonTools.BellVisible
+            Width: =42
+            ZIndex: =4
+
+            lblCount_CommonTools As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommonTools.Style.Palette.Accent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommonTools.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CommonTools.Style.Text.Little.Font
+                FontWeight: =CommonTools.Style.Text.Little.Weight
+                Height: =16
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =CommonTools.Style.Text.Little.Size
+                Text: =CommonTools.Count
+                Width: =16
+                X: =3
+                Y: =3
+                ZIndex: =1
+
+            icoBell_CommonTools As icon.Check:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommonTools.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommonTools.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                Fill: =Color.Transparent
+                FocusedBorderColor: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CommonTools.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Bell
+                OnSelect: =CommonTools.OnSelectBell()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CommonTools.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Open the notifications panel"
+                Width: =Parent.Width
+                X: =Parent.Width / 2 - Self.Width / 2
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =2
+

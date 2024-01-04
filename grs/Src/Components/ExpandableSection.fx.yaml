@@ -1,0 +1,173 @@
+ExpandableSection As CanvasComponent:
+    ExpandedByDefault: =false
+    Fill: =Color.Transparent
+    Height: =Self.SuggestedHeight
+    HTMLText: ="HTML Text"
+    Style: =Style
+    SuggestedHeight: =ctnLayout_ExpandableSection.Height
+    Title: ="Title"
+    Width: =600
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_ExpandableSection As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: |-
+            =If(
+                If(
+                    IsBlank(Expand),
+                    ExpandableSection.ExpandedByDefault,
+                    Expand
+                ),
+                ctnSectionHeader_ExpandableSection.Height + htmContent_ExpandableSection.Height,
+                ctnSectionHeader_ExpandableSection.Height
+            )
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnSectionHeader_ExpandableSection As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent//ExpandableSection.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =5
+            PaddingRight: =10
+            ZIndex: =1
+
+            lblSectionTitle_ExpandableSection As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =ExpandableSection.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =ExpandableSection.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =ExpandableSection.Style.Text.Subtitle.Font
+                FontWeight: =ExpandableSection.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =32
+                LayoutMinWidth: =50
+                Size: =ExpandableSection.Style.Text.Subtitle.Size
+                Text: =ExpandableSection.Title
+                ZIndex: =1
+
+            icoExpand_ExpandableSection As icon.HorizontalLine:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =ExpandableSection.Style.Palette.Border
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =ExpandableSection.Style.Palette.Disabled
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Height: =17
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                Icon: |-
+                    =If(
+                        If(
+                            IsBlank(Expand),
+                            ExpandableSection.ExpandedByDefault,
+                            Expand
+                        ),
+                        Icon.ChevronUp,
+                        Icon.ChevronDown
+                    )
+                LayoutMinHeight: =32
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                Width: =17
+                ZIndex: =2
+
+        htmContent_ExpandableSection As htmlViewer:
+            AutoHeight: =true
+            Color: =ExpandableSection.Style.Text.Normal.Color
+            Font: =ExpandableSection.Style.Text.Normal.Font
+            HtmlText: |-
+                =If(
+                    IsBlank(ExpandableSection.HTMLText),
+                    $"<p style='font-style: italic; text-align: center;'>The field <strong>{ExpandableSection.Title}</strong> is empty</p>",
+                    Substitute(ExpandableSection.HTMLText,Char(10),"<br>")
+                )
+            PaddingLeft: =15
+            PaddingRight: =15
+            Size: =ExpandableSection.Style.Text.Normal.Size
+            Visible: |-
+                =If(
+                    IsBlank(Expand),
+                    ExpandableSection.ExpandedByDefault,
+                    Expand
+                )
+            ZIndex: =2
+
+    shpSectionSeparator_ExpandableSection As rectangle:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DisplayMode: =DisplayMode.View
+        Fill: =ExpandableSection.Style.Palette.Line
+        FocusedBorderThickness: =0
+        Height: =1
+        Width: =Parent.Width
+        Y: =ctnSectionHeader_ExpandableSection.Height - Self.Height
+        ZIndex: =2
+
+    btnExpand_ExpandableSection As button:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.Dotted
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        Fill: =Color.Transparent
+        FocusedBorderColor: =ExpandableSection.Style.Palette.Border
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Semibold
+        Height: =ctnSectionHeader_ExpandableSection.Height - 2
+        HoverBorderColor: =Self.BorderColor
+        HoverColor: =Color.Transparent
+        HoverFill: =ExpandableSection.Style.Palette.Selectable.TransparentHoverFill
+        OnSelect: |-
+            =Set(
+                Expand,
+                !If(
+                    IsBlank(Expand),
+                    ExpandableSection.ExpandedByDefault,
+                    Expand
+                )
+            )
+        PaddingBottom: =0
+        PaddingLeft: =0
+        PaddingRight: =0
+        PaddingTop: =0
+        PressedFill: =ExpandableSection.Style.Palette.Selectable.TransparentPressedFill
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =0
+        Text: =""
+        Tooltip: |-
+            =$"{If(
+                Expand,
+                "Collapse",
+                "Expand"
+            )} the ""{ExpandableSection.Title}"" section"
+        Width: =Parent.Width - 2
+        X: =1
+        Y: =1
+        ZIndex: =3
+

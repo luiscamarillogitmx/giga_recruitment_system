@@ -1,0 +1,86 @@
+FlowStep As CanvasComponent:
+    AccentColor: =Style.Palette.Accent
+    BottomBarVisible: =true
+    Check: =true
+    Enable: =true
+    Fill: =Color.Transparent
+    Height: =200
+    State: =0
+    Style: =Style
+    TopBarVisible: =true
+    Width: =42
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    shpBottonLine_FlowStep As rectangle:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Fill: |-
+            =If(
+                FlowStep.State <= 0,
+                ColorFade(
+                    FlowStep.Style.Palette.Fillable,
+                    -10%
+                ),
+                FlowStep.Style.Palette.Accent
+            )
+        Height: =Parent.Height - 16
+        Visible: =FlowStep.BottomBarVisible
+        Width: =4
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =16
+        ZIndex: =1
+
+    shpTopLine_FlowStep As rectangle:
+        BorderColor: =RGBA(32, 54, 71, 1)
+        Fill: |-
+            =If(
+                FlowStep.State >= 0,
+                FlowStep.Style.Palette.Accent,
+                ColorFade(
+                    FlowStep.Style.Palette.Fillable,
+                    -10%
+                )
+            )
+        Height: =16
+        Visible: =FlowStep.TopBarVisible
+        Width: =4
+        X: =Parent.Width / 2 - Self.Width / 2
+        ZIndex: =2
+
+    shpCircle_FlowStep As circle:
+        BorderColor: |-
+            =If(
+                FlowStep.State >= 0,
+                FlowStep.AccentColor,
+                ColorFade(
+                    FlowStep.Style.Palette.Fillable,
+                    -10%
+                )
+            )
+        BorderThickness: =4
+        DisplayMode: =DisplayMode.View
+        Fill: =FlowStep.Style.Palette.Background
+        FocusedBorderThickness: =4
+        Height: =25
+        Width: =25
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =16 - Self.Height / 2
+        ZIndex: =3
+
+    shpCenter_FlowStep As circle:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        DisplayMode: =DisplayMode.View
+        Fill: |-
+            =If(
+                FlowStep.Check,
+                FlowStep.Style.Palette.Success,
+                FlowStep.Style.Palette.Disabled
+            )
+        Height: =11
+        Width: =11
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =16 - Self.Height / 2
+        ZIndex: =4
+

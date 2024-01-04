@@ -1,0 +1,423 @@
+AutoForm As CanvasComponent:
+    BuildInfoForExternalEditable(Item As Record):
+        Item:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Tag: "Tag 1",
+                    Label: "Label 1",
+                    Tooltip: "Tooltip 1",
+                    Default: "Default 1",
+                    Required: true,
+                    Format: TextFormat.Text,
+                    Enable: true,
+                    EditExternally: false
+                }
+        ThisProperty:
+            Default: =AppFunctions.BuildListInfo(AppFunctions.ULToTable(Item.Default))
+    FormatValueForExternallyEditable(Item As Record):
+        Item:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Tag: "Tag 1",
+                    Label: "Label 1",
+                    Tooltip: "Tooltip 1",
+                    Default: "Default 1",
+                    Required: true,
+                    Format: TextFormat.Text,
+                    Enable: true,
+                    EditExternally: false
+                }
+        ThisProperty:
+            Default: |-
+                =$"Formatted value: {Item.Default}"
+    GetValues():
+        ThisProperty:
+            Default: |-
+                =ForAll(
+                    galFields_AutoForm.AllItems,
+                    {
+                        Id: Id,
+                        Tag: Tag,
+                        Label: Label,
+                        Tooltip: Tooltip,
+                        Default: lblValueOutput_AutoForm.Text,
+                        Required: Required,
+                        Format: Format,
+                        Enable: Enable
+                    }
+                )
+    OnSelectEditExternally(Item As Record):
+        Item:
+            Default: |-
+                ={
+                    Id: GUID(),
+                    Tag: "Tag 1",
+                    Label: "Label 1",
+                    Tooltip: "Tooltip 1",
+                    Default: "Default 1",
+                    Required: true,
+                    Format: TextFormat.Text,
+                    Enable: true,
+                    EditExternally: false
+                }
+        ThisProperty:
+            Default: =true
+    DisplayMode: |-
+        =Switch(
+            Self.FormMode,
+            FormMode.New,
+            DisplayMode.Edit,
+            FormMode.Edit,
+            DisplayMode.Edit,
+            FormMode.View,
+            DisplayMode.View,
+            DisplayMode.Disabled
+        )
+    EditingItemTag: ="tag"
+    Fill: =Color.Transparent
+    FormMode: =FormMode.Edit
+    Height: =Self.SuggestedHeight
+    IsValid: =IsEmpty(WrongFields)
+    Items: |-
+        =Table(
+            {
+                Id: GUID(),
+                Tag: "Tag 1",
+                Label: "Label 1",
+                Tooltip: "Tooltip 1",
+                Default: "Default 1",
+                Required: true,
+                Format: TextFormat.Text,
+                Enable: true,
+                EditExternally: false
+            }
+        )
+    LabelWidth: =150
+    OnReset: |-
+        =Set(
+            Reset,
+            true
+        );
+        Set(
+            Reset,
+            false
+        );
+        Clear(WrongFields);
+        ForAll(
+            AutoForm.Items,
+            If(
+                Required && IsBlank(Default),
+                Collect(
+                    WrongFields,
+                    {Code: Id}
+                )
+            )
+        )
+    PaddingBottom: =32
+    PaddingLeft: =32
+    PaddingRight: =32
+    PaddingTop: =32
+    RowHeight: =42
+    RowPaddingLeft: =2
+    RowPaddingRight: =2
+    Style: =Style
+    SuggestedHeight: =CountRows(Self.Items) / Self.WrapCount * Self.RowHeight + Self.PaddingTop + Self.PaddingRight
+    Width: =400
+    WrapCount: =1
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_AutoForm As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =AutoForm.PaddingBottom
+        PaddingLeft: =AutoForm.PaddingLeft
+        PaddingRight: =AutoForm.PaddingRight
+        PaddingTop: =AutoForm.PaddingTop
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =3
+
+        galFields_AutoForm As gallery.galleryVertical:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FocusedBorderThickness: =0
+            Height: =100
+            Items: =AutoForm.Items
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =50
+            LayoutMinWidth: =50
+            Selectable: =false
+            TemplatePadding: =0
+            TemplateSize: =AutoForm.RowHeight
+            Width: =100
+            WrapCount: =AutoForm.WrapCount
+            ZIndex: =1
+
+            lblValueOutput_AutoForm As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =Color.Transparent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =Color.Transparent
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FocusedBorderColor: =Color.Transparent
+                Height: =0
+                HoverBorderColor: =Color.Transparent
+                HoverColor: =Color.Transparent
+                HoverFill: =Color.Transparent
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                PressedBorderColor: =Color.Transparent
+                PressedColor: =Color.Transparent
+                PressedFill: =Color.Transparent
+                Size: =0
+                Text: =txtValue_AutoForm.Text
+                Visible: =false
+                Width: =0
+                ZIndex: =1
+
+            ctnFieldLayout_AutoForm As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =Color.Transparent
+                Height: =Parent.TemplateHeight
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutGap: =5
+                LayoutMode: =LayoutMode.Auto
+                PaddingBottom: =4
+                PaddingLeft: =AutoForm.RowPaddingLeft
+                PaddingRight: |-
+                    =If(
+                        ThisItem.EditExternally && AutoForm.EditingItemTag = ThisItem. Tag,
+                        0,
+                        AutoForm.RowPaddingRight
+                    )
+                PaddingTop: =4
+                Width: =Parent.TemplateWidth
+                ZIndex: =2
+
+                lblLabel_AutoForm As label:
+                    Align: =Align.Right
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =AutoForm.Style.Text.Normal.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =AutoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =AutoForm.Style.Text.Normal.Font
+                    FontWeight: =AutoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingRight: =0
+                    Size: =AutoForm.Style.Text.Normal.Size
+                    Text: =ThisItem.Label
+                    Width: =AutoForm.LabelWidth
+                    ZIndex: =1
+
+                lblRequired_AutoForm As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: |-
+                        =If(
+                            ThisItem.Required,
+                            Color.Red,
+                            Color.Transparent
+                        )
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =AutoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    Font: =AutoForm.Style.Text.Normal.Font
+                    FontWeight: =AutoForm.Style.Text.Normal.Weight
+                    LayoutMinHeight: =15
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    Size: =AutoForm.Style.Text.Normal.Size
+                    Text: ="*"
+                    Width: =5
+                    ZIndex: =2
+
+                txtValue_AutoForm As text:
+                    BorderColor: |-
+                        =If(
+                            ThisItem.Required && IsBlank(Self.Text),
+                            AutoForm.Style.Palette.Warning,
+                            If(
+                                Self.DisplayMode <> DisplayMode.Edit,
+                                Color.Transparent,
+                                AutoForm.Style.Palette.Line
+                            )
+                        )
+                    Color: =AutoForm.Style.Text.Normal.Color
+                    Default: =ThisItem.Default
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =AutoForm.Style.Palette.Disabled
+                    DisabledFill: =AutoForm.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =Switch(
+                            AutoForm.DisplayMode,
+                            DisplayMode.Edit,
+                            If(
+                                ThisItem.Enable,
+                                DisplayMode.Edit,
+                                DisplayMode.Disabled
+                            ),
+                            AutoForm.DisplayMode
+                        )
+                    Fill: =AutoForm.Style.Palette.Background
+                    FillPortions: =1
+                    FocusedBorderColor: =AutoForm.Style.Palette.Accent
+                    FocusedBorderThickness: =2
+                    Font: =AutoForm.Style.Text.Normal.Font
+                    FontWeight: |-
+                        =If(
+                            Self.DisplayMode <> DisplayMode.Edit,
+                            FontWeight.Semibold,
+                            AutoForm.Style.Text.Normal.Weight
+                        )
+                    Format: =ThisItem.Format
+                    Height: =34
+                    HintText: ="---"
+                    HoverBorderColor: =AutoForm.Style.Palette.Border
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    MaxLength: =500
+                    OnChange: |-
+                        =If(
+                            ThisItem.Required,
+                            If(
+                                IsBlank(Self.Text),
+                                Collect(
+                                    WrongFields,
+                                    {Code: ThisItem.Id}
+                                ),
+                                RemoveIf(
+                                    WrongFields,
+                                    Code = ThisItem.Id
+                                )
+                            )
+                        )
+                    OnSelect: =
+                    RadiusBottomLeft: =AutoForm.Style.RadiusFactor
+                    RadiusBottomRight: =AutoForm.Style.RadiusFactor
+                    RadiusTopLeft: =AutoForm.Style.RadiusFactor
+                    RadiusTopRight: =AutoForm.Style.RadiusFactor
+                    Reset: =Reset
+                    Size: =AutoForm.Style.Text.Normal.Size
+                    Tooltip: =ThisItem.Tooltip
+                    Visible: =!ThisItem.EditExternally
+                    ZIndex: =3
+
+                ctnValue_AutoForm As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: |-
+                        =If(
+                            ThisItem.EditExternally && AutoForm.EditingItemTag = ThisItem.Tag,
+                            AutoForm.Style.Palette.Accent,
+                            Color.Transparent
+                        )
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =25
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    RadiusBottomLeft: =4
+                    RadiusTopLeft: =4
+                    Visible: =ThisItem.EditExternally
+                    ZIndex: =4
+
+                    lblValue_AutoForm As label:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: |-
+                            =If(
+                                ThisItem.EditExternally && AutoForm.EditingItemTag = ThisItem.Tag,
+                                Color.White,
+                                AutoForm.Style.Text.Normal.Color
+                            )
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =AutoForm.Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =AutoForm.Style.Text.Normal.Font
+                        FontWeight: |-
+                            =If(
+                                Self.DisplayMode <> DisplayMode.Edit,
+                                FontWeight.Semibold,
+                                AutoForm.Style.Text.Normal.Weight
+                            )
+                        LayoutMinHeight: =15
+                        LayoutMinWidth: =25
+                        PaddingLeft: =10
+                        Size: =AutoForm.Style.Text.Normal.Size
+                        Text: |-
+                            =If(
+                                ThisItem.EditExternally,
+                                If(
+                                    !IsBlank(ThisItem.Default),
+                                    AutoForm.FormatValueForExternallyEditable(ThisItem),
+                                    "---"
+                                ),
+                                ""
+                            )
+                        Tooltip: |-
+                            =If(
+                                ThisItem.EditExternally && !IsBlank(ThisItem.Default),
+                                AutoForm.BuildInfoForExternalEditable(ThisItem),
+                                ""
+                            )
+                        Width: =100
+                        Wrap: =false
+                        ZIndex: =1
+
+                icoEditExternally_AutoForm As icon.CancelBadge:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =AutoForm.Style.Palette.Accent
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =AutoForm.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =AutoForm.Style.Palette.Selectable.Fill
+                    FocusedBorderThickness: =0
+                    Height: =32
+                    HoverBorderColor: =Color.Transparent
+                    HoverColor: =Self.Color
+                    HoverFill: =AutoForm.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Edit
+                    LayoutMinHeight: =25
+                    OnSelect: =AutoForm.OnSelectEditExternally(ThisItem)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Color.Transparent
+                    PressedColor: =Self.Color
+                    PressedFill: =AutoForm.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Edit field"
+                    Visible: =ThisItem.EditExternally && AutoForm.DisplayMode = DisplayMode.Edit
+                    Width: =34
+                    ZIndex: =6
+

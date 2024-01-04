@@ -1,0 +1,457 @@
+CandidateInfo As CanvasComponent:
+    AdditionalBenefits: |-
+        ={
+            Value: txtAdditionalBenefits_CandidateInfo.Text,
+            IsValid: true
+        }
+    AllowEdit: =false
+    Fill: =Color.Transparent
+    Height: =640
+    Item: |-
+        ={
+            Comment: "comment",
+            Name: "Luis Gerardo Camarillo",
+            JobRequisition: "Software Developer TypeScript Junior",
+            Department: "Information Technology",
+            MinSalary: 15000,
+            MaxSalary: 20000,
+            Currency: "MXN",
+            AdditionalBenefits: "<ul><li>Payments are in MXN</li><li>Access to Udemy and online technical courses</li></ul>"
+        }
+    LabelWidth: =150
+    LateralPadding: =42
+    OnReset: |-
+        =Set(
+            EditBenefits,
+            false
+        )
+    Style: =Style
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CandidateInfo As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =5
+        LayoutMode: =LayoutMode.Auto
+        PaddingLeft: =CandidateInfo.LateralPadding
+        PaddingRight: =CandidateInfo.LateralPadding
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnCandidate_CandidateInfo As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =10
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =4
+
+            lblCandidate_CandidateInfo As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                FontWeight: =CandidateInfo.Style.Text.Normal.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Text: ="Candidate"
+                Width: =CandidateInfo.LabelWidth
+                ZIndex: =1
+
+            lblCandidateValue_CandidateInfo As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateInfo.Style.Text.Subtitle.Font
+                FontWeight: =CandidateInfo.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Subtitle.Size
+                Text: =CandidateInfo.Item.Name
+                ZIndex: =2
+
+        ctnJobRequisition_CandidateInfo As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =10
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =5
+
+            lblJobRequisition_CandidateInfo As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                FontWeight: =CandidateInfo.Style.Text.Normal.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Text: ="Job requisition"
+                Width: =CandidateInfo.LabelWidth
+                ZIndex: =1
+
+            lblJobRequisitionValue_CandidateInfo As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateInfo.Style.Text.Subtitle.Font
+                FontWeight: =CandidateInfo.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Subtitle.Size
+                Text: =CandidateInfo.Item.JobRequisition
+                ZIndex: =2
+
+        ctnDepartment_CandidateInfo As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =10
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =6
+
+            lblDepartment_CandidateInfo As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                FontWeight: =CandidateInfo.Style.Text.Normal.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Text: ="Department"
+                Width: =CandidateInfo.LabelWidth
+                ZIndex: =1
+
+            lblDepartmentValue_CandidateInfo As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateInfo.Style.Text.Subtitle.Font
+                FontWeight: =CandidateInfo.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Subtitle.Size
+                Text: =CandidateInfo.Item.Department
+                ZIndex: =2
+
+        ctnSalaryRange_CandidateInfo As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =10
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            ZIndex: =7
+
+            lblSalaryRange_CandiadteInfo As label:
+                Align: =Align.Right
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                FontWeight: =CandidateInfo.Style.Text.Normal.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Text: ="Salary range"
+                Width: =CandidateInfo.LabelWidth
+                ZIndex: =1
+
+            lblSalaryRangeValue_CandidateInfo As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CandidateInfo.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateInfo.Style.Text.Subtitle.Font
+                FontWeight: =CandidateInfo.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =17
+                LayoutMinWidth: =50
+                Size: =CandidateInfo.Style.Text.Subtitle.Size
+                Text: |-
+                    =$"$ {Text(
+                        CandidateInfo.Item.MinSalary,
+                        "#,###.00",
+                        "en-US"
+                    )} to $ {Text(
+                        CandidateInfo.Item.MaxSalary,
+                        "#,###.00",
+                        "en-US"
+                    )} {CandidateInfo.Item.Currency}"
+                ZIndex: =2
+
+        shpSalaryRangeSeparator_CandidateInfo As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CandidateInfo.Style.Palette.Accent
+            FocusedBorderThickness: =0
+            Height: =1
+            LayoutMinWidth: =50
+            Visible: =!CandidateInfo.AllowEdit
+            ZIndex: =8
+
+        ctnAdditionalBenefits_CandidateInfo As groupContainer.verticalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            PaddingBottom: =1
+            PaddingLeft: =1
+            PaddingRight: =1
+            PaddingTop: =1
+            ZIndex: =9
+
+            ctnAdditionalBenefitsHeader_CandidateInfo As groupContainer.horizontalAutoLayoutContainer:
+                BorderColor: =CandidateInfo.Style.Palette.Line
+                BorderStyle: |-
+                    =If(
+                        CandidateInfo.AllowEdit,
+                        BorderStyle.Solid,
+                        BorderStyle.None
+                    )
+                BorderThickness: =1
+                Fill: |-
+                    =If(
+                        CandidateInfo.AllowEdit,
+                        CandidateInfo.Style.Palette.LightFillable,
+                        Color.Transparent
+                    )
+                FillPortions: =0
+                Height: =42
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =100
+                LayoutMinWidth: =50
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: |-
+                    =If(
+                        EditBenefits,
+                        0,
+                        CandidateInfo.Style.RadiusFactor
+                    )
+                RadiusBottomRight: |-
+                    =If(
+                        EditBenefits,
+                        0,
+                        CandidateInfo.Style.RadiusFactor
+                    )
+                RadiusTopLeft: =CandidateInfo.Style.RadiusFactor
+                RadiusTopRight: =CandidateInfo.Style.RadiusFactor
+                ZIndex: =1
+
+                lblAdditionalBenefitsTitle_CandidateInfo As label:
+                    Align: =Align.Center
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidateInfo.Style.Text.Subtitle.Color
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    Font: =CandidateInfo.Style.Text.Subtitle.Font
+                    FontWeight: =CandidateInfo.Style.Text.Subtitle.Weight
+                    Height: =32
+                    LayoutMinHeight: =17
+                    LayoutMinWidth: =50
+                    PaddingLeft: |-
+                        =If(
+                            CandidateInfo.AllowEdit,
+                            32,
+                            0
+                        )
+                    PaddingRight: =0
+                    Size: =CandidateInfo.Style.Text.Subtitle.Size
+                    Text: ="Additional benefits"
+                    ZIndex: =1
+
+                icoEdit_CandidateInfo As icon.CancelBadge:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CandidateInfo.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =CandidateInfo.Style.Palette.Selectable.Fill
+                    FocusedBorderThickness: =0
+                    Height: =32
+                    HoverBorderColor: =Color.Transparent
+                    HoverColor: =Self.Color
+                    HoverFill: =CandidateInfo.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: |-
+                        =If(
+                            EditBenefits,
+                            Icon.View,
+                            Icon.Edit
+                        )
+                    LayoutMinHeight: =15
+                    OnSelect: |-
+                        =Set(
+                            EditBenefits,
+                            !EditBenefits
+                        )
+                    PaddingBottom: =12.5
+                    PaddingLeft: =12.5
+                    PaddingRight: =12.5
+                    PaddingTop: =12.5
+                    PressedBorderColor: =Color.Transparent
+                    PressedColor: =Self.Color
+                    PressedFill: =CandidateInfo.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: |-
+                        =If(
+                            EditBenefits,
+                            "View additional benefits",
+                            "Edit additional benefits"
+                        )
+                    Visible: =CandidateInfo.AllowEdit
+                    Width: =42
+                    ZIndex: =2
+
+            htmAdditionalBenefits_CandidateInfo As htmlViewer:
+                BorderColor: =Color.Transparent
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                HtmlText: |-
+                    =If(
+                        IsBlank(txtAdditionalBenefits_CandidateInfo.Text),
+                        $"<div
+                            style = '
+                                text-align: center;
+                            '
+                        >
+                            <p 
+                                style = '
+                                    font-style: italic;
+                                '
+                            >
+                                <strong>Additional benefits</strong> not especified
+                            </p>
+                        </div>",
+                        Substitute(
+                            txtAdditionalBenefits_CandidateInfo.Text,
+                            Char(10),
+                            "<br>"
+                        )
+                    )
+                LayoutMinHeight: =25
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Visible: =!EditBenefits
+                ZIndex: =2
+
+            txtAdditionalBenefits_CandidateInfo As text:
+                BorderColor: =CandidateInfo.Style.Palette.Line
+                Color: =CandidateInfo.Style.Text.Normal.Color
+                Default: =CandidateInfo.Item.AdditionalBenefits
+                DelayOutput: =true
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CandidateInfo.Style.Palette.Disabled
+                DisabledFill: =CandidateInfo.Style.Palette.Disabled
+                Fill: =CandidateInfo.Style.Palette.Background
+                FillPortions: =1
+                FocusedBorderColor: =CandidateInfo.Style.Palette.Accent
+                FocusedBorderThickness: =2
+                Font: =CandidateInfo.Style.Text.Normal.Font
+                FontWeight: =CandidateInfo.Style.Text.Normal.Weight
+                HintText: ="---"
+                HoverBorderColor: =CandidateInfo.Style.Palette.Border
+                LayoutMinHeight: =32
+                LayoutMinWidth: =50
+                MaxLength: =500
+                Mode: =TextMode.MultiLine
+                RadiusBottomLeft: =CandidateInfo.Style.RadiusFactor
+                RadiusBottomRight: =CandidateInfo.Style.RadiusFactor
+                RadiusTopLeft: =0
+                RadiusTopRight: =0
+                Size: =CandidateInfo.Style.Text.Normal.Size
+                Visible: =EditBenefits
+                ZIndex: =4
+

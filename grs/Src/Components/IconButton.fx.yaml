@@ -1,0 +1,79 @@
+IconButton As CanvasComponent:
+    OnSelect():
+        ThisProperty:
+            Default: =true
+    Color: =Style.Palette.Icon
+    Fill: =Color.Transparent
+    Height: =32
+    Icon: =Icon.Add
+    RadiusBottomLeft: =0
+    RadiusBottomRigth: =0
+    RadiusTopLeft: =0
+    RadiusTopRigth: =0
+    SelectableStyle: |-
+        ={
+            BorderColor: Style.Palette.Line,
+            Fill: Color.Transparent,
+            HoverFill: Style.Palette.Selectable.TransparentHoverFill,
+            PressedFill: Style.Palette.Selectable.TransparentPressedFill
+        }
+    Style: =Style
+    Tooltip: =""
+    Width: =32
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    icon_IconButton As icon.Help:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Color: =IconButton.Color
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =IconButton.Style.Palette.Disabled
+        DisabledFill: =Color.Transparent
+        Fill: =Color.Transparent
+        FocusedBorderColor: =Color.Transparent
+        FocusedBorderThickness: =0
+        Height: =17
+        HoverBorderColor: =Color.Transparent
+        HoverColor: =Self.Color
+        Icon: =IconButton.Icon
+        PaddingTop: =
+        PressedBorderColor: =Color.Transparent
+        PressedColor: =Self.Color
+        PressedFill: =Color.Transparent
+        Width: =17
+        X: =Parent.Width / 2 - Self.Width / 2
+        Y: =Parent.Height / 2 - Self.Height / 2
+        ZIndex: =1
+
+    button_IconButton As button:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =0
+        Color: =Color.Transparent
+        DisabledBorderColor: =Color.Transparent
+        DisabledColor: =Color.Transparent
+        DisabledFill: =Color.Transparent
+        Fill: =IconButton.SelectableStyle.Fill
+        FocusedBorderThickness: =Self.BorderThickness
+        FontWeight: =FontWeight.Semibold
+        Height: =Parent.Height
+        HoverBorderColor: =Self.BorderColor
+        HoverColor: =Color.Transparent
+        HoverFill: =IconButton.SelectableStyle.HoverFill
+        OnSelect: =IconButton.OnSelect()
+        PressedBorderColor: =Self.BorderColor
+        PressedColor: =Color.Transparent
+        PressedFill: =IconButton.SelectableStyle.PressedFill
+        RadiusBottomLeft: =IconButton.RadiusBottomLeft
+        RadiusBottomRight: =IconButton.RadiusBottomRigth
+        RadiusTopLeft: =IconButton.RadiusTopLeft
+        RadiusTopRight: =IconButton.RadiusTopRigth
+        Size: =0
+        TabIndex: =-1
+        Text: =""
+        Tooltip: =IconButton.Tooltip
+        Width: =Parent.Width
+        ZIndex: =2
+

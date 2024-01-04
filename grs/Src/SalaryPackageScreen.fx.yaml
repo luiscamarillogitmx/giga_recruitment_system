@@ -1,0 +1,706 @@
+SalaryPackageScreen As screen:
+    ContentLanguage: ="en-US"
+    Fill: =Style.Palette.LightFillable
+    LoadingSpinnerColor: =Color.Transparent
+    OnHidden: |-
+        =UpdateContext({isInstantFilling: false});
+        Reset(txtAuthorizedSalary_SalaryPackageScreen);
+        Reset(candidateInfo_SalaryPackageScreen);
+        Reset(droCurrency_SalaryPackageScreen)
+    OnVisible: =
+
+    ctnLayout_SalaryPackageScreen As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        ContentLanguage: =
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Center
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutJustifyContent: |-
+            =If(
+                Self.Height < 740,
+                LayoutJustifyContent.Start,
+                LayoutJustifyContent.Center
+            )
+        LayoutMode: =LayoutMode.Auto
+        LayoutOverflowY: =LayoutOverflow.Scroll
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnContentDesign_SalaryPackageScreen As groupContainer.manualLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =740
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            Width: |-
+                =If(
+                    IsBlank(salaryPackage.comment),
+                    680,
+                    850
+                )
+            ZIndex: =2
+
+            ctnContent_SalaryPackageScreen As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                DropShadow: =DropShadow.Semibold
+                Fill: =Style.Palette.ModalBackground
+                Height: =700
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =22
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =Style.RadiusFactor * 2
+                RadiusBottomRight: =Style.RadiusFactor * 2
+                RadiusTopLeft: =Style.RadiusFactor * 2
+                RadiusTopRight: =Style.RadiusFactor * 2
+                Width: =Parent.Width -40
+                X: =20
+                Y: =20
+                ZIndex: =1
+
+                ctnHeader_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Style.Palette.Accent
+                    FillPortions: =0
+                    Height: =60
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =1
+
+                    icoBack_SalaryPackageScreen As icon.Check:
+                        AlignInContainer: =AlignInContainer.Stretch
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.White
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisplayMode: |-
+                            =//If(
+                            //    FirstScreen;
+                                //DisplayMode.Disabled
+                            DisplayMode.Edit
+                            //)
+                        Fill: =Style.Palette.Selectable.Fill
+                        FocusedBorderColor: =Style.Palette.Border
+                        FocusedBorderThickness: =0
+                        Height: =42
+                        HoverBorderColor: =Self.BorderColor
+                        HoverColor: =Self.Color
+                        HoverFill: =Style.Palette.Selectable.TransparentHoverFill
+                        Icon: =Icon.ArrowLeft
+                        LayoutMinHeight: =17
+                        OnSelect: =Back()
+                        PaddingBottom: =21.5
+                        PaddingLeft: =21.5
+                        PaddingRight: =21.5
+                        PaddingTop: =21.5
+                        PressedBorderColor: =Self.Color
+                        PressedColor: =Self.Color
+                        PressedFill: =Style.Palette.Selectable.TransparentPressedFill
+                        Tooltip: ="Back to previus screen"
+                        Visible: =isInstantFilling
+                        Width: =Self.Height
+                        ZIndex: =1
+
+                    lblTitle_SalaryPackageScreen As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Color.White
+                        DisabledBorderColor: =Style.Palette.Disabled
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Color.Transparent
+                        FillPortions: =1
+                        Font: =Style.Text.Title.Font
+                        FontWeight: =Style.Text.Title.Weight
+                        Height: =60
+                        PaddingLeft: =0
+                        PaddingRight: |-
+                            =If(
+                                isInstantFilling,
+                                60,
+                                0
+                            )
+                        Size: =Style.Text.Title.Size
+                        Text: ="Salary package"
+                        ZIndex: =2
+
+                ctnWarning_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =22
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =42
+                    PaddingRight: =42
+                    Visible: =!IsEmpty(SalaryAssignWarnings)
+                    ZIndex: =2
+
+                    lblWarning_SalaryPackageScreen As label:
+                        Align: =Align.Center
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Color: =Style.Text.Little.Color
+                        DisabledBorderColor: =Color.Transparent
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Color.Transparent
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Style.Palette.Warning
+                        FillPortions: =1
+                        Font: =Style.Text.Little.Font
+                        FontWeight: =Style.Text.Little.Weight
+                        LayoutMinHeight: =17
+                        LayoutMinWidth: =50
+                        Size: =Style.Text.Little.Size
+                        Text: =Last(SalaryAssignWarnings).Text
+                        ZIndex: =1
+
+                ctnInformation_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    LayoutAlignItems: =LayoutAlignItems.Stretch
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =50
+                    LayoutMode: =LayoutMode.Auto
+                    ZIndex: =4
+
+                    ctnComment_SalaryPackageScreen As groupContainer.verticalAutoLayoutContainer:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingLeft: =42
+                        Visible: =!IsBlank(salaryPackage.comment)
+                        Width: =250
+                        ZIndex: =1
+
+                        lblComment_SalaryPackageScreen As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Subtitle.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =Style.Text.Subtitle.Font
+                            FontWeight: =Style.Text.Subtitle.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            Size: =Style.Text.Subtitle.Size
+                            Text: ="Comment"
+                            ZIndex: =1
+
+                        lblCommentValue_SalaryPackageScreen As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =Style.Text.Normal.Font
+                            FontWeight: =Style.Text.Normal.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            Overflow: =Overflow.Scroll
+                            Size: =Style.Text.Normal.Size
+                            Text: |-
+                                =If(
+                                    IsBlank(salaryPackage.comment),
+                                    "No comment",
+                                    salaryPackage.comment
+                                )
+                            ZIndex: =2
+
+                    shpCommentSeparator_SalaryPackageScreen As rectangle:
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        DisplayMode: =DisplayMode.View
+                        Fill: =Style.Palette.Line
+                        FocusedBorderThickness: =0
+                        Visible: =!IsBlank(salaryPackage.comment)
+                        Width: =1
+                        ZIndex: =2
+
+                    candidateInfo_SalaryPackageScreen As CandidateInfo:
+                        AllowEdit: =!isReadOnly && GrantAccess.Candidate.JobOffer.SalaryPackage.EditBenefits
+                        FillPortions: =1
+                        Item: |-
+                            ={
+                                Comment: "comment",
+                                Name: candidate.candidateState.candidateInfo.fullName,
+                                JobRequisition: jobPosition.title,
+                                Department: jobPosition.department.name,
+                                MinSalary: jobPosition.minSalary,
+                                MaxSalary: jobPosition.maxSalary,
+                                Currency: jobPosition.currency,
+                                AdditionalBenefits: If(
+                                    IsBlank(salaryPackage) || salaryPackage.status = VersionSectionState.Waiting.Code,
+                                    jobPosition.additionalBenefits,
+                                    salaryPackage.extraBenefits
+                                )
+                            }
+                        LayoutMinHeight: =50
+                        LayoutMinWidth: =25
+                        ZIndex: =3
+
+                ctnAuthorizedSalary_SalaryPackageScreen As groupContainer.verticalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    FillPortions: =0
+                    Height: =66
+                    LayoutAlignItems: =LayoutAlignItems.Center
+                    LayoutDirection: =LayoutDirection.Vertical
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingLeft: =100
+                    PaddingRight: =100
+                    ZIndex: =5
+
+                    ctnAthorizedSalaryHeader_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        FillPortions: =0
+                        Height: =32
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =300
+                        ZIndex: =1
+
+                        lblAuthorizedSalaryRequired_SalaryPackageScreen As label:
+                            Align: =Align.Center
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Color.Red
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            Font: =Style.Text.Normal.Font
+                            FontWeight: =Style.Text.Normal.Weight
+                            LayoutMinHeight: =15
+                            PaddingLeft: =0
+                            PaddingRight: =0
+                            Size: =Style.Text.Normal.Size
+                            Text: ="*"
+                            Width: =15
+                            ZIndex: =1
+
+                        lblAuthorizedSalaryTitle_SalaryPackageScreen As label:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Subtitle.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =Style.Text.Subtitle.Font
+                            FontWeight: =Style.Text.Subtitle.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            Size: =Style.Text.Subtitle.Size
+                            Text: ="Authorized salary"
+                            ZIndex: =2
+
+                    ctnAuthorizedSalaryInput_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutGap: =10
+                        LayoutMinHeight: =34
+                        LayoutMinWidth: =250
+                        LayoutMode: =LayoutMode.Auto
+                        PaddingBottom: =1
+                        PaddingLeft: =1
+                        PaddingRight: =1
+                        PaddingTop: =1
+                        Width: =300
+                        ZIndex: =2
+
+                        txtAuthorizedSalary_SalaryPackageScreen As text:
+                            Align: =Align.Right
+                            BorderColor: |-
+                                =If(
+                                    AppFunctions.IsPositiveNumber(Self.Text),
+                                    Style.Palette.Line,
+                                    Style.Palette.Warning
+                                )
+                            Color: =Style.Text.Normal.Color
+                            Default: |-
+                                =Text(
+                                    salaryPackage.compensation,
+                                    "#.00",
+                                    "en-US"
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Style.Palette.Fillable
+                            Fill: =Style.Palette.Background
+                            FillPortions: =1
+                            FocusedBorderColor: =Style.Palette.Accent
+                            FocusedBorderThickness: =2
+                            Font: =Style.Text.Normal.Font
+                            FontWeight: =Style.Text.Normal.Weight
+                            Height: =35
+                            HintText: ="Value"
+                            HoverBorderColor: =Style.Palette.Border
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            MaxLength: =9
+                            OnChange: |-
+                                =With(
+                                    {
+                                        Code: 1,
+                                        Text: $"Invalid entry in 'Authorized salary': Only quantities greather than 1 are allowed"
+                                    } As invalidSalary,
+                                    If(
+                                        !IsBlank(Self.Text) && !(IfError(
+                                            Value(Self.Text),
+                                            0
+                                        ) > 0),
+                                        Collect(
+                                            SalaryAssignWarnings,
+                                            invalidSalary
+                                        ),
+                                        RemoveIf(
+                                            SalaryAssignWarnings,
+                                            Code = invalidSalary.Code
+                                        )
+                                    )
+                                )
+                            PaddingLeft: =5
+                            RadiusBottomLeft: =Style.RadiusFactor
+                            RadiusBottomRight: =Style.RadiusFactor
+                            RadiusTopLeft: =Style.RadiusFactor
+                            RadiusTopRight: =Style.RadiusFactor
+                            Size: =Style.Text.Normal.Size
+                            Tooltip: ="Enter the autorized salary amount"
+                            Visible: =!isReadOnly && GrantAccess.Candidate.JobOffer.SalaryPackage.AssignSalary
+                            ZIndex: =1
+
+                        lblAuthorizedSalaryValue_SalaryPackageScreen As label:
+                            Align: =Align.Right
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Color: =Style.Text.Normal.Color
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Color.Transparent
+                            DisplayMode: =DisplayMode.View
+                            Fill: =Color.Transparent
+                            FillPortions: =1
+                            Font: =Style.Text.Normal.Font
+                            FontWeight: =Style.Text.Normal.Weight
+                            LayoutMinHeight: =17
+                            LayoutMinWidth: =50
+                            Size: =Style.Text.Normal.Size
+                            Text: ="$ " & AppFunctions.FormatAmout(salaryPackage.compensation)
+                            Visible: =isReadOnly || !GrantAccess.Candidate.JobOffer.SalaryPackage.AssignSalary
+                            Width: =100
+                            ZIndex: =2
+
+                        droCurrency_SalaryPackageScreen As dropdown:
+                            BorderColor: =Color.Transparent
+                            BorderThickness: =1
+                            ChevronBackground: =Self.Fill
+                            ChevronDisabledBackground: =Color.Transparent
+                            ChevronDisabledFill: =Color.Transparent
+                            ChevronFill: =Style.Palette.Accent
+                            ChevronHoverBackground: =Style.Palette.Selectable.HoverFill
+                            Color: =Style.Text.Subtitle.Color
+                            Default: |-
+                                =If(
+                                    IsBlank(salaryPackage) || salaryPackage.status = VersionSectionState.Waiting.Code,
+                                    jobPosition.currency,
+                                    salaryPackage.currency
+                                )
+                            DisabledBorderColor: =Color.Transparent
+                            DisabledColor: =Style.Palette.Disabled
+                            DisabledFill: =Style.Palette.Fillable
+                            DisplayMode: |-
+                                =If(
+                                    isReadOnly || !GrantAccess.Candidate.JobOffer.SalaryPackage.ChangesCurrency,
+                                    DisplayMode.View,
+                                    DisplayMode.Edit
+                                )
+                            Fill: =Style.Palette.Background
+                            FocusedBorderColor: =Style.Palette.Accent
+                            FocusedBorderThickness: =2
+                            Font: =Style.Text.Subtitle.Font
+                            FontWeight: =Style.Text.Subtitle.Weight
+                            HoverBorderColor: =Style.Palette.Border
+                            HoverFill: =Style.Palette.Selectable.HoverFill
+                            Items: =currencies
+                            LayoutMinHeight: =15
+                            LayoutMinWidth: =50
+                            PressedFill: =Style.Palette.Selectable.PressedFill
+                            SelectionColor: =Style.Palette.Accent
+                            SelectionFill: |-
+                                =ColorFade(
+                                    Style.Palette.Fillable,
+                                    -5%
+                                )
+                            Size: =Style.Text.Subtitle.Size
+                            Width: =80
+                            ZIndex: =4
+
+                ctnFooter_SalaryPackageScreen As groupContainer.horizontalAutoLayoutContainer:
+                    AlignInContainer: =AlignInContainer.SetByContainer
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    FillPortions: =0
+                    Height: =60
+                    LayoutGap: =15
+                    LayoutJustifyContent: =LayoutJustifyContent.Center
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =250
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingTop: =2
+                    ZIndex: =6
+
+                    btnDone_SalaryPackageScreen As button:
+                        BorderColor: =Self.Fill
+                        Color: =Color.White
+                        DisabledBorderColor: =Style.Palette.Fillable
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Style.Palette.Fillable
+                        DisplayMode: |-
+                            =If(
+                                !AppFunctions.IsPositiveNumber(txtAuthorizedSalary_SalaryPackageScreen.Text) || !IsEmpty(SalaryAssignWarnings),
+                                DisplayMode.Disabled,
+                                DisplayMode.Edit
+                            )
+                        Fill: =Style.Palette.Accent
+                        FocusedBorderColor: =Style.Palette.Border
+                        FocusedBorderThickness: =2
+                        Font: =Style.Text.Subtitle.Font
+                        FontWeight: =FontWeight.Bold
+                        Height: =35
+                        HoverBorderColor: =Self.HoverFill
+                        HoverFill: |-
+                            =ColorFade(
+                                Self.Fill,
+                                -10%
+                            )
+                        LayoutMinHeight: =17
+                        OnSelect: |-
+                            =UpdateContext({popLoadVisible: true});
+                            With(
+                                {
+                                    name: salaryPackage.name,
+                                    status: VersionSectionState.Completed.Code,
+                                    extraBenefits: candidateInfo_SalaryPackageScreen.AdditionalBenefits.Value,
+                                    idJobOffer: version.id,
+                                    assignedOn: Text(
+                                        Now(),
+                                        DateTimeFormat.UTC
+                                    ),
+                                    compensation: Value(
+                                        txtAuthorizedSalary_SalaryPackageScreen.Text,
+                                        "en-US"
+                                    ),
+                                    requested: If(
+                                        IsBlank(salaryPackage),
+                                        false,
+                                        salaryPackage.requested
+                                    ),
+                                    userLastUpdatedBy: CurrentUser,
+                                    userAssignedBy: If(
+                                        IsBlank(salaryPackage),
+                                        CurrentUser,
+                                        salaryPackage.userAssignedBy
+                                    ),
+                                    currency: droCurrency_SalaryPackageScreen.Selected.code,
+                                    comment: salaryPackage.comment
+                                } As requestBody,
+                                IfError(
+                                    With(
+                                        If(
+                                            IsBlank(salaryPackage),
+                                            ISignatureAPI.CreateSalaryPackage(requestBody),
+                                            ISignatureAPI.UpdateSalaryPackage(
+                                                Patch(
+                                                    requestBody,
+                                                    {id: salaryPackage.id}
+                                                )
+                                            )
+                                        ) As response,
+                                        With(
+                                            If(
+                                                !IsBlank(financialBreakdownId),
+                                                ISignatureAPI.DeleteFinancialBreakdown(financialBreakdownId)
+                                            ),
+                                            If(
+                                                isInstantFilling,
+                                                Set(
+                                                    UpdateVersion,
+                                                    true
+                                                );
+                                                Back();
+                                                AppFunctions.NotifySuccess(
+                                                    "Data saved successfully!",
+                                                    "Salary compensation has been assigned."
+                                                ),
+                                                Navigate(
+                                                    MessageScreen,
+                                                    ScreenTransition.None,
+                                                    AppFunctions.SuccessMessage(
+                                                        "Data saved successfully!",
+                                                        "Salary compensation has been assigned.",
+                                                        "You can close this page or if you wish you can continue checking in the app."
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    If(
+                                        isInstantFilling,
+                                        Back();
+                                        AppFunctions.NotifyError(
+                                            "Error saving salary compensation!",
+                                            FirstError.Message,
+                                            $"An error occurred while trying to save salary compensation data."
+                                        ),
+                                        Navigate(
+                                            MessageScreen,
+                                            ScreenTransition.None,
+                                            AppFunctions.ErrorMessage(
+                                                "Error saving salary compensation!",
+                                                "An error occurred while trying to save salary compensation data.",
+                                                $"The message returned by the error is:<br>'{FirstError.Message}'.<br>Contact your system administrator to follow up on the case.<br>You can close this page or if you wish you can continue checking in the app."
+                                            )
+                                        )
+                                    )
+                                )
+                            );
+                            UpdateContext({popLoadVisible: false})
+                        PressedBorderColor: =Self.PressedFill
+                        PressedColor: =Self.Color
+                        PressedFill: |-
+                            =ColorFade(
+                                Self.Fill,
+                                -20%
+                            )
+                        RadiusBottomLeft: =Style.RadiusFactor
+                        RadiusBottomRight: =Style.RadiusFactor
+                        RadiusTopLeft: =Style.RadiusFactor
+                        RadiusTopRight: =Style.RadiusFactor
+                        Size: =Style.Text.Subtitle.Size
+                        Text: ="Done"
+                        Visible: =!isReadOnly && (GrantAccess.Candidate.JobOffer.SalaryPackage.EditBenefits || GrantAccess.Candidate.JobOffer.SalaryPackage.ChangesCurrency || GrantAccess.Candidate.JobOffer.SalaryPackage.AssignSalary)
+                        Width: =100
+                        ZIndex: =1
+
+                    btnCancel_SalaryPackageScreen As button:
+                        BorderColor: =Style.Palette.Accent
+                        Color: =Style.Text.Normal.Color
+                        DisabledBorderColor: =Style.Palette.Fillable
+                        DisabledColor: =Style.Palette.Disabled
+                        DisabledFill: =Style.Palette.Fillable
+                        Fill: =Style.Palette.Background
+                        FocusedBorderColor: =Style.Palette.Border
+                        FocusedBorderThickness: =2
+                        Font: =Style.Text.Normal.Font
+                        FontWeight: =Style.Text.Normal.Weight
+                        Height: =35
+                        HoverBorderColor: =Self.HoverFill
+                        HoverColor: =Color.White
+                        HoverFill: |-
+                            =ColorFade(
+                                Self.BorderColor,
+                                -10%
+                            )
+                        OnSelect: |-
+                            =If(
+                                isInstantFilling,
+                                Back(),
+                                UpdateContext(
+                                    {
+                                        optionDialogModel: AppFunctions.OptionDialogFace(
+                                            "cancel_salary_assignment",
+                                            "Cancel salary compensation assigment",
+                                            "Do you want to cancel the salary assignment?<br>You can perform this action at a later time."
+                                        )
+                                    }
+                                )
+                            )
+                        PressedBorderColor: =Self.PressedFill
+                        PressedColor: =Color.White
+                        PressedFill: |-
+                            =ColorFade(
+                                Self.BorderColor,
+                                -20%
+                            )
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Size: =Style.Text.Normal.Size
+                        Text: ="Cancel"
+                        Visible: =btnDone_SalaryPackageScreen.Visible
+                        Width: =100
+                        ZIndex: =2
+
+    optionDialog_SalaryPackageScreen As OptionDialog:
+        AcceptButtonWidth: =optionDialogModel.AcceptButtonWidth
+        AcceptText: =optionDialogModel.AcceptText
+        CancelButtonWidth: =optionDialogModel.CancelButtonWidth
+        CancelText: =optionDialogModel.CancelText
+        Message: =optionDialogModel.Message
+        ModalHeight: =optionDialogModel.ModalHeight
+        ModalWidth: =optionDialogModel.ModalWidth
+        OnSelectAccept: |-
+            =Navigate(
+                MessageScreen,
+                ScreenTransition.None,
+                AppFunctions.InfoMessage(
+                    "Salary assignment canceled!",
+                    "Has cancelled the salary assignment operation.<br>You can make the assignment at any other time.",
+                    "You can close this page or if you wish you can continue checking in the app."
+                )
+            );
+            UpdateContext({optionDialogModel: Blank()})
+        OnSelectCancel: |-
+            =UpdateContext({optionDialogModel: Blank()})
+        SelectAccept: =Self.OnSelectAccept()
+        SelectCancel: =Self.OnSelectCancel()
+        Title: =optionDialogModel.Title
+        Visible: =!IsBlank(optionDialogModel)
+        ZIndex: =2
+
+    popLoad_SalaryPackageScreen As PopupImager:
+        Height: =Parent.Height
+        Img: =Style.Loader
+        Visible: =popLoadVisible
+        Width: =Parent.Width
+        ZIndex: =3
+

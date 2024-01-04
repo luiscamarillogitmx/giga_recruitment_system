@@ -1,0 +1,579 @@
+CommentPanel As CanvasComponent:
+    BuildUserInfo(User As Record):
+        User:
+            Default: |-
+                ={
+                    id: "",
+                    name: "",
+                    email: "",
+                    role: "",
+                    idSystemUser: ""
+                }
+        ThisProperty:
+            Default: =AppFunctions.BuildUserInfo(User)
+    OnRefresh():
+        ThisProperty:
+            Default: =true
+    OnSend(Comment As String):
+        Comment:
+            Default: ="Texto"
+        ThisProperty:
+            Default: =true
+    Refresh():
+        ThisProperty:
+            Default: =Self.OnRefresh()
+    Send(Text As String):
+        Text:
+            Default: ="Texto"
+        ThisProperty:
+            Default: =CommentPanel.OnSend(Text)
+    AllowWriteComment: =true
+    Comment: =txtTextInput_CommentPanel.Text
+    CurrentUser: =CurrentUser
+    Fill: =Color.Transparent
+    Height: =400
+    IsLoading: =false
+    Items: |-
+        =Table(
+            {
+                id: "",
+                createdOn: "2023-06-28T10:46:56",
+                createdBy: {
+                    id: "c01a65b0-78bc-ed11-83ff-00224808d0c9",
+                    name: "Samuel Alejandro Martínez Pita",
+                    role: "Admin",
+                    email: "samuel.martinez@grupo-giga.com",
+                    idSystemUser: "a59804ca-d11a-eb11-a815-000d3a5986cc"
+                },
+                content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                color: Color.Aqua
+            }
+        )
+    OnReset: |-
+        =Set(
+            CollapseBox,
+            false
+        )
+    Style: =Style
+    Title: ="Panel de comentarios"
+    Width: =640
+    X: =0
+    Y: =0
+    ZIndex: =1
+
+    ctnLayout_CommentPanel As groupContainer.verticalAutoLayoutContainer:
+        BorderColor: =Color.Transparent
+        BorderStyle: =BorderStyle.None
+        Fill: =Color.Transparent
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =1
+        PaddingLeft: =1
+        PaddingRight: =1
+        Width: =Parent.Width
+        ZIndex: =1
+
+        ctnHeader_CommentPanel As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            FillPortions: =0
+            Height: =42
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            PaddingLeft: =5
+            ZIndex: =1
+
+            lblTitle_CommentPanel As label:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommentPanel.Style.Text.Subtitle.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FillPortions: =1
+                Font: =CommentPanel.Style.Text.Subtitle.Font
+                FontWeight: =CommentPanel.Style.Text.Subtitle.Weight
+                LayoutMinHeight: =17
+                Size: =CommentPanel.Style.Text.Subtitle.Size
+                Text: =CommentPanel.Title
+                ZIndex: =1
+
+            icoRefresh_CommentPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommentPanel.Style.Palette.Icon
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        CommentPanel.IsLoading,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CommentPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Reload
+                LayoutMinHeight: =17
+                OnSelect: =CommentPanel.OnRefresh()
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CommentPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Refresh comments"
+                Width: =42
+                ZIndex: =2
+
+        shpHeaderSeparator_CommentPanel As rectangle:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            DisplayMode: =DisplayMode.View
+            Fill: =CommentPanel.Style.Palette.Line
+            Height: =1
+            ZIndex: =2
+
+        ctnBody_CommentPanel As groupContainer.manualLayoutContainer:
+            BorderColor: =Color.Transparent
+            BorderStyle: =BorderStyle.None
+            Fill: =Color.Transparent
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            ZIndex: =3
+
+            galComments_CommentPanel As gallery.variableTemplateHeightGallery:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Default: =Last(CommentPanel.Items)
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: =Parent.Height
+                Items: =CommentPanel.Items
+                Layout: =Layout.Vertical
+                LoadingSpinner: =LoadingSpinner.Data
+                TemplateFill: =Color.Transparent
+                TemplatePadding: =0
+                TemplateSize: =170
+                Width: =Parent.Width
+                ZIndex: =1
+
+                ctnRow_CommentPanel As groupContainer.horizontalAutoLayoutContainer:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Fill: =Color.Transparent
+                    Height: =ctnCommentLayout_CommentPanel.Height
+                    LayoutJustifyContent: |-
+                        =If(
+                            CommentPanel.CurrentUser.idSystemUser = ThisItem.createdBy.idSystemUser,
+                            LayoutJustifyContent.End,
+                            LayoutJustifyContent.Start
+                        )
+                    LayoutMode: =LayoutMode.Auto
+                    Width: =Parent.Width - 30
+                    X: =15
+                    Y: |
+                        =5
+                    ZIndex: =2
+
+                    ctnCommentLayout_CommentPanel As groupContainer.horizontalAutoLayoutContainer:
+                        AlignInContainer: =AlignInContainer.SetByContainer
+                        BorderColor: =Color.Transparent
+                        BorderStyle: =BorderStyle.None
+                        Fill: =Color.Transparent
+                        FillPortions: =0
+                        Height: =ctnInfoAndMessage_CommentPanel.Height
+                        LayoutMinHeight: =100
+                        LayoutMinWidth: =50
+                        LayoutMode: =LayoutMode.Auto
+                        Width: =Parent.Width * 0.8
+                        ZIndex: =1
+
+                        ctnSymbol_CommentPanel As groupContainer.manualLayoutContainer:
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            FillPortions: =0
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =250
+                            Visible: =CommentPanel.CurrentUser.idSystemUser <> ThisItem.createdBy.idSystemUser
+                            Width: =62
+                            ZIndex: =1
+
+                            shpOval_CommentPanel As circle:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DisplayMode: =DisplayMode.View
+                                Fill: =ThisItem.color
+                                FocusedBorderThickness: =0
+                                Height: =35
+                                Width: =Self.Height
+                                X: =Parent.Width / 2 - Self.Width / 2
+                                Y: =20
+                                ZIndex: =1
+
+                            lblCapitalLetter_CommentPanel As label:
+                                Align: =Align.Center
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =Color.White
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =CommentPanel.Style.Text.Title.Font
+                                FontWeight: =CommentPanel.Style.Text.Title.Weight
+                                Height: =shpOval_CommentPanel.Height
+                                Size: =CommentPanel.Style.Text.Title.Size - 2
+                                Text: |-
+                                    =Left(
+                                        ThisItem.createdBy.name,
+                                        1
+                                    )
+                                Tooltip: =CommentPanel.BuildUserInfo(ThisItem.createdBy)
+                                Width: =shpOval_CommentPanel.Width
+                                X: =shpOval_CommentPanel.X
+                                Y: =shpOval_CommentPanel.Y
+                                ZIndex: =2
+
+                        ctnInfoAndMessage_CommentPanel As groupContainer.verticalAutoLayoutContainer:
+                            AlignInContainer: =AlignInContainer.Start
+                            BorderColor: =Color.Transparent
+                            BorderStyle: =BorderStyle.None
+                            Fill: =Color.Transparent
+                            Height: =lblCreated_CommentPanel.Height + ctnComment_CommentPanel.Height + Self.PaddingBottom
+                            LayoutAlignItems: =LayoutAlignItems.Stretch
+                            LayoutDirection: =LayoutDirection.Vertical
+                            LayoutMinHeight: =25
+                            LayoutMinWidth: =250
+                            LayoutMode: =LayoutMode.Auto
+                            PaddingBottom: =5
+                            PaddingLeft: =2
+                            PaddingRight: =2
+                            ZIndex: =2
+
+                            lblCreated_CommentPanel As label:
+                                Align: |-
+                                    =If(
+                                        CommentPanel.CurrentUser.idSystemUser = ThisItem.createdBy.idSystemUser,
+                                        Align.Right,
+                                        Align.Left
+                                    )
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                Color: =CommentPanel.Style.Palette.Disabled
+                                DisabledBorderColor: =Color.Transparent
+                                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                                DisabledFill: =Color.Transparent
+                                DisplayMode: =DisplayMode.View
+                                Fill: =Color.Transparent
+                                Font: =CommentPanel.Style.Text.Little.Font
+                                FontWeight: =CommentPanel.Style.Text.Little.Weight
+                                Height: =20
+                                LayoutMinWidth: =25
+                                PaddingBottom: =0
+                                PaddingTop: =0
+                                Size: =CommentPanel.Style.Text.Little.Size
+                                Text: |-
+                                    =If(
+                                        CommentPanel.CurrentUser.idSystemUser = ThisItem.createdBy.idSystemUser,
+                                        "Me ",
+                                        ThisItem.createdBy.name & " "
+                                    ) & Text(
+                                        DateTimeValue(ThisItem.createdOn),
+                                        "dd/mm/yyyy hh:mm"
+                                    )
+                                ZIndex: =1
+
+                            ctnComment_CommentPanel As groupContainer.verticalAutoLayoutContainer:
+                                BorderColor: =Color.Transparent
+                                BorderStyle: =BorderStyle.None
+                                DropShadow: =DropShadow.Light
+                                Fill: |-
+                                    =If(
+                                        CommentPanel.CurrentUser.idSystemUser = ThisItem.createdBy.idSystemUser,
+                                        CommentPanel.Style.Palette.Selectable.SelectedShadow,
+                                        CommentPanel.Style.Palette.Fillable
+                                    )
+                                FillPortions: =0
+                                Height: =lblComment_CommentPanel.Height
+                                LayoutAlignItems: =LayoutAlignItems.Stretch
+                                LayoutDirection: =LayoutDirection.Vertical
+                                LayoutMinHeight: =100
+                                LayoutMinWidth: =25
+                                LayoutMode: =LayoutMode.Auto
+                                PaddingLeft: =5
+                                PaddingRight: =5
+                                RadiusBottomLeft: =CommentPanel.Style.RadiusFactor * 1.5
+                                RadiusBottomRight: =CommentPanel.Style.RadiusFactor * 1.5
+                                RadiusTopLeft: =CommentPanel.Style.RadiusFactor * 1.5
+                                RadiusTopRight: =CommentPanel.Style.RadiusFactor * 1.5
+                                ZIndex: =2
+
+                                lblComment_CommentPanel As label:
+                                    AutoHeight: =true
+                                    BorderColor: =Color.Transparent
+                                    BorderStyle: =BorderStyle.None
+                                    Color: =CommentPanel.Style.Text.Normal.Color
+                                    DisabledBorderColor: =Color.Transparent
+                                    DisabledColor: =CommentPanel.Style.Palette.Disabled
+                                    DisabledFill: =Color.Transparent
+                                    DisplayMode: =DisplayMode.View
+                                    Fill: =Color.Transparent
+                                    Font: =CommentPanel.Style.Text.Normal.Font
+                                    PaddingBottom: =8
+                                    PaddingTop: =8
+                                    Size: =CommentPanel.Style.Text.Normal.Size
+                                    Text: =ThisItem.content
+                                    ZIndex: =2
+
+            ctnLoader_CommentPanel As groupContainer.verticalAutoLayoutContainer:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Fill: =CommentPanel.Style.Palette.TransparentBackground
+                Height: =Parent.Height
+                LayoutAlignItems: =LayoutAlignItems.Center
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutJustifyContent: =LayoutJustifyContent.Center
+                LayoutMode: =LayoutMode.Auto
+                Visible: =CommentPanel.IsLoading
+                Width: =Parent.Width
+                ZIndex: =2
+
+                imgLoader_CommentPanel As image:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledFill: =Color.Transparent
+                    DisplayMode: =DisplayMode.View
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    Height: =75
+                    HoverBorderColor: =Self.BorderColor
+                    HoverFill: =Self.Fill
+                    Image: =GrayEllipsis
+                    PressedBorderColor: =Self.BorderColor
+                    PressedFill: =Self.Fill
+                    Width: =75
+                    X: =Parent.Width / 2 - Self.Width / 2
+                    Y: =Parent.Height / 2 - Self.Height/ 2
+                    ZIndex: =1
+
+            lblNoComments_CommentPanel As label:
+                Align: =Align.Center
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommentPanel.Style.Text.Normal.Color
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: =DisplayMode.View
+                Fill: =Color.Transparent
+                Font: =CommentPanel.Style.Text.Normal.Font
+                FontWeight: =CommentPanel.Style.Text.Normal.Weight
+                Height: =50
+                Italic: =true
+                Size: =CommentPanel.Style.Text.Normal.Size
+                Text: ="No comments"
+                Visible: =!CommentPanel.IsLoading && IsEmpty(CommentPanel.Items)
+                Width: =Parent.Width
+                Y: =Parent.Height / 2 - Self.Height / 2
+                ZIndex: =3
+
+        ctnFooter_CommentPanel As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            BorderColor: =CommentPanel.Style.Palette.Line
+            BorderThickness: =1
+            Fill: =CommentPanel.Style.Palette.LightFillable
+            FillPortions: =0
+            Height: |-
+                =If(
+                    CollapseBox,
+                    42,
+                    42 * 4
+                )
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =5
+            LayoutMinHeight: =100
+            LayoutMinWidth: =50
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =CommentPanel.Style.RadiusFactor
+            RadiusBottomRight: =CommentPanel.Style.RadiusFactor
+            RadiusTopLeft: =CommentPanel.Style.RadiusFactor
+            RadiusTopRight: =CommentPanel.Style.RadiusFactor
+            Visible: =CommentPanel.AllowWriteComment
+            ZIndex: =5
+
+            icoExpandBox_CommentPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommentPanel.Style.Palette.Accent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                Height: |
+                    =42
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CommentPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: |-
+                    =If(
+                        CollapseBox,
+                        Icon.ChevronUp,
+                        Icon.ChevronDown
+                    )
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =Set(
+                        CollapseBox,
+                        !CollapseBox
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CommentPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: |-
+                    =If(
+                        ExpandBox,
+                        "Colapse text box",
+                        "Expand text box"
+                    )
+                Width: =42
+                ZIndex: =1
+
+            ctnCommentInput_CommentPanel As groupContainer.horizontalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.Center
+                BorderColor: =CommentPanel.Style.Palette.Line
+                BorderThickness: =1
+                Fill: =CommentPanel.Style.Palette.Background
+                Height: =Parent.Height - 10
+                LayoutAlignItems: =LayoutAlignItems.Stretch
+                LayoutMinHeight: =15
+                LayoutMinWidth: =25
+                LayoutMode: =LayoutMode.Auto
+                RadiusBottomLeft: =CommentPanel.Style.RadiusFactor
+                RadiusBottomRight: =CommentPanel.Style.RadiusFactor
+                RadiusTopLeft: =CommentPanel.Style.RadiusFactor
+                RadiusTopRight: =CommentPanel.Style.RadiusFactor
+                ZIndex: =2
+
+                txtTextInput_CommentPanel As text:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    BorderThickness: =0
+                    Color: =CommentPanel.Style.Text.Normal.Color
+                    Default: =""
+                    DelayOutput: =true
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CommentPanel.Style.Palette.Disabled
+                    DisabledFill: =CommentPanel.Style.Palette.Fillable
+                    DisplayMode: |-
+                        =If(
+                            CommentPanel.IsLoading,
+                            DisplayMode.Disabled,
+                            DisplayMode.Edit
+                        )
+                    Fill: =Color.Transparent
+                    FillPortions: =1
+                    FocusedBorderThickness: =2
+                    Font: =CommentPanel.Style.Text.Normal.Font
+                    FontWeight: =CommentPanel.Style.Text.Normal.Weight
+                    HintText: ="Write a comment"
+                    HoverBorderColor: =Self.BorderColor
+                    LayoutMinHeight: =15
+                    LayoutMinWidth: =25
+                    MaxLength: =100
+                    Mode: =TextMode.MultiLine
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =CommentPanel.Style.Text.Normal.Size
+                    Tooltip: ="Enter the search text"
+                    ZIndex: =1
+
+                icoClearInput_CommentPanel As icon.Reload:
+                    BorderColor: =Color.Transparent
+                    BorderStyle: =BorderStyle.None
+                    Color: =CommentPanel.Style.Palette.Icon
+                    DisabledBorderColor: =Color.Transparent
+                    DisabledColor: =CommentPanel.Style.Palette.Disabled
+                    DisabledFill: =Color.Transparent
+                    Fill: =Color.Transparent
+                    FocusedBorderThickness: =0
+                    HoverBorderColor: =Self.BorderColor
+                    HoverColor: =Self.Color
+                    HoverFill: =CommentPanel.Style.Palette.Selectable.TransparentHoverFill
+                    Icon: =Icon.Cancel
+                    LayoutMinHeight: =17
+                    OnSelect: =Reset(txtTextInput_CommentPanel)
+                    PaddingBottom: =8.5
+                    PaddingLeft: =8.5
+                    PaddingRight: =8.5
+                    PaddingTop: =8.5
+                    PressedBorderColor: =Self.BorderColor
+                    PressedColor: =Self.Color
+                    PressedFill: =CommentPanel.Style.Palette.Selectable.TransparentPressedFill
+                    Tooltip: ="Clear entry"
+                    Visible: =!IsBlank(txtTextInput_CommentPanel.Text)
+                    Width: =32
+                    ZIndex: =3
+
+            icoSendComment_CommentPanel As icon.Reload:
+                BorderColor: =Color.Transparent
+                BorderStyle: =BorderStyle.None
+                Color: =CommentPanel.Style.Palette.Accent
+                DisabledBorderColor: =Color.Transparent
+                DisabledColor: =CommentPanel.Style.Palette.Disabled
+                DisabledFill: =Color.Transparent
+                DisplayMode: |-
+                    =If(
+                        IsBlank(txtTextInput_CommentPanel.Text) || CommentPanel.IsLoading,
+                        DisplayMode.Disabled,
+                        DisplayMode.Edit
+                    )
+                Fill: =Color.Transparent
+                FocusedBorderThickness: =0
+                HoverBorderColor: =Self.BorderColor
+                HoverColor: =Self.Color
+                HoverFill: =CommentPanel.Style.Palette.Selectable.TransparentHoverFill
+                Icon: =Icon.Send
+                LayoutMinHeight: =17
+                OnSelect: |-
+                    =CommentPanel.OnSend(txtTextInput_CommentPanel.Text);
+                    Reset(txtTextInput_CommentPanel);
+                    Set(
+                        ExpandBox,
+                        false
+                    )
+                PaddingBottom: =12.5
+                PaddingLeft: =12.5
+                PaddingRight: =12.5
+                PaddingTop: =12.5
+                PressedBorderColor: =Self.BorderColor
+                PressedColor: =Self.Color
+                PressedFill: =CommentPanel.Style.Palette.Selectable.TransparentPressedFill
+                Tooltip: ="Send comment"
+                Width: =42
+                ZIndex: =3
+

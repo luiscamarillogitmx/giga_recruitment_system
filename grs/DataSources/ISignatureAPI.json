@@ -1,0 +1,8 @@
+[
+  {
+    "ApiId": "/providers/microsoft.powerapps/apis/shared_integrationsignatureapi-20-2d-20dev-5fce2b8c576-e6696fcb7bdda07e",
+    "Name": "ISignatureAPI",
+    "ServiceKind": "ConnectedWadl",
+    "Type": "ServiceInfo"
+  }
+]
