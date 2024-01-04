@@ -1,4 +1,4 @@
-MiComponente As CanvasComponent:
+MyComponent As CanvasComponent:
     Fill: =RGBA(0, 0, 0, 0)
     Height: =640
     Width: =640

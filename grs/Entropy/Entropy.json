@@ -171,7 +171,7 @@
     "mapFieldEditor_FormScreen": 52,
     "Mapper": 50,
     "MessagePanel": 34,
-    "MiComponente": 56,
+    "MyComponent": 56,
     "NotificationCard": 25,
     "notificationCard_CandidateScreen": 25,
     "notificationCard_CandidatesScreen": 25,
@@ -1576,7 +1576,7 @@
     "Mapper": 847,
     "MessagePanel": 483,
     "MessageScreen": 1508,
-    "MiComponente": 1602,
+    "MyComponent": 1602,
     "NotificationCard": 376,
     "notificationCard_CandidateScreen": 1364,
     "notificationCard_CandidatesScreen": 1418,
@@ -2637,7 +2637,7 @@
       "{\r\n    status: \"\",\r\n    version: \"\",\r\n    createdOn: \"\",\r\n    template: {\r\n        id: \"\",\r\n        name: \"\",\r\n        description: \"\"\r\n    }\r\n}"
     ]
   },
-  "HeaderLastSavedDateTimeUTC": "01/04/2024 16:29:22",
+  "HeaderLastSavedDateTimeUTC": "01/04/2024 16:31:57",
   "IsLegacyComponentAllowGlobalScopeCase": false,
   "LocalConnectionIDReferences": {
     "9d602b6e-e3fb-4505-bb2e-c3fdfb88e98c": "\"/providers/microsoft.powerapps/apis/shared_integrationsignatureapi-20-2d-20dev-5fce2b8c576-e6696fcb7bdda07e/connections/cc4b4d11950a40818286fbabc486c176\""
@@ -4147,7 +4147,7 @@
     "Mapper": {},
     "MessagePanel": {},
     "MessageScreen": {},
-    "MiComponente": {},
+    "MyComponent": {},
     "NotificationCard": {},
     "notificationCard_CandidateScreen": {},
     "notificationCard_CandidatesScreen": {},
@@ -5753,7 +5753,7 @@
     "Mapper": 0,
     "MessagePanel": 0,
     "MessageScreen": 0,
-    "MiComponente": 0,
+    "MyComponent": 0,
     "NotificationCard": 0,
     "notificationCard_CandidateScreen": 432,
     "notificationCard_CandidatesScreen": 233,

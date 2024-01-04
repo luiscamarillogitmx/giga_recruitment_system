@@ -5,7 +5,7 @@
     "AllowAccessToGlobals": false,
     "AllowCustomization": true,
     "Description": "",
-    "Name": "MiComponente",
+    "Name": "MyComponent",
     "TemplateGuid": "08a0452da31f4bd5bf9e9d0999829a23"
   },
   "ComponentType": "CanvasComponent",
@@ -19,7 +19,7 @@
   "IsPcfControl": false,
   "IsPremiumPcfControl": false,
   "IsWidgetTemplate": false,
-  "LastModifiedTimestamp": "638399825603590607",
+  "LastModifiedTimestamp": "638399827160829488",
   "Name": "08a0452da31f4bd5bf9e9d0999829a23",
   "OverridableProperties": {},
   "Version": "1.0"
